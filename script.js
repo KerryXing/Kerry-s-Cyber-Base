@@ -333,7 +333,7 @@
     if ((!owner || !repo) && location.hostname.endsWith(".github.io")) {
       owner = owner || location.hostname.split(".")[0];
       const segments = location.pathname.split("/").filter(Boolean);
-      repo = repo || (segments.length > 1 ? segments[0] : owner + ".github.io");
+      repo = repo || (segments.length ? segments[0] : owner + ".github.io");
     }
 
     return {
@@ -495,10 +495,21 @@
       throw new Error("只有仓库所有者本人才能进入管理员模式。");
     }
 
-    const repo = await githubRequest(
-      "/repos/" + config.owner + "/" + config.repo,
-      token
-    );
+    let repo;
+    try {
+      repo = await githubRequest(
+        "/repos/" + config.owner + "/" + config.repo,
+        token
+      );
+    } catch (error) {
+      if (/\(404\)/.test(error.message)) {
+        throw new Error(
+          "找不到仓库 " + config.owner + "/" + config.repo +
+          "。请检查仓库名，并确认 Token 的 Repository access 已选中该仓库。"
+        );
+      }
+      throw error;
+    }
     if (!repo.permissions?.admin) {
       throw new Error("这个 Token 没有该仓库的管理员权限。");
     }

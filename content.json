@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T13:15:44.835Z",
+  "updatedAt": "2026-11-01T13:16:45.142Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -43,16 +43,16 @@
       "displayWidth": 50,
       "coverPhotoId": null,
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-01T13:15:44.835Z",
+      "updatedAt": "2026-11-01T13:16:45.142Z",
       "photos": []
     },
     {
       "id": "album-de58d9ea-200c-432d-9d34-391031d1c7df",
       "name": "Undergraduation",
-      "displayWidth": 45,
+      "displayWidth": 50,
       "coverPhotoId": "photo-bd22dce7-ac10-4c8f-a5c3-86f9f9acd427",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-01T13:15:44.835Z",
+      "updatedAt": "2026-11-01T13:16:45.142Z",
       "photos": [
         {
           "id": "photo-bd22dce7-ac10-4c8f-a5c3-86f9f9acd427",
@@ -69,7 +69,7 @@
       "displayWidth": 100,
       "coverPhotoId": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-01T13:15:44.835Z",
+      "updatedAt": "2026-11-01T13:16:45.142Z",
       "photos": [
         {
           "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",

@@ -1,11 +1,21 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T11:32:22.092Z",
+  "updatedAt": "2026-11-01T11:33:59.249Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": null,
     "heroImages": []
   },
-  "albums": [],
+  "albums": [
+    {
+      "id": "album-4a6dcb69-341c-4c57-b530-7195ad5bad52",
+      "name": "Firefly",
+      "displayWidth": 60,
+      "coverPhotoId": null,
+      "createdAt": "2026-11-01T11:33:59.249Z",
+      "updatedAt": "2026-11-01T11:33:59.249Z",
+      "photos": []
+    }
+  ],
   "decks": []
 }

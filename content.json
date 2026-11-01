@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T12:43:43.407Z",
+  "updatedAt": "2026-11-01T12:44:44.796Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -32,21 +32,12 @@
   },
   "albums": [
     {
-      "id": "album-de58d9ea-200c-432d-9d34-391031d1c7df",
-      "name": "Undergraduation",
-      "displayWidth": 60,
-      "coverPhotoId": null,
-      "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-01T12:43:43.407Z",
-      "photos": []
-    },
-    {
       "id": "album-4a6dcb69-341c-4c57-b530-7195ad5bad52",
       "name": "Firefly",
       "displayWidth": 100,
       "coverPhotoId": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-01T12:43:43.407Z",
+      "updatedAt": "2026-11-01T12:44:44.796Z",
       "photos": [
         {
           "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",

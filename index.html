@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b192a">
+  <meta name="description" content="Kerry 的个人赛博基地：属性表、日常 Report 与私人相册。">
+  <title>Kerry's Cyber Base</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23a8d8f2'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='24' font-weight='700' fill='%2307111d'%3EKX%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <div class="page-atmosphere" aria-hidden="true">
+    <span class="mist mist-a"></span>
+    <span class="mist mist-b"></span>
+    <span class="mist mist-c"></span>
+    <span class="geo geo-a"></span>
+    <span class="geo geo-b"></span>
+    <span class="geo geo-c"></span>
+    <span class="star-field"></span>
+  </div>
+
+  <header class="topbar" id="top">
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="返回首页">
+        <span class="brand-mark">KX</span>
+        <span class="brand-copy">
+          <strong>KERRY XING</strong>
+        </span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="主导航">
+        <a class="active" href="#home">首页</a>
+        <a href="#profile">属性表</a>
+        <a href="#diary">日常report</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">联系</a>
+      </nav>
+
+      <button class="admin-entry" id="admin-entry" type="button">管理</button>
+
+      <button class="menu-button" id="menu-button" type="button"
+        aria-expanded="false" aria-controls="site-nav" aria-label="打开导航">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero section-shell" id="home">
+      <div class="hero-image-frame reveal" aria-label="首页图片预留位置">
+        <div class="hero-placeholder-art" aria-hidden="true">
+          <span class="placeholder-orbit orbit-a"></span>
+          <span class="placeholder-orbit orbit-b"></span>
+          <span class="placeholder-plane"></span>
+          <span class="placeholder-grid"></span>
+          <span class="placeholder-glow"></span>
+        </div>
+        <div class="hero-copy">
+          <h1>欢迎来到<span>Kerry的赛博基地</span></h1>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#profile">了解我</a>
+            <a class="button button-ghost" href="#gallery">翻开图集</a>
+          </div>
+        </div>
+        <button class="visual-upload-button hero-upload-button admin-only" id="hero-upload-button"
+          type="button" aria-label="更换首页背景" title="更换首页背景">更换</button>
+      </div>
+    </section>
+
+    <section class="section section-shell profile-section" id="profile">
+      <header class="section-heading reveal">
+        <div>
+          <h2>属性表</h2>
+        </div>
+      </header>
+
+      <div class="profile-layout">
+        <article class="character-card reveal">
+          <div class="character-card-art">
+            <div class="avatar-placeholder" data-avatar-slot>
+              <span>KX</span>
+              <small>YOUR AVATAR</small>
+            </div>
+            <input id="avatar-file-input" type="file" hidden
+              accept="image/*,image/heic,image/heif,.heic,.heif">
+            <button class="visual-upload-button avatar-upload-button admin-only" id="avatar-upload-button"
+              type="button" aria-label="上传头像" title="上传头像">+</button>
+          </div>
+          <div class="character-card-copy">
+            <h3>Kerry Xing</h3>
+            <p>研究生 / 灵感收集者 / 漫画与游戏爱好者</p>
+          </div>
+        </article>
+
+        <div class="attribute-panel reveal">
+          <div class="attribute-table" role="table" aria-label="个人属性">
+            <div class="attribute-row" role="row">
+              <span role="rowheader">昵称</span>
+              <strong role="cell">Kerry Xing</strong>
+            </div>
+            <div class="attribute-row" role="row">
+              <span role="rowheader">身份</span>
+              <strong role="cell">研究生</strong>
+            </div>
+            <div class="attribute-row" role="row">
+              <span role="rowheader">MBTI</span>
+              <strong role="cell">ENFP <i>灵感型冒险家</i></strong>
+            </div>
+            <div class="attribute-row" role="row">
+              <span role="rowheader">坐标</span>
+              <strong role="cell">中国 · 广东 · 深圳</strong>
+            </div>
+            <div class="attribute-row" role="row">
+              <span role="rowheader">技能</span>
+              <strong role="cell">绘画 <b>·</b> 代码</strong>
+            </div>
+          </div>
+
+          <div class="taste-grid">
+            <article class="taste-card">
+              <div class="taste-title">
+                <strong>看过的番</strong>
+              </div>
+              <div class="tag-list" id="anime-list"></div>
+            </article>
+            <article class="taste-card">
+              <div class="taste-title">
+                <strong>游戏宇宙</strong>
+              </div>
+              <div class="tag-list" id="game-list"></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section deck-section" id="diary">
+      <div class="section-shell">
+        <header class="section-heading reveal">
+          <div>
+            <h2>日常Report</h2>
+          </div>
+        </header>
+
+        <div class="deck-layout reveal" id="deck-layout">
+          <button class="deck-drawer-backdrop" id="deck-drawer-backdrop"
+            type="button" aria-label="关闭总结册"></button>
+          <aside class="deck-sidebar" id="deck-sidebar" aria-hidden="true">
+            <div class="panel-heading">
+              <div>
+                <h3>总结册</h3>
+              </div>
+              <div class="deck-panel-actions">
+                <span class="deck-total" id="deck-total">0 本</span>
+                <button class="dialog-close deck-library-close" id="deck-library-close"
+                  type="button" aria-label="关闭总结册">×</button>
+              </div>
+            </div>
+
+            <label class="deck-search">
+              <input id="deck-search" type="search" autocomplete="off"
+                placeholder="搜索总结册" aria-label="搜索总结册">
+            </label>
+
+            <div class="deck-list" id="deck-list"></div>
+            <button class="text-button danger-text deck-delete-button admin-only" id="delete-deck" type="button" hidden>
+              删除当前总结册
+            </button>
+
+            <form class="deck-upload admin-only" id="deck-upload-form">
+              <label class="deck-file-picker">
+                <input id="deck-files" type="file" multiple
+                  accept=".pptx,image/png,image/jpeg,image/webp,image/avif,image/gif,.heic,.heif,image/heic,image/heif">
+                <strong id="deck-file-label">选择 PPTX 或逐页图片</strong>
+              </label>
+              <button class="button button-primary" id="upload-deck-button" type="submit">
+                上传总结
+              </button>
+              <p class="action-status" id="deck-status" role="status" aria-live="polite"></p>
+            </form>
+          </aside>
+
+          <article class="deck-viewer">
+            <div class="deck-viewer-top">
+              <button class="deck-library-toggle" id="deck-library-toggle" type="button"
+                aria-expanded="false" aria-controls="deck-sidebar">
+                &lt; 总结册
+              </button>
+              <h3 id="deck-viewer-title">等待一本总结册</h3>
+              <span class="deck-title-spacer" aria-hidden="true"></span>
+            </div>
+
+            <div class="deck-empty" id="deck-empty">
+              <span class="empty-emblem" aria-hidden="true">✦</span>
+              <h4>上传你的第一份总结</h4>
+              <p>PPTX 会被整理成可翻阅的网页幻灯片。</p>
+            </div>
+
+            <div class="deck-stage-wrap" id="deck-stage-wrap" hidden>
+              <div class="deck-stage" id="deck-stage" aria-live="polite"></div>
+              <div class="deck-controls">
+                <button class="round-button" id="slide-prev" type="button" aria-label="上一页">←</button>
+                <button class="round-button" id="slide-next" type="button" aria-label="下一页">→</button>
+                <div class="slide-jump">
+                  <span>页码</span>
+                  <input id="slide-jump-input" type="number" min="1" step="1"
+                    inputmode="numeric" aria-label="输入页码后按回车跳转">
+                  <button class="slide-jump-button" id="slide-jump-button" type="button">跳转</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-shell gallery-section" id="gallery">
+      <header class="section-heading reveal">
+        <div>
+          <h2>Gallery</h2>
+        </div>
+        <button class="button button-primary admin-only" id="create-album-button" type="button">
+          创建相册
+        </button>
+      </header>
+
+      <div class="album-list reveal" id="album-list"></div>
+
+      <div class="album-empty" id="album-empty">
+        <span class="empty-emblem" aria-hidden="true">+</span>
+        <h3>还没有相册</h3>
+        <p>先创建一个相册，再上传你想收藏的照片。</p>
+        <button class="button button-ghost admin-only" id="empty-create-album" type="button">
+          创建第一个相册
+        </button>
+      </div>
+    </section>
+
+    <section class="section section-shell contact-section" id="contact">
+      <div class="contact-card reveal">
+        <div class="contact-copy">
+          <h2>谢谢来到<br><span class="accent-text">我的赛博基地。</span></h2>
+        </div>
+        <div class="contact-links">
+          <span class="contact-placeholder">Bilibili <i>待添加</i></span>
+          <span class="contact-placeholder">抖音 <i>待添加</i></span>
+          <span class="contact-placeholder">Steam <i>待添加</i></span>
+          <span class="contact-placeholder">QQ <i>待添加</i></span>
+          <span class="contact-placeholder">微信 <i>待添加</i></span>
+          <span class="contact-placeholder">Email <i>待添加</i></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
+  </footer>
+
+  <dialog class="modal create-album-modal" id="create-album-dialog">
+    <form method="dialog" id="create-album-form">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">NEW ALBUM</span>
+          <h2>创建相册</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="create-album-dialog" aria-label="关闭">×</button>
+      </div>
+      <label>
+        <span>相册名称</span>
+        <input id="new-album-name" type="text" maxlength="50" placeholder="例如：深圳的蓝调时刻">
+      </label>
+      <p class="modal-note">创建后可以继续上传照片和更换封面。</p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button" data-close-dialog="create-album-dialog">取消</button>
+        <button class="button button-primary" id="confirm-create-album" type="button">创建</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal album-dialog" id="album-dialog">
+    <div class="album-dialog-shell">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">ALBUM VIEWER</span>
+          <h2 id="album-dialog-title">相册</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="album-dialog" aria-label="关闭">×</button>
+      </div>
+
+      <div class="album-settings admin-only">
+        <label>
+          <span>相册名称</span>
+          <input id="album-name-edit" type="text" maxlength="50">
+        </label>
+        <label>
+          <span>展示大小 <b id="album-size-value">60%</b></span>
+          <input id="album-size-edit" class="range-input" type="range" min="30" max="100" step="5">
+        </label>
+        <button class="button button-small button-ghost" id="save-album-settings" type="button">
+          保存设置
+        </button>
+      </div>
+
+      <form class="album-upload-row admin-only" id="album-upload-form">
+        <label>
+          <input id="album-photo-files" type="file" multiple
+            accept="image/*,image/heic,image/heif,.heic,.heif,video/*,.livp,application/zip">
+          <strong>选择照片 / 视频 / LIVP</strong>
+        </label>
+        <button class="button button-primary button-small" id="album-upload-button" type="submit">
+          上传到相册
+        </button>
+        <p class="action-status" id="album-upload-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="album-photo-grid" id="album-photo-grid"></div>
+
+      <div class="album-dialog-footer">
+        <button class="text-button danger-text admin-only" id="delete-album-button" type="button">
+          删除整个相册
+        </button>
+        <button class="button button-ghost button-small" type="button" data-close-dialog="album-dialog">
+          返回 Gallery
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal lightbox" id="lightbox">
+    <div class="lightbox-shell">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">PHOTO VIEW</span>
+          <h2 id="lightbox-title">照片预览</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="lightbox" aria-label="关闭">×</button>
+      </div>
+      <div class="lightbox-media" id="lightbox-media"></div>
+      <div class="lightbox-footer">
+        <p id="lightbox-caption"></p>
+        <div class="lightbox-downloads" id="lightbox-downloads"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal admin-dialog" id="admin-dialog">
+    <form method="dialog">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">PRIVATE MANAGEMENT</span>
+          <h2>管理员登录</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="admin-dialog" aria-label="关闭">×</button>
+      </div>
+      <p class="modal-intro">
+        使用只允许编辑此仓库的 GitHub Fine-grained Personal Access Token 登录。
+        令牌仅保存在当前浏览器会话中，不会写入网页或 GitHub 仓库。
+      </p>
+      <label>
+        <span>GitHub Token</span>
+        <input id="admin-token-input" type="password" autocomplete="off"
+          placeholder="github_pat_...">
+      </label>
+      <p class="modal-note">
+        需要该仓库的 Contents 读写权限。请勿使用账号密码，也不要授予无关仓库的权限。
+      </p>
+      <p class="action-status" id="admin-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions admin-login-actions">
+        <a class="button button-ghost" href="https://github.com/settings/personal-access-tokens/new"
+          target="_blank" rel="noopener">创建 Token</a>
+        <button class="button button-primary" id="admin-login-button" type="button">验证并登录</button>
+      </div>
+      <div class="admin-session-actions" id="admin-session-actions" hidden>
+        <span id="admin-session-label"></span>
+        <div>
+          <button class="text-button" id="import-local-content" type="button">导入本机旧内容</button>
+          <button class="text-button danger-text" id="admin-logout-button" type="button">退出管理</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal hero-dialog" id="hero-dialog">
+    <div class="modal-header">
+      <div>
+        <span class="mini-label">HOMEPAGE BACKGROUND</span>
+        <h2>更换首页背景</h2>
+      </div>
+      <button class="dialog-close" type="button" data-close-dialog="hero-dialog" aria-label="关闭">×</button>
+    </div>
+    <div class="hero-dialog-body">
+      <label class="hero-upload-control">
+        <input id="hero-file-input" type="file"
+          accept="image/*,image/heic,image/heif,.heic,.heif,video/*,.livp,application/zip">
+        <span>上传新背景</span>
+        <small>支持图片、视频、GIF 和 LIVP</small>
+      </label>
+      <div class="hero-image-list" id="hero-image-list"></div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="site-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

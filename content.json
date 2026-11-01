@@ -1,15 +1,21 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T12:35:08.383Z",
+  "updatedAt": "2026-11-01T12:42:10.689Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
-      "id": "background-2b24fe90-25f9-4f5c-9948-c1e794eb78c9",
+      "id": "background-51374680-7362-46cd-95f4-0fb9c468157c",
       "kind": "photo",
-      "createdAt": "2026-11-01T11:38:44.305Z",
-      "src": "shared/profile/hero-mvxrbbo1.jpg"
+      "createdAt": "2026-11-01T12:42:10.688Z",
+      "src": "shared/profile/hero-mvxtkwow.jpg"
     },
     "heroImages": [
+      {
+        "id": "background-51374680-7362-46cd-95f4-0fb9c468157c",
+        "kind": "photo",
+        "createdAt": "2026-11-01T12:42:10.688Z",
+        "src": "shared/profile/hero-mvxtkwow.jpg"
+      },
       {
         "id": "background-14b4f22d-f970-4349-9049-80597c9fd4d3",
         "kind": "photo",
@@ -31,7 +37,7 @@
       "displayWidth": 100,
       "coverPhotoId": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-01T12:35:08.383Z",
+      "updatedAt": "2026-11-01T12:42:10.689Z",
       "photos": [
         {
           "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",

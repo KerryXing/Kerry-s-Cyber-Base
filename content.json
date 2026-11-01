@@ -1,15 +1,21 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T11:38:44.305Z",
+  "updatedAt": "2026-11-01T11:39:47.408Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
-      "id": "background-2b24fe90-25f9-4f5c-9948-c1e794eb78c9",
+      "id": "background-14b4f22d-f970-4349-9049-80597c9fd4d3",
       "kind": "photo",
-      "createdAt": "2026-11-01T11:38:44.305Z",
-      "src": "shared/profile/hero-mvxrbbo1.jpg"
+      "createdAt": "2026-11-01T11:39:47.408Z",
+      "src": "shared/profile/hero-mvxrcocw.jpg"
     },
     "heroImages": [
+      {
+        "id": "background-14b4f22d-f970-4349-9049-80597c9fd4d3",
+        "kind": "photo",
+        "createdAt": "2026-11-01T11:39:47.408Z",
+        "src": "shared/profile/hero-mvxrcocw.jpg"
+      },
       {
         "id": "background-2b24fe90-25f9-4f5c-9948-c1e794eb78c9",
         "kind": "photo",
@@ -25,7 +31,7 @@
       "displayWidth": 100,
       "coverPhotoId": null,
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-01T11:38:44.305Z",
+      "updatedAt": "2026-11-01T11:39:47.408Z",
       "photos": []
     }
   ],

@@ -29,7 +29,8 @@
     repoInfo: null,
     sharedProfile: {},
     pendingHeroMedia: null,
-    pendingAvatarMedia: null
+    pendingAvatarMedia: null,
+    isPublishing: false
   };
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -129,6 +130,8 @@
       if (!file || !requireAdmin()) return;
       heroButton.disabled = true;
       showToast("正在处理首页图片...");
+      const previousHero = state.sharedProfile.heroMedia;
+      const previousPendingHero = state.pendingHeroMedia;
       try {
         const media = await createMediaItem(file);
         state.pendingHeroMedia = media;
@@ -137,6 +140,13 @@
         renderHeroImageList();
         showToast("首页背景已发布到共享网站。");
       } catch (error) {
+        state.pendingHeroMedia = previousPendingHero;
+        state.sharedProfile.heroMedia = previousHero;
+        if (previousHero) {
+          displayHeroMedia(previousHero);
+        } else {
+          await applyHeroMedia(DATA.profile?.heroMedia);
+        }
         showToast("首页图片处理失败：" + error.message);
       } finally {
         heroButton.disabled = false;
@@ -149,6 +159,11 @@
       if (!file || !requireAdmin()) return;
       avatarButton.disabled = true;
       showToast("正在处理头像...");
+      const slot = $("[data-avatar-slot]");
+      const previousBackground = slot.style.backgroundImage;
+      const hadImage = slot.classList.contains("has-image");
+      const previousAvatar = state.sharedProfile.avatar;
+      const previousPendingAvatar = state.pendingAvatarMedia;
       try {
         const media = await createMediaItem(file);
         if (media.kind !== "photo") throw new Error("请选择静态图片作为头像");
@@ -157,6 +172,10 @@
         await publishSharedContent("Update profile avatar");
         showToast("头像已发布到共享网站。");
       } catch (error) {
+        state.sharedProfile.avatar = previousAvatar;
+        state.pendingAvatarMedia = previousPendingAvatar;
+        slot.style.backgroundImage = previousBackground;
+        slot.classList.toggle("has-image", hadImage);
         showToast("头像处理失败：" + error.message);
       } finally {
         avatarButton.disabled = false;
@@ -635,10 +654,14 @@
         state.adminToken
       );
     const branch = config.branch || repoInfo.default_branch || "main";
-    const refPath =
+    const encodedBranch = branch.split("/").map(encodeURIComponent).join("/");
+    const readRefPath =
       "/repos/" + config.owner + "/" + config.repo +
-      "/git/ref/heads/" + branch.split("/").map(encodeURIComponent).join("/");
-    const ref = await githubRequest(refPath, state.adminToken);
+      "/git/ref/heads/" + encodedBranch;
+    const updateRefPath =
+      "/repos/" + config.owner + "/" + config.repo +
+      "/git/refs/heads/" + encodedBranch;
+    const ref = await githubRequest(readRefPath, state.adminToken);
     const parentSha = ref.object.sha;
     const parent = await githubRequest(
       "/repos/" + config.owner + "/" + config.repo +
@@ -698,7 +721,7 @@
       }
     );
 
-    await githubRequest(refPath, state.adminToken, {
+    await githubRequest(updateRefPath, state.adminToken, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sha: commit.sha, force: false })
@@ -708,19 +731,30 @@
 
   async function publishSharedContent(message) {
     if (!state.isAdmin) throw new Error("管理员尚未登录");
+    if (state.isPublishing) {
+      throw new Error("上一项内容仍在发布，请稍候再试。");
+    }
+    state.isPublishing = true;
+    document.body.classList.add("is-publishing");
+    showToast("正在提交到 GitHub，请稍候...");
     const config = getUploadConfig();
     const files = [];
-    const content = await buildSharedContent(files, config);
-    files.push({
-      path: config.contentPath,
-      content: JSON.stringify(content, null, 2) + "\n"
-    });
-    await commitRepositoryFiles(files, message);
-    state.sharedProfile = content.profile;
-    state.pendingHeroMedia = null;
-    state.pendingAvatarMedia = null;
-    showToast("内容已发布到 GitHub，Pages 更新通常需要约一分钟。");
-    return content;
+    try {
+      const content = await buildSharedContent(files, config);
+      files.push({
+        path: config.contentPath,
+        content: JSON.stringify(content, null, 2) + "\n"
+      });
+      await commitRepositoryFiles(files, message);
+      state.sharedProfile = content.profile;
+      state.pendingHeroMedia = null;
+      state.pendingAvatarMedia = null;
+      showToast("内容已发布到 GitHub，Pages 更新通常需要约一分钟。");
+      return content;
+    } finally {
+      state.isPublishing = false;
+      document.body.classList.remove("is-publishing");
+    }
   }
 
   async function buildSharedContent(files, config) {
@@ -1080,17 +1114,24 @@
       updatedAt: now
     };
 
+    const button = $("#confirm-create-album");
+    const status = $("#create-album-status");
+    button.disabled = true;
+    status.textContent = "正在创建并发布到 GitHub...";
     state.albums.unshift(album);
-    renderAlbums();
-    $("#create-album-dialog").close();
     try {
       await publishSharedContent("Create album: " + album.name);
+      renderAlbums();
+      $("#create-album-dialog").close();
       openAlbum(album.id);
+      status.textContent = "";
       showToast("相册已创建并发布。");
-    } catch {
+    } catch (error) {
       state.albums = state.albums.filter((item) => item.id !== album.id);
       renderAlbums();
-      showToast("相册创建失败，请重试。");
+      status.textContent = "创建失败：" + error.message;
+    } finally {
+      button.disabled = false;
     }
   }
 
@@ -1265,6 +1306,8 @@
       return;
     }
 
+    const previousName = album.name;
+    const previousWidth = album.displayWidth;
     album.name = name;
     album.displayWidth = Number($("#album-size-edit").value) || 60;
     album.updatedAt = new Date().toISOString();
@@ -1275,6 +1318,11 @@
       renderAlbums();
       showToast("相册设置已发布。");
     } catch {
+      album.name = previousName;
+      album.displayWidth = previousWidth;
+      $("#album-name-edit").value = previousName;
+      $("#album-size-edit").value = String(previousWidth);
+      $("#album-size-value").textContent = previousWidth + "%";
       showToast("设置保存失败。");
     }
   }
@@ -1306,6 +1354,8 @@
     button.disabled = true;
     const failures = [];
     let imported = 0;
+    const previousPhotos = [...album.photos];
+    const previousCover = album.coverPhotoId;
 
     for (let index = 0; index < files.length; index += 1) {
       status.textContent =
@@ -1334,6 +1384,10 @@
           (failures.length ? "，另有 " + failures.length + " 个失败" : "")
         : "上传失败：" + failures[0];
     } catch {
+      album.photos = previousPhotos;
+      album.coverPhotoId = previousCover;
+      renderAlbumPhotos(album);
+      renderAlbums();
       status.textContent = "文件已读取，但保存失败。";
     } finally {
       button.disabled = false;
@@ -1344,6 +1398,7 @@
 
   async function setAlbumCover(album, photoId) {
     if (!requireAdmin()) return;
+    const previousCover = album.coverPhotoId;
     album.coverPhotoId = photoId;
     album.updatedAt = new Date().toISOString();
     try {
@@ -1352,6 +1407,7 @@
       renderAlbums();
       showToast("首页封面已发布。");
     } catch {
+      album.coverPhotoId = previousCover;
       showToast("封面更新失败。");
     }
   }
@@ -1360,6 +1416,8 @@
     if (!requireAdmin()) return;
     const confirmed = window.confirm("从相册中删除这张照片吗？");
     if (!confirmed) return;
+    const previousPhotos = [...album.photos];
+    const previousCover = album.coverPhotoId;
     album.photos = album.photos.filter((photo) => photo.id !== photoId);
     if (album.coverPhotoId === photoId) {
       album.coverPhotoId = album.photos[0]?.id || null;
@@ -1371,6 +1429,8 @@
       renderAlbums();
       showToast("照片删除已发布。");
     } catch {
+      album.photos = previousPhotos;
+      album.coverPhotoId = previousCover;
       showToast("照片删除失败。");
     }
   }

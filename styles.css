@@ -312,6 +312,12 @@ body:not(.is-admin) .admin-only {
   display: none !important;
 }
 
+body.is-publishing .admin-only {
+  pointer-events: none;
+  opacity: 0.58;
+  cursor: progress;
+}
+
 .site-nav a {
   position: relative;
   padding: 15px 20px;
@@ -2059,21 +2065,22 @@ input[type="range"] {
 }
 
 .hero-dialog {
-  width: min(calc(100% - 32px), 980px);
+  width: min(calc(100% - 48px), 1160px);
+  padding: 38px;
 }
 
 .hero-dialog-body {
   display: grid;
-  margin-top: 24px;
-  grid-template-columns: 250px minmax(0, 1fr);
-  gap: 22px;
+  margin-top: 30px;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 28px;
 }
 
 .hero-upload-control {
   position: relative;
   display: flex;
-  min-height: 190px;
-  padding: 24px;
+  min-height: 220px;
+  padding: 30px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -2108,7 +2115,7 @@ input[type="range"] {
 
 .hero-image-list {
   display: grid;
-  max-height: 420px;
+  max-height: 470px;
   padding-right: 6px;
   overflow-y: auto;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2764,6 +2771,10 @@ input[type="range"] {
 
   .hero-dialog-body {
     grid-template-columns: 1fr;
+  }
+
+  .hero-dialog {
+    padding: 24px;
   }
 
   .hero-image-list {

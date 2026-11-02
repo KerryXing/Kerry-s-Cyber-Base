@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T20:06:14.622Z",
+  "updatedAt": "2026-11-02T20:07:11.288Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -165,7 +165,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T20:06:14.620Z",
+      "updatedAt": "2026-11-02T20:07:11.288Z",
       "photos": [
         {
           "id": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
@@ -183,7 +183,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T20:06:14.620Z",
+      "updatedAt": "2026-11-02T20:07:11.288Z",
       "photos": [
         {
           "id": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
@@ -201,7 +201,7 @@
       "displayWidth": 92,
       "coverPhotoId": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T20:06:14.622Z",
+      "updatedAt": "2026-11-02T20:07:11.288Z",
       "photos": [
         {
           "id": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
@@ -209,13 +209,6 @@
           "kind": "video",
           "createdAt": "2026-11-02T18:59:16.414Z",
           "src": "shared/media/photo-416907c5-d388-46cc-8c83-c441e60b9e49.mov"
-        },
-        {
-          "id": "photo-2b8f389a-4a58-4fa0-a775-28b44426dbe7",
-          "title": "live_photo_paired_photo_B7E04DCB-3571-44C9-B2D2-E8345F3D9C97",
-          "kind": "photo",
-          "createdAt": "2026-11-02T20:06:14.615Z",
-          "src": "shared/media/photo-2b8f389a-4a58-4fa0-a775-28b44426dbe7.jpg"
         }
       ]
     }

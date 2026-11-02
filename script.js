@@ -13,6 +13,9 @@
     db: null,
     albums: [],
     decks: [],
+    attributes: [],
+    tagGroups: [],
+    legacyDecks: [],
     currentAlbumId: null,
     currentDeckId: null,
     renderedDeckId: null,
@@ -30,7 +33,14 @@
     sharedProfile: {},
     pendingHeroMedia: null,
     pendingAvatarMedia: null,
-    isPublishing: false
+    isPublishing: false,
+    reportAccess: null,
+    reportKey: null,
+    reportSalt: null,
+    reportUnlocked: false,
+    selectedHeroId: "",
+    selectedPhotoId: "",
+    slideRenderToken: 0
   };
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -45,13 +55,19 @@
     setupRevealAnimations();
     setupDeck();
     setupGallery();
+    setupProfileEditor();
+    setupReportAccess();
     setupVisualUploads();
     setupAdmin();
+    $("#back-to-top").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
 
     $("#current-year").textContent = String(new Date().getFullYear());
 
     try {
       await loadSharedContent();
+      await restoreReportAccess();
     } catch (error) {
       console.warn("Shared content is unavailable:", error);
       showToast("共享内容加载失败；当前显示网站默认内容。");
@@ -74,22 +90,9 @@
 
   async function populateProfile() {
     const profile = DATA.profile || {};
-
-    $("#anime-list").replaceChildren(
-      ...(DATA.animes || []).map((item) => {
-        const tag = document.createElement("span");
-        tag.textContent = item;
-        return tag;
-      })
-    );
-
-    $("#game-list").replaceChildren(
-      ...(DATA.games || []).map((item) => {
-        const tag = document.createElement("span");
-        tag.textContent = item;
-        return tag;
-      })
-    );
+    state.attributes = defaultAttributes();
+    state.tagGroups = defaultTagGroups();
+    renderProfileContent();
 
     if (profile.avatar) {
       const slot = $("[data-avatar-slot]");
@@ -108,6 +111,191 @@
     }
   }
 
+  function defaultAttributes() {
+    const profile = DATA.profile || {};
+    return [
+      { id: "nickname", key: "昵称", value: profile.name || "Kerry Xing" },
+      { id: "identity", key: "身份", value: profile.identity || "研究生" },
+      { id: "mbti", key: "MBTI", value: "ENFP · 灵感型冒险家" },
+      { id: "location", key: "坐标", value: profile.location || "中国 · 广东 · 深圳" },
+      { id: "skills", key: "技能", value: (DATA.skills || ["绘画", "代码"]).join(" · ") }
+    ];
+  }
+
+  function defaultTagGroups() {
+    return [
+      {
+        id: "anime",
+        title: "看过的番",
+        tags: [...(DATA.animes || [])]
+      },
+      {
+        id: "games",
+        title: "游戏宇宙",
+        tags: [...(DATA.games || [])]
+      }
+    ];
+  }
+
+  function renderProfileContent() {
+    const table = $("#attribute-table");
+    if (table) {
+      table.replaceChildren(
+        ...state.attributes.map((row) => {
+          const element = document.createElement("div");
+          element.className = "attribute-row";
+          element.setAttribute("role", "row");
+          const key = document.createElement("span");
+          key.setAttribute("role", "rowheader");
+          key.textContent = row.key;
+          const value = document.createElement("strong");
+          value.setAttribute("role", "cell");
+          value.textContent = row.value;
+          element.append(key, value);
+          return element;
+        })
+      );
+    }
+
+    const groupContainer = $("#tag-groups");
+    if (groupContainer) {
+      groupContainer.replaceChildren(
+        ...state.tagGroups.map((group) => {
+          const card = document.createElement("article");
+          card.className = "taste-card";
+          const title = document.createElement("div");
+          title.className = "taste-title";
+          const heading = document.createElement("strong");
+          heading.textContent = group.title;
+          title.append(heading);
+          const tags = document.createElement("div");
+          tags.className = "tag-list";
+          tags.replaceChildren(
+            ...group.tags.map((tagText) => {
+              const tag = document.createElement("span");
+              tag.textContent = tagText;
+              return tag;
+            })
+          );
+          card.append(title, tags);
+          return card;
+        })
+      );
+    }
+  }
+
+  function setupProfileEditor() {
+    $("#edit-profile-button").addEventListener("click", openProfileEditor);
+    $("#add-attribute-row").addEventListener("click", () => {
+      addAttributeEditorRow({ id: createId("attribute"), key: "", value: "" });
+    });
+    $("#add-tag-group").addEventListener("click", () => {
+      addTagGroupEditor({ id: createId("group"), title: "", tags: [] });
+    });
+    $("#save-profile-editor").addEventListener("click", saveProfileEditor);
+  }
+
+  function openProfileEditor() {
+    if (!requireAdmin()) return;
+    $("#attribute-editor-rows").replaceChildren();
+    $("#tag-group-editor").replaceChildren();
+    state.attributes.forEach(addAttributeEditorRow);
+    state.tagGroups.forEach(addTagGroupEditor);
+    $("#profile-editor-status").textContent = "";
+    openDialog($("#profile-editor-dialog"));
+  }
+
+  function addAttributeEditorRow(row) {
+    const container = document.createElement("div");
+    container.className = "editor-row attribute-editor-row";
+    container.dataset.id = row.id || createId("attribute");
+    const key = document.createElement("input");
+    key.type = "text";
+    key.dataset.field = "key";
+    key.placeholder = "属性名";
+    key.value = row.key || "";
+    const value = document.createElement("input");
+    value.type = "text";
+    value.dataset.field = "value";
+    value.placeholder = "属性内容";
+    value.value = row.value || "";
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "editor-remove";
+    remove.setAttribute("aria-label", "删除这一行");
+    remove.textContent = "×";
+    remove.addEventListener("click", () => container.remove());
+    container.append(key, value, remove);
+    $("#attribute-editor-rows").append(container);
+  }
+
+  function addTagGroupEditor(group) {
+    const container = document.createElement("div");
+    container.className = "editor-row tag-group-editor-row";
+    container.dataset.id = group.id || createId("group");
+    const title = document.createElement("input");
+    title.type = "text";
+    title.dataset.field = "title";
+    title.placeholder = "标签框标题";
+    title.value = group.title || "";
+    const tags = document.createElement("textarea");
+    tags.dataset.field = "tags";
+    tags.placeholder = "每行一个标签";
+    tags.value = (group.tags || []).join("\n");
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "editor-remove";
+    remove.setAttribute("aria-label", "删除这个标签框");
+    remove.textContent = "×";
+    remove.addEventListener("click", () => container.remove());
+    container.append(title, tags, remove);
+    $("#tag-group-editor").append(container);
+  }
+
+  async function saveProfileEditor() {
+    if (!requireAdmin()) return;
+    const previousAttributes = state.attributes;
+    const previousGroups = state.tagGroups;
+    const attributes = $$("#attribute-editor-rows .attribute-editor-row")
+      .map((row) => ({
+        id: row.dataset.id,
+        key: row.querySelector('[data-field="key"]').value.trim(),
+        value: row.querySelector('[data-field="value"]').value.trim()
+      }))
+      .filter((row) => row.key || row.value);
+    const tagGroups = $$("#tag-group-editor .tag-group-editor-row")
+      .map((row) => ({
+        id: row.dataset.id,
+        title: row.querySelector('[data-field="title"]').value.trim(),
+        tags: row.querySelector('[data-field="tags"]').value
+          .split(/\r?\n|,/)
+          .map((tag) => tag.trim())
+          .filter(Boolean)
+      }))
+      .filter((group) => group.title || group.tags.length);
+
+    state.attributes = attributes;
+    state.tagGroups = tagGroups;
+    renderProfileContent();
+    const button = $("#save-profile-editor");
+    const status = $("#profile-editor-status");
+    button.disabled = true;
+    status.textContent = "正在发布属性表...";
+    try {
+      await publishSharedContent("Update profile attributes");
+      status.textContent = "属性表已发布。";
+      $("#profile-editor-dialog").close();
+      showToast("属性表已发布到共享网站。");
+    } catch (error) {
+      state.attributes = previousAttributes;
+      state.tagGroups = previousGroups;
+      renderProfileContent();
+      status.textContent = "发布失败：" + error.message;
+    } finally {
+      button.disabled = false;
+    }
+  }
+
   function escapeCssUrl(value) {
     return String(value).replace(/["\\\n\r]/g, "");
   }
@@ -120,9 +308,19 @@
 
     heroButton.addEventListener("click", () => {
       if (!requireAdmin()) return;
+      const current = state.sharedProfile.heroMedia;
+      state.selectedHeroId =
+        typeof current === "object"
+          ? current?.id || ""
+          : "";
       renderHeroImageList();
       openDialog($("#hero-dialog"));
     });
+    $("#hero-select-button").addEventListener("click", () => {
+      const media = selectedHeroImage();
+      if (media) selectHeroImage(media);
+    });
+    $("#hero-delete-button").addEventListener("click", deleteSelectedHeroImage);
     avatarButton.addEventListener("click", () => avatarInput.click());
 
     heroInput.addEventListener("change", async () => {
@@ -137,6 +335,7 @@
         state.pendingHeroMedia = media;
         displayHeroMedia(media);
         await publishSharedContent("Update homepage background");
+        state.selectedHeroId = state.sharedProfile.heroMedia?.id || "";
         renderHeroImageList();
         showToast("首页背景已发布到共享网站。");
       } catch (error) {
@@ -199,7 +398,13 @@
       empty.className = "hero-list-empty";
       empty.textContent = "还没有上传过新的首页背景。";
       list.replaceChildren(empty);
+      $("#hero-select-button").disabled = true;
+      $("#hero-delete-button").disabled = true;
       return;
+    }
+
+    if (!images.some((media) => (media.id || media.src) === state.selectedHeroId)) {
+      state.selectedHeroId = currentKey;
     }
 
     list.replaceChildren(
@@ -207,7 +412,8 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "hero-list-item" +
-          ((media.id || media.src) === currentKey ? " active" : "");
+          ((media.id || media.src) === state.selectedHeroId ? " selected" : "") +
+          ((media.id || media.src) === currentKey ? " in-use" : "");
         const preview = document.createElement("div");
         preview.className = "hero-list-preview";
         preview.append(createMediaNode(media, state.mainUrls, true));
@@ -215,18 +421,30 @@
         label.textContent = "背景 " + String(index + 1).padStart(2, "0");
         const stateLabel = document.createElement("small");
         stateLabel.textContent =
-          (media.id || media.src) === currentKey ? "当前使用" : "点击使用";
+          (media.id || media.src) === currentKey
+            ? "当前使用"
+            : (media.id || media.src) === state.selectedHeroId
+              ? "已选择"
+              : "点击选择";
         button.append(preview, label, stateLabel);
-        button.addEventListener("click", () => selectHeroImage(media));
+        button.addEventListener("click", () => {
+          state.selectedHeroId = media.id || media.src;
+          renderHeroImageList();
+        });
         return button;
       })
     );
+    $("#hero-select-button").disabled = !state.selectedHeroId;
+    $("#hero-delete-button").disabled = !state.selectedHeroId;
     activateAnimatedMedia(list);
   }
 
   async function selectHeroImage(media) {
     if (!requireAdmin()) return;
+    const previousHero = state.sharedProfile.heroMedia;
+    const previousSelectedId = state.selectedHeroId;
     state.sharedProfile.heroMedia = media;
+    state.selectedHeroId = media.id || media.src || "";
     displayHeroMedia(media);
     statusToastInDialog("正在切换首页背景...");
     try {
@@ -234,7 +452,60 @@
       renderHeroImageList();
       showToast("首页背景已切换并发布。");
     } catch (error) {
+      state.sharedProfile.heroMedia = previousHero;
+      state.selectedHeroId = previousSelectedId;
+      if (previousHero) displayHeroMedia(previousHero);
+      renderHeroImageList();
       showToast("背景切换失败：" + error.message);
+    }
+  }
+
+  function selectedHeroImage() {
+    return (state.sharedProfile.heroImages || []).find(
+      (media) => (media.id || media.src) === state.selectedHeroId
+    ) || null;
+  }
+
+  async function deleteSelectedHeroImage() {
+    if (!requireAdmin()) return;
+    const selected = selectedHeroImage();
+    if (!selected) return;
+    if (!window.confirm("从背景列表中删除当前选中的背景吗？")) return;
+
+    const previousImages = [...(state.sharedProfile.heroImages || [])];
+    const previousHero = state.sharedProfile.heroMedia;
+    const previousKey = typeof previousHero === "string"
+      ? previousHero
+      : previousHero?.id || previousHero?.src || "";
+    const deletingCurrent = previousKey === state.selectedHeroId;
+    state.sharedProfile.heroImages = previousImages.filter(
+      (media) => (media.id || media.src) !== state.selectedHeroId
+    );
+    const next = deletingCurrent
+      ? state.sharedProfile.heroImages[0] || null
+      : previousHero;
+    state.sharedProfile.heroMedia = next;
+    state.selectedHeroId = next ? (next.id || next.src) : "";
+    if (deletingCurrent && next) displayHeroMedia(next);
+
+    try {
+      await publishSharedContent("Delete homepage background");
+      if (deletingCurrent && !next) {
+        revokeUrls(state.heroUrls);
+        state.heroUrls = [];
+        $$(".hero-site-media", $(".hero-image-frame")).forEach((node) => node.remove());
+        $(".hero-placeholder-art").hidden = false;
+        await applyHeroMedia(DATA.profile?.heroMedia);
+      }
+      renderHeroImageList();
+      showToast("背景删除已发布。");
+    } catch (error) {
+      state.sharedProfile.heroImages = previousImages;
+      state.sharedProfile.heroMedia = previousHero;
+      state.selectedHeroId = selected.id || selected.src || "";
+      if (previousHero) displayHeroMedia(previousHero);
+      renderHeroImageList();
+      showToast("背景删除失败：" + error.message);
     }
   }
 
@@ -281,6 +552,10 @@
     const frame = $(".hero-image-frame");
     const art = $(".hero-placeholder-art");
     if (!frame || !art) return;
+    revokeUrls(state.heroUrls);
+    state.heroUrls = [];
+    $$(".hero-site-media", frame).forEach((node) => node.remove());
+    art.hidden = false;
 
     try {
       if (/\.livp$/i.test(path)) {
@@ -377,7 +652,22 @@
       throw new Error("共享内容文件不存在，请确认已上传 content.json");
     }
     const content = await response.json();
+    state.sharedContent = content;
     state.sharedProfile = { ...(content.profile || {}) };
+    state.attributes = Array.isArray(content.attributes)
+      ? content.attributes.map((row) => ({
+          id: row.id || createId("attribute"),
+          key: String(row.key || ""),
+          value: String(row.value || "")
+        }))
+      : defaultAttributes();
+    state.tagGroups = Array.isArray(content.tagGroups)
+      ? content.tagGroups.map((group) => ({
+          id: group.id || createId("group"),
+          title: String(group.title || ""),
+          tags: Array.isArray(group.tags) ? group.tags.map(String) : []
+        }))
+      : defaultTagGroups();
     state.albums = Array.isArray(content.albums)
       ? content.albums.map((album) => ({
           ...album,
@@ -389,7 +679,7 @@
             : []
         }))
       : [];
-    state.decks = Array.isArray(content.decks)
+    state.legacyDecks = Array.isArray(content.decks)
       ? content.decks.map((deck) => ({
           ...deck,
           slides: Array.isArray(deck.slides)
@@ -405,6 +695,9 @@
             : []
         }))
       : [];
+    state.decks = [];
+    state.reportAccess = content.reportAccess || null;
+    renderProfileContent();
     await applySharedProfile(state.sharedProfile);
   }
 
@@ -465,6 +758,7 @@
       }
     });
     $("#admin-logout-button").addEventListener("click", logoutAdmin);
+    $("#download-content-backup").addEventListener("click", downloadContentBackup);
     $("#import-local-content").addEventListener("click", importLegacyLocalContent);
     $("#admin-token-input").addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -479,6 +773,211 @@
     status.textContent = message;
     status.classList.toggle("error", type === "error");
     status.classList.toggle("success", type === "success");
+  }
+
+  function setupReportAccess() {
+    $("#report-access-trigger").addEventListener("click", () => {
+      $("#report-token-input").value = "";
+      $("#report-access-status").textContent = "";
+      openDialog($("#report-access-dialog"));
+      window.setTimeout(() => $("#report-token-input").focus(), 60);
+    });
+    $("#report-unlock-button").addEventListener("click", async () => {
+      const token = $("#report-token-input").value.trim();
+      if (!token) {
+        setReportAccessStatus("请输入 Report 只读口令。", "error");
+        return;
+      }
+      $("#report-unlock-button").disabled = true;
+      setReportAccessStatus("正在验证并解密...");
+      try {
+        await unlockReport(token);
+        $("#report-access-dialog").close();
+      } catch (error) {
+        setReportAccessStatus(error.message, "error");
+      } finally {
+        $("#report-unlock-button").disabled = false;
+      }
+    });
+    $("#report-token-input").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        $("#report-unlock-button").click();
+      }
+    });
+  }
+
+  function setReportAccessStatus(message, type = "") {
+    const status = $("#report-access-status");
+    status.textContent = message;
+    status.classList.toggle("error", type === "error");
+    status.classList.toggle("success", type === "success");
+  }
+
+  function setReportVisibility(visible) {
+    $("#report-nav-link").hidden = !visible;
+    $("#diary").hidden = !visible;
+    $("#report-access-trigger").hidden = visible;
+  }
+
+  async function restoreReportAccess() {
+    const token = sessionStorage.getItem("kerry-report-token");
+    if (!token || !state.reportAccess?.manifest) return;
+    try {
+      await unlockReport(token, true);
+    } catch {
+      sessionStorage.removeItem("kerry-report-token");
+      state.reportUnlocked = false;
+      setReportVisibility(false);
+    }
+  }
+
+  async function unlockReport(token, silent = false) {
+    if (state.reportAccess?.manifest && state.reportAccess?.salt) {
+      const salt = base64ToBytes(state.reportAccess.salt);
+      const key = await deriveReportKey(token, salt);
+      const response = await fetch(
+        new URL(state.reportAccess.manifest, document.baseURI).href +
+          "?v=" + Date.now(),
+        { cache: "no-store" }
+      );
+      if (!response.ok) throw new Error("加密的 Report 数据暂时无法加载。");
+
+      let manifest;
+      try {
+        const plaintext = await decryptBytes(
+          new Uint8Array(await response.arrayBuffer()),
+          key
+        );
+        manifest = JSON.parse(new TextDecoder().decode(plaintext));
+      } catch {
+        throw new Error("Report 口令不正确，或加密数据已损坏。");
+      }
+
+      state.reportKey = key;
+      state.reportSalt = salt;
+      state.decks = normalizeEncryptedDecks(manifest.decks || []);
+      state.reportUnlocked = true;
+      sessionStorage.setItem("kerry-report-token", token);
+      setReportVisibility(true);
+      state.currentDeckId = state.decks[0]?.id || null;
+      state.renderedDeckId = null;
+      renderDeckLibrary();
+      if (!silent) {
+        $("#diary").scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast("日常Report已解锁。");
+      }
+      return;
+    }
+
+    if (!state.isAdmin) {
+      throw new Error("管理员尚未设置日常Report访问口令。");
+    }
+
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const key = await deriveReportKey(token, salt);
+    state.reportKey = key;
+    state.reportSalt = salt;
+    state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
+    state.reportUnlocked = true;
+    state.currentDeckId = state.decks[0]?.id || null;
+    sessionStorage.setItem("kerry-report-token", token);
+    setReportVisibility(true);
+    state.renderedDeckId = null;
+    renderDeckLibrary();
+    try {
+      await publishSharedContent("Enable encrypted report access", {
+        includeReports: true
+      });
+    } catch (error) {
+      state.reportKey = null;
+      state.reportSalt = null;
+      state.decks = [];
+      state.reportUnlocked = false;
+      sessionStorage.removeItem("kerry-report-token");
+      setReportVisibility(false);
+      renderDeckLibrary();
+      throw error;
+    }
+    if (!silent) {
+      $("#diary").scrollIntoView({ behavior: "smooth", block: "start" });
+      showToast("Report 加密口令已设置，旧 Report 已迁移。");
+    }
+  }
+
+  function normalizeEncryptedDecks(decks) {
+    return (Array.isArray(decks) ? decks : []).map((deck) => ({
+      ...deck,
+      slides: Array.isArray(deck.slides)
+        ? deck.slides.map((slide) => ({
+            ...slide,
+            imageOnly: true,
+            images: slide.images?.length
+              ? slide.images
+              : slide.image
+                ? [{ encPath: slide.image, name: "encrypted-slide" }]
+                : []
+          }))
+        : []
+    }));
+  }
+
+  async function deriveReportKey(token, salt) {
+    const material = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(token),
+      "PBKDF2",
+      false,
+      ["deriveKey"]
+    );
+    return crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt,
+        iterations: 210000,
+        hash: "SHA-256"
+      },
+      material,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["encrypt", "decrypt"]
+    );
+  }
+
+  async function encryptBytes(bytes, key) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const cipher = new Uint8Array(
+      await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, bytes)
+    );
+    const output = new Uint8Array(iv.length + cipher.length);
+    output.set(iv, 0);
+    output.set(cipher, iv.length);
+    return output;
+  }
+
+  async function decryptBytes(bytes, key) {
+    if (bytes.length < 29) throw new Error("加密数据格式不正确");
+    const iv = bytes.slice(0, 12);
+    const cipher = bytes.slice(12);
+    return new Uint8Array(
+      await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, cipher)
+    );
+  }
+
+  function bytesToBase64(bytes) {
+    let binary = "";
+    const chunkSize = 0x8000;
+    for (let index = 0; index < bytes.length; index += chunkSize) {
+      binary += String.fromCharCode(
+        ...bytes.subarray(index, index + chunkSize)
+      );
+    }
+    return btoa(binary);
+  }
+
+  function base64ToBytes(value) {
+    const binary = atob(value);
+    return Uint8Array.from(binary, (character) => character.charCodeAt(0));
   }
 
   function updateAdminDialog() {
@@ -572,6 +1071,9 @@
         dbGet(SETTINGS_STORE, "avatar"),
         dbGet(SETTINGS_STORE, "hero")
       ]);
+      if ((decks.length || state.decks.length) && !state.reportKey) {
+        throw new Error("请先关闭此窗口，点击页面底部“查看日常Report”设置解密口令，再导入旧 Report。");
+      }
       const albumMap = new Map(state.albums.map((album) => [album.id, album]));
       albums.forEach((album) => albumMap.set(album.id, album));
       const deckMap = new Map(state.decks.map((deck) => [deck.id, deck]));
@@ -583,11 +1085,35 @@
       renderAlbums();
       state.renderedDeckId = null;
       renderDeckLibrary();
-      await publishSharedContent("Import legacy local content");
+      await publishSharedContent("Import legacy local content", {
+        includeReports: Boolean(state.reportKey)
+      });
       $("#admin-dialog").close();
       showToast("本机旧内容已合并并发布。");
     } catch (error) {
       setAdminStatus("导入失败：" + error.message, "error");
+    }
+  }
+
+  async function downloadContentBackup() {
+    if (!requireAdmin()) return;
+    try {
+      const response = await fetch(getContentUrl() + "?v=" + Date.now(), {
+        cache: "no-store"
+      });
+      if (!response.ok) throw new Error("共享内容读取失败");
+      const text = await response.text();
+      const blob = new Blob([text], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "content-backup-" +
+        new Date().toISOString().slice(0, 10) + ".json";
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setAdminStatus("内容索引备份已下载。", "success");
+    } catch (error) {
+      setAdminStatus("备份下载失败：" + error.message, "error");
     }
   }
 
@@ -625,10 +1151,14 @@
       } catch {
         message = await response.text().catch(() => "");
       }
-      throw new Error(
+      const error = new Error(
         "GitHub 请求失败（" + response.status + "）" +
         (message ? "：" + message : "")
       );
+      error.status = response.status;
+      error.retryAfter = response.headers.get("retry-after");
+      error.rateRemaining = response.headers.get("x-ratelimit-remaining");
+      throw error;
     }
     return response.status === 204 ? null : response.json();
   }
@@ -646,6 +1176,30 @@
   }
 
   async function commitRepositoryFiles(files, message) {
+    let lastError = null;
+    for (let attempt = 1; attempt <= 4; attempt += 1) {
+      try {
+        return await commitRepositoryFilesOnce(files, message);
+      } catch (error) {
+        lastError = error;
+        const retryable =
+          !error.status ||
+          error.status === 409 ||
+          error.status === 422 ||
+          error.status === 429 ||
+          error.status >= 500;
+        if (!retryable || attempt === 4) throw error;
+        const delay = Math.min(6000, 600 * 2 ** (attempt - 1));
+        showToast(
+          "GitHub 暂时繁忙，正在重试（" + attempt + "/3）..."
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+    throw lastError;
+  }
+
+  async function commitRepositoryFilesOnce(files, message) {
     if (!state.isAdmin) throw new Error("管理员尚未登录");
     const config = getUploadConfig();
     const repoInfo = state.repoInfo ||
@@ -729,7 +1283,7 @@
     return commit;
   }
 
-  async function publishSharedContent(message) {
+  async function publishSharedContent(message, options = {}) {
     if (!state.isAdmin) throw new Error("管理员尚未登录");
     if (state.isPublishing) {
       throw new Error("上一项内容仍在发布，请稍候再试。");
@@ -740,13 +1294,16 @@
     const config = getUploadConfig();
     const files = [];
     try {
-      const content = await buildSharedContent(files, config);
+      const content = await buildSharedContent(files, config, options);
       files.push({
         path: config.contentPath,
         content: JSON.stringify(content, null, 2) + "\n"
       });
       await commitRepositoryFiles(files, message);
+      state.sharedContent = content;
       state.sharedProfile = content.profile;
+      state.reportAccess = content.reportAccess || null;
+      if (options.includeReports) state.legacyDecks = [];
       state.pendingHeroMedia = null;
       state.pendingAvatarMedia = null;
       showToast("内容已发布到 GitHub，Pages 更新通常需要约一分钟。");
@@ -757,7 +1314,7 @@
     }
   }
 
-  async function buildSharedContent(files, config) {
+  async function buildSharedContent(files, config, options = {}) {
     const profile = { ...(state.sharedProfile || {}) };
     const heroImages = Array.isArray(profile.heroImages)
       ? [...profile.heroImages]
@@ -797,6 +1354,13 @@
           (blobExtension(stillBlob) || ".png");
         files.push({ path, content: stillBlob });
         hero.src = path;
+        const thumbnailBlob = await createImageThumbnail(stillBlob);
+        if (thumbnailBlob) {
+          const thumbnailPath =
+            config.assetRoot + "/profile/hero-" + stamp + "-thumb.jpg";
+          files.push({ path: thumbnailPath, content: thumbnailBlob });
+          hero.thumbnail = thumbnailPath;
+        }
       }
       heroImages.unshift(hero);
       profile.heroMedia = hero;
@@ -836,6 +1400,13 @@
             item.motionSrc = path;
             photo.motionSrc = path;
           }
+          const thumbnail = await ensureSharedThumbnail(
+            files,
+            config,
+            photo,
+            stillBlob
+          );
+          if (thumbnail) item.thumbnail = thumbnail;
         } else if (item.kind === "video") {
           if (photo.src) {
             item.src = photo.src;
@@ -858,6 +1429,13 @@
             item.src = path;
             photo.src = path;
           }
+          const thumbnail = await ensureSharedThumbnail(
+            files,
+            config,
+            photo,
+            photo.imageBlob
+          );
+          if (thumbnail) item.thumbnail = thumbnail;
         }
         if (item.src || item.motionSrc) photos.push(item);
       }
@@ -873,31 +1451,84 @@
       });
     }
 
-    const decks = [];
+    let reportAccess = state.reportAccess || null;
+    let legacyDecks = state.legacyDecks || [];
+    if (options.includeReports) {
+      reportAccess = await buildEncryptedReportPackage(files, config);
+      legacyDecks = [];
+    }
+
+    return {
+      version: 2,
+      updatedAt: new Date().toISOString(),
+      profile,
+      attributes: state.attributes,
+      tagGroups: state.tagGroups,
+      albums,
+      decks: reportAccess ? [] : legacyDecks,
+      reportAccess
+    };
+  }
+
+  async function ensureSharedThumbnail(files, config, photo, sourceBlob) {
+    if (photo.thumbnail) return photo.thumbnail;
+    const thumbnailBlob =
+      photo.thumbnailBlob ||
+      (sourceBlob ? await createImageThumbnail(sourceBlob) : null);
+    if (!thumbnailBlob) return "";
+    const path =
+      config.assetRoot + "/thumbnails/" + photo.id + ".jpg";
+    files.push({ path, content: thumbnailBlob });
+    photo.thumbnailBlob = thumbnailBlob;
+    photo.thumbnail = path;
+    return path;
+  }
+
+  async function buildEncryptedReportPackage(files, config) {
+    if (!state.reportKey || !state.reportSalt) {
+      throw new Error("请先设置并解锁日常Report只读口令");
+    }
+
+    const encryptedDecks = [];
     for (const deck of state.decks) {
       const slides = [];
       for (const slide of deck.slides || []) {
         const image = slide.images?.[0];
         if (!image) continue;
-        const item = {
-          id: slide.id,
-          title: slide.title,
-          imageOnly: true
-        };
-        if (image.src) {
-          item.src = image.src;
-        } else if (image.blob) {
-          const path =
-            config.assetRoot + "/reports/" + deck.id + "/" +
-            slide.id + ".png";
-          files.push({ path, content: image.blob });
-          item.src = path;
-          image.src = path;
+        let encryptedPath = image.encPath || "";
+
+        if (!encryptedPath) {
+          let sourceBlob = image.blob || null;
+          if (!sourceBlob && image.src) {
+            const response = await fetch(
+              new URL(image.src, document.baseURI).href
+            );
+            if (response.ok) sourceBlob = await response.blob();
+          }
+          if (sourceBlob) {
+            encryptedPath =
+              config.assetRoot + "/reports/" + deck.id + "/" +
+              slide.id + ".enc";
+            const encrypted = await encryptBytes(
+              new Uint8Array(await sourceBlob.arrayBuffer()),
+              state.reportKey
+            );
+            files.push({ path: encryptedPath, content: new Blob([encrypted]) });
+            image.encPath = encryptedPath;
+          }
         }
-        if (item.src) slides.push(item);
+
+        if (encryptedPath) {
+          slides.push({
+            id: slide.id,
+            title: slide.title,
+            image: encryptedPath
+          });
+        }
       }
+
       if (slides.length) {
-        decks.push({
+        encryptedDecks.push({
           id: deck.id,
           name: deck.name,
           createdAt: deck.createdAt,
@@ -906,12 +1537,22 @@
       }
     }
 
+    const manifestBytes = new TextEncoder().encode(
+      JSON.stringify({ version: 1, decks: encryptedDecks })
+    );
+    const encryptedManifest = await encryptBytes(
+      manifestBytes,
+      state.reportKey
+    );
+    const manifestPath = config.assetRoot + "/reports/report-data.enc";
+    files.push({
+      path: manifestPath,
+      content: new Blob([encryptedManifest])
+    });
+
     return {
-      version: 1,
-      updatedAt: new Date().toISOString(),
-      profile,
-      albums,
-      decks
+      manifest: manifestPath,
+      salt: bytesToBase64(state.reportSalt)
     };
   }
 
@@ -1091,6 +1732,18 @@
     $("#save-album-settings").addEventListener("click", saveAlbumSettings);
     $("#album-upload-form").addEventListener("submit", uploadAlbumPhotos);
     $("#album-photo-files").addEventListener("change", updateAlbumFileLabel);
+    $("#album-select-cover").addEventListener("click", () => {
+      const album = currentAlbum();
+      if (album && state.selectedPhotoId) {
+        setAlbumCover(album, state.selectedPhotoId);
+      }
+    });
+    $("#album-delete-photo").addEventListener("click", () => {
+      const album = currentAlbum();
+      if (album && state.selectedPhotoId) {
+        deleteAlbumPhoto(album, state.selectedPhotoId);
+      }
+    });
     $("#delete-album-button").addEventListener("click", deleteCurrentAlbum);
   }
 
@@ -1212,6 +1865,7 @@
     const album = state.albums.find((item) => item.id === albumId);
     if (!album) return;
     state.currentAlbumId = album.id;
+    state.selectedPhotoId = album.coverPhotoId || album.photos[0]?.id || "";
     $("#album-dialog-title").textContent = album.name;
     $("#album-name-edit").value = album.name;
     $("#album-size-edit").value = String(album.displayWidth);
@@ -1227,6 +1881,10 @@
     revokeUrls(state.albumUrls);
     state.albumUrls = [];
     const grid = $("#album-photo-grid");
+    if (!album.photos.some((photo) => photo.id === state.selectedPhotoId)) {
+      state.selectedPhotoId = album.coverPhotoId || album.photos[0]?.id || "";
+    }
+    updateAlbumFooterActions();
 
     if (!album.photos.length) {
       const empty = document.createElement("div");
@@ -1242,9 +1900,19 @@
     activateAnimatedMedia(grid);
   }
 
+  function updateAlbumFooterActions() {
+    const album = currentAlbum();
+    const selected = Boolean(
+      album && album.photos.some((photo) => photo.id === state.selectedPhotoId)
+    );
+    $("#album-select-cover").disabled = !selected;
+    $("#album-delete-photo").disabled = !selected;
+  }
+
   function createAlbumPhotoCard(album, photo) {
     const card = document.createElement("article");
-    card.className = "album-photo-card";
+    card.className = "album-photo-card" +
+      (photo.id === state.selectedPhotoId ? " selected" : "");
     card.tabIndex = 0;
     card.setAttribute("role", "button");
     card.setAttribute("aria-label", "查看照片：" + photo.title);
@@ -1264,29 +1932,15 @@
     const title = document.createElement("span");
     title.textContent = photo.title;
     footer.append(title);
-    if (state.isAdmin) {
-      const actions = document.createElement("div");
-      const coverButton = document.createElement("button");
-      coverButton.type = "button";
-      coverButton.textContent = album.coverPhotoId === photo.id ? "首页封面" : "设为封面";
-      coverButton.disabled = album.coverPhotoId === photo.id;
-      coverButton.addEventListener("click", async (event) => {
-        event.stopPropagation();
-        await setAlbumCover(album, photo.id);
-      });
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.textContent = "删除";
-      deleteButton.addEventListener("click", async (event) => {
-        event.stopPropagation();
-        await deleteAlbumPhoto(album, photo.id);
-      });
-      actions.append(coverButton, deleteButton);
-      footer.append(actions);
-    }
     card.append(footer);
 
-    card.addEventListener("click", () => openPhotoLightbox(photo));
+    card.addEventListener("click", () => {
+      state.selectedPhotoId = photo.id;
+      $$(".album-photo-card", $("#album-photo-grid")).forEach((element) =>
+        element.classList.toggle("selected", element === card)
+      );
+      openPhotoLightbox(photo);
+    });
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -1372,6 +2026,7 @@
 
     if (imported && !album.coverPhotoId) {
       album.coverPhotoId = album.photos[album.photos.length - imported].id;
+      state.selectedPhotoId = album.coverPhotoId;
     }
     album.updatedAt = new Date().toISOString();
 
@@ -1403,6 +2058,7 @@
     album.updatedAt = new Date().toISOString();
     try {
       await publishSharedContent("Update album cover: " + album.name);
+      state.selectedPhotoId = photoId;
       renderAlbumPhotos(album);
       renderAlbums();
       showToast("首页封面已发布。");
@@ -1425,6 +2081,7 @@
     album.updatedAt = new Date().toISOString();
     try {
       await publishSharedContent("Delete photo from album: " + album.name);
+      state.selectedPhotoId = album.coverPhotoId || album.photos[0]?.id || "";
       renderAlbumPhotos(album);
       renderAlbums();
       showToast("照片删除已发布。");
@@ -1580,11 +2237,12 @@
     renderSlide();
   }
 
-  function renderSlide() {
+  async function renderSlide() {
     const deck = currentDeck();
     if (!deck || !deck.slides.length) return;
     state.currentSlide = Math.max(0, Math.min(state.currentSlide, deck.slides.length - 1));
     const slide = deck.slides[state.currentSlide];
+    const renderToken = ++state.slideRenderToken;
     revokeUrls(state.deckUrls);
     state.deckUrls = [];
     const canvas = document.createElement("article");
@@ -1592,53 +2250,87 @@
 
     const slideImage = slide.images?.[0] || (slide.src ? { src: slide.src } : null);
     if (slideImage) {
-      const imageUrl = slideImage.blob
-        ? URL.createObjectURL(slideImage.blob)
-        : slideImage.src;
-      if (slideImage.blob) state.deckUrls.push(imageUrl);
       const loader = document.createElement("div");
       loader.className = "slide-page-loader";
       loader.setAttribute("role", "status");
       loader.innerHTML = "<span></span><small>正在加载页面</small>";
-
-      const image = document.createElement("img");
-      image.className = "slide-page-image";
-      const startedAt = performance.now();
-      let revealed = false;
-      const reveal = () => {
-        if (revealed) return;
-        revealed = true;
-        const wait = Math.max(0, 160 - (performance.now() - startedAt));
-        window.setTimeout(() => {
-          image.classList.add("is-ready");
-          loader.remove();
-          canvas.setAttribute("aria-busy", "false");
-        }, wait);
-      };
-      image.addEventListener("load", reveal, { once: true });
-      image.addEventListener("error", () => {
-        loader.innerHTML = "<small>页面图片加载失败</small>";
-        canvas.setAttribute("aria-busy", "false");
-      }, { once: true });
-      image.src = imageUrl;
-      image.alt = slide.title || "总结第 " + (state.currentSlide + 1) + " 页";
       canvas.setAttribute("aria-busy", "true");
-      canvas.append(loader, image);
-      if (image.complete && image.naturalWidth) reveal();
+      canvas.append(loader);
+      $("#deck-stage").replaceChildren(canvas);
+
+      try {
+        let sourceBlob = slideImage.blob || null;
+        if (!sourceBlob && slideImage.encPath) {
+          if (!state.reportKey) {
+            throw new Error("请先输入 Report 只读口令");
+          }
+          sourceBlob = await decryptReportImage(slideImage.encPath);
+          slideImage.blob = sourceBlob;
+        }
+        if (renderToken !== state.slideRenderToken) return;
+        const imageUrl = sourceBlob
+          ? URL.createObjectURL(sourceBlob)
+          : slideImage.src;
+        if (sourceBlob) state.deckUrls.push(imageUrl);
+
+        const image = document.createElement("img");
+        image.className = "slide-page-image";
+        const startedAt = performance.now();
+        let revealed = false;
+        const reveal = () => {
+          if (revealed || renderToken !== state.slideRenderToken) return;
+          revealed = true;
+          const wait = Math.max(0, 160 - (performance.now() - startedAt));
+          window.setTimeout(() => {
+            image.classList.add("is-ready");
+            loader.remove();
+            canvas.setAttribute("aria-busy", "false");
+          }, wait);
+        };
+        image.addEventListener("load", reveal, { once: true });
+        image.addEventListener("error", () => {
+          loader.innerHTML = "<small>页面图片加载失败</small>";
+          canvas.setAttribute("aria-busy", "false");
+        }, { once: true });
+        image.src = imageUrl;
+        image.alt = slide.title || "总结第 " + (state.currentSlide + 1) + " 页";
+        canvas.append(image);
+        if (image.complete && image.naturalWidth) reveal();
+      } catch (error) {
+        if (renderToken === state.slideRenderToken) {
+          const errorText = document.createElement("small");
+          errorText.textContent = error.message;
+          loader.replaceChildren(errorText);
+          canvas.setAttribute("aria-busy", "false");
+        }
+      }
     } else {
       const empty = document.createElement("div");
       empty.className = "slide-image-fallback";
       empty.innerHTML = "<span>✦</span><p>此总结册为旧版格式，请重新上传 PPTX 生成图片页面。</p>";
       canvas.append(empty);
+      $("#deck-stage").replaceChildren(canvas);
     }
 
-    $("#deck-stage").replaceChildren(canvas);
     activateAnimatedMedia(canvas);
     const jumpInput = $("#slide-jump-input");
     jumpInput.max = String(deck.slides.length);
     jumpInput.value = String(state.currentSlide + 1);
     $("#slide-prev").disabled = state.currentSlide === 0;
     $("#slide-next").disabled = state.currentSlide === deck.slides.length - 1;
+  }
+
+  async function decryptReportImage(path) {
+    const response = await fetch(
+      new URL(path, document.baseURI).href + "?v=" + Date.now(),
+      { cache: "no-store" }
+    );
+    if (!response.ok) throw new Error("加密报告图片加载失败");
+    const decrypted = await decryptBytes(
+      new Uint8Array(await response.arrayBuffer()),
+      state.reportKey
+    );
+    return new Blob([decrypted], { type: "image/png" });
   }
 
   function changeSlide(direction) {
@@ -1669,6 +2361,10 @@
   async function uploadDeck(event) {
     event.preventDefault();
     if (!requireAdmin()) return;
+    if (!state.reportKey) {
+      showToast("请先设置并解锁日常Report只读口令。");
+      return;
+    }
     const files = [...($("#deck-files").files || [])];
     const status = $("#deck-status");
     const button = $("#upload-deck-button");
@@ -1728,7 +2424,9 @@
       renderDeckLibrary();
       status.textContent = "正在将 " + slides.length + " 页图片发布到 GitHub...";
       try {
-        await publishSharedContent("Upload report: " + deck.name);
+        await publishSharedContent("Upload report: " + deck.name, {
+          includeReports: true
+        });
       } catch (publishError) {
         state.decks = state.decks.filter((item) => item.id !== deck.id);
         state.currentDeckId = state.decks[0]?.id || null;
@@ -1844,7 +2542,9 @@
     state.renderedDeckId = null;
     renderDeckLibrary();
     try {
-      await publishSharedContent("Delete report: " + deck.name);
+      await publishSharedContent("Delete report: " + deck.name, {
+        includeReports: true
+      });
       renderDeckLibrary();
       $("#deck-status").textContent = "总结册已删除。";
     } catch {
@@ -1969,9 +2669,15 @@
 
     if (stillBlob || stillSource) {
       const image = document.createElement("img");
-      image.src = stillBlob
-        ? registerUrl(stillBlob, urlBucket)
-        : stillSource;
+      const thumbBlob = thumbnail ? media.thumbnailBlob : null;
+      const thumbSource = thumbnail ? media.thumbnail : "";
+      image.src = thumbBlob
+        ? registerUrl(thumbBlob, urlBucket)
+        : thumbSource
+          ? thumbSource
+          : stillBlob
+            ? registerUrl(stillBlob, urlBucket)
+            : stillSource;
       image.alt = media.title || "照片";
       image.loading = thumbnail ? "lazy" : "eager";
       return image;
@@ -1991,6 +2697,39 @@
 
   function revokeUrls(bucket) {
     bucket.forEach((url) => URL.revokeObjectURL(url));
+  }
+
+  async function createImageThumbnail(blob) {
+    if (!blob || /^image\/(gif|webp|svg\+xml)$/i.test(blob.type || "")) {
+      return null;
+    }
+    try {
+      const bitmap = await createImageBitmap(blob);
+      const maximumSide = 1600;
+      const ratio = Math.min(
+        1,
+        maximumSide / Math.max(bitmap.width, bitmap.height)
+      );
+      if (ratio === 1 && blob.size < 450 * 1024) {
+        bitmap.close?.();
+        return null;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(bitmap.width * ratio));
+      canvas.height = Math.max(1, Math.round(bitmap.height * ratio));
+      const context = canvas.getContext("2d", { alpha: false });
+      context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close?.();
+      return await new Promise((resolve) => {
+        canvas.toBlob(
+          (thumbnail) => resolve(thumbnail),
+          "image/jpeg",
+          0.88
+        );
+      });
+    } catch {
+      return null;
+    }
   }
 
   function activateAnimatedMedia(root = document) {
@@ -2040,13 +2779,21 @@
         kind: extracted.motion ? "live" : "photo",
         stillBlob: extracted.still || null,
         motionBlob: extracted.motion || null,
-        imageBlob: extracted.still || null
+        imageBlob: extracted.still || null,
+        thumbnailBlob: extracted.still
+          ? await createImageThumbnail(extracted.still)
+          : null
       };
     }
 
     if (isImageLike(file)) {
       const displayBlob = await convertHeicBlob(file);
-      return { ...base, kind: "photo", imageBlob: displayBlob };
+      return {
+        ...base,
+        kind: "photo",
+        imageBlob: displayBlob,
+        thumbnailBlob: await createImageThumbnail(displayBlob)
+      };
     }
     if (isVideoLike(file)) {
       return { ...base, kind: "video", videoBlob: file };

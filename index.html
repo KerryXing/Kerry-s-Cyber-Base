@@ -34,7 +34,7 @@
       <nav class="site-nav" id="site-nav" aria-label="主导航">
         <a class="active" href="#home">首页</a>
         <a href="#profile">属性表</a>
-        <a href="#diary">日常report</a>
+        <a href="#diary" id="report-nav-link" hidden>日常report</a>
         <a href="#gallery">Gallery</a>
         <a href="#contact">联系</a>
       </nav>
@@ -75,6 +75,9 @@
         <div>
           <h2>属性表</h2>
         </div>
+        <button class="button button-small button-ghost admin-only" id="edit-profile-button" type="button">
+          编辑属性表
+        </button>
       </header>
 
       <div class="profile-layout">
@@ -96,7 +99,7 @@
         </article>
 
         <div class="attribute-panel reveal">
-          <div class="attribute-table" role="table" aria-label="个人属性">
+          <div class="attribute-table" id="attribute-table" role="table" aria-label="个人属性">
             <div class="attribute-row" role="row">
               <span role="rowheader">昵称</span>
               <strong role="cell">Kerry Xing</strong>
@@ -119,25 +122,12 @@
             </div>
           </div>
 
-          <div class="taste-grid">
-            <article class="taste-card">
-              <div class="taste-title">
-                <strong>看过的番</strong>
-              </div>
-              <div class="tag-list" id="anime-list"></div>
-            </article>
-            <article class="taste-card">
-              <div class="taste-title">
-                <strong>游戏宇宙</strong>
-              </div>
-              <div class="tag-list" id="game-list"></div>
-            </article>
-          </div>
+          <div class="taste-grid" id="tag-groups"></div>
         </div>
       </div>
     </section>
 
-    <section class="section deck-section" id="diary">
+    <section class="section deck-section" id="diary" hidden>
       <div class="section-shell">
         <header class="section-heading reveal">
           <div>
@@ -246,18 +236,24 @@
         </div>
         <div class="contact-links">
           <span class="contact-placeholder">Bilibili <i>待添加</i></span>
-          <span class="contact-placeholder">抖音 <i>待添加</i></span>
+          <span class="contact-placeholder">抖音 <i>Kr.</i></span>
           <span class="contact-placeholder">Steam <i>待添加</i></span>
-          <span class="contact-placeholder">QQ <i>待添加</i></span>
+          <span class="contact-placeholder">QQ <i>1265856193</i></span>
           <span class="contact-placeholder">微信 <i>待添加</i></span>
-          <span class="contact-placeholder">Email <i>待添加</i></span>
+          <span class="contact-placeholder">Email <i>keryxin@qq.com</i></span>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer section-shell">
-    <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
+    <div class="footer-copy">
+      <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
+      <p>本网页由大肥鱼驱动的Codex赋能制作</p>
+    </div>
+    <button class="report-access-trigger" id="report-access-trigger" type="button">
+      查看日常Report
+    </button>
   </footer>
 
   <dialog class="modal create-album-modal" id="create-album-dialog">
@@ -282,6 +278,37 @@
     </form>
   </dialog>
 
+  <dialog class="modal profile-editor-dialog" id="profile-editor-dialog">
+    <div class="profile-editor-shell">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">PROFILE EDITOR</span>
+          <h2>编辑属性表</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="profile-editor-dialog" aria-label="关闭">×</button>
+      </div>
+      <section class="editor-section">
+        <div class="editor-section-heading">
+          <h3>属性行</h3>
+          <button class="button button-small button-ghost" id="add-attribute-row" type="button">添加一行</button>
+        </div>
+        <div class="editor-stack" id="attribute-editor-rows"></div>
+      </section>
+      <section class="editor-section">
+        <div class="editor-section-heading">
+          <h3>标签框</h3>
+          <button class="button button-small button-ghost" id="add-tag-group" type="button">添加标签框</button>
+        </div>
+        <div class="editor-stack" id="tag-group-editor"></div>
+      </section>
+      <p class="action-status" id="profile-editor-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button" data-close-dialog="profile-editor-dialog">取消</button>
+        <button class="button button-primary" id="save-profile-editor" type="button">保存并发布</button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="modal album-dialog" id="album-dialog">
     <div class="album-dialog-shell">
       <div class="modal-header">
@@ -299,7 +326,7 @@
         </label>
         <label>
           <span>展示大小 <b id="album-size-value">60%</b></span>
-          <input id="album-size-edit" class="range-input" type="range" min="30" max="100" step="5">
+          <input id="album-size-edit" class="range-input" type="range" min="30" max="100" step="1">
         </label>
         <button class="button button-small button-ghost" id="save-album-settings" type="button">
           保存设置
@@ -321,9 +348,13 @@
       <div class="album-photo-grid" id="album-photo-grid"></div>
 
       <div class="album-dialog-footer">
-        <button class="text-button danger-text admin-only" id="delete-album-button" type="button">
-          删除整个相册
-        </button>
+        <div class="album-footer-actions admin-only">
+          <button class="pill-action" id="album-select-cover" type="button">选择</button>
+          <button class="pill-action pill-danger" id="album-delete-photo" type="button">删除</button>
+          <button class="pill-action pill-danger" id="delete-album-button" type="button">
+            删除整个相册
+          </button>
+        </div>
         <button class="button button-ghost button-small" type="button" data-close-dialog="album-dialog">
           返回 Gallery
         </button>
@@ -378,6 +409,7 @@
       <div class="admin-session-actions" id="admin-session-actions" hidden>
         <span id="admin-session-label"></span>
         <div>
+          <button class="text-button" id="download-content-backup" type="button">下载内容备份</button>
           <button class="text-button" id="import-local-content" type="button">导入本机旧内容</button>
           <button class="text-button danger-text" id="admin-logout-button" type="button">退出管理</button>
         </div>
@@ -391,7 +423,11 @@
         <span class="mini-label">HOMEPAGE BACKGROUND</span>
         <h2>更换首页背景</h2>
       </div>
-      <button class="dialog-close" type="button" data-close-dialog="hero-dialog" aria-label="关闭">×</button>
+      <div class="hero-dialog-actions">
+        <button class="pill-action" id="hero-select-button" type="button">选择</button>
+        <button class="pill-action pill-danger" id="hero-delete-button" type="button">删除</button>
+        <button class="dialog-close" type="button" data-close-dialog="hero-dialog" aria-label="关闭">×</button>
+      </div>
     </div>
     <div class="hero-dialog-body">
       <label class="hero-upload-control">
@@ -404,7 +440,32 @@
     </div>
   </dialog>
 
+  <dialog class="modal report-access-dialog" id="report-access-dialog">
+    <form method="dialog">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">PRIVATE REPORT</span>
+          <h2>解锁日常Report</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="report-access-dialog" aria-label="关闭">×</button>
+      </div>
+      <p class="modal-intro">
+        输入只读查看口令后，才会显示日常Report栏目及顶部导航按钮。
+        第一次设置时，管理员输入的文本将作为加密密钥，因此请妥善保管。
+      </p>
+      <label>
+        <span>Report 只读口令</span>
+        <input id="report-token-input" type="password" autocomplete="off">
+      </label>
+      <p class="action-status" id="report-access-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="button button-primary" id="report-unlock-button" type="button">解锁</button>
+      </div>
+    </form>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="回到页面顶部">↑</button>
 
   <script src="config.js"></script>
   <script src="site-data.js"></script>

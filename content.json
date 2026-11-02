@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T19:03:14.139Z",
+  "updatedAt": "2026-11-02T19:35:04.753Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -85,6 +85,50 @@
       ]
     }
   ],
+  "contactGroups": [
+    {
+      "id": "social",
+      "title": "社交平台",
+      "items": [
+        {
+          "id": "bilibili",
+          "key": "Bilibili",
+          "value": "待添加"
+        },
+        {
+          "id": "douyin",
+          "key": "抖音",
+          "value": "Kr."
+        },
+        {
+          "id": "steam",
+          "key": "Steam",
+          "value": "待添加"
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "title": "联系方式",
+      "items": [
+        {
+          "id": "qq",
+          "key": "QQ",
+          "value": "1265856193"
+        },
+        {
+          "id": "wechat",
+          "key": "微信",
+          "value": "待添加"
+        },
+        {
+          "id": "email",
+          "key": "Email",
+          "value": "keryxin@qq.com"
+        }
+      ]
+    }
+  ],
   "albums": [
     {
       "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
@@ -92,7 +136,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T19:03:14.139Z",
+      "updatedAt": "2026-11-02T19:35:04.752Z",
       "photos": [
         {
           "id": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
@@ -110,7 +154,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T19:03:14.139Z",
+      "updatedAt": "2026-11-02T19:35:04.753Z",
       "photos": [
         {
           "id": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
@@ -128,7 +172,7 @@
       "displayWidth": 92,
       "coverPhotoId": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T19:03:14.139Z",
+      "updatedAt": "2026-11-02T19:35:04.753Z",
       "photos": [
         {
           "id": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",

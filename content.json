@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T17:28:47.418Z",
+  "updatedAt": "2026-11-02T17:29:58.529Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -78,43 +78,12 @@
   ],
   "albums": [
     {
-      "id": "album-4a6dcb69-341c-4c57-b530-7195ad5bad52",
-      "name": "Firefly",
-      "displayWidth": 90,
-      "coverPhotoId": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
-      "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T17:28:47.418Z",
-      "photos": [
-        {
-          "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",
-          "title": "live_photo_paired_photo_6253927A-391B-4E9D-89B8-B14976749BEC",
-          "kind": "video",
-          "createdAt": "2026-11-01T11:46:43.964Z",
-          "src": "shared/media/photo-afeca320-ab09-4127-80a3-b0f252e316d5.mov"
-        },
-        {
-          "id": "photo-03b6d9b2-eb4c-4221-a9fa-ba89ab1b2670",
-          "title": "live_photo_paired_photo_B7E04DCB-3571-44C9-B2D2-E8345F3D9C97",
-          "kind": "video",
-          "createdAt": "2026-11-01T11:46:43.964Z",
-          "src": "shared/media/photo-03b6d9b2-eb4c-4221-a9fa-ba89ab1b2670.mov"
-        },
-        {
-          "id": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
-          "title": "live_photo_paired_photo_D1416CA2-DF6D-4D3C-9637-81F262F3E58E",
-          "kind": "video",
-          "createdAt": "2026-11-01T11:46:43.964Z",
-          "src": "shared/media/photo-2cede102-cd6c-4990-8e70-3c0663ad6f87.mov"
-        }
-      ]
-    },
-    {
       "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
       "name": "MyFriend",
       "displayWidth": 45,
       "coverPhotoId": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T17:28:47.418Z",
+      "updatedAt": "2026-11-02T17:29:58.529Z",
       "photos": [
         {
           "id": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
@@ -132,7 +101,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T17:28:47.418Z",
+      "updatedAt": "2026-11-02T17:29:58.529Z",
       "photos": [
         {
           "id": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
@@ -141,6 +110,30 @@
           "createdAt": "2026-11-02T17:27:52.827Z",
           "src": "shared/media/photo-536e2759-3637-4fc5-8e7c-de4c945da801.jpg",
           "thumbnail": "shared/thumbnails/photo-536e2759-3637-4fc5-8e7c-de4c945da801.jpg"
+        }
+      ]
+    },
+    {
+      "id": "album-4a6dcb69-341c-4c57-b530-7195ad5bad52",
+      "name": "Firefly",
+      "displayWidth": 90,
+      "coverPhotoId": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",
+      "createdAt": "2026-11-01T11:33:59.249Z",
+      "updatedAt": "2026-11-02T17:29:58.529Z",
+      "photos": [
+        {
+          "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",
+          "title": "live_photo_paired_photo_6253927A-391B-4E9D-89B8-B14976749BEC",
+          "kind": "video",
+          "createdAt": "2026-11-01T11:46:43.964Z",
+          "src": "shared/media/photo-afeca320-ab09-4127-80a3-b0f252e316d5.mov"
+        },
+        {
+          "id": "photo-03b6d9b2-eb4c-4221-a9fa-ba89ab1b2670",
+          "title": "live_photo_paired_photo_B7E04DCB-3571-44C9-B2D2-E8345F3D9C97",
+          "kind": "video",
+          "createdAt": "2026-11-01T11:46:43.964Z",
+          "src": "shared/media/photo-03b6d9b2-eb4c-4221-a9fa-ba89ab1b2670.mov"
         }
       ]
     }

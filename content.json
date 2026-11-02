@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T17:44:09.906Z",
+  "updatedAt": "2026-11-02T17:47:46.624Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -41,7 +41,7 @@
     {
       "id": "mbti",
       "key": "MBTI",
-      "value": "ENFP · 灵感型冒险家"
+      "value": "ENFP"
     },
     {
       "id": "location",
@@ -51,7 +51,12 @@
     {
       "id": "skills",
       "key": "技能",
-      "value": "绘画，一丢丢代码"
+      "value": "绘画，一丢丢代码，鼓捣AI"
+    },
+    {
+      "id": "attribute-5c267a89-7566-47d5-8bba-9268e3d4bb6c",
+      "key": "爱好",
+      "value": "电游，桌游，锻炼，聚会"
     }
   ],
   "tagGroups": [
@@ -71,6 +76,8 @@
       "title": "游戏宇宙",
       "tags": [
         "Steam",
+        "Terraria",
+        "饥荒",
         "Minecraft",
         "崩坏：星穹铁道",
         "明日方舟",
@@ -85,7 +92,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T17:44:09.906Z",
+      "updatedAt": "2026-11-02T17:47:46.624Z",
       "photos": [
         {
           "id": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
@@ -103,7 +110,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T17:44:09.906Z",
+      "updatedAt": "2026-11-02T17:47:46.624Z",
       "photos": [
         {
           "id": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
@@ -121,7 +128,7 @@
       "displayWidth": 92,
       "coverPhotoId": "photo-25b38d3f-283c-4939-b396-ec1ea9b81f25",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T17:44:09.906Z",
+      "updatedAt": "2026-11-02T17:47:46.624Z",
       "photos": [
         {
           "id": "photo-25b38d3f-283c-4939-b396-ec1ea9b81f25",

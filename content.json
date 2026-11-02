@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T19:02:40.047Z",
+  "updatedAt": "2026-11-02T19:03:14.139Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -90,10 +90,19 @@
       "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
       "name": "MyFriend",
       "displayWidth": 45,
-      "coverPhotoId": null,
+      "coverPhotoId": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T19:02:40.047Z",
-      "photos": []
+      "updatedAt": "2026-11-02T19:03:14.139Z",
+      "photos": [
+        {
+          "id": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
+          "title": "十月四日见初中兄弟",
+          "kind": "photo",
+          "createdAt": "2026-11-02T19:03:13.997Z",
+          "src": "shared/media/photo-7dc534b2-b810-49e8-9f44-752e214675b2.jpg",
+          "thumbnail": "shared/thumbnails/photo-7dc534b2-b810-49e8-9f44-752e214675b2.jpg"
+        }
+      ]
     },
     {
       "id": "album-de58d9ea-200c-432d-9d34-391031d1c7df",
@@ -101,7 +110,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T19:02:40.047Z",
+      "updatedAt": "2026-11-02T19:03:14.139Z",
       "photos": [
         {
           "id": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
@@ -119,7 +128,7 @@
       "displayWidth": 92,
       "coverPhotoId": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T19:02:40.047Z",
+      "updatedAt": "2026-11-02T19:03:14.139Z",
       "photos": [
         {
           "id": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",

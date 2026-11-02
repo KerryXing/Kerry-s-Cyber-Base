@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T19:38:47.055Z",
+  "updatedAt": "2026-11-02T19:43:39.759Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -91,19 +91,19 @@
       "title": "社交平台",
       "items": [
         {
-          "id": "bilibili",
+          "id": "contact-item-909ddc91-92ed-44e8-9865-bd2d0457b1ff",
           "key": "Bilibili",
-          "value": "待添加"
+          "value": "361404379"
         },
         {
-          "id": "douyin",
+          "id": "contact-item-569a6e48-244b-4883-a7cd-7b5543fbf4cc",
           "key": "抖音",
           "value": "Kr."
         },
         {
-          "id": "steam",
+          "id": "contact-item-2d0c0b99-03a3-4ec9-a068-9863afd0cffa",
           "key": "Steam",
-          "value": "待添加"
+          "value": "keryxin"
         }
       ]
     },
@@ -112,17 +112,17 @@
       "title": "联系方式",
       "items": [
         {
-          "id": "qq",
+          "id": "contact-item-fffb7b2e-a74e-4f4d-b9e3-d29f2499396c",
           "key": "QQ",
           "value": "1265856193"
         },
         {
-          "id": "wechat",
+          "id": "contact-item-76405f98-5784-4775-a7c7-a165a137d986",
           "key": "微信",
-          "value": "待添加"
+          "value": "KeryXing"
         },
         {
-          "id": "email",
+          "id": "contact-item-fbb8cc74-6d15-40ff-9330-1f2475e14902",
           "key": "Email",
           "value": "keryxin@qq.com"
         }
@@ -136,7 +136,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T19:38:46.849Z",
+      "updatedAt": "2026-11-02T19:43:39.759Z",
       "photos": [
         {
           "id": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
@@ -154,7 +154,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T19:38:46.849Z",
+      "updatedAt": "2026-11-02T19:43:39.759Z",
       "photos": [
         {
           "id": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
@@ -172,7 +172,7 @@
       "displayWidth": 92,
       "coverPhotoId": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T19:38:46.849Z",
+      "updatedAt": "2026-11-02T19:43:39.759Z",
       "photos": [
         {
           "id": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",

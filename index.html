@@ -233,15 +233,11 @@
       <div class="contact-card reveal">
         <div class="contact-copy">
           <h2>谢谢来到<br><span class="accent-text">我的赛博基地。</span></h2>
+          <button class="button button-small button-ghost admin-only" id="edit-contact-button" type="button">
+            编辑联系
+          </button>
         </div>
-        <div class="contact-links">
-          <span class="contact-placeholder">Bilibili <i>待添加</i></span>
-          <span class="contact-placeholder">抖音 <i>Kr.</i></span>
-          <span class="contact-placeholder">Steam <i>待添加</i></span>
-          <span class="contact-placeholder">QQ <i>1265856193</i></span>
-          <span class="contact-placeholder">微信 <i>待添加</i></span>
-          <span class="contact-placeholder">Email <i>keryxin@qq.com</i></span>
-        </div>
+        <div class="contact-links" id="contact-groups"></div>
       </div>
     </section>
   </main>
@@ -250,9 +246,10 @@
     <div class="footer-copy">
       <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
       <p>本网页由大肥鱼驱动的Codex赋能制作</p>
+      <p>网页版本：V1.2</p>
     </div>
     <button class="report-access-trigger" id="report-access-trigger" type="button">
-      查看日常Report
+      查看隐藏内容
     </button>
   </footer>
 
@@ -309,6 +306,30 @@
     </div>
   </dialog>
 
+  <dialog class="modal contact-editor-dialog" id="contact-editor-dialog">
+    <div class="profile-editor-shell">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">CONTACT EDITOR</span>
+          <h2>编辑联系</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="contact-editor-dialog" aria-label="关闭">×</button>
+      </div>
+      <div class="editor-section">
+        <div class="editor-section-heading">
+          <h3>联系标签框</h3>
+          <button class="button button-small button-ghost" id="add-contact-group" type="button">添加标签框</button>
+        </div>
+        <div class="editor-stack" id="contact-group-editor"></div>
+      </div>
+      <p class="action-status" id="contact-editor-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button" data-close-dialog="contact-editor-dialog">取消</button>
+        <button class="button button-primary" id="save-contact-editor" type="button">保存并发布</button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="modal album-dialog" id="album-dialog">
     <div class="album-dialog-shell">
       <div class="modal-header">
@@ -349,8 +370,9 @@
 
       <div class="album-dialog-footer">
         <div class="album-footer-actions admin-only">
-          <button class="pill-action" id="album-select-cover" type="button">选择</button>
-          <button class="pill-action pill-danger" id="album-delete-photo" type="button">删除</button>
+          <button class="pill-action" id="album-multi-toggle" type="button">多选</button>
+          <button class="pill-action pill-action-cover" id="album-set-cover" type="button" hidden>设置为封面</button>
+          <button class="pill-action pill-danger" id="album-delete-photo" type="button" hidden>删除</button>
           <button class="pill-action pill-danger" id="delete-album-button" type="button">
             删除整个相册
           </button>
@@ -464,8 +486,46 @@
     </form>
   </dialog>
 
+  <dialog class="modal report-access-dialog" id="hidden-password-dialog">
+    <form method="dialog">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">HIDDEN CONTENT PASSWORD</span>
+          <h2>口令编辑</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="hidden-password-dialog" aria-label="关闭">×</button>
+      </div>
+      <p class="modal-intro">
+        设置访客查看隐藏内容时使用的口令。口令不会明文写入 GitHub；
+        内容文件会使用由此口令派生的 AES 密钥加密。
+      </p>
+      <label>
+        <span>当前口令（首次设置可留空）</span>
+        <input id="hidden-current-password" type="password" autocomplete="off">
+      </label>
+      <label>
+        <span>新口令</span>
+        <input id="hidden-new-password" type="password" autocomplete="new-password">
+      </label>
+      <label>
+        <span>再次输入新口令</span>
+        <input id="hidden-confirm-password" type="password" autocomplete="new-password">
+      </label>
+      <p class="modal-note">修改口令会重新加密现有 Report。请确保记得旧口令，否则旧加密内容无法迁移。</p>
+      <p class="action-status" id="hidden-password-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button" data-close-dialog="hidden-password-dialog">取消</button>
+        <button class="button button-primary" id="save-hidden-password" type="button">保存并发布</button>
+      </div>
+    </form>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <button class="back-to-top" id="back-to-top" type="button" aria-label="回到页面顶部">↑</button>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="回到页面顶部" hidden>
+    <svg viewBox="0 0 24 20" aria-hidden="true">
+      <path d="M4.5 13.5L12 6l7.5 7.5"></path>
+    </svg>
+  </button>
 
   <script src="config.js"></script>
   <script src="site-data.js"></script>

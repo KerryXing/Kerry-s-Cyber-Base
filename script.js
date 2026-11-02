@@ -15,6 +15,7 @@
     decks: [],
     attributes: [],
     tagGroups: [],
+    contactGroups: [],
     legacyDecks: [],
     currentAlbumId: null,
     currentDeckId: null,
@@ -39,7 +40,8 @@
     reportSalt: null,
     reportUnlocked: false,
     selectedHeroId: "",
-    selectedPhotoId: "",
+    photoSelectionMode: false,
+    selectedPhotoIds: [],
     slideRenderToken: 0
   };
 
@@ -56,12 +58,15 @@
     setupDeck();
     setupGallery();
     setupProfileEditor();
+    setupContactEditor();
     setupReportAccess();
     setupVisualUploads();
     setupAdmin();
     $("#back-to-top").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
+    updateBackToTopPlacement();
+    window.addEventListener("resize", updateBackToTopPlacement);
 
     $("#current-year").textContent = String(new Date().getFullYear());
 
@@ -88,11 +93,30 @@
     });
   }
 
+  function updateBackToTopPlacement() {
+    const button = $("#back-to-top");
+    const content = $("main .section-shell");
+    if (!button || !content) return;
+    const viewportWidth = document.documentElement.clientWidth;
+    const contentRight = content.getBoundingClientRect().right;
+    const blankWidth = Math.max(0, viewportWidth - contentRight);
+    const buttonWidth = button.offsetWidth || 80;
+    button.hidden = blankWidth < buttonWidth * 3;
+    if (!button.hidden) {
+      button.style.right = Math.max(
+        0,
+        blankWidth / 2 - buttonWidth / 2
+      ) + "px";
+    }
+  }
+
   async function populateProfile() {
     const profile = DATA.profile || {};
     state.attributes = defaultAttributes();
     state.tagGroups = defaultTagGroups();
+    state.contactGroups = defaultContactGroups();
     renderProfileContent();
+    renderContactContent();
 
     if (profile.avatar) {
       const slot = $("[data-avatar-slot]");
@@ -133,6 +157,29 @@
         id: "games",
         title: "游戏宇宙",
         tags: [...(DATA.games || [])]
+      }
+    ];
+  }
+
+  function defaultContactGroups() {
+    return [
+      {
+        id: "social",
+        title: "社交平台",
+        items: [
+          { id: "bilibili", key: "Bilibili", value: "待添加" },
+          { id: "douyin", key: "抖音", value: "Kr." },
+          { id: "steam", key: "Steam", value: "待添加" }
+        ]
+      },
+      {
+        id: "contact",
+        title: "联系方式",
+        items: [
+          { id: "qq", key: "QQ", value: "1265856193" },
+          { id: "wechat", key: "微信", value: "待添加" },
+          { id: "email", key: "Email", value: "keryxin@qq.com" }
+        ]
       }
     ];
   }
@@ -193,6 +240,121 @@
       addTagGroupEditor({ id: createId("group"), title: "", tags: [] });
     });
     $("#save-profile-editor").addEventListener("click", saveProfileEditor);
+  }
+
+  function renderContactContent() {
+    const container = $("#contact-groups");
+    if (!container) return;
+    container.replaceChildren(
+      ...state.contactGroups.map((group) => {
+        const card = document.createElement("article");
+        card.className = "contact-group-card";
+        const title = document.createElement("strong");
+        title.textContent = group.title;
+        const items = document.createElement("div");
+        items.className = "contact-group-items";
+        items.replaceChildren(
+          ...group.items.map((item) => {
+            const row = document.createElement("span");
+            const key = document.createElement("b");
+            key.textContent = item.key;
+            const value = document.createElement("i");
+            value.textContent = item.value;
+            row.append(key, value);
+            return row;
+          })
+        );
+        card.append(title, items);
+        return card;
+      })
+    );
+  }
+
+  function setupContactEditor() {
+    $("#edit-contact-button").addEventListener("click", openContactEditor);
+    $("#add-contact-group").addEventListener("click", () => {
+      addContactGroupEditor({
+        id: createId("contact-group"),
+        title: "",
+        items: []
+      });
+    });
+    $("#save-contact-editor").addEventListener("click", saveContactEditor);
+  }
+
+  function openContactEditor() {
+    if (!requireAdmin()) return;
+    $("#contact-group-editor").replaceChildren();
+    state.contactGroups.forEach(addContactGroupEditor);
+    $("#contact-editor-status").textContent = "";
+    openDialog($("#contact-editor-dialog"));
+  }
+
+  function addContactGroupEditor(group) {
+    const container = document.createElement("div");
+    container.className = "editor-row contact-group-editor-row";
+    container.dataset.id = group.id || createId("contact-group");
+    const title = document.createElement("input");
+    title.type = "text";
+    title.dataset.field = "title";
+    title.placeholder = "标签框标题";
+    title.value = group.title || "";
+    const items = document.createElement("textarea");
+    items.dataset.field = "items";
+    items.placeholder = "每行一项，格式：Bilibili | 我的主页";
+    items.value = (group.items || [])
+      .map((item) => item.key + " | " + item.value)
+      .join("\n");
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "editor-remove";
+    remove.setAttribute("aria-label", "删除这个联系标签框");
+    remove.textContent = "×";
+    remove.addEventListener("click", () => container.remove());
+    container.append(title, items, remove);
+    $("#contact-group-editor").append(container);
+  }
+
+  async function saveContactEditor() {
+    if (!requireAdmin()) return;
+    const previousGroups = state.contactGroups;
+    const groups = $$("#contact-group-editor .contact-group-editor-row")
+      .map((row) => ({
+        id: row.dataset.id,
+        title: row.querySelector('[data-field="title"]').value.trim(),
+        items: row.querySelector('[data-field="items"]').value
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter(Boolean)
+          .map((line) => {
+            const separator = line.indexOf("|");
+            return {
+              id: createId("contact-item"),
+              key: separator === -1 ? line : line.slice(0, separator).trim(),
+              value: separator === -1 ? "" : line.slice(separator + 1).trim()
+            };
+          })
+      }))
+      .filter((group) => group.title || group.items.length);
+
+    state.contactGroups = groups;
+    renderContactContent();
+    const button = $("#save-contact-editor");
+    const status = $("#contact-editor-status");
+    button.disabled = true;
+    status.textContent = "正在发布联系信息...";
+    try {
+      await publishSharedContent("Update contact information");
+      status.textContent = "联系信息已发布。";
+      $("#contact-editor-dialog").close();
+      showToast("联系信息已发布。");
+    } catch (error) {
+      state.contactGroups = previousGroups;
+      renderContactContent();
+      status.textContent = "发布失败：" + error.message;
+    } finally {
+      button.disabled = false;
+    }
   }
 
   function openProfileEditor() {
@@ -668,6 +830,19 @@
           tags: Array.isArray(group.tags) ? group.tags.map(String) : []
         }))
       : defaultTagGroups();
+    state.contactGroups = Array.isArray(content.contactGroups)
+      ? content.contactGroups.map((group) => ({
+          id: group.id || createId("contact-group"),
+          title: String(group.title || ""),
+          items: Array.isArray(group.items)
+            ? group.items.map((item) => ({
+                id: item.id || createId("contact-item"),
+                key: String(item.key || ""),
+                value: String(item.value || "")
+              }))
+            : []
+        }))
+      : defaultContactGroups();
     state.albums = Array.isArray(content.albums)
       ? content.albums.map((album) => ({
           ...album,
@@ -698,6 +873,7 @@
     state.decks = [];
     state.reportAccess = content.reportAccess || null;
     renderProfileContent();
+    renderContactContent();
     await applySharedProfile(state.sharedProfile);
   }
 
@@ -777,6 +953,17 @@
 
   function setupReportAccess() {
     $("#report-access-trigger").addEventListener("click", () => {
+      if (state.isAdmin) {
+        $("#hidden-current-password").value = "";
+        $("#hidden-new-password").value = "";
+        $("#hidden-confirm-password").value = "";
+        $("#hidden-password-status").textContent =
+          state.reportAccess?.manifest
+            ? "请输入当前口令，再设置新的访客口令。"
+            : "首次设置时，当前口令可以留空。";
+        openDialog($("#hidden-password-dialog"));
+        return;
+      }
       $("#report-token-input").value = "";
       $("#report-access-status").textContent = "";
       openDialog($("#report-access-dialog"));
@@ -805,6 +992,10 @@
         $("#report-unlock-button").click();
       }
     });
+    $("#save-hidden-password").addEventListener(
+      "click",
+      saveHiddenContentPassword
+    );
   }
 
   function setReportAccessStatus(message, type = "") {
@@ -817,7 +1008,9 @@
   function setReportVisibility(visible) {
     $("#report-nav-link").hidden = !visible;
     $("#diary").hidden = !visible;
-    $("#report-access-trigger").hidden = visible;
+    const trigger = $("#report-access-trigger");
+    trigger.hidden = visible && !state.isAdmin;
+    trigger.textContent = state.isAdmin ? "口令编辑" : "查看隐藏内容";
   }
 
   async function restoreReportAccess() {
@@ -834,26 +1027,7 @@
 
   async function unlockReport(token, silent = false) {
     if (state.reportAccess?.manifest && state.reportAccess?.salt) {
-      const salt = base64ToBytes(state.reportAccess.salt);
-      const key = await deriveReportKey(token, salt);
-      const response = await fetch(
-        new URL(state.reportAccess.manifest, document.baseURI).href +
-          "?v=" + Date.now(),
-        { cache: "no-store" }
-      );
-      if (!response.ok) throw new Error("加密的 Report 数据暂时无法加载。");
-
-      let manifest;
-      try {
-        const plaintext = await decryptBytes(
-          new Uint8Array(await response.arrayBuffer()),
-          key
-        );
-        manifest = JSON.parse(new TextDecoder().decode(plaintext));
-      } catch {
-        throw new Error("Report 口令不正确，或加密数据已损坏。");
-      }
-
+      const { key, salt, manifest } = await decryptReportManifest(token);
       state.reportKey = key;
       state.reportSalt = salt;
       state.decks = normalizeEncryptedDecks(manifest.decks || []);
@@ -902,6 +1076,80 @@
     if (!silent) {
       $("#diary").scrollIntoView({ behavior: "smooth", block: "start" });
       showToast("Report 加密口令已设置，旧 Report 已迁移。");
+    }
+  }
+
+  async function decryptReportManifest(token) {
+    if (!state.reportAccess?.manifest || !state.reportAccess?.salt) {
+      throw new Error("隐藏内容尚未设置加密口令。");
+    }
+    const salt = base64ToBytes(state.reportAccess.salt);
+    const key = await deriveReportKey(token, salt);
+    const response = await fetch(
+      new URL(state.reportAccess.manifest, document.baseURI).href +
+        "?v=" + Date.now(),
+      { cache: "no-store" }
+    );
+    if (!response.ok) throw new Error("加密的隐藏内容暂时无法加载。");
+    try {
+      const plaintext = await decryptBytes(
+        new Uint8Array(await response.arrayBuffer()),
+        key
+      );
+      return {
+        key,
+        salt,
+        manifest: JSON.parse(new TextDecoder().decode(plaintext))
+      };
+    } catch {
+      throw new Error("隐藏内容口令不正确，或加密数据已损坏。");
+    }
+  }
+
+  async function saveHiddenContentPassword() {
+    if (!requireAdmin()) return;
+    const current = $("#hidden-current-password").value.trim();
+    const next = $("#hidden-new-password").value.trim();
+    const confirmation = $("#hidden-confirm-password").value.trim();
+    const status = $("#hidden-password-status");
+    const button = $("#save-hidden-password");
+
+    if (!next) {
+      status.textContent = "请输入新的访问口令。";
+      return;
+    }
+    if (next !== confirmation) {
+      status.textContent = "两次输入的新口令不一致。";
+      return;
+    }
+
+    button.disabled = true;
+    status.textContent = "正在更新加密口令...";
+    try {
+      if (state.reportAccess?.manifest) {
+        if (!current) throw new Error("修改口令前必须输入当前口令。");
+        const decrypted = await decryptReportManifest(current);
+        state.decks = normalizeEncryptedDecks(decrypted.manifest.decks || []);
+      } else {
+        state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
+      }
+      state.reportSalt = crypto.getRandomValues(new Uint8Array(16));
+      state.reportKey = await deriveReportKey(next, state.reportSalt);
+      state.reportUnlocked = true;
+      sessionStorage.setItem("kerry-report-token", next);
+      setReportVisibility(true);
+      state.renderedDeckId = null;
+      renderDeckLibrary();
+      await publishSharedContent("Update hidden content password", {
+        includeReports: true
+      });
+      status.textContent = "访客口令已更新并发布。";
+      $("#hidden-password-dialog").close();
+      showToast("隐藏内容口令已更新。");
+    } catch (error) {
+      status.textContent = "口令更新失败：" + error.message;
+    } finally {
+      button.disabled = false;
     }
   }
 
@@ -1038,6 +1286,8 @@
     sessionStorage.setItem("kerry-github-admin-token", token);
     document.body.classList.add("is-admin");
     $("#admin-entry").textContent = "管理已登录";
+    setReportVisibility(true);
+    renderDeckLibrary();
     updateAdminDialog();
 
     if (!fromSession) {
@@ -1072,7 +1322,7 @@
         dbGet(SETTINGS_STORE, "hero")
       ]);
       if ((decks.length || state.decks.length) && !state.reportKey) {
-        throw new Error("请先关闭此窗口，点击页面底部“查看日常Report”设置解密口令，再导入旧 Report。");
+        throw new Error("请先关闭此窗口，点击页面底部“口令编辑”设置或输入口令，再导入旧 Report。");
       }
       const albumMap = new Map(state.albums.map((album) => [album.id, album]));
       albums.forEach((album) => albumMap.set(album.id, album));
@@ -1123,6 +1373,10 @@
     sessionStorage.removeItem("kerry-github-admin-token");
     document.body.classList.remove("is-admin");
     $("#admin-entry").textContent = "管理";
+    setReportVisibility(state.reportUnlocked);
+    if (!state.reportUnlocked) {
+      $("#report-access-trigger").textContent = "查看隐藏内容";
+    }
     updateAdminDialog();
     showToast("已退出管理员模式，当前页面为只读状态。");
   }
@@ -1464,6 +1718,7 @@
       profile,
       attributes: state.attributes,
       tagGroups: state.tagGroups,
+      contactGroups: state.contactGroups,
       albums,
       decks: reportAccess ? [] : legacyDecks,
       reportAccess
@@ -1732,16 +1987,17 @@
     $("#save-album-settings").addEventListener("click", saveAlbumSettings);
     $("#album-upload-form").addEventListener("submit", uploadAlbumPhotos);
     $("#album-photo-files").addEventListener("change", updateAlbumFileLabel);
-    $("#album-select-cover").addEventListener("click", () => {
+    $("#album-multi-toggle").addEventListener("click", toggleAlbumSelectionMode);
+    $("#album-set-cover").addEventListener("click", () => {
       const album = currentAlbum();
-      if (album && state.selectedPhotoId) {
-        setAlbumCover(album, state.selectedPhotoId);
+      if (album && state.selectedPhotoIds.length === 1) {
+        setAlbumCover(album, state.selectedPhotoIds[0]);
       }
     });
     $("#album-delete-photo").addEventListener("click", () => {
       const album = currentAlbum();
-      if (album && state.selectedPhotoId) {
-        deleteAlbumPhoto(album, state.selectedPhotoId);
+      if (album && state.selectedPhotoIds.length) {
+        deleteSelectedAlbumPhotos(album);
       }
     });
     $("#delete-album-button").addEventListener("click", deleteCurrentAlbum);
@@ -1865,7 +2121,8 @@
     const album = state.albums.find((item) => item.id === albumId);
     if (!album) return;
     state.currentAlbumId = album.id;
-    state.selectedPhotoId = album.coverPhotoId || album.photos[0]?.id || "";
+    state.photoSelectionMode = false;
+    state.selectedPhotoIds = [];
     $("#album-dialog-title").textContent = album.name;
     $("#album-name-edit").value = album.name;
     $("#album-size-edit").value = String(album.displayWidth);
@@ -1881,9 +2138,12 @@
     revokeUrls(state.albumUrls);
     state.albumUrls = [];
     const grid = $("#album-photo-grid");
-    if (!album.photos.some((photo) => photo.id === state.selectedPhotoId)) {
-      state.selectedPhotoId = album.coverPhotoId || album.photos[0]?.id || "";
-    }
+    state.selectedPhotoIds = state.selectedPhotoIds.filter((id) =>
+      album.photos.some((photo) => photo.id === id)
+    );
+    $("#album-multi-toggle").textContent = state.photoSelectionMode
+      ? "退出多选"
+      : "多选";
     updateAlbumFooterActions();
 
     if (!album.photos.length) {
@@ -1901,24 +2161,57 @@
   }
 
   function updateAlbumFooterActions() {
-    const album = currentAlbum();
-    const selected = Boolean(
-      album && album.photos.some((photo) => photo.id === state.selectedPhotoId)
-    );
-    $("#album-select-cover").disabled = !selected;
-    $("#album-delete-photo").disabled = !selected;
+    const count = state.selectedPhotoIds.length;
+    $("#album-set-cover").hidden = !state.photoSelectionMode;
+    $("#album-delete-photo").hidden = !state.photoSelectionMode;
+    $("#album-set-cover").disabled = count !== 1;
+    $("#album-delete-photo").disabled = count === 0;
+  }
+
+  function toggleAlbumSelectionMode() {
+    state.photoSelectionMode = !state.photoSelectionMode;
+    state.selectedPhotoIds = [];
+    syncAlbumSelectionUI();
+  }
+
+  function syncAlbumSelectionUI() {
+    $("#album-multi-toggle").textContent = state.photoSelectionMode
+      ? "退出多选"
+      : "多选";
+    updateAlbumFooterActions();
+    $$(".album-photo-card", $("#album-photo-grid")).forEach((card) => {
+      const selected = state.selectedPhotoIds.includes(card.dataset.photoId);
+      card.classList.toggle("selected", selected);
+      let check = card.querySelector(".photo-selected-check");
+      if (selected && !check) {
+        check = document.createElement("span");
+        check.className = "photo-selected-check";
+        check.textContent = "✓";
+        card.append(check);
+      } else if (!selected && check) {
+        check.remove();
+      }
+    });
   }
 
   function createAlbumPhotoCard(album, photo) {
     const card = document.createElement("article");
     card.className = "album-photo-card" +
-      (photo.id === state.selectedPhotoId ? " selected" : "");
+      (state.selectedPhotoIds.includes(photo.id) ? " selected" : "");
+    card.dataset.photoId = photo.id;
     card.tabIndex = 0;
     card.setAttribute("role", "button");
     card.setAttribute("aria-label", "查看照片：" + photo.title);
 
     const media = createMediaNode(photo, state.albumUrls, true);
     card.append(media);
+
+    if (state.selectedPhotoIds.includes(photo.id)) {
+      const check = document.createElement("span");
+      check.className = "photo-selected-check";
+      check.textContent = "✓";
+      card.append(check);
+    }
 
     if (album.coverPhotoId === photo.id) {
       const badge = document.createElement("span");
@@ -1935,11 +2228,18 @@
     card.append(footer);
 
     card.addEventListener("click", () => {
-      state.selectedPhotoId = photo.id;
-      $$(".album-photo-card", $("#album-photo-grid")).forEach((element) =>
-        element.classList.toggle("selected", element === card)
-      );
-      openPhotoLightbox(photo);
+      if (!state.photoSelectionMode) {
+        openPhotoLightbox(photo);
+        return;
+      }
+      if (state.selectedPhotoIds.includes(photo.id)) {
+        state.selectedPhotoIds = state.selectedPhotoIds.filter(
+          (id) => id !== photo.id
+        );
+      } else {
+        state.selectedPhotoIds.push(photo.id);
+      }
+      syncAlbumSelectionUI();
     });
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -2026,7 +2326,6 @@
 
     if (imported && !album.coverPhotoId) {
       album.coverPhotoId = album.photos[album.photos.length - imported].id;
-      state.selectedPhotoId = album.coverPhotoId;
     }
     album.updatedAt = new Date().toISOString();
 
@@ -2058,7 +2357,8 @@
     album.updatedAt = new Date().toISOString();
     try {
       await publishSharedContent("Update album cover: " + album.name);
-      state.selectedPhotoId = photoId;
+      state.photoSelectionMode = false;
+      state.selectedPhotoIds = [];
       renderAlbumPhotos(album);
       renderAlbums();
       showToast("首页封面已发布。");
@@ -2068,26 +2368,34 @@
     }
   }
 
-  async function deleteAlbumPhoto(album, photoId) {
+  async function deleteSelectedAlbumPhotos(album) {
     if (!requireAdmin()) return;
-    const confirmed = window.confirm("从相册中删除这张照片吗？");
+    const selectedIds = [...state.selectedPhotoIds];
+    if (!selectedIds.length) return;
+    const confirmed = window.confirm(
+      "从相册中删除选中的 " + selectedIds.length + " 张照片吗？"
+    );
     if (!confirmed) return;
     const previousPhotos = [...album.photos];
     const previousCover = album.coverPhotoId;
-    album.photos = album.photos.filter((photo) => photo.id !== photoId);
-    if (album.coverPhotoId === photoId) {
+    album.photos = album.photos.filter(
+      (photo) => !selectedIds.includes(photo.id)
+    );
+    if (selectedIds.includes(album.coverPhotoId)) {
       album.coverPhotoId = album.photos[0]?.id || null;
     }
     album.updatedAt = new Date().toISOString();
     try {
-      await publishSharedContent("Delete photo from album: " + album.name);
-      state.selectedPhotoId = album.coverPhotoId || album.photos[0]?.id || "";
+      await publishSharedContent("Delete photos from album: " + album.name);
+      state.photoSelectionMode = false;
+      state.selectedPhotoIds = [];
       renderAlbumPhotos(album);
       renderAlbums();
-      showToast("照片删除已发布。");
+      showToast("所选照片删除已发布。");
     } catch {
       album.photos = previousPhotos;
       album.coverPhotoId = previousCover;
+      renderAlbumPhotos(album);
       showToast("照片删除失败。");
     }
   }

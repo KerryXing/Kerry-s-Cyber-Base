@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updatedAt": "2026-11-01T13:26:01.970Z",
+  "version": 2,
+  "updatedAt": "2026-11-02T17:13:58.740Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -36,6 +36,56 @@
       }
     ]
   },
+  "attributes": [
+    {
+      "id": "nickname",
+      "key": "昵称",
+      "value": "Kerry Xing"
+    },
+    {
+      "id": "identity",
+      "key": "身份",
+      "value": "研究生"
+    },
+    {
+      "id": "mbti",
+      "key": "MBTI",
+      "value": "ENFP · 灵感型冒险家"
+    },
+    {
+      "id": "location",
+      "key": "坐标",
+      "value": "广东 · 深圳"
+    },
+    {
+      "id": "skills",
+      "key": "技能",
+      "value": "绘画 · 代码"
+    }
+  ],
+  "tagGroups": [
+    {
+      "id": "anime",
+      "title": "看过的番",
+      "tags": [
+        "Re:从零开始的异世界生活",
+        "死亡笔记",
+        "关于邻家的天使大人",
+        "刀剑神域"
+      ]
+    },
+    {
+      "id": "games",
+      "title": "游戏宇宙",
+      "tags": [
+        "Steam",
+        "Minecraft",
+        "崩坏：星穹铁道",
+        "明日方舟",
+        "明日方舟：终末地"
+      ]
+    }
+  ],
   "albums": [
     {
       "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
@@ -43,7 +93,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-58f02bce-3aba-41cf-a5dc-4fd7440d5291",
       "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-01T13:26:01.970Z",
+      "updatedAt": "2026-11-02T17:13:58.740Z",
       "photos": [
         {
           "id": "photo-58f02bce-3aba-41cf-a5dc-4fd7440d5291",
@@ -60,7 +110,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-bd22dce7-ac10-4c8f-a5c3-86f9f9acd427",
       "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-01T13:26:01.970Z",
+      "updatedAt": "2026-11-02T17:13:58.740Z",
       "photos": [
         {
           "id": "photo-bd22dce7-ac10-4c8f-a5c3-86f9f9acd427",
@@ -77,7 +127,7 @@
       "displayWidth": 90,
       "coverPhotoId": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-01T13:26:01.970Z",
+      "updatedAt": "2026-11-02T17:13:58.740Z",
       "photos": [
         {
           "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",
@@ -113,91 +163,181 @@
           "id": "slide-3fcfaba1-b434-431d-a57a-060044fd1065",
           "title": "第 1 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-3fcfaba1-b434-431d-a57a-060044fd1065.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-3fcfaba1-b434-431d-a57a-060044fd1065.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-3fcfaba1-b434-431d-a57a-060044fd1065.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-138c2d9d-6f14-4478-8510-d6ac14e2d6c6",
           "title": "第 2 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-138c2d9d-6f14-4478-8510-d6ac14e2d6c6.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-138c2d9d-6f14-4478-8510-d6ac14e2d6c6.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-138c2d9d-6f14-4478-8510-d6ac14e2d6c6.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-37e5b495-66a3-430e-8ede-3883695aa8d8",
           "title": "第 3 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-37e5b495-66a3-430e-8ede-3883695aa8d8.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-37e5b495-66a3-430e-8ede-3883695aa8d8.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-37e5b495-66a3-430e-8ede-3883695aa8d8.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-2bea4fc1-300d-4075-9ad5-51e25739873a",
           "title": "第 4 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-2bea4fc1-300d-4075-9ad5-51e25739873a.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-2bea4fc1-300d-4075-9ad5-51e25739873a.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-2bea4fc1-300d-4075-9ad5-51e25739873a.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-8b316eb4-af8f-4bb5-a986-3c347e14a18a",
           "title": "第 5 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-8b316eb4-af8f-4bb5-a986-3c347e14a18a.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-8b316eb4-af8f-4bb5-a986-3c347e14a18a.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-8b316eb4-af8f-4bb5-a986-3c347e14a18a.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-db89394e-d3f8-4688-8a34-db3957f4d5b7",
           "title": "第 6 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-db89394e-d3f8-4688-8a34-db3957f4d5b7.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-db89394e-d3f8-4688-8a34-db3957f4d5b7.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-db89394e-d3f8-4688-8a34-db3957f4d5b7.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-216a9264-ff88-4c68-b36b-7bbdaf4c4add",
           "title": "第 7 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-216a9264-ff88-4c68-b36b-7bbdaf4c4add.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-216a9264-ff88-4c68-b36b-7bbdaf4c4add.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-216a9264-ff88-4c68-b36b-7bbdaf4c4add.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-491aac4c-3ea6-43d4-8b0e-7b6135330cdc",
           "title": "第 8 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-491aac4c-3ea6-43d4-8b0e-7b6135330cdc.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-491aac4c-3ea6-43d4-8b0e-7b6135330cdc.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-491aac4c-3ea6-43d4-8b0e-7b6135330cdc.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-8b002e33-a8aa-40c2-8ec2-5cfc7d3573e7",
           "title": "第 9 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-8b002e33-a8aa-40c2-8ec2-5cfc7d3573e7.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-8b002e33-a8aa-40c2-8ec2-5cfc7d3573e7.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-8b002e33-a8aa-40c2-8ec2-5cfc7d3573e7.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-9452af1a-4258-4585-a106-66de2b493acd",
           "title": "第 10 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-9452af1a-4258-4585-a106-66de2b493acd.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-9452af1a-4258-4585-a106-66de2b493acd.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-9452af1a-4258-4585-a106-66de2b493acd.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-4b59bf68-d92c-4422-9fbf-e9eb4b51007c",
           "title": "第 11 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-4b59bf68-d92c-4422-9fbf-e9eb4b51007c.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-4b59bf68-d92c-4422-9fbf-e9eb4b51007c.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-4b59bf68-d92c-4422-9fbf-e9eb4b51007c.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-df5c8afc-c83a-49eb-bf73-caff12e5335d",
           "title": "第 12 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-df5c8afc-c83a-49eb-bf73-caff12e5335d.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-df5c8afc-c83a-49eb-bf73-caff12e5335d.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-df5c8afc-c83a-49eb-bf73-caff12e5335d.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-a0cb8bd9-30a5-4d66-ba6f-953eb93795d1",
           "title": "第 13 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-a0cb8bd9-30a5-4d66-ba6f-953eb93795d1.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-a0cb8bd9-30a5-4d66-ba6f-953eb93795d1.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-a0cb8bd9-30a5-4d66-ba6f-953eb93795d1.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-97377c31-5d8e-4f2a-897e-b9908bce9629",
           "title": "第 14 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-97377c31-5d8e-4f2a-897e-b9908bce9629.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-97377c31-5d8e-4f2a-897e-b9908bce9629.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-97377c31-5d8e-4f2a-897e-b9908bce9629.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-a7511184-6ed4-475d-bb6e-e81777504c16",
           "title": "第 15 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-a7511184-6ed4-475d-bb6e-e81777504c16.png"
+          "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-a7511184-6ed4-475d-bb6e-e81777504c16.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-6ac80565-b8bc-401f-b5b7-26cd2dd05b76/slide-a7511184-6ed4-475d-bb6e-e81777504c16.png",
+              "name": "slide-image"
+            }
+          ]
         }
       ]
     },
@@ -210,91 +350,181 @@
           "id": "slide-cfdc954e-2035-4fc1-8792-45ac7c321c66",
           "title": "第 1 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-cfdc954e-2035-4fc1-8792-45ac7c321c66.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-cfdc954e-2035-4fc1-8792-45ac7c321c66.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-cfdc954e-2035-4fc1-8792-45ac7c321c66.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-b933c9b3-1193-4e68-b26a-745e7e4704f4",
           "title": "第 2 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-b933c9b3-1193-4e68-b26a-745e7e4704f4.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-b933c9b3-1193-4e68-b26a-745e7e4704f4.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-b933c9b3-1193-4e68-b26a-745e7e4704f4.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-b7b97c70-7b12-4bdf-9f7d-e990271544f0",
           "title": "第 3 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-b7b97c70-7b12-4bdf-9f7d-e990271544f0.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-b7b97c70-7b12-4bdf-9f7d-e990271544f0.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-b7b97c70-7b12-4bdf-9f7d-e990271544f0.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-16a4e9c5-d331-4d72-a7db-2ea6d1c1fb27",
           "title": "第 4 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-16a4e9c5-d331-4d72-a7db-2ea6d1c1fb27.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-16a4e9c5-d331-4d72-a7db-2ea6d1c1fb27.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-16a4e9c5-d331-4d72-a7db-2ea6d1c1fb27.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-032f8a24-3ecf-4c8a-b66f-873041a3953b",
           "title": "第 5 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-032f8a24-3ecf-4c8a-b66f-873041a3953b.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-032f8a24-3ecf-4c8a-b66f-873041a3953b.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-032f8a24-3ecf-4c8a-b66f-873041a3953b.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-be1743a7-c8d0-4138-8986-ca41552fd686",
           "title": "第 6 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-be1743a7-c8d0-4138-8986-ca41552fd686.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-be1743a7-c8d0-4138-8986-ca41552fd686.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-be1743a7-c8d0-4138-8986-ca41552fd686.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-d58510a0-4bdb-4d50-a9d5-ac7cd1c27bb5",
           "title": "第 7 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-d58510a0-4bdb-4d50-a9d5-ac7cd1c27bb5.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-d58510a0-4bdb-4d50-a9d5-ac7cd1c27bb5.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-d58510a0-4bdb-4d50-a9d5-ac7cd1c27bb5.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-319f3cd1-d4df-4845-9d4e-a240a2cb4a1e",
           "title": "第 8 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-319f3cd1-d4df-4845-9d4e-a240a2cb4a1e.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-319f3cd1-d4df-4845-9d4e-a240a2cb4a1e.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-319f3cd1-d4df-4845-9d4e-a240a2cb4a1e.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-a61eead6-1374-44de-ab5e-3557c1c46ea9",
           "title": "第 9 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-a61eead6-1374-44de-ab5e-3557c1c46ea9.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-a61eead6-1374-44de-ab5e-3557c1c46ea9.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-a61eead6-1374-44de-ab5e-3557c1c46ea9.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-42043822-7f5f-4360-97cd-93aafc66d7f7",
           "title": "第 10 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-42043822-7f5f-4360-97cd-93aafc66d7f7.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-42043822-7f5f-4360-97cd-93aafc66d7f7.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-42043822-7f5f-4360-97cd-93aafc66d7f7.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-16df8074-4009-4e5e-a20e-122634818de3",
           "title": "第 11 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-16df8074-4009-4e5e-a20e-122634818de3.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-16df8074-4009-4e5e-a20e-122634818de3.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-16df8074-4009-4e5e-a20e-122634818de3.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-d9fe7a34-2814-4e99-9257-c9fab8e0c771",
           "title": "第 12 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-d9fe7a34-2814-4e99-9257-c9fab8e0c771.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-d9fe7a34-2814-4e99-9257-c9fab8e0c771.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-d9fe7a34-2814-4e99-9257-c9fab8e0c771.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-950f6f28-8471-4ae2-85d7-6e617dc47395",
           "title": "第 13 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-950f6f28-8471-4ae2-85d7-6e617dc47395.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-950f6f28-8471-4ae2-85d7-6e617dc47395.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-950f6f28-8471-4ae2-85d7-6e617dc47395.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-ce5fbd9e-5592-4a07-83d7-1e8a07da0226",
           "title": "第 14 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-ce5fbd9e-5592-4a07-83d7-1e8a07da0226.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-ce5fbd9e-5592-4a07-83d7-1e8a07da0226.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-ce5fbd9e-5592-4a07-83d7-1e8a07da0226.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-e7ec61d2-12c7-48b2-b306-8bd1b08166b0",
           "title": "第 15 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-e7ec61d2-12c7-48b2-b306-8bd1b08166b0.png"
+          "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-e7ec61d2-12c7-48b2-b306-8bd1b08166b0.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-0ed1f4b1-9181-4894-8d7c-e9bc7c78deea/slide-e7ec61d2-12c7-48b2-b306-8bd1b08166b0.png",
+              "name": "slide-image"
+            }
+          ]
         }
       ]
     },
@@ -307,93 +537,184 @@
           "id": "slide-73111230-527b-440c-a59b-5f71fbbf58c9",
           "title": "第 1 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-73111230-527b-440c-a59b-5f71fbbf58c9.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-73111230-527b-440c-a59b-5f71fbbf58c9.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-73111230-527b-440c-a59b-5f71fbbf58c9.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-b8340d19-5fab-4c90-957c-4070ba856ec3",
           "title": "第 2 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-b8340d19-5fab-4c90-957c-4070ba856ec3.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-b8340d19-5fab-4c90-957c-4070ba856ec3.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-b8340d19-5fab-4c90-957c-4070ba856ec3.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-23944e3d-ab04-40c4-86cd-90b3404a4b88",
           "title": "第 3 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-23944e3d-ab04-40c4-86cd-90b3404a4b88.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-23944e3d-ab04-40c4-86cd-90b3404a4b88.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-23944e3d-ab04-40c4-86cd-90b3404a4b88.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-8cc477af-9342-4b19-ba5b-8a27212b81db",
           "title": "第 4 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-8cc477af-9342-4b19-ba5b-8a27212b81db.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-8cc477af-9342-4b19-ba5b-8a27212b81db.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-8cc477af-9342-4b19-ba5b-8a27212b81db.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-09e08030-f4b4-43a3-bf3a-376e27f4daa7",
           "title": "第 5 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-09e08030-f4b4-43a3-bf3a-376e27f4daa7.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-09e08030-f4b4-43a3-bf3a-376e27f4daa7.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-09e08030-f4b4-43a3-bf3a-376e27f4daa7.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-9228e368-46d1-4c70-95eb-ebe21fcaa716",
           "title": "第 6 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-9228e368-46d1-4c70-95eb-ebe21fcaa716.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-9228e368-46d1-4c70-95eb-ebe21fcaa716.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-9228e368-46d1-4c70-95eb-ebe21fcaa716.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-ae45b2ea-07c7-4af4-8b2f-1a207e1f4d92",
           "title": "第 7 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-ae45b2ea-07c7-4af4-8b2f-1a207e1f4d92.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-ae45b2ea-07c7-4af4-8b2f-1a207e1f4d92.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-ae45b2ea-07c7-4af4-8b2f-1a207e1f4d92.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-3b3d5209-def7-47c4-8968-48adf802a3d4",
           "title": "第 8 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-3b3d5209-def7-47c4-8968-48adf802a3d4.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-3b3d5209-def7-47c4-8968-48adf802a3d4.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-3b3d5209-def7-47c4-8968-48adf802a3d4.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-e4e631d6-cae5-4e81-b6ca-5659ab6553a5",
           "title": "第 9 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-e4e631d6-cae5-4e81-b6ca-5659ab6553a5.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-e4e631d6-cae5-4e81-b6ca-5659ab6553a5.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-e4e631d6-cae5-4e81-b6ca-5659ab6553a5.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-8796d6db-0209-4c90-90e1-17c0d05cd399",
           "title": "第 10 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-8796d6db-0209-4c90-90e1-17c0d05cd399.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-8796d6db-0209-4c90-90e1-17c0d05cd399.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-8796d6db-0209-4c90-90e1-17c0d05cd399.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-03d170df-1fa7-4b3b-aa66-7475b6aca688",
           "title": "第 11 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-03d170df-1fa7-4b3b-aa66-7475b6aca688.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-03d170df-1fa7-4b3b-aa66-7475b6aca688.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-03d170df-1fa7-4b3b-aa66-7475b6aca688.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-1e1e6be5-e55d-4cab-828e-fc0f2327bc7c",
           "title": "第 12 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-1e1e6be5-e55d-4cab-828e-fc0f2327bc7c.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-1e1e6be5-e55d-4cab-828e-fc0f2327bc7c.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-1e1e6be5-e55d-4cab-828e-fc0f2327bc7c.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-dc643a4a-687f-4160-a75c-703d0a767553",
           "title": "第 13 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-dc643a4a-687f-4160-a75c-703d0a767553.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-dc643a4a-687f-4160-a75c-703d0a767553.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-dc643a4a-687f-4160-a75c-703d0a767553.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-11e28d64-f7d9-447b-ad5d-261117b1ef59",
           "title": "第 14 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-11e28d64-f7d9-447b-ad5d-261117b1ef59.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-11e28d64-f7d9-447b-ad5d-261117b1ef59.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-11e28d64-f7d9-447b-ad5d-261117b1ef59.png",
+              "name": "slide-image"
+            }
+          ]
         },
         {
           "id": "slide-32ae7a44-3f88-4cbb-8517-478a77aeaa61",
           "title": "第 15 页",
           "imageOnly": true,
-          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-32ae7a44-3f88-4cbb-8517-478a77aeaa61.png"
+          "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-32ae7a44-3f88-4cbb-8517-478a77aeaa61.png",
+          "images": [
+            {
+              "src": "shared/reports/deck-10c66d3e-8000-45c6-9172-1c3aa8d40e59/slide-32ae7a44-3f88-4cbb-8517-478a77aeaa61.png",
+              "name": "slide-image"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "reportAccess": null
 }

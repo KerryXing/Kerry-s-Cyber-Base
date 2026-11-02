@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-11-02T17:27:55.683Z",
+  "updatedAt": "2026-11-02T17:28:47.418Z",
   "profile": {
     "avatar": "shared/profile/avatar-mvxr34r0.jpg",
     "heroMedia": {
@@ -78,48 +78,12 @@
   ],
   "albums": [
     {
-      "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
-      "name": "MyFriend",
-      "displayWidth": 45,
-      "coverPhotoId": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
-      "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-02T17:27:55.683Z",
-      "photos": [
-        {
-          "id": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
-          "title": "0122b81d41474ad3556c621e9cf5549a",
-          "kind": "photo",
-          "createdAt": "2026-11-02T17:19:41.884Z",
-          "src": "shared/media/photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09.jpg",
-          "thumbnail": "shared/thumbnails/photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09.jpg"
-        }
-      ]
-    },
-    {
-      "id": "album-de58d9ea-200c-432d-9d34-391031d1c7df",
-      "name": "Undergraduation",
-      "displayWidth": 45,
-      "coverPhotoId": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
-      "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-02T17:27:55.683Z",
-      "photos": [
-        {
-          "id": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
-          "title": "4958",
-          "kind": "photo",
-          "createdAt": "2026-11-02T17:27:52.827Z",
-          "src": "shared/media/photo-536e2759-3637-4fc5-8e7c-de4c945da801.jpg",
-          "thumbnail": "shared/thumbnails/photo-536e2759-3637-4fc5-8e7c-de4c945da801.jpg"
-        }
-      ]
-    },
-    {
       "id": "album-4a6dcb69-341c-4c57-b530-7195ad5bad52",
       "name": "Firefly",
       "displayWidth": 90,
       "coverPhotoId": "photo-2cede102-cd6c-4990-8e70-3c0663ad6f87",
       "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-02T17:27:55.683Z",
+      "updatedAt": "2026-11-02T17:28:47.418Z",
       "photos": [
         {
           "id": "photo-afeca320-ab09-4127-80a3-b0f252e316d5",
@@ -141,6 +105,42 @@
           "kind": "video",
           "createdAt": "2026-11-01T11:46:43.964Z",
           "src": "shared/media/photo-2cede102-cd6c-4990-8e70-3c0663ad6f87.mov"
+        }
+      ]
+    },
+    {
+      "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
+      "name": "MyFriend",
+      "displayWidth": 45,
+      "coverPhotoId": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
+      "createdAt": "2026-11-01T12:57:05.074Z",
+      "updatedAt": "2026-11-02T17:28:47.418Z",
+      "photos": [
+        {
+          "id": "photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09",
+          "title": "0122b81d41474ad3556c621e9cf5549a",
+          "kind": "photo",
+          "createdAt": "2026-11-02T17:19:41.884Z",
+          "src": "shared/media/photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09.jpg",
+          "thumbnail": "shared/thumbnails/photo-1fe83bd3-e34d-4042-9c32-0aa4ad97ed09.jpg"
+        }
+      ]
+    },
+    {
+      "id": "album-de58d9ea-200c-432d-9d34-391031d1c7df",
+      "name": "Undergraduation",
+      "displayWidth": 45,
+      "coverPhotoId": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
+      "createdAt": "2026-11-01T12:43:43.406Z",
+      "updatedAt": "2026-11-02T17:28:47.418Z",
+      "photos": [
+        {
+          "id": "photo-536e2759-3637-4fc5-8e7c-de4c945da801",
+          "title": "4958",
+          "kind": "photo",
+          "createdAt": "2026-11-02T17:27:52.827Z",
+          "src": "shared/media/photo-536e2759-3637-4fc5-8e7c-de4c945da801.jpg",
+          "thumbnail": "shared/thumbnails/photo-536e2759-3637-4fc5-8e7c-de4c945da801.jpg"
         }
       ]
     }

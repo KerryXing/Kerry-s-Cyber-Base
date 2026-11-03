@@ -6,6 +6,26 @@
   <meta name="theme-color" content="#0b192a">
   <meta name="description" content="Kerry 的个人赛博基地：属性表、日常 Report 与私人相册。">
   <title>Kerry's Cyber Base</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("kerry-site-theme");
+      const themes = [
+        "deep-blue",
+        "light-blue",
+        "night-city",
+        "gratitude",
+        "christmas",
+        "new-year",
+        "spring-festival",
+        "qingming",
+        "easter"
+      ];
+      document.documentElement.dataset.theme =
+        themes.includes(savedTheme) ? savedTheme : "deep-blue";
+    } catch {
+      document.documentElement.dataset.theme = "deep-blue";
+    }
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23a8d8f2'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='24' font-weight='700' fill='%2307111d'%3EKX%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -22,6 +42,78 @@
     <span class="star-field"></span>
   </div>
 
+  <div class="theme-scene" aria-hidden="true">
+    <div class="scene scene-city">
+      <span class="city-moon"></span>
+      <span class="city-back-skyline"></span>
+      <span class="city-building city-building-left city-building-left-a"></span>
+      <span class="city-building city-building-left city-building-left-b"></span>
+      <span class="city-building city-building-left city-building-left-c"></span>
+      <span class="city-building city-building-left city-building-left-d"></span>
+      <span class="city-building city-building-right city-building-right-a"></span>
+      <span class="city-building city-building-right city-building-right-b"></span>
+      <span class="city-building city-building-right city-building-right-c"></span>
+      <span class="city-building city-building-right city-building-right-d"></span>
+      <span class="city-horizon-glow"></span>
+      <span class="city-road">
+        <i class="road-glow"></i>
+        <i class="road-lane"></i>
+        <i class="road-lane road-lane-two"></i>
+        <i class="road-lane road-lane-three"></i>
+        <i class="road-reflection reflection-one"></i>
+        <i class="road-reflection reflection-two"></i>
+        <i class="road-reflection reflection-three"></i>
+      </span>
+      <span class="city-neon"></span>
+    </div>
+    <div class="scene scene-gratitude">
+      <span class="gratitude-sun"></span>
+      <span class="gratitude-haze haze-one"></span>
+      <span class="gratitude-haze haze-two"></span>
+      <span class="leaf-field"></span>
+    </div>
+    <div class="scene scene-christmas">
+      <span class="christmas-glow"></span>
+      <span class="christmas-string"></span>
+      <span class="snow-field"></span>
+      <span class="christmas-star star-one"></span>
+      <span class="christmas-star star-two"></span>
+      <span class="christmas-star star-three"></span>
+    </div>
+    <div class="scene scene-new-year">
+      <span class="firework firework-one"></span>
+      <span class="firework firework-two"></span>
+      <span class="firework firework-three"></span>
+      <span class="new-year-horizon"></span>
+    </div>
+    <div class="scene scene-spring">
+      <span class="spring-cloud cloud-one"></span>
+      <span class="spring-cloud cloud-two"></span>
+      <span class="spring-lantern lantern-one"></span>
+      <span class="spring-lantern lantern-two"></span>
+      <span class="spring-lantern lantern-three"></span>
+      <span class="spring-pattern"></span>
+    </div>
+    <div class="scene scene-qingming">
+      <span class="qingming-mist mist-front"></span>
+      <span class="qingming-mist mist-back"></span>
+      <span class="qingming-hill hill-back"></span>
+      <span class="qingming-hill hill-front"></span>
+      <span class="qingming-rain"></span>
+      <span class="qingming-willow willow-one"></span>
+      <span class="qingming-willow willow-two"></span>
+    </div>
+    <div class="scene scene-easter">
+      <span class="easter-sun"></span>
+      <span class="easter-glow glow-one"></span>
+      <span class="easter-glow glow-two"></span>
+      <span class="easter-egg egg-one"></span>
+      <span class="easter-egg egg-two"></span>
+      <span class="easter-egg egg-three"></span>
+      <span class="easter-flower-field"></span>
+    </div>
+  </div>
+
   <header class="topbar" id="top">
     <div class="nav-shell">
       <a class="brand" href="#top" aria-label="返回首页">
@@ -32,19 +124,32 @@
       </a>
 
       <nav class="site-nav" id="site-nav" aria-label="主导航">
-        <a class="active" href="#home">首页</a>
-        <a href="#profile">属性表</a>
-        <a href="#diary" id="report-nav-link" hidden>日常report</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#contact">联系</a>
+        <div class="nav-dropdown-wrap">
+          <button class="nav-trigger active" id="nav-home-toggle" type="button"
+            aria-expanded="false" aria-controls="nav-dropdown">
+            首页
+            <svg class="nav-chevron" viewBox="0 0 14 8" aria-hidden="true">
+              <path d="M1 1.25 7 6.5l6-5.25"></path>
+            </svg>
+          </button>
+          <div class="nav-dropdown" id="nav-dropdown">
+            <a href="#profile">属性表</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#diary" id="report-nav-link" hidden>日常report</a>
+            <a href="#contact">联系</a>
+          </div>
+        </div>
+        <span class="nav-coming-soon">敬请期待...</span>
       </nav>
 
-      <button class="admin-entry" id="admin-entry" type="button">管理</button>
-
-      <button class="menu-button" id="menu-button" type="button"
-        aria-expanded="false" aria-controls="site-nav" aria-label="打开导航">
-        <span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <button class="nav-action-button" id="theme-entry" type="button">主题</button>
+        <button class="nav-action-button admin-entry" id="admin-entry" type="button">管理</button>
+        <button class="menu-button" id="menu-button" type="button"
+          aria-expanded="false" aria-controls="site-nav" aria-label="打开导航">
+          <span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -87,10 +192,8 @@
               <span>KX</span>
               <small>YOUR AVATAR</small>
             </div>
-            <input id="avatar-file-input" type="file" hidden
-              accept="image/*,image/heic,image/heif,.heic,.heif">
             <button class="visual-upload-button avatar-upload-button admin-only" id="avatar-upload-button"
-              type="button" aria-label="上传头像" title="上传头像">+</button>
+              type="button" aria-label="编辑头像" title="编辑头像">编辑头像</button>
           </div>
           <div class="character-card-copy">
             <h3>Kerry Xing</h3>
@@ -246,7 +349,7 @@
     <div class="footer-copy">
       <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
       <p>本网页由大肥鱼驱动的Codex赋能制作</p>
-      <p>网页版本：V1.2</p>
+      <p>网页版本：V0.3</p>
     </div>
     <button class="report-access-trigger" id="report-access-trigger" type="button">
       查看隐藏内容
@@ -446,19 +549,122 @@
         <h2>更换首页背景</h2>
       </div>
       <div class="hero-dialog-actions">
-        <button class="pill-action" id="hero-select-button" type="button">选择</button>
-        <button class="pill-action pill-danger" id="hero-delete-button" type="button">删除</button>
+        <button class="pill-action" id="hero-multi-toggle" type="button">多选</button>
+        <button class="pill-action pill-action-cover" id="hero-set-cover" type="button" hidden>设置为封面</button>
+        <button class="pill-action pill-danger" id="hero-delete-button" type="button" hidden>删除</button>
         <button class="dialog-close" type="button" data-close-dialog="hero-dialog" aria-label="关闭">×</button>
       </div>
     </div>
     <div class="hero-dialog-body">
       <label class="hero-upload-control">
-        <input id="hero-file-input" type="file"
+        <input id="hero-file-input" type="file" multiple
           accept="image/*,image/heic,image/heif,.heic,.heif,video/*,.livp,application/zip">
         <span>上传新背景</span>
         <small>支持图片、视频、GIF 和 LIVP</small>
       </label>
       <div class="hero-image-list" id="hero-image-list"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal avatar-dialog" id="avatar-dialog">
+    <div class="avatar-dialog-shell">
+      <div class="modal-header">
+        <div>
+          <h2>编辑头像</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="avatar-dialog" aria-label="关闭">×</button>
+      </div>
+      <div class="avatar-dialog-body">
+        <label class="hero-upload-control avatar-upload-control">
+          <input id="avatar-history-file-input" type="file" multiple
+            accept="image/*,image/heic,image/heif,.heic,.heif,.gif">
+          <span>上传新头像</span>
+          <small>支持 JPG、PNG、GIF、HEIC 等图片格式</small>
+        </label>
+        <div class="avatar-history-grid" id="avatar-history-list"></div>
+      </div>
+      <p class="action-status" id="avatar-dialog-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="pill-action" id="avatar-multi-toggle" type="button">多选</button>
+        <button class="pill-action pill-action-cover" id="avatar-set-current" type="button" hidden>使用头像</button>
+        <button class="pill-action pill-danger" id="avatar-delete-selected" type="button" hidden>删除</button>
+        <button class="button button-ghost button-small" type="button" data-close-dialog="avatar-dialog">
+          完成
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal theme-dialog" id="theme-dialog">
+    <div class="theme-dialog-shell">
+      <div class="modal-header">
+        <div>
+          <h2>切换主题</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="theme-dialog" aria-label="关闭">×</button>
+      </div>
+      <div class="theme-grid" id="theme-grid">
+        <button class="theme-card" type="button" data-theme-option="deep-blue">
+          <span class="theme-swatch theme-swatch-deep" aria-hidden="true"></span>
+          <strong>深蓝</strong>
+          <small>沉静、清晰的夜间赛博感</small>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="light-blue">
+          <span class="theme-swatch theme-swatch-light" aria-hidden="true"></span>
+          <strong>浅蓝</strong>
+          <small>轻盈、柔和的日间蓝调</small>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="night-city">
+          <span class="theme-swatch theme-swatch-night-city" aria-hidden="true"></span>
+          <strong>黑夜城市</strong>
+          <small>从天际线一路降温到霓虹街道的纵深夜景</small>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="gratitude">
+          <span class="theme-swatch theme-swatch-gratitude" aria-hidden="true"></span>
+          <strong>感恩</strong>
+          <small>暖金、枫叶与柔和暮色</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="gratitude" hidden>今日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="christmas">
+          <span class="theme-swatch theme-swatch-christmas" aria-hidden="true"></span>
+          <strong>圣诞</strong>
+          <small>松绿、暖红、星光与细雪</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="christmas" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="new-year">
+          <span class="theme-swatch theme-swatch-new-year" aria-hidden="true"></span>
+          <strong>元旦</strong>
+          <small>午夜蓝、金色烟花与新一年的微光</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="new-year" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="spring-festival">
+          <span class="theme-swatch theme-swatch-spring" aria-hidden="true"></span>
+          <strong>春节</strong>
+          <small>朱红、鎏金、灯笼与祥云</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="spring-festival" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="qingming">
+          <span class="theme-swatch theme-swatch-qingming" aria-hidden="true"></span>
+          <strong>清明</strong>
+          <small>青黛远山、薄雾、细雨与垂柳</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="qingming" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="easter">
+          <span class="theme-swatch theme-swatch-easter" aria-hidden="true"></span>
+          <strong>复活节</strong>
+          <small>春日晨光、彩蛋与柔和的花园色彩</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="easter" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+      </div>
     </div>
   </dialog>
 
@@ -499,19 +705,19 @@
         设置访客查看隐藏内容时使用的口令。口令不会明文写入 GitHub；
         内容文件会使用由此口令派生的 AES 密钥加密。
       </p>
-      <label>
-        <span>当前口令（首次设置可留空）</span>
-        <input id="hidden-current-password" type="password" autocomplete="off">
-      </label>
-      <label>
-        <span>新口令</span>
-        <input id="hidden-new-password" type="password" autocomplete="new-password">
-      </label>
-      <label>
-        <span>再次输入新口令</span>
-        <input id="hidden-confirm-password" type="password" autocomplete="new-password">
-      </label>
-      <p class="modal-note">修改口令会重新加密现有 Report。请确保记得旧口令，否则旧加密内容无法迁移。</p>
+      <div class="password-fields">
+        <label>
+          <span>新口令</span>
+          <input id="hidden-new-password" type="password" autocomplete="new-password"
+            placeholder="设置访客查看隐藏内容时使用的口令">
+        </label>
+        <label>
+          <span>再次输入新口令</span>
+          <input id="hidden-confirm-password" type="password" autocomplete="new-password"
+            placeholder="请再次输入以确认">
+        </label>
+      </div>
+      <p class="modal-note">修改口令时将由管理员模式自动完成重新加密，无需再次输入旧口令。</p>
       <p class="action-status" id="hidden-password-status" role="status" aria-live="polite"></p>
       <div class="modal-actions">
         <button class="button button-ghost" type="button" data-close-dialog="hidden-password-dialog">取消</button>

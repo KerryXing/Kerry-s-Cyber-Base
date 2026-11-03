@@ -1,111 +1,29 @@
 {
-  "version": 2,
-  "updatedAt": "2026-11-03T14:35:00.056Z",
+  "version": 3,
+  "updatedAt": "",
   "profile": {
-    "avatar": "shared/profile/avatar-mvxr34r0.jpg",
-    "heroMedia": {
-      "id": "background-4e3cc01a-88b2-4e84-8152-e6e4f3bcc348",
-      "kind": "photo",
-      "createdAt": "2026-11-02T19:59:06.767Z",
-      "src": "shared/profile/hero-mvzomntb.jpg"
-    },
-    "heroImages": [
-      {
-        "id": "background-09a880f0-7f15-42f6-9369-46ba03b626e0",
-        "kind": "photo",
-        "createdAt": "2026-11-02T20:03:16.838Z",
-        "src": "shared/profile/hero-mvzos0rq.jpg"
-      },
-      {
-        "id": "background-d8c65a17-b6fa-4dfd-a570-765a7a0461e3",
-        "kind": "photo",
-        "createdAt": "2026-11-02T20:02:18.248Z",
-        "src": "shared/profile/hero-mvzoqrk8.jpg"
-      },
-      {
-        "id": "background-7c2064b8-7b39-4a4b-a9e7-b705fd9240e6",
-        "kind": "photo",
-        "createdAt": "2026-11-02T20:01:00.115Z",
-        "src": "shared/profile/hero-mvzop39v.jpg"
-      },
-      {
-        "id": "background-4e3cc01a-88b2-4e84-8152-e6e4f3bcc348",
-        "kind": "photo",
-        "createdAt": "2026-11-02T19:59:06.767Z",
-        "src": "shared/profile/hero-mvzomntb.jpg"
-      },
-      {
-        "id": "background-3e5d0c78-35a1-4b64-8bcc-40f6a8c98790",
-        "kind": "photo",
-        "createdAt": "2026-11-02T17:35:55.290Z",
-        "src": "shared/profile/hero-mvzjiil6.png",
-        "thumbnail": "shared/profile/hero-mvzjiil6-thumb.jpg"
-      },
-      {
-        "id": "background-d59a49f2-b3ba-4044-9b67-4cf4a6cefcc5",
-        "kind": "photo",
-        "createdAt": "2026-11-02T17:20:46.723Z",
-        "src": "shared/profile/hero-mvziz1j7.jpg",
-        "thumbnail": "shared/profile/hero-mvziz1j7-thumb.jpg"
-      }
-    ]
+    "avatar": "",
+    "avatarImages": [],
+    "heroMedia": null,
+    "heroImages": []
   },
   "attributes": [
-    {
-      "id": "nickname",
-      "key": "昵称",
-      "value": "Kerry Xing"
-    },
-    {
-      "id": "identity",
-      "key": "身份",
-      "value": "研究生"
-    },
-    {
-      "id": "mbti",
-      "key": "MBTI",
-      "value": "ENFP"
-    },
-    {
-      "id": "location",
-      "key": "坐标",
-      "value": "广东 · 深圳"
-    },
-    {
-      "id": "skills",
-      "key": "技能",
-      "value": "绘画，一丢丢代码，鼓捣AI"
-    },
-    {
-      "id": "attribute-5c267a89-7566-47d5-8bba-9268e3d4bb6c",
-      "key": "爱好",
-      "value": "电游，桌游，锻炼，聚会"
-    }
+    { "id": "nickname", "key": "昵称", "value": "Kerry Xing" },
+    { "id": "identity", "key": "身份", "value": "研究生" },
+    { "id": "mbti", "key": "MBTI", "value": "ENFP · 灵感型冒险家" },
+    { "id": "location", "key": "坐标", "value": "中国 · 广东 · 深圳" },
+    { "id": "skills", "key": "技能", "value": "绘画 · 代码" }
   ],
   "tagGroups": [
     {
       "id": "anime",
       "title": "看过的番",
-      "tags": [
-        "Re:从零开始的异世界生活",
-        "死亡笔记",
-        "关于邻家的天使大人",
-        "刀剑神域",
-        "Jobless Reincarnation"
-      ]
+      "tags": ["Re:从零开始的异世界生活", "死亡笔记", "关于邻家的天使大人", "刀剑神域"]
     },
     {
       "id": "games",
       "title": "游戏宇宙",
-      "tags": [
-        "Steam",
-        "Terraria",
-        "饥荒",
-        "Minecraft",
-        "崩坏：星穹铁道",
-        "明日方舟",
-        "明日方舟：终末地"
-      ]
+      "tags": ["Steam", "Minecraft", "崩坏：星穹铁道", "明日方舟", "明日方舟：终末地"]
     }
   ],
   "contactGroups": [
@@ -113,103 +31,22 @@
       "id": "social",
       "title": "社交平台",
       "items": [
-        {
-          "id": "contact-item-909ddc91-92ed-44e8-9865-bd2d0457b1ff",
-          "key": "Bilibili",
-          "value": "361404379"
-        },
-        {
-          "id": "contact-item-569a6e48-244b-4883-a7cd-7b5543fbf4cc",
-          "key": "抖音",
-          "value": "Kr."
-        },
-        {
-          "id": "contact-item-2d0c0b99-03a3-4ec9-a068-9863afd0cffa",
-          "key": "Steam",
-          "value": "keryxin"
-        }
+        { "id": "bilibili", "key": "Bilibili", "value": "待添加" },
+        { "id": "douyin", "key": "抖音", "value": "Kr." },
+        { "id": "steam", "key": "Steam", "value": "待添加" }
       ]
     },
     {
       "id": "contact",
       "title": "联系方式",
       "items": [
-        {
-          "id": "contact-item-fffb7b2e-a74e-4f4d-b9e3-d29f2499396c",
-          "key": "QQ",
-          "value": "1265856193"
-        },
-        {
-          "id": "contact-item-76405f98-5784-4775-a7c7-a165a137d986",
-          "key": "微信",
-          "value": "KeryXing"
-        },
-        {
-          "id": "contact-item-fbb8cc74-6d15-40ff-9330-1f2475e14902",
-          "key": "Email",
-          "value": "keryxin@qq.com"
-        }
+        { "id": "qq", "key": "QQ", "value": "1265856193" },
+        { "id": "wechat", "key": "微信", "value": "待添加" },
+        { "id": "email", "key": "Email", "value": "keryxin@qq.com" }
       ]
     }
   ],
-  "albums": [
-    {
-      "id": "album-6317aaec-8362-44ec-a560-4dbd47a04ec1",
-      "name": "MyFriend",
-      "displayWidth": 45,
-      "coverPhotoId": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
-      "createdAt": "2026-11-01T12:57:05.074Z",
-      "updatedAt": "2026-11-03T14:35:00.056Z",
-      "photos": [
-        {
-          "id": "photo-7dc534b2-b810-49e8-9f44-752e214675b2",
-          "title": "十月四日见初中兄弟",
-          "kind": "photo",
-          "createdAt": "2026-11-02T19:03:13.997Z",
-          "src": "shared/media/photo-7dc534b2-b810-49e8-9f44-752e214675b2.jpg",
-          "thumbnail": "shared/thumbnails/photo-7dc534b2-b810-49e8-9f44-752e214675b2.jpg"
-        }
-      ]
-    },
-    {
-      "id": "album-de58d9ea-200c-432d-9d34-391031d1c7df",
-      "name": "Undergraduation",
-      "displayWidth": 45,
-      "coverPhotoId": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
-      "createdAt": "2026-11-01T12:43:43.406Z",
-      "updatedAt": "2026-11-03T14:35:00.056Z",
-      "photos": [
-        {
-          "id": "photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a",
-          "title": "毕业的不舍",
-          "kind": "photo",
-          "createdAt": "2026-11-02T19:01:12.862Z",
-          "src": "shared/media/photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a.jpg",
-          "thumbnail": "shared/thumbnails/photo-b83ac9e0-2da2-41ca-bcad-081a2a093d4a.jpg"
-        }
-      ]
-    },
-    {
-      "id": "album-4a6dcb69-341c-4c57-b530-7195ad5bad52",
-      "name": "Firefly",
-      "displayWidth": 92,
-      "coverPhotoId": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
-      "createdAt": "2026-11-01T11:33:59.249Z",
-      "updatedAt": "2026-11-03T14:35:00.056Z",
-      "photos": [
-        {
-          "id": "photo-416907c5-d388-46cc-8c83-c441e60b9e49",
-          "title": "穹萤是对的😋",
-          "kind": "video",
-          "createdAt": "2026-11-02T18:59:16.414Z",
-          "src": "shared/media/photo-416907c5-d388-46cc-8c83-c441e60b9e49.mov"
-        }
-      ]
-    }
-  ],
+  "albums": [],
   "decks": [],
-  "reportAccess": {
-    "manifest": "shared/reports/report-data.enc",
-    "salt": "aSpfqDroM1771V5oUWYR+w=="
-  }
+  "reportAccess": null
 }

@@ -8,6 +8,55 @@
   const DECK_STORE = "decks";
   const SETTINGS_STORE = "settings";
   const GITHUB_API = "https://api.github.com";
+  const THEME_META = {
+    "deep-blue": { name: "深蓝", color: "#0b192a" },
+    "light-blue": { name: "浅蓝", color: "#d8edf9" },
+    "night-city": { name: "黑夜城市", color: "#071423" },
+    gratitude: { name: "感恩", color: "#c68760" },
+    christmas: { name: "圣诞", color: "#103d35" },
+    "new-year": { name: "元旦", color: "#11243d" },
+    "spring-festival": { name: "春节", color: "#8a1925" },
+    qingming: { name: "清明", color: "#9ebfbd" },
+    easter: { name: "复活节", color: "#f1dfdc" }
+  };
+  const SPRING_FESTIVAL_DATES = {
+    2024: [2, 10],
+    2025: [1, 29],
+    2026: [2, 17],
+    2027: [2, 6],
+    2028: [1, 26],
+    2029: [2, 13],
+    2030: [2, 3],
+    2031: [1, 23],
+    2032: [2, 11],
+    2033: [1, 31],
+    2034: [2, 19],
+    2035: [2, 8],
+    2036: [1, 28],
+    2037: [2, 15],
+    2038: [2, 4],
+    2039: [1, 24],
+    2040: [2, 12]
+  };
+  const QINGMING_DATES = {
+    2024: [4, 4],
+    2025: [4, 4],
+    2026: [4, 5],
+    2027: [4, 5],
+    2028: [4, 4],
+    2029: [4, 4],
+    2030: [4, 5],
+    2031: [4, 5],
+    2032: [4, 4],
+    2033: [4, 4],
+    2034: [4, 5],
+    2035: [4, 5],
+    2036: [4, 4],
+    2037: [4, 4],
+    2038: [4, 5],
+    2039: [4, 5],
+    2040: [4, 4]
+  };
 
   const state = {
     db: null,
@@ -33,16 +82,26 @@
     repoInfo: null,
     sharedProfile: {},
     pendingHeroMedia: null,
+    pendingHeroItems: [],
     pendingAvatarMedia: null,
     isPublishing: false,
     reportAccess: null,
     reportKey: null,
-    reportSalt: null,
+    reportRawKey: null,
     reportUnlocked: false,
-    selectedHeroId: "",
+    reportUnlockedByVisitor: false,
+    heroSelectionMode: false,
+    selectedHeroIds: [],
+    avatarSelectionMode: false,
+    selectedAvatarIds: [],
+    pendingAvatarItems: [],
     photoSelectionMode: false,
     selectedPhotoIds: [],
-    slideRenderToken: 0
+    slideRenderToken: 0,
+    reportFilePaths: new Set(),
+    revealObserver: null,
+    themeUserOverride: false,
+    seasonalThemeKey: ""
   };
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -51,6 +110,8 @@
   document.addEventListener("DOMContentLoaded", init);
 
   async function init() {
+    setupDeviceProfile();
+    setupTheme();
     await populateProfile();
     setupNavigation();
     setupDialogs();
@@ -81,7 +142,7 @@
 
     renderAlbums();
     renderDeckLibrary();
-    resumeAdminSession();
+    await resumeAdminSession();
     activateAnimatedMedia();
     document.addEventListener(
       "pointerdown",
@@ -91,6 +152,198 @@
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden) activateAnimatedMedia();
     });
+  }
+
+  function setupDeviceProfile() {
+    const apply = () => {
+      const width = Math.round(window.visualViewport?.width || window.innerWidth);
+      const touch = navigator.maxTouchPoints > 0;
+      const device = width <= 720 ? "phone" : width <= 1100 ? "tablet" : "desktop";
+      document.body.classList.remove(
+        "device-phone",
+        "device-tablet",
+        "device-desktop"
+      );
+      document.body.classList.add("device-" + device);
+      document.body.classList.toggle(
+        "orientation-portrait",
+        window.innerHeight > width
+      );
+      document.body.classList.toggle("touch-device", touch);
+      document.documentElement.style.setProperty("--viewport-width", width + "px");
+    };
+    apply();
+    window.addEventListener("resize", apply, { passive: true });
+    window.addEventListener("orientationchange", () => {
+      window.setTimeout(apply, 80);
+    });
+    window.visualViewport?.addEventListener("resize", apply, { passive: true });
+  }
+
+  function setupTheme() {
+    const dialog = $("#theme-dialog");
+    const applyTheme = (theme, persist = true) => {
+      const normalized = THEME_META[theme] ? theme : "deep-blue";
+      document.documentElement.dataset.theme = normalized;
+      $$("[data-theme-option]").forEach((button) => {
+        const active = button.dataset.themeOption === normalized;
+        button.classList.toggle("selected", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      const meta = $('meta[name="theme-color"]');
+      if (meta) meta.content = THEME_META[normalized].color;
+      if (persist) {
+        try {
+          localStorage.setItem("kerry-site-theme", normalized);
+        } catch {
+          // Theme choice remains active for this page when storage is unavailable.
+        }
+      }
+    };
+    const updateSeasonalBadges = (seasonal) => {
+      $$("[data-seasonal-badge]").forEach((badge) => {
+        const active = badge.dataset.seasonalBadge === seasonal?.theme;
+        badge.hidden = !active;
+        if (active) badge.textContent = seasonal.label;
+      });
+    };
+    const savedTheme = (() => {
+      try {
+        const saved = localStorage.getItem("kerry-site-theme");
+        return THEME_META[saved] ? saved : "deep-blue";
+      } catch {
+        return "deep-blue";
+      }
+    })();
+    const seasonal = getSeasonalTheme(new Date());
+    state.seasonalThemeKey = seasonal?.theme || "";
+    updateSeasonalBadges(seasonal);
+    applyTheme(seasonal?.theme || savedTheme, false);
+
+    $("#theme-entry").addEventListener("click", () => {
+      applyTheme(document.documentElement.dataset.theme, false);
+      updateSeasonalBadges(getSeasonalTheme(new Date()));
+      openDialog(dialog);
+    });
+    $$("[data-theme-option]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const theme = button.dataset.themeOption;
+        state.themeUserOverride = true;
+        applyTheme(theme, true);
+        showToast("已切换为" + THEME_META[theme].name + "主题。");
+      });
+    });
+
+    window.setInterval(() => {
+      const currentSeasonal = getSeasonalTheme(new Date());
+      const nextKey = currentSeasonal?.theme || "";
+      if (nextKey === state.seasonalThemeKey) return;
+      state.seasonalThemeKey = nextKey;
+      updateSeasonalBadges(currentSeasonal);
+      if (!state.themeUserOverride) {
+        applyTheme(nextKey || savedTheme, false);
+      }
+    }, 60_000);
+  }
+
+  function getSeasonalTheme(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const dateValue = year * 10000 + month * 100 + day;
+
+    if (
+      (month === 12 && day === 31) ||
+      (month === 1 && day <= 2)
+    ) {
+      return { theme: "new-year", label: "元旦主题" };
+    }
+
+    const qingming = QINGMING_DATES[year];
+    if (qingming && month === qingming[0] && day === qingming[1]) {
+      return { theme: "qingming", label: "清明主题" };
+    }
+
+    const easter = getEasterDate(year);
+    const easterValue =
+      easter.getFullYear() * 10000 +
+      (easter.getMonth() + 1) * 100 +
+      easter.getDate();
+    if (
+      dateValue >= shiftDateValue(easter, -2) &&
+      dateValue <= shiftDateValue(easter, 1)
+    ) {
+      return { theme: "easter", label: "复活节主题" };
+    }
+
+    if (month === 12 && day >= 24 && day <= 26) {
+      return { theme: "christmas", label: "圣诞主题" };
+    }
+
+    const thanksgivingStart = getThanksgivingDate(year);
+    const thanksgivingDay = thanksgivingStart.getDate();
+    if (
+      month === 11 &&
+      day >= thanksgivingDay &&
+      day <= thanksgivingDay + 3
+    ) {
+      return { theme: "gratitude", label: "感恩主题" };
+    }
+
+    for (const springYear of [year - 1, year]) {
+      const parts = SPRING_FESTIVAL_DATES[springYear];
+      if (!parts) continue;
+      const springDate = new Date(
+        springYear,
+        parts[0] - 1,
+        parts[1],
+        12
+      );
+      const springValue =
+        springDate.getFullYear() * 10000 +
+        (springDate.getMonth() + 1) * 100 +
+        springDate.getDate();
+      const eve = shiftDateValue(springDate, -1);
+      const end = shiftDateValue(springDate, 7);
+      if (dateValue >= eve && dateValue <= end) {
+        return { theme: "spring-festival", label: "春节主题" };
+      }
+    }
+    return null;
+  }
+
+  function getEasterDate(year) {
+    const a = year % 19;
+    const b = Math.floor(year / 100);
+    const c = year % 100;
+    const d = Math.floor(b / 4);
+    const e = b % 4;
+    const f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4);
+    const k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7;
+    const m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const month = Math.floor((h + l - 7 * m + 114) / 31);
+    const day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(year, month - 1, day, 12);
+  }
+
+  function getThanksgivingDate(year) {
+    const firstDay = new Date(year, 10, 1, 12).getDay();
+    const firstThursday = 1 + ((4 - firstDay + 7) % 7);
+    return new Date(year, 10, firstThursday + 21, 12);
+  }
+
+  function shiftDateValue(date, days) {
+    const shifted = new Date(date);
+    shifted.setDate(shifted.getDate() + days);
+    return (
+      shifted.getFullYear() * 10000 +
+      (shifted.getMonth() + 1) * 100 +
+      shifted.getDate()
+    );
   }
 
   function updateBackToTopPlacement() {
@@ -209,7 +462,7 @@
       groupContainer.replaceChildren(
         ...state.tagGroups.map((group) => {
           const card = document.createElement("article");
-          card.className = "taste-card";
+          card.className = "taste-card reveal";
           const title = document.createElement("div");
           title.className = "taste-title";
           const heading = document.createElement("strong");
@@ -228,6 +481,7 @@
           return card;
         })
       );
+      observeRevealElements(groupContainer);
     }
   }
 
@@ -248,7 +502,7 @@
     container.replaceChildren(
       ...state.contactGroups.map((group) => {
         const card = document.createElement("article");
-        card.className = "contact-group-card";
+        card.className = "contact-group-card reveal";
         const title = document.createElement("strong");
         title.textContent = group.title;
         const items = document.createElement("div");
@@ -268,6 +522,7 @@
         return card;
       })
     );
+    observeRevealElements(container);
   }
 
   function setupContactEditor() {
@@ -466,45 +721,60 @@
     const heroButton = $("#hero-upload-button");
     const heroInput = $("#hero-file-input");
     const avatarButton = $("#avatar-upload-button");
-    const avatarInput = $("#avatar-file-input");
+    const avatarInput = $("#avatar-history-file-input");
 
     heroButton.addEventListener("click", () => {
       if (!requireAdmin()) return;
-      const current = state.sharedProfile.heroMedia;
-      state.selectedHeroId =
-        typeof current === "object"
-          ? current?.id || ""
-          : "";
+      state.heroSelectionMode = false;
+      state.selectedHeroIds = [];
       renderHeroImageList();
       openDialog($("#hero-dialog"));
     });
-    $("#hero-select-button").addEventListener("click", () => {
-      const media = selectedHeroImage();
-      if (media) selectHeroImage(media);
+    $("#hero-multi-toggle").addEventListener("click", toggleHeroSelectionMode);
+    $("#hero-set-cover").addEventListener("click", () => {
+      if (state.selectedHeroIds.length === 1) {
+        const media = heroMediaById(state.selectedHeroIds[0]);
+        if (media) selectHeroImage(media);
+      }
     });
-    $("#hero-delete-button").addEventListener("click", deleteSelectedHeroImage);
-    avatarButton.addEventListener("click", () => avatarInput.click());
+    $("#hero-delete-button").addEventListener("click", deleteSelectedHeroImages);
+    avatarButton.addEventListener("click", () => {
+      if (!requireAdmin()) return;
+      state.avatarSelectionMode = false;
+      state.selectedAvatarIds = [];
+      $("#avatar-dialog-status").textContent = "";
+      renderAvatarHistory();
+      openDialog($("#avatar-dialog"));
+    });
+    $("#avatar-multi-toggle").addEventListener("click", toggleAvatarSelectionMode);
+    $("#avatar-set-current").addEventListener("click", useSelectedAvatar);
+    $("#avatar-delete-selected").addEventListener("click", deleteSelectedAvatars);
 
     heroInput.addEventListener("change", async () => {
-      const file = heroInput.files?.[0];
-      if (!file || !requireAdmin()) return;
+      const selectedFiles = [...(heroInput.files || [])];
+      if (!selectedFiles.length || !requireAdmin()) return;
       heroButton.disabled = true;
-      showToast("正在处理首页图片...");
-      const previousHero = state.sharedProfile.heroMedia;
+      showToast("正在处理 " + selectedFiles.length + " 个首页背景文件...");
       const previousPendingHero = state.pendingHeroMedia;
+      const previousPendingItems = [...state.pendingHeroItems];
       try {
-        const media = await createMediaItem(file);
-        state.pendingHeroMedia = media;
-        displayHeroMedia(media);
-        await publishSharedContent("Update homepage background");
-        state.selectedHeroId = state.sharedProfile.heroMedia?.id || "";
+        const items = [];
+        for (const file of selectedFiles) {
+          items.push(await createMediaItem(file));
+        }
+        state.pendingHeroItems = items;
+        state.pendingHeroMedia = null;
+        if (items[0]) displayHeroMedia(items[0]);
+        await publishSharedContent("Upload homepage backgrounds");
+        state.heroSelectionMode = false;
+        state.selectedHeroIds = [];
         renderHeroImageList();
         showToast("首页背景已发布到共享网站。");
       } catch (error) {
         state.pendingHeroMedia = previousPendingHero;
-        state.sharedProfile.heroMedia = previousHero;
-        if (previousHero) {
-          displayHeroMedia(previousHero);
+        state.pendingHeroItems = previousPendingItems;
+        if (state.sharedProfile.heroMedia) {
+          displayHeroMedia(state.sharedProfile.heroMedia);
         } else {
           await applyHeroMedia(DATA.profile?.heroMedia);
         }
@@ -516,27 +786,36 @@
     });
 
     avatarInput.addEventListener("change", async () => {
-      const file = avatarInput.files?.[0];
-      if (!file || !requireAdmin()) return;
+      const files = [...(avatarInput.files || [])];
+      if (!files.length || !requireAdmin()) return;
       avatarButton.disabled = true;
-      showToast("正在处理头像...");
-      const slot = $("[data-avatar-slot]");
-      const previousBackground = slot.style.backgroundImage;
-      const hadImage = slot.classList.contains("has-image");
-      const previousAvatar = state.sharedProfile.avatar;
+      const status = $("#avatar-dialog-status");
+      status.textContent = "正在处理 " + files.length + " 张头像...";
+      const previousPendingItems = [...state.pendingAvatarItems];
       const previousPendingAvatar = state.pendingAvatarMedia;
       try {
-        const media = await createMediaItem(file);
-        if (media.kind !== "photo") throw new Error("请选择静态图片作为头像");
-        state.pendingAvatarMedia = media;
-        displayAvatarMedia(media);
-        await publishSharedContent("Update profile avatar");
+        const items = [];
+        for (const file of files) {
+          const media = await createMediaItem(file);
+          if (media.kind !== "photo") {
+            throw new Error("请选择图片文件作为头像");
+          }
+          items.push(media);
+        }
+        state.pendingAvatarItems = items;
+        state.pendingAvatarMedia = null;
+        if (items[0]) displayAvatarMedia(items[0]);
+        await publishSharedContent("Upload profile avatars");
+        state.avatarSelectionMode = false;
+        state.selectedAvatarIds = [];
+        renderAvatarHistory();
+        status.textContent = "头像已上传并发布。";
         showToast("头像已发布到共享网站。");
       } catch (error) {
-        state.sharedProfile.avatar = previousAvatar;
+        state.pendingAvatarItems = previousPendingItems;
         state.pendingAvatarMedia = previousPendingAvatar;
-        slot.style.backgroundImage = previousBackground;
-        slot.classList.toggle("has-image", hadImage);
+        await renderSharedAvatar();
+        status.textContent = "头像处理失败：" + error.message;
         showToast("头像处理失败：" + error.message);
       } finally {
         avatarButton.disabled = false;
@@ -560,22 +839,23 @@
       empty.className = "hero-list-empty";
       empty.textContent = "还没有上传过新的首页背景。";
       list.replaceChildren(empty);
-      $("#hero-select-button").disabled = true;
-      $("#hero-delete-button").disabled = true;
+      syncHeroSelectionUI();
       return;
     }
 
-    if (!images.some((media) => (media.id || media.src) === state.selectedHeroId)) {
-      state.selectedHeroId = currentKey;
-    }
+    state.selectedHeroIds = state.selectedHeroIds.filter((id) =>
+      images.some((media) => (media.id || media.src) === id)
+    );
 
     list.replaceChildren(
       ...images.map((media, index) => {
         const button = document.createElement("button");
         button.type = "button";
+        const key = media.id || media.src;
         button.className = "hero-list-item" +
-          ((media.id || media.src) === state.selectedHeroId ? " selected" : "") +
-          ((media.id || media.src) === currentKey ? " in-use" : "");
+          (state.selectedHeroIds.includes(key) ? " selected" : "") +
+          (key === currentKey ? " in-use" : "");
+        button.dataset.heroId = key;
         const preview = document.createElement("div");
         preview.className = "hero-list-preview";
         preview.append(createMediaNode(media, state.mainUrls, true));
@@ -583,80 +863,119 @@
         label.textContent = "背景 " + String(index + 1).padStart(2, "0");
         const stateLabel = document.createElement("small");
         stateLabel.textContent =
-          (media.id || media.src) === currentKey
+          key === currentKey
             ? "当前使用"
-            : (media.id || media.src) === state.selectedHeroId
+            : state.selectedHeroIds.includes(key)
               ? "已选择"
-              : "点击选择";
+              : state.heroSelectionMode
+                ? "点击多选"
+                : "点击进入多选";
         button.append(preview, label, stateLabel);
         button.addEventListener("click", () => {
-          state.selectedHeroId = media.id || media.src;
-          renderHeroImageList();
+          if (!state.heroSelectionMode) {
+            state.heroSelectionMode = true;
+          }
+          const selected = state.selectedHeroIds.includes(key);
+          state.selectedHeroIds = selected
+            ? state.selectedHeroIds.filter((id) => id !== key)
+            : [...state.selectedHeroIds, key];
+          syncHeroSelectionUI();
         });
         return button;
       })
     );
-    $("#hero-select-button").disabled = !state.selectedHeroId;
-    $("#hero-delete-button").disabled = !state.selectedHeroId;
+    syncHeroSelectionUI();
     activateAnimatedMedia(list);
+  }
+
+  function heroMediaById(id) {
+    return (state.sharedProfile.heroImages || []).find(
+      (media) => (media.id || media.src) === id
+    ) || null;
+  }
+
+  function toggleHeroSelectionMode() {
+    state.heroSelectionMode = !state.heroSelectionMode;
+    state.selectedHeroIds = [];
+    syncHeroSelectionUI();
+  }
+
+  function syncHeroSelectionUI() {
+    $("#hero-multi-toggle").textContent = state.heroSelectionMode
+      ? "退出多选"
+      : "多选";
+    $("#hero-set-cover").hidden = !state.heroSelectionMode;
+    $("#hero-delete-button").hidden = !state.heroSelectionMode;
+    $("#hero-set-cover").disabled = state.selectedHeroIds.length !== 1;
+    $("#hero-delete-button").disabled = state.selectedHeroIds.length === 0;
+    $$(".hero-list-item", $("#hero-image-list")).forEach((card) => {
+      const selected = state.selectedHeroIds.includes(card.dataset.heroId);
+      card.classList.toggle("selected", selected);
+      let check = card.querySelector(".photo-selected-check");
+      if (selected && !check) {
+        check = document.createElement("span");
+        check.className = "photo-selected-check";
+        check.textContent = "✓";
+        card.append(check);
+      } else if (!selected && check) {
+        check.remove();
+      }
+    });
   }
 
   async function selectHeroImage(media) {
     if (!requireAdmin()) return;
     const previousHero = state.sharedProfile.heroMedia;
-    const previousSelectedId = state.selectedHeroId;
+    const previousSelectedIds = [...state.selectedHeroIds];
     state.sharedProfile.heroMedia = media;
-    state.selectedHeroId = media.id || media.src || "";
     displayHeroMedia(media);
     statusToastInDialog("正在切换首页背景...");
     try {
       await publishSharedContent("Change homepage background");
+      state.heroSelectionMode = false;
+      state.selectedHeroIds = [];
       renderHeroImageList();
       showToast("首页背景已切换并发布。");
     } catch (error) {
       state.sharedProfile.heroMedia = previousHero;
-      state.selectedHeroId = previousSelectedId;
+      state.selectedHeroIds = previousSelectedIds;
       if (previousHero) displayHeroMedia(previousHero);
       renderHeroImageList();
       showToast("背景切换失败：" + error.message);
     }
   }
 
-  function selectedHeroImage() {
-    return (state.sharedProfile.heroImages || []).find(
-      (media) => (media.id || media.src) === state.selectedHeroId
-    ) || null;
-  }
-
-  async function deleteSelectedHeroImage() {
+  async function deleteSelectedHeroImages() {
     if (!requireAdmin()) return;
-    const selected = selectedHeroImage();
-    if (!selected) return;
-    if (!window.confirm("从背景列表中删除当前选中的背景吗？")) return;
+    const selectedIds = [...state.selectedHeroIds];
+    if (!selectedIds.length) return;
+    if (!window.confirm("从背景列表中删除选中的 " + selectedIds.length + " 个背景吗？")) {
+      return;
+    }
 
     const previousImages = [...(state.sharedProfile.heroImages || [])];
     const previousHero = state.sharedProfile.heroMedia;
     const previousKey = typeof previousHero === "string"
       ? previousHero
       : previousHero?.id || previousHero?.src || "";
-    const deletingCurrent = previousKey === state.selectedHeroId;
+    const deletingCurrent = selectedIds.includes(previousKey);
     state.sharedProfile.heroImages = previousImages.filter(
-      (media) => (media.id || media.src) !== state.selectedHeroId
+      (media) => !selectedIds.includes(media.id || media.src)
     );
     const next = deletingCurrent
       ? state.sharedProfile.heroImages[0] || null
       : previousHero;
     state.sharedProfile.heroMedia = next;
-    state.selectedHeroId = next ? (next.id || next.src) : "";
-    if (deletingCurrent && next) displayHeroMedia(next);
+    state.heroSelectionMode = false;
+    state.selectedHeroIds = [];
+    if (deletingCurrent) {
+      if (next) displayHeroMedia(next);
+      else clearHeroDisplay();
+    }
 
     try {
       await publishSharedContent("Delete homepage background");
       if (deletingCurrent && !next) {
-        revokeUrls(state.heroUrls);
-        state.heroUrls = [];
-        $$(".hero-site-media", $(".hero-image-frame")).forEach((node) => node.remove());
-        $(".hero-placeholder-art").hidden = false;
         await applyHeroMedia(DATA.profile?.heroMedia);
       }
       renderHeroImageList();
@@ -664,7 +983,6 @@
     } catch (error) {
       state.sharedProfile.heroImages = previousImages;
       state.sharedProfile.heroMedia = previousHero;
-      state.selectedHeroId = selected.id || selected.src || "";
       if (previousHero) displayHeroMedia(previousHero);
       renderHeroImageList();
       showToast("背景删除失败：" + error.message);
@@ -673,6 +991,14 @@
 
   function statusToastInDialog(message) {
     showToast(message);
+  }
+
+  function clearHeroDisplay() {
+    revokeUrls(state.heroUrls);
+    state.heroUrls = [];
+    $$(".hero-site-media", $(".hero-image-frame")).forEach((node) => node.remove());
+    const art = $(".hero-placeholder-art");
+    if (art) art.hidden = false;
   }
 
   function displayAvatarMedia(media) {
@@ -691,6 +1017,152 @@
     slot.classList.add("has-image");
   }
 
+  function avatarHistoryItems() {
+    const history = Array.isArray(state.sharedProfile.avatarImages)
+      ? state.sharedProfile.avatarImages.filter((item) => item?.src)
+      : [];
+    if (
+      state.sharedProfile.avatar &&
+      !history.some((item) => item.src === state.sharedProfile.avatar)
+    ) {
+      history.unshift({
+        id: "avatar-legacy",
+        src: state.sharedProfile.avatar,
+        title: "当前头像",
+        createdAt: ""
+      });
+    }
+    return history;
+  }
+
+  function renderAvatarHistory() {
+    const list = $("#avatar-history-list");
+    const history = avatarHistoryItems();
+    state.selectedAvatarIds = state.selectedAvatarIds.filter((id) =>
+      history.some((item) => item.id === id)
+    );
+    if (!history.length) {
+      const empty = document.createElement("p");
+      empty.className = "avatar-history-empty";
+      empty.textContent = "还没有上传过头像。";
+      list.replaceChildren(empty);
+      syncAvatarSelectionUI();
+      return;
+    }
+
+    list.replaceChildren(
+      ...history.map((item) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "avatar-history-card" +
+          (state.selectedAvatarIds.includes(item.id) ? " selected" : "") +
+          (item.src === state.sharedProfile.avatar ? " in-use" : "");
+        card.dataset.avatarId = item.id;
+        const image = document.createElement("img");
+        image.src = item.src;
+        image.alt = item.title || "历史头像";
+        image.loading = "lazy";
+        const title = document.createElement("span");
+        title.textContent = item.src === state.sharedProfile.avatar
+          ? "当前头像"
+          : item.title || "历史头像";
+        if (state.selectedAvatarIds.includes(item.id)) {
+          const check = document.createElement("span");
+          check.className = "photo-selected-check";
+          check.textContent = "✓";
+          card.append(check);
+        }
+        card.append(image, title);
+        card.addEventListener("click", () => {
+          if (!state.avatarSelectionMode) state.avatarSelectionMode = true;
+          const selected = state.selectedAvatarIds.includes(item.id);
+          state.selectedAvatarIds = selected
+            ? state.selectedAvatarIds.filter((id) => id !== item.id)
+            : [...state.selectedAvatarIds, item.id];
+          syncAvatarSelectionUI();
+        });
+        return card;
+      })
+    );
+    syncAvatarSelectionUI();
+  }
+
+  function toggleAvatarSelectionMode() {
+    state.avatarSelectionMode = !state.avatarSelectionMode;
+    state.selectedAvatarIds = [];
+    syncAvatarSelectionUI();
+  }
+
+  function syncAvatarSelectionUI() {
+    $("#avatar-multi-toggle").textContent = state.avatarSelectionMode
+      ? "退出多选"
+      : "多选";
+    $("#avatar-set-current").hidden = !state.avatarSelectionMode;
+    $("#avatar-delete-selected").hidden = !state.avatarSelectionMode;
+    $("#avatar-set-current").disabled = state.selectedAvatarIds.length !== 1;
+    $("#avatar-delete-selected").disabled = state.selectedAvatarIds.length === 0;
+    $$(".avatar-history-card", $("#avatar-history-list")).forEach((card) => {
+      const selected = state.selectedAvatarIds.includes(card.dataset.avatarId);
+      card.classList.toggle("selected", selected);
+      let check = card.querySelector(".photo-selected-check");
+      if (selected && !check) {
+        check = document.createElement("span");
+        check.className = "photo-selected-check";
+        check.textContent = "✓";
+        card.append(check);
+      } else if (!selected && check) {
+        check.remove();
+      }
+    });
+  }
+
+  async function useSelectedAvatar() {
+    if (!requireAdmin() || state.selectedAvatarIds.length !== 1) return;
+    const avatar = avatarHistoryItems().find(
+      (item) => item.id === state.selectedAvatarIds[0]
+    );
+    if (!avatar) return;
+    const previousAvatar = state.sharedProfile.avatar;
+    state.sharedProfile.avatar = avatar.src;
+    try {
+      await publishSharedContent("Choose profile avatar");
+      state.avatarSelectionMode = false;
+      state.selectedAvatarIds = [];
+      await renderSharedAvatar();
+      renderAvatarHistory();
+      $("#avatar-dialog-status").textContent = "当前头像已更新。";
+    } catch (error) {
+      state.sharedProfile.avatar = previousAvatar;
+      $("#avatar-dialog-status").textContent = "头像切换失败：" + error.message;
+    }
+  }
+
+  async function deleteSelectedAvatars() {
+    if (!requireAdmin() || !state.selectedAvatarIds.length) return;
+    const ids = new Set(state.selectedAvatarIds);
+    const previousHistory = [...avatarHistoryItems()];
+    const previousAvatar = state.sharedProfile.avatar;
+    const history = previousHistory.filter((item) => !ids.has(item.id));
+    state.sharedProfile.avatarImages = history;
+    if (ids.has("avatar-legacy") || !history.some((item) => item.src === previousAvatar)) {
+      state.sharedProfile.avatar = history[0]?.src || "";
+    }
+    try {
+      await publishSharedContent("Delete profile avatars");
+      state.avatarSelectionMode = false;
+      state.selectedAvatarIds = [];
+      await renderSharedAvatar();
+      renderAvatarHistory();
+      $("#avatar-dialog-status").textContent = "所选头像已从仓库中删除。";
+    } catch (error) {
+      state.sharedProfile.avatarImages = previousHistory;
+      state.sharedProfile.avatar = previousAvatar;
+      await renderSharedAvatar();
+      renderAvatarHistory();
+      $("#avatar-dialog-status").textContent = "头像删除失败：" + error.message;
+    }
+  }
+
   function displayHeroMedia(media) {
     const frame = $(".hero-image-frame");
     const art = $(".hero-placeholder-art");
@@ -700,12 +1172,14 @@
     $$(".hero-site-media", frame).forEach((element) => element.remove());
     const node = createMediaNode(media, state.heroUrls, false);
     node.classList.add("hero-site-media");
+    if (node.tagName === "IMG") node.alt = "";
     node.autoplay = true;
     node.muted = true;
     node.loop = true;
     node.controls = false;
     frame.insertBefore(node, art.nextSibling);
     art.hidden = true;
+    watchAdaptiveTitleContrast(node, $("h1", frame));
     activateAnimatedMedia(frame);
   }
 
@@ -739,6 +1213,7 @@
         media.loop = true;
         frame.insertBefore(media, art.nextSibling);
         art.hidden = true;
+        watchAdaptiveTitleContrast(media, $("h1", frame));
         activateAnimatedMedia(frame);
         return;
       }
@@ -753,6 +1228,7 @@
         video.playsInline = true;
         frame.insertBefore(video, art.nextSibling);
         art.hidden = true;
+        watchAdaptiveTitleContrast(video, $("h1", frame));
         activateAnimatedMedia(frame);
         return;
       }
@@ -764,6 +1240,7 @@
       image.alt = "";
       frame.insertBefore(image, art.nextSibling);
       art.hidden = true;
+      watchAdaptiveTitleContrast(image, $("h1", frame));
       activateAnimatedMedia(frame);
     } catch (error) {
       console.warn("Hero media could not be loaded:", error);
@@ -816,6 +1293,31 @@
     const content = await response.json();
     state.sharedContent = content;
     state.sharedProfile = { ...(content.profile || {}) };
+    if (
+      state.sharedProfile.avatar &&
+      !Array.isArray(state.sharedProfile.avatarImages)
+    ) {
+      state.sharedProfile.avatarImages = [{
+        id: "avatar-legacy",
+        src: state.sharedProfile.avatar,
+        title: "当前头像",
+        createdAt: ""
+      }];
+    }
+    if (
+      state.sharedProfile.heroMedia &&
+      typeof state.sharedProfile.heroMedia === "object"
+    ) {
+      const heroImages = Array.isArray(state.sharedProfile.heroImages)
+        ? [...state.sharedProfile.heroImages]
+        : [];
+      if (!heroImages.some(
+        (media) => media.id === state.sharedProfile.heroMedia.id
+      )) {
+        heroImages.unshift(state.sharedProfile.heroMedia);
+      }
+      state.sharedProfile.heroImages = heroImages;
+    }
     state.attributes = Array.isArray(content.attributes)
       ? content.attributes.map((row) => ({
           id: row.id || createId("attribute"),
@@ -878,17 +1380,7 @@
   }
 
   async function applySharedProfile(profile) {
-    const avatarPath = String(profile?.avatar || "").trim();
-    if (avatarPath) {
-      try {
-        revokeUrls(state.avatarUrls);
-        state.avatarUrls = [];
-        const avatarSource = await resolveImagePath(avatarPath, state.avatarUrls);
-        setAvatarSource(avatarSource);
-      } catch (error) {
-        console.warn("Shared avatar could not be loaded:", error);
-      }
-    }
+    await renderSharedAvatar();
 
     const hero = profile?.heroMedia;
     if (hero && typeof hero === "object") {
@@ -907,6 +1399,31 @@
     slot.style.backgroundSize = "cover";
     slot.style.backgroundPosition = "center";
     slot.classList.add("has-image");
+  }
+
+  async function renderSharedAvatar() {
+    const avatarPath = String(state.sharedProfile?.avatar || "").trim();
+    if (!avatarPath) {
+      clearAvatarSource();
+      return;
+    }
+    try {
+      revokeUrls(state.avatarUrls);
+      state.avatarUrls = [];
+      const avatarSource = await resolveImagePath(avatarPath, state.avatarUrls);
+      setAvatarSource(avatarSource);
+    } catch (error) {
+      console.warn("Shared avatar could not be loaded:", error);
+      clearAvatarSource();
+    }
+  }
+
+  function clearAvatarSource() {
+    revokeUrls(state.avatarUrls);
+    state.avatarUrls = [];
+    const slot = $("[data-avatar-slot]");
+    slot.style.backgroundImage = "";
+    slot.classList.remove("has-image");
   }
 
   function setupAdmin() {
@@ -954,14 +1471,14 @@
   function setupReportAccess() {
     $("#report-access-trigger").addEventListener("click", () => {
       if (state.isAdmin) {
-        $("#hidden-current-password").value = "";
         $("#hidden-new-password").value = "";
         $("#hidden-confirm-password").value = "";
         $("#hidden-password-status").textContent =
-          state.reportAccess?.manifest
-            ? "请输入当前口令，再设置新的访客口令。"
-            : "首次设置时，当前口令可以留空。";
+          state.reportAccess?.version === 2
+            ? "管理员已通过 Token 自动解锁，可以直接设置新的访客口令。"
+            : "设置口令后，Report 页面和图片会以加密形式保存。";
         openDialog($("#hidden-password-dialog"));
+        window.setTimeout(() => $("#hidden-new-password").focus(), 60);
         return;
       }
       $("#report-token-input").value = "";
@@ -1009,7 +1526,7 @@
     $("#report-nav-link").hidden = !visible;
     $("#diary").hidden = !visible;
     const trigger = $("#report-access-trigger");
-    trigger.hidden = visible && !state.isAdmin;
+    trigger.hidden = !state.isAdmin && visible;
     trigger.textContent = state.isAdmin ? "口令编辑" : "查看隐藏内容";
   }
 
@@ -1026,65 +1543,59 @@
   }
 
   async function unlockReport(token, silent = false) {
-    if (state.reportAccess?.manifest && state.reportAccess?.salt) {
-      const { key, salt, manifest } = await decryptReportManifest(token);
-      state.reportKey = key;
-      state.reportSalt = salt;
-      state.decks = normalizeEncryptedDecks(manifest.decks || []);
+    if (!state.reportAccess?.manifest) {
+      if (!state.isAdmin) {
+        throw new Error("管理员尚未设置日常Report访问口令。");
+      }
+      state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
       state.reportUnlocked = true;
-      sessionStorage.setItem("kerry-report-token", token);
       setReportVisibility(true);
       state.currentDeckId = state.decks[0]?.id || null;
       state.renderedDeckId = null;
       renderDeckLibrary();
-      if (!silent) {
-        $("#diary").scrollIntoView({ behavior: "smooth", block: "start" });
-        showToast("日常Report已解锁。");
-      }
       return;
     }
 
-    if (!state.isAdmin) {
-      throw new Error("管理员尚未设置日常Report访问口令。");
+    let key;
+    let rawKey;
+    if (state.reportAccess.version === 2 && state.reportAccess.visitorWrap) {
+      const wrappingKey = await deriveReportKey(
+        token,
+        base64ToBytes(state.reportAccess.visitorSalt)
+      );
+      rawKey = await decryptBytes(
+        base64ToBytes(state.reportAccess.visitorWrap),
+        wrappingKey
+      );
+      key = await importReportContentKey(rawKey);
+    } else {
+      if (!state.reportAccess.salt) {
+        throw new Error("旧版隐藏内容缺少解密参数。");
+      }
+      const salt = base64ToBytes(state.reportAccess.salt);
+      key = await deriveReportKey(token, salt);
+      rawKey = new Uint8Array(await crypto.subtle.exportKey("raw", key));
     }
 
-    const salt = crypto.getRandomValues(new Uint8Array(16));
-    const key = await deriveReportKey(token, salt);
+    const manifest = await readEncryptedManifest(key);
     state.reportKey = key;
-    state.reportSalt = salt;
-    state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
+    state.reportRawKey = new Uint8Array(rawKey);
+    state.decks = normalizeEncryptedDecks(manifest.decks || []);
+    trackReportFilePaths(manifest);
     state.reportUnlocked = true;
-    state.currentDeckId = state.decks[0]?.id || null;
+    state.reportUnlockedByVisitor = true;
     sessionStorage.setItem("kerry-report-token", token);
     setReportVisibility(true);
+    state.currentDeckId = state.decks[0]?.id || null;
     state.renderedDeckId = null;
     renderDeckLibrary();
-    try {
-      await publishSharedContent("Enable encrypted report access", {
-        includeReports: true
-      });
-    } catch (error) {
-      state.reportKey = null;
-      state.reportSalt = null;
-      state.decks = [];
-      state.reportUnlocked = false;
-      sessionStorage.removeItem("kerry-report-token");
-      setReportVisibility(false);
-      renderDeckLibrary();
-      throw error;
-    }
     if (!silent) {
       $("#diary").scrollIntoView({ behavior: "smooth", block: "start" });
-      showToast("Report 加密口令已设置，旧 Report 已迁移。");
+      showToast("日常Report已解锁。");
     }
   }
 
-  async function decryptReportManifest(token) {
-    if (!state.reportAccess?.manifest || !state.reportAccess?.salt) {
-      throw new Error("隐藏内容尚未设置加密口令。");
-    }
-    const salt = base64ToBytes(state.reportAccess.salt);
-    const key = await deriveReportKey(token, salt);
+  async function readEncryptedManifest(key) {
     const response = await fetch(
       new URL(state.reportAccess.manifest, document.baseURI).href +
         "?v=" + Date.now(),
@@ -1096,11 +1607,7 @@
         new Uint8Array(await response.arrayBuffer()),
         key
       );
-      return {
-        key,
-        salt,
-        manifest: JSON.parse(new TextDecoder().decode(plaintext))
-      };
+      return JSON.parse(new TextDecoder().decode(plaintext));
     } catch {
       throw new Error("隐藏内容口令不正确，或加密数据已损坏。");
     }
@@ -1108,7 +1615,6 @@
 
   async function saveHiddenContentPassword() {
     if (!requireAdmin()) return;
-    const current = $("#hidden-current-password").value.trim();
     const next = $("#hidden-new-password").value.trim();
     const confirmation = $("#hidden-confirm-password").value.trim();
     const status = $("#hidden-password-status");
@@ -1126,17 +1632,36 @@
     button.disabled = true;
     status.textContent = "正在更新加密口令...";
     try {
-      if (state.reportAccess?.manifest) {
-        if (!current) throw new Error("修改口令前必须输入当前口令。");
-        const decrypted = await decryptReportManifest(current);
-        state.decks = normalizeEncryptedDecks(decrypted.manifest.decks || []);
-      } else {
+      if (!state.reportAccess?.manifest && !state.legacyDecks.length) {
+        state.decks = state.decks || [];
+      }
+      if (state.reportAccess?.manifest && !state.reportRawKey) {
+        throw new Error(
+          "该内容来自 V0.2 的旧版直接加密。请先用旧访客口令解锁一次，再修改口令。"
+        );
+      }
+      if (!state.reportRawKey) {
+        const generated = crypto.getRandomValues(new Uint8Array(32));
+        state.reportRawKey = generated;
+        state.reportKey = await importReportContentKey(generated);
+      }
+      const visitorSalt = crypto.getRandomValues(new Uint8Array(16));
+      const visitorWrappingKey = await deriveReportKey(next, visitorSalt);
+      const visitorWrap = await encryptBytes(
+        state.reportRawKey,
+        visitorWrappingKey
+      );
+      state.reportAccess = {
+        version: 2,
+        manifest: state.reportAccess?.manifest || null,
+        visitorSalt: bytesToBase64(visitorSalt),
+        visitorWrap: bytesToBase64(visitorWrap)
+      };
+      if (!state.decks.length) {
         state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
       }
-      state.reportSalt = crypto.getRandomValues(new Uint8Array(16));
-      state.reportKey = await deriveReportKey(next, state.reportSalt);
       state.reportUnlocked = true;
-      sessionStorage.setItem("kerry-report-token", next);
+      sessionStorage.removeItem("kerry-report-token");
       setReportVisibility(true);
       state.renderedDeckId = null;
       renderDeckLibrary();
@@ -1151,6 +1676,54 @@
     } finally {
       button.disabled = false;
     }
+  }
+
+  async function autoUnlockReportForAdmin() {
+    if (!state.reportAccess?.manifest) {
+      state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
+      state.reportUnlocked = true;
+      state.reportUnlockedByVisitor = false;
+      setReportVisibility(true);
+      return;
+    }
+    if (
+      state.reportAccess.version === 2 &&
+      state.reportAccess.adminWrap &&
+      state.reportAccess.adminSalt
+    ) {
+      const wrappingKey = await deriveReportKey(
+        state.adminToken,
+        base64ToBytes(state.reportAccess.adminSalt)
+      );
+      const rawKey = await decryptBytes(
+        base64ToBytes(state.reportAccess.adminWrap),
+        wrappingKey
+      );
+      const key = await importReportContentKey(rawKey);
+      const manifest = await readEncryptedManifest(key);
+      state.reportRawKey = new Uint8Array(rawKey);
+      state.reportKey = key;
+      state.decks = normalizeEncryptedDecks(manifest.decks || []);
+      trackReportFilePaths(manifest);
+      state.reportUnlocked = true;
+      state.reportUnlockedByVisitor = false;
+      state.currentDeckId = state.decks[0]?.id || null;
+      state.renderedDeckId = null;
+      setReportVisibility(true);
+      renderDeckLibrary();
+      return;
+    }
+
+    const cachedVisitorPassword =
+      sessionStorage.getItem("kerry-report-token");
+    if (cachedVisitorPassword) {
+      await unlockReport(cachedVisitorPassword, true);
+      return;
+    }
+    setReportVisibility(true);
+    throw new Error(
+      "这是 V0.2 旧版直接加密内容。请在本浏览器解锁一次后，V0.3 即可通过管理员 Token 自动解密。"
+    );
   }
 
   function normalizeEncryptedDecks(decks) {
@@ -1187,9 +1760,33 @@
       },
       material,
       { name: "AES-GCM", length: 256 },
+      true,
+      ["encrypt", "decrypt"]
+    );
+  }
+
+  async function importReportContentKey(rawKey) {
+    return crypto.subtle.importKey(
+      "raw",
+      rawKey,
+      { name: "AES-GCM", length: 256 },
       false,
       ["encrypt", "decrypt"]
     );
+  }
+
+  function trackReportFilePaths(manifest) {
+    const paths = new Set();
+    if (state.reportAccess?.manifest) paths.add(state.reportAccess.manifest);
+    for (const deck of manifest?.decks || []) {
+      for (const slide of deck.slides || []) {
+        if (slide.image) paths.add(slide.image);
+        for (const image of slide.images || []) {
+          if (image.encPath) paths.add(image.encPath);
+        }
+      }
+    }
+    state.reportFilePaths = paths;
   }
 
   async function encryptBytes(bytes, key) {
@@ -1288,6 +1885,11 @@
     $("#admin-entry").textContent = "管理已登录";
     setReportVisibility(true);
     renderDeckLibrary();
+    try {
+      await autoUnlockReportForAdmin();
+    } catch (error) {
+      showToast(error.message);
+    }
     updateAdminDialog();
 
     if (!fromSession) {
@@ -1373,11 +1975,23 @@
     sessionStorage.removeItem("kerry-github-admin-token");
     document.body.classList.remove("is-admin");
     $("#admin-entry").textContent = "管理";
-    setReportVisibility(state.reportUnlocked);
-    if (!state.reportUnlocked) {
-      $("#report-access-trigger").textContent = "查看隐藏内容";
+    if (!state.reportUnlockedByVisitor) {
+      state.reportUnlocked = false;
+      state.reportKey = null;
+      state.reportRawKey = null;
+      state.decks = [];
+      state.currentDeckId = null;
+      state.renderedDeckId = null;
+      sessionStorage.removeItem("kerry-report-token");
+      setReportVisibility(false);
+      renderDeckLibrary();
+    } else {
+      setReportVisibility(true);
     }
+    $("#report-access-trigger").textContent = "查看隐藏内容";
     updateAdminDialog();
+    const adminDialog = $("#admin-dialog");
+    if (adminDialog?.open) adminDialog.close();
     showToast("已退出管理员模式，当前页面为只读状态。");
   }
 
@@ -1429,11 +2043,11 @@
     });
   }
 
-  async function commitRepositoryFiles(files, message) {
+  async function commitRepositoryFiles(files, message, options = {}) {
     let lastError = null;
     for (let attempt = 1; attempt <= 4; attempt += 1) {
       try {
-        return await commitRepositoryFilesOnce(files, message);
+        return await commitRepositoryFilesOnce(files, message, options);
       } catch (error) {
         lastError = error;
         const retryable =
@@ -1453,7 +2067,7 @@
     throw lastError;
   }
 
-  async function commitRepositoryFilesOnce(files, message) {
+  async function commitRepositoryFilesOnce(files, message, options = {}) {
     if (!state.isAdmin) throw new Error("管理员尚未登录");
     const config = getUploadConfig();
     const repoInfo = state.repoInfo ||
@@ -1499,6 +2113,17 @@
         mode: "100644",
         type: "blob",
         sha: created.sha
+      });
+    }
+    const writtenPaths = new Set(treeEntries.map((entry) => entry.path));
+    for (const path of options.deletions || []) {
+      if (!path || writtenPaths.has(path)) continue;
+      writtenPaths.add(path);
+      treeEntries.push({
+        path,
+        mode: "100644",
+        type: "blob",
+        sha: null
       });
     }
 
@@ -1547,19 +2172,44 @@
     showToast("正在提交到 GitHub，请稍候...");
     const config = getUploadConfig();
     const files = [];
+    const previousContent = state.sharedContent
+      ? JSON.parse(JSON.stringify(state.sharedContent))
+      : null;
+    const previousReportPaths = new Set(state.reportFilePaths);
     try {
       const content = await buildSharedContent(files, config, options);
       files.push({
         path: config.contentPath,
         content: JSON.stringify(content, null, 2) + "\n"
       });
-      await commitRepositoryFiles(files, message);
+      const currentAssetPaths = collectContentAssetPaths(content);
+      const previousAssetPaths = collectContentAssetPaths(previousContent);
+      const currentReportPaths = options.includeReports
+        ? collectReportPathsFromDecks(state.decks)
+        : previousReportPaths;
+      if (content.reportAccess?.manifest) {
+        currentReportPaths.add(content.reportAccess.manifest);
+      }
+      const deletions = [
+        ...difference(previousAssetPaths, currentAssetPaths),
+        ...difference(previousReportPaths, currentReportPaths)
+      ].filter((path) => path.startsWith(config.assetRoot + "/"));
+      await commitRepositoryFiles(files, message, {
+        deletions: [...new Set(deletions)]
+      });
       state.sharedContent = content;
-      state.sharedProfile = content.profile;
+      state.sharedProfile = {
+        ...content.profile,
+        avatarImages: [...(content.profile?.avatarImages || [])],
+        heroImages: [...(content.profile?.heroImages || [])]
+      };
       state.reportAccess = content.reportAccess || null;
+      state.reportFilePaths = currentReportPaths;
       if (options.includeReports) state.legacyDecks = [];
       state.pendingHeroMedia = null;
+      state.pendingHeroItems = [];
       state.pendingAvatarMedia = null;
+      state.pendingAvatarItems = [];
       showToast("内容已发布到 GitHub，Pages 更新通常需要约一分钟。");
       return content;
     } finally {
@@ -1568,27 +2218,88 @@
     }
   }
 
+  function collectContentAssetPaths(content) {
+    const paths = new Set();
+    const add = (path) => {
+      if (typeof path === "string" && path.trim()) paths.add(path.trim());
+    };
+    const addMedia = (media) => {
+      if (!media) return;
+      add(media.src);
+      add(media.motionSrc);
+      add(media.thumbnail);
+    };
+    const profile = content?.profile || {};
+    add(profile.avatar);
+    for (const avatar of profile.avatarImages || []) add(avatar.src);
+    addMedia(profile.heroMedia);
+    for (const media of profile.heroImages || []) addMedia(media);
+    for (const album of content?.albums || []) {
+      for (const photo of album.photos || []) addMedia(photo);
+    }
+    return paths;
+  }
+
+  function collectReportPathsFromDecks(decks) {
+    const paths = new Set();
+    for (const deck of decks || []) {
+      for (const slide of deck.slides || []) {
+        for (const image of slide.images || []) {
+          if (image.encPath) paths.add(image.encPath);
+        }
+      }
+    }
+    return paths;
+  }
+
+  function difference(left, right) {
+    return [...left].filter((value) => !right.has(value));
+  }
+
   async function buildSharedContent(files, config, options = {}) {
     const profile = { ...(state.sharedProfile || {}) };
     const heroImages = Array.isArray(profile.heroImages)
       ? [...profile.heroImages]
       : [];
+    const avatarImages = Array.isArray(profile.avatarImages)
+      ? [...profile.avatarImages]
+      : [];
     const stamp = Date.now().toString(36);
 
-    if (state.pendingAvatarMedia) {
-      const media = state.pendingAvatarMedia;
+    const pendingAvatars = [
+      ...(state.pendingAvatarItems || []),
+      ...(state.pendingAvatarMedia ? [state.pendingAvatarMedia] : [])
+    ];
+    const avatarItems = [];
+    for (let index = 0; index < pendingAvatars.length; index += 1) {
+      const media = pendingAvatars[index];
       const avatarBlob = media.imageBlob || media.stillBlob;
       if (avatarBlob) {
         const extension = blobExtension(avatarBlob) || ".jpg";
         const path =
-          config.assetRoot + "/profile/avatar-" + stamp + extension;
+          config.assetRoot + "/profile/avatar-" + stamp + "-" + index + extension;
         files.push({ path, content: avatarBlob });
-        profile.avatar = path;
+        avatarItems.push({
+          id: media.id || createId("avatar"),
+          src: path,
+          title: media.title || "头像 " + (index + 1),
+          createdAt: media.createdAt || new Date().toISOString()
+        });
       }
     }
+    if (avatarItems.length) {
+      avatarImages.unshift(...avatarItems);
+      profile.avatar = avatarItems[0].src;
+    }
+    profile.avatarImages = avatarImages;
 
-    if (state.pendingHeroMedia) {
-      const media = state.pendingHeroMedia;
+    const pendingHeroes = [
+      ...(state.pendingHeroItems || []),
+      ...(state.pendingHeroMedia ? [state.pendingHeroMedia] : [])
+    ];
+    const heroItems = [];
+    for (let index = 0; index < pendingHeroes.length; index += 1) {
+      const media = pendingHeroes[index];
       const hero = {
         id: createId("background"),
         kind: media.kind || "photo",
@@ -1596,7 +2307,7 @@
       };
       if (media.motionBlob) {
         const path =
-          config.assetRoot + "/profile/hero-" + stamp + "-live" +
+          config.assetRoot + "/profile/hero-" + stamp + "-" + index + "-live" +
           (blobExtension(media.motionBlob) || ".mp4");
         files.push({ path, content: media.motionBlob });
         hero.motionSrc = path;
@@ -1604,20 +2315,23 @@
       const stillBlob = media.stillBlob || media.imageBlob || media.videoBlob;
       if (stillBlob) {
         const path =
-          config.assetRoot + "/profile/hero-" + stamp +
+          config.assetRoot + "/profile/hero-" + stamp + "-" + index +
           (blobExtension(stillBlob) || ".png");
         files.push({ path, content: stillBlob });
         hero.src = path;
         const thumbnailBlob = await createImageThumbnail(stillBlob);
         if (thumbnailBlob) {
           const thumbnailPath =
-            config.assetRoot + "/profile/hero-" + stamp + "-thumb.jpg";
+            config.assetRoot + "/profile/hero-" + stamp + "-" + index + "-thumb.jpg";
           files.push({ path: thumbnailPath, content: thumbnailBlob });
           hero.thumbnail = thumbnailPath;
         }
       }
-      heroImages.unshift(hero);
-      profile.heroMedia = hero;
+      if (hero.src || hero.motionSrc) heroItems.push(hero);
+    }
+    if (heroItems.length) {
+      heroImages.unshift(...heroItems);
+      profile.heroMedia = heroItems[0];
     }
     profile.heroImages = heroImages;
 
@@ -1713,7 +2427,7 @@
     }
 
     return {
-      version: 2,
+      version: 3,
       updatedAt: new Date().toISOString(),
       profile,
       attributes: state.attributes,
@@ -1740,8 +2454,14 @@
   }
 
   async function buildEncryptedReportPackage(files, config) {
-    if (!state.reportKey || !state.reportSalt) {
+    if (!state.reportKey || !state.reportRawKey) {
       throw new Error("请先设置并解锁日常Report只读口令");
+    }
+    if (
+      !state.reportAccess?.visitorWrap ||
+      !state.reportAccess?.visitorSalt
+    ) {
+      throw new Error("旧版 Report 需要先设置一次新的访客口令，才能启用管理员自动解密。");
     }
 
     const encryptedDecks = [];
@@ -1805,16 +2525,43 @@
       content: new Blob([encryptedManifest])
     });
 
+    const adminSalt = crypto.getRandomValues(new Uint8Array(16));
+    const adminWrappingKey = await deriveReportKey(
+      state.adminToken,
+      adminSalt
+    );
+    const adminWrap = await encryptBytes(
+      state.reportRawKey,
+      adminWrappingKey
+    );
+
     return {
+      version: 2,
       manifest: manifestPath,
-      salt: bytesToBase64(state.reportSalt)
+      visitorSalt: state.reportAccess.visitorSalt,
+      visitorWrap: state.reportAccess.visitorWrap,
+      adminSalt: bytesToBase64(adminSalt),
+      adminWrap: bytesToBase64(adminWrap)
     };
   }
 
   function setupNavigation() {
     const menuButton = $("#menu-button");
     const nav = $("#site-nav");
-    const navLinks = $$("a", nav);
+    const homeToggle = $("#nav-home-toggle");
+    const dropdown = $("#nav-dropdown");
+    const navLinks = $$("a", dropdown);
+
+    const closeDropdown = () => {
+      dropdown.classList.remove("open");
+      homeToggle.setAttribute("aria-expanded", "false");
+      homeToggle.classList.remove("active");
+    };
+    const closeMobileNav = () => {
+      nav.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "打开导航");
+    };
 
     menuButton.addEventListener("click", () => {
       const isOpen = nav.classList.toggle("open");
@@ -1822,12 +2569,30 @@
       menuButton.setAttribute("aria-label", isOpen ? "关闭导航" : "打开导航");
     });
 
+    homeToggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = !dropdown.classList.contains("open");
+      dropdown.classList.toggle("open", isOpen);
+      homeToggle.setAttribute("aria-expanded", String(isOpen));
+      homeToggle.classList.toggle("active", isOpen);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".nav-dropdown-wrap")) closeDropdown();
+    });
+
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        nav.classList.remove("open");
-        menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", "打开导航");
+        closeDropdown();
+        closeMobileNav();
       });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDropdown();
+        closeMobileNav();
+      }
     });
 
     const sections = ["home", "profile", "diary", "gallery", "contact"]
@@ -1845,6 +2610,7 @@
                 link.getAttribute("href") === "#" + entry.target.id
               );
             });
+            homeToggle.classList.toggle("active", entry.target.id === "home");
           });
         },
         { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
@@ -1864,21 +2630,35 @@
     }
 
     items.forEach((item) => item.classList.add("reveal-pending"));
-    const observer = new IntersectionObserver(
+    state.revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+          state.revealObserver.unobserve(entry.target);
         });
       },
       { rootMargin: "0px 0px -6% 0px", threshold: 0.06 }
     );
-    items.forEach((item) => observer.observe(item));
+    items.forEach((item) => state.revealObserver.observe(item));
 
     window.setTimeout(() => {
       items.forEach((item) => item.classList.add("visible"));
     }, 900);
+  }
+
+  function observeRevealElements(root = document) {
+    const scope = root instanceof Element ? root : document;
+    const items = [
+      ...(scope.matches?.(".reveal") ? [scope] : []),
+      ...scope.querySelectorAll(".reveal")
+    ];
+    items.forEach((item) => {
+      if (!item.classList.contains("visible")) {
+        item.classList.add("reveal-pending");
+      }
+      if (state.revealObserver) state.revealObserver.observe(item);
+    });
   }
 
   function setupDialogs() {
@@ -2055,12 +2835,13 @@
     list.replaceChildren(
       ...state.albums.map((album) => createAlbumCard(album))
     );
+    observeRevealElements(list);
     activateAnimatedMedia(list);
   }
 
   function createAlbumCard(album) {
     const card = document.createElement("article");
-    card.className = "album-card";
+    card.className = "album-card reveal";
     card.style.setProperty("--album-width", album.displayWidth + "%");
     card.dataset.albumId = album.id;
     card.tabIndex = 0;
@@ -2071,7 +2852,9 @@
     cover.className = "album-cover";
     const coverPhoto = getAlbumCover(album);
     if (coverPhoto) {
-      cover.append(createMediaNode(coverPhoto, state.mainUrls, true));
+      const coverMedia = createMediaNode(coverPhoto, state.mainUrls, true);
+      cover.append(coverMedia);
+      watchAdaptiveTitleContrast(coverMedia, null, cover);
     } else {
       cover.append(createAlbumPlaceholder());
     }
@@ -2931,6 +3714,75 @@
     link.download = safeFileName(name);
     link.textContent = label;
     $("#lightbox-downloads").append(link);
+  }
+
+  function watchAdaptiveTitleContrast(media, title, hostOverride = null) {
+    const host = hostOverride ||
+      title?.closest(".hero-image-frame, .album-cover");
+    if (!host || !media) return;
+
+    let lastSample = 0;
+    const sample = () => {
+      const now = performance.now();
+      if (now - lastSample < 1800) return;
+      lastSample = now;
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = 48;
+        canvas.height = 48;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        context.drawImage(media, 0, 0, 48, 48);
+        const data = context.getImageData(0, 24, 48, 24).data;
+        let weighted = 0;
+        let weightTotal = 0;
+        for (let index = 0; index < data.length; index += 16) {
+          const alpha = data[index + 3] / 255;
+          const luminance =
+            (0.2126 * data[index] +
+              0.7152 * data[index + 1] +
+              0.0722 * data[index + 2]) /
+            255;
+          weighted += luminance * alpha;
+          weightTotal += alpha;
+        }
+        const brightness = weightTotal ? weighted / weightTotal : 0.3;
+        const useDarkInk = brightness > 0.67;
+        host.style.setProperty(
+          "--adaptive-text",
+          useDarkInk ? "#102c40" : "#f7fcff"
+        );
+        host.style.setProperty(
+          "--adaptive-shadow",
+          useDarkInk
+            ? "0 2px 18px rgba(244, 252, 255, 0.88)"
+            : "0 3px 24px rgba(1, 9, 17, 0.82)"
+        );
+        host.style.setProperty(
+          "--adaptive-scrim",
+          useDarkInk
+            ? "rgba(236, 249, 255, 0.32)"
+            : "rgba(3, 13, 23, 0.72)"
+        );
+      } catch {
+        host.style.setProperty("--adaptive-text", "#f7fcff");
+        host.style.setProperty(
+          "--adaptive-shadow",
+          "0 3px 24px rgba(1, 9, 17, 0.82)"
+        );
+        host.style.setProperty("--adaptive-scrim", "rgba(3, 13, 23, 0.72)");
+      }
+    };
+
+    if (media.tagName === "VIDEO") {
+      const onLoaded = () => sample();
+      media.addEventListener("loadeddata", onLoaded);
+      media.addEventListener("timeupdate", sample);
+      if (media.readyState >= 2) onLoaded();
+    } else {
+      const onLoaded = () => sample();
+      media.addEventListener("load", onLoaded, { once: true });
+      if (media.complete && media.naturalWidth) onLoaded();
+    }
   }
 
   function clearLightboxUrls() {

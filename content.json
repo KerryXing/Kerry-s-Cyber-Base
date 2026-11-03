@@ -1,30 +1,95 @@
 {
   "version": 3,
-  "updatedAt": "",
+  "updatedAt": "2026-11-03T17:07:52.681Z",
   "profile": {
     "avatar": "",
     "avatarImages": [],
-    "heroMedia": null,
-    "heroImages": []
+    "heroMedia": {
+      "id": "background-bba320df-6b55-4ea6-acbe-77e909884d48",
+      "kind": "photo",
+      "createdAt": "2026-11-03T17:07:52.227Z",
+      "src": "shared/profile/hero-mw0xyalf-0.jpg",
+      "thumbnail": "shared/profile/hero-mw0xyalf-0-thumb.jpg"
+    },
+    "heroImages": [
+      {
+        "id": "background-bba320df-6b55-4ea6-acbe-77e909884d48",
+        "kind": "photo",
+        "createdAt": "2026-11-03T17:07:52.227Z",
+        "src": "shared/profile/hero-mw0xyalf-0.jpg",
+        "thumbnail": "shared/profile/hero-mw0xyalf-0-thumb.jpg"
+      },
+      {
+        "id": "background-32cdee6c-6a24-4f22-a4e9-6ab2c0da008d",
+        "kind": "photo",
+        "createdAt": "2026-11-03T17:07:52.514Z",
+        "src": "shared/profile/hero-mw0xyalf-1.jpg",
+        "thumbnail": "shared/profile/hero-mw0xyalf-1-thumb.jpg"
+      },
+      {
+        "id": "background-0276f75b-1284-495e-a5f3-7dc06c42789b",
+        "kind": "photo",
+        "createdAt": "2026-11-03T17:07:52.620Z",
+        "src": "shared/profile/hero-mw0xyalf-2.png",
+        "thumbnail": "shared/profile/hero-mw0xyalf-2-thumb.jpg"
+      }
+    ]
   },
   "attributes": [
-    { "id": "nickname", "key": "昵称", "value": "Kerry Xing" },
-    { "id": "identity", "key": "身份", "value": "研究生" },
-    { "id": "mbti", "key": "MBTI", "value": "ENFP · 灵感型冒险家" },
-    { "id": "location", "key": "坐标", "value": "中国 · 广东 · 深圳" },
-    { "id": "skills", "key": "技能", "value": "绘画 · 代码" },
-    { "id": "hobbies", "key": "爱好", "value": "电游，锻炼，桌游，聚会" }
+    {
+      "id": "nickname",
+      "key": "昵称",
+      "value": "Kerry Xing"
+    },
+    {
+      "id": "identity",
+      "key": "身份",
+      "value": "研究生"
+    },
+    {
+      "id": "mbti",
+      "key": "MBTI",
+      "value": "ENFP · 灵感型冒险家"
+    },
+    {
+      "id": "location",
+      "key": "坐标",
+      "value": "中国 · 广东 · 深圳"
+    },
+    {
+      "id": "skills",
+      "key": "技能",
+      "value": "绘画 · 代码"
+    },
+    {
+      "id": "hobbies",
+      "key": "爱好",
+      "value": "电游，锻炼，桌游，聚会"
+    }
   ],
   "tagGroups": [
     {
       "id": "anime",
       "title": "看过的番",
-      "tags": ["Re:从零开始的异世界生活", "死亡笔记", "关于邻家的天使大人", "刀剑神域", "Jobless Reincarnation"]
+      "tags": [
+        "Re:从零开始的异世界生活",
+        "死亡笔记",
+        "关于邻家的天使大人",
+        "刀剑神域",
+        "Jobless Reincarnation"
+      ]
     },
     {
       "id": "games",
       "title": "游戏宇宙",
-      "tags": ["Steam", "Minecraft", "崩坏：星穹铁道", "明日方舟", "明日方舟：终末地", "Terraria"]
+      "tags": [
+        "Steam",
+        "Minecraft",
+        "崩坏：星穹铁道",
+        "明日方舟",
+        "明日方舟：终末地",
+        "Terraria"
+      ]
     }
   ],
   "contactGroups": [
@@ -32,18 +97,42 @@
       "id": "social",
       "title": "社交平台",
       "items": [
-        { "id": "bilibili", "key": "Bilibili", "value": "361404379" },
-        { "id": "douyin", "key": "抖音", "value": "Kr." },
-        { "id": "steam", "key": "Steam", "value": "keryxin" }
+        {
+          "id": "bilibili",
+          "key": "Bilibili",
+          "value": "361404379"
+        },
+        {
+          "id": "douyin",
+          "key": "抖音",
+          "value": "Kr."
+        },
+        {
+          "id": "steam",
+          "key": "Steam",
+          "value": "keryxin"
+        }
       ]
     },
     {
       "id": "contact",
       "title": "联系方式",
       "items": [
-        { "id": "qq", "key": "QQ", "value": "1265856193" },
-        { "id": "wechat", "key": "微信", "value": "KeryXing" },
-        { "id": "email", "key": "Email", "value": "keryxin@qq.com" }
+        {
+          "id": "qq",
+          "key": "QQ",
+          "value": "1265856193"
+        },
+        {
+          "id": "wechat",
+          "key": "微信",
+          "value": "KeryXing"
+        },
+        {
+          "id": "email",
+          "key": "Email",
+          "value": "keryxin@qq.com"
+        }
       ]
     }
   ],

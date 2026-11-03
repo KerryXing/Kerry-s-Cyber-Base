@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updatedAt": "2026-11-03T17:20:27.721Z",
+  "updatedAt": "2026-11-03T17:22:24.593Z",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
     "avatarImages": [
@@ -150,7 +150,7 @@
       "displayWidth": 60,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-03T17:20:27.721Z",
+      "updatedAt": "2026-11-03T17:22:24.593Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -158,6 +158,20 @@
           "kind": "video",
           "createdAt": "2026-11-03T17:20:27.721Z",
           "src": "shared/media/photo-5fadf840-c12d-4a3f-a843-e669782e97db.mov"
+        },
+        {
+          "id": "photo-71049415-30f8-4851-a0f6-98a51176cdf4",
+          "title": "立绘这一块",
+          "kind": "video",
+          "createdAt": "2026-11-03T17:22:24.593Z",
+          "src": "shared/media/photo-71049415-30f8-4851-a0f6-98a51176cdf4.mov"
+        },
+        {
+          "id": "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3",
+          "title": "星萤捏😋",
+          "kind": "video",
+          "createdAt": "2026-11-03T17:22:24.593Z",
+          "src": "shared/media/photo-5c81d007-a6ca-4928-8f07-5e392727d3d3.mov"
         }
       ]
     }

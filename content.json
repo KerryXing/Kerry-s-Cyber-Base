@@ -12,18 +12,19 @@
     { "id": "identity", "key": "身份", "value": "研究生" },
     { "id": "mbti", "key": "MBTI", "value": "ENFP · 灵感型冒险家" },
     { "id": "location", "key": "坐标", "value": "中国 · 广东 · 深圳" },
-    { "id": "skills", "key": "技能", "value": "绘画 · 代码" }
+    { "id": "skills", "key": "技能", "value": "绘画 · 代码" },
+    { "id": "hobbies", "key": "爱好", "value": "电游，锻炼，桌游，聚会" }
   ],
   "tagGroups": [
     {
       "id": "anime",
       "title": "看过的番",
-      "tags": ["Re:从零开始的异世界生活", "死亡笔记", "关于邻家的天使大人", "刀剑神域"]
+      "tags": ["Re:从零开始的异世界生活", "死亡笔记", "关于邻家的天使大人", "刀剑神域", "Jobless Reincarnation"]
     },
     {
       "id": "games",
       "title": "游戏宇宙",
-      "tags": ["Steam", "Minecraft", "崩坏：星穹铁道", "明日方舟", "明日方舟：终末地"]
+      "tags": ["Steam", "Minecraft", "崩坏：星穹铁道", "明日方舟", "明日方舟：终末地", "Terraria"]
     }
   ],
   "contactGroups": [
@@ -31,9 +32,9 @@
       "id": "social",
       "title": "社交平台",
       "items": [
-        { "id": "bilibili", "key": "Bilibili", "value": "待添加" },
+        { "id": "bilibili", "key": "Bilibili", "value": "361404379" },
         { "id": "douyin", "key": "抖音", "value": "Kr." },
-        { "id": "steam", "key": "Steam", "value": "待添加" }
+        { "id": "steam", "key": "Steam", "value": "keryxin" }
       ]
     },
     {
@@ -41,7 +42,7 @@
       "title": "联系方式",
       "items": [
         { "id": "qq", "key": "QQ", "value": "1265856193" },
-        { "id": "wechat", "key": "微信", "value": "待添加" },
+        { "id": "wechat", "key": "微信", "value": "KeryXing" },
         { "id": "email", "key": "Email", "value": "keryxin@qq.com" }
       ]
     }

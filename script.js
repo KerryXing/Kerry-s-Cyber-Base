@@ -395,7 +395,12 @@
       { id: "identity", key: "身份", value: profile.identity || "研究生" },
       { id: "mbti", key: "MBTI", value: "ENFP · 灵感型冒险家" },
       { id: "location", key: "坐标", value: profile.location || "中国 · 广东 · 深圳" },
-      { id: "skills", key: "技能", value: (DATA.skills || ["绘画", "代码"]).join(" · ") }
+      { id: "skills", key: "技能", value: (DATA.skills || ["绘画", "代码"]).join(" · ") },
+      {
+        id: "hobbies",
+        key: "爱好",
+        value: (DATA.hobbies || ["电游", "锻炼", "桌游", "聚会"]).join("，")
+      }
     ];
   }
 
@@ -420,9 +425,9 @@
         id: "social",
         title: "社交平台",
         items: [
-          { id: "bilibili", key: "Bilibili", value: "待添加" },
+          { id: "bilibili", key: "Bilibili", value: "361404379" },
           { id: "douyin", key: "抖音", value: "Kr." },
-          { id: "steam", key: "Steam", value: "待添加" }
+          { id: "steam", key: "Steam", value: "keryxin" }
         ]
       },
       {
@@ -430,7 +435,7 @@
         title: "联系方式",
         items: [
           { id: "qq", key: "QQ", value: "1265856193" },
-          { id: "wechat", key: "微信", value: "待添加" },
+          { id: "wechat", key: "微信", value: "KeryXing" },
           { id: "email", key: "Email", value: "keryxin@qq.com" }
         ]
       }

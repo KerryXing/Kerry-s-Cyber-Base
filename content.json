@@ -1,9 +1,16 @@
 {
   "version": 3,
-  "updatedAt": "2026-11-03T17:07:52.681Z",
+  "updatedAt": "2026-11-03T17:09:10.175Z",
   "profile": {
-    "avatar": "",
-    "avatarImages": [],
+    "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
+    "avatarImages": [
+      {
+        "id": "photo-3ed0a07d-a665-4c84-a281-6552509ea18b",
+        "src": "shared/profile/avatar-mw0xzyqn-0.jpg",
+        "title": "稻城亚丁之巅",
+        "createdAt": "2026-11-03T17:09:07.805Z"
+      }
+    ],
     "heroMedia": {
       "id": "background-bba320df-6b55-4ea6-acbe-77e909884d48",
       "kind": "photo",

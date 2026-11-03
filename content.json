@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updatedAt": "2026-11-03T17:19:05.920Z",
+  "updatedAt": "2026-11-03T17:19:27.010Z",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
     "avatarImages": [
@@ -12,18 +12,13 @@
       }
     ],
     "heroMedia": {
-      "id": "background-9ba6fb4f-4218-4678-b088-1bf277e6d08e",
+      "id": "background-bba320df-6b55-4ea6-acbe-77e909884d48",
       "kind": "photo",
-      "createdAt": "2026-11-03T17:19:05.887Z",
-      "src": "shared/profile/hero-mw0ycqe7-0.jpg"
+      "createdAt": "2026-11-03T17:07:52.227Z",
+      "src": "shared/profile/hero-mw0xyalf-0.jpg",
+      "thumbnail": "shared/profile/hero-mw0xyalf-0-thumb.jpg"
     },
     "heroImages": [
-      {
-        "id": "background-9ba6fb4f-4218-4678-b088-1bf277e6d08e",
-        "kind": "photo",
-        "createdAt": "2026-11-03T17:19:05.887Z",
-        "src": "shared/profile/hero-mw0ycqe7-0.jpg"
-      },
       {
         "id": "background-bba320df-6b55-4ea6-acbe-77e909884d48",
         "kind": "photo",
@@ -148,14 +143,24 @@
       ]
     }
   ],
-  "albums": [],
+  "albums": [
+    {
+      "id": "album-9aec9163-2c24-4a25-a606-451d435f6670",
+      "name": "Firefly",
+      "displayWidth": 60,
+      "coverPhotoId": null,
+      "createdAt": "2026-11-03T17:19:27.009Z",
+      "updatedAt": "2026-11-03T17:19:27.010Z",
+      "photos": []
+    }
+  ],
   "decks": [],
   "reportAccess": {
     "version": 2,
     "manifest": "shared/reports/report-data.enc",
     "visitorSalt": "dNkZ/DrNqXTpPm92An03UA==",
     "visitorWrap": "zF+JpJev50cnXQKDRFGrBok3WwstLPpqXmhlg7IWUuacFVyJ6hf+hXu80OFGMd8OPIg7y5qOWE1p6906",
-    "adminSalt": "9yQj+Jv8xNq4GZhbti0o7w==",
-    "adminWrap": "vnpFuaiAsQ/B/Zquf5VZ1n1E+FrEIKLVbYaN4GLipkUyZsgCIU9ACBxl0paipdlo1Y6LMGAIHcPrA9qh"
+    "adminSalt": "dzJ2+i7QFeulv7GjWxMSHA==",
+    "adminWrap": "XddOgcl5A2oJXvec1nPrC0edEBFsxX9GxGYH8g6esErUBXkHZTifmyU8TwU5WoqRDQsgSMbl1kqM7Zif"
   }
 }

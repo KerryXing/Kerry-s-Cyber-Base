@@ -340,13 +340,8 @@ body.is-publishing .admin-only {
 }
 
 .site-nav a.active::after {
-  position: absolute;
-  right: 20px;
-  bottom: 8px;
-  left: 20px;
-  height: 2px;
-  content: "";
-  background: linear-gradient(90deg, transparent, var(--accent), var(--mint), var(--gold), transparent);
+  display: none;
+  content: none;
 }
 
 .menu-button {
@@ -4232,6 +4227,38 @@ html[data-theme="easter"] .scene-easter {
   backdrop-filter: blur(10px);
 }
 
+.theme-default-panel {
+  display: flex;
+  margin-top: 22px;
+  padding: 18px 20px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.theme-default-panel > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.theme-default-panel strong {
+  font-size: 16px;
+}
+
+.theme-default-panel span {
+  color: var(--faint);
+  font-size: 13px;
+}
+
+.theme-default-panel .pill-action {
+  flex: 0 0 auto;
+}
+
 .theme-swatch-night-city {
   background:
     radial-gradient(circle at 71% 14%, rgba(165, 223, 255, 0.88) 0 4%, transparent 11%),
@@ -5464,6 +5491,11 @@ html[data-theme="easter"] .password-fields input {
 
   .theme-dialog-shell {
     padding: 20px;
+  }
+
+  .theme-default-panel {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .city-road {

@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updatedAt": "2026-11-03T17:13:58.618Z",
+  "updatedAt": "2026-11-03T17:15:52.712Z",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
     "avatarImages": [
@@ -150,7 +150,7 @@
     "manifest": "shared/reports/report-data.enc",
     "visitorSalt": "dNkZ/DrNqXTpPm92An03UA==",
     "visitorWrap": "zF+JpJev50cnXQKDRFGrBok3WwstLPpqXmhlg7IWUuacFVyJ6hf+hXu80OFGMd8OPIg7y5qOWE1p6906",
-    "adminSalt": "9yQj+Jv8xNq4GZhbti0o7w==",
-    "adminWrap": "vnpFuaiAsQ/B/Zquf5VZ1n1E+FrEIKLVbYaN4GLipkUyZsgCIU9ACBxl0paipdlo1Y6LMGAIHcPrA9qh"
+    "adminSalt": "dzJ2+i7QFeulv7GjWxMSHA==",
+    "adminWrap": "XddOgcl5A2oJXvec1nPrC0edEBFsxX9GxGYH8g6esErUBXkHZTifmyU8TwU5WoqRDQsgSMbl1kqM7Zif"
   }
 }

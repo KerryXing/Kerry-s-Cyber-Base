@@ -6,9 +6,10 @@
   <meta name="theme-color" content="#0b192a">
   <meta name="description" content="Kerry 的个人赛博基地：属性表、日常 Report 与私人相册。">
   <title>Kerry's Cyber Base</title>
+  <script src="theme-default.js"></script>
   <script>
     try {
-      const savedTheme = localStorage.getItem("kerry-site-theme");
+      const sharedDefaultTheme = window.SHARED_DEFAULT_THEME;
       const themes = [
         "deep-blue",
         "light-blue",
@@ -21,7 +22,7 @@
         "easter"
       ];
       document.documentElement.dataset.theme =
-        themes.includes(savedTheme) ? savedTheme : "deep-blue";
+        themes.includes(sharedDefaultTheme) ? sharedDefaultTheme : "deep-blue";
     } catch {
       document.documentElement.dataset.theme = "deep-blue";
     }
@@ -663,6 +664,15 @@
           <small>春日晨光、彩蛋与柔和的花园色彩</small>
           <span class="theme-seasonal-badge" data-seasonal-badge="easter" hidden>节日主题</span>
           <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+      </div>
+      <div class="theme-default-panel admin-only">
+        <div>
+          <strong>全站默认主题</strong>
+          <span id="default-theme-status">当前默认：深蓝</span>
+        </div>
+        <button class="pill-action pill-action-cover" id="set-default-theme" type="button">
+          设为默认
         </button>
       </div>
     </div>

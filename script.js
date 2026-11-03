@@ -101,7 +101,10 @@
     reportFilePaths: new Set(),
     revealObserver: null,
     themeUserOverride: false,
-    seasonalThemeKey: ""
+    seasonalThemeKey: "",
+    defaultTheme: THEME_META[window.SHARED_DEFAULT_THEME]
+      ? window.SHARED_DEFAULT_THEME
+      : "deep-blue"
   };
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -182,7 +185,16 @@
 
   function setupTheme() {
     const dialog = $("#theme-dialog");
-    const applyTheme = (theme, persist = true) => {
+    const syncDefaultControls = () => {
+      const currentTheme = document.documentElement.dataset.theme;
+      const button = $("#set-default-theme");
+      const status = $("#default-theme-status");
+      if (!button || !status) return;
+      button.disabled = currentTheme === state.defaultTheme;
+      status.textContent =
+        "当前默认：" + THEME_META[state.defaultTheme].name;
+    };
+    const applyTheme = (theme) => {
       const normalized = THEME_META[theme] ? theme : "deep-blue";
       document.documentElement.dataset.theme = normalized;
       $$("[data-theme-option]").forEach((button) => {
@@ -192,13 +204,7 @@
       });
       const meta = $('meta[name="theme-color"]');
       if (meta) meta.content = THEME_META[normalized].color;
-      if (persist) {
-        try {
-          localStorage.setItem("kerry-site-theme", normalized);
-        } catch {
-          // Theme choice remains active for this page when storage is unavailable.
-        }
-      }
+      syncDefaultControls();
     };
     const updateSeasonalBadges = (seasonal) => {
       $$("[data-seasonal-badge]").forEach((badge) => {
@@ -207,31 +213,51 @@
         if (active) badge.textContent = seasonal.label;
       });
     };
-    const savedTheme = (() => {
-      try {
-        const saved = localStorage.getItem("kerry-site-theme");
-        return THEME_META[saved] ? saved : "deep-blue";
-      } catch {
-        return "deep-blue";
-      }
-    })();
     const seasonal = getSeasonalTheme(new Date());
     state.seasonalThemeKey = seasonal?.theme || "";
     updateSeasonalBadges(seasonal);
-    applyTheme(seasonal?.theme || savedTheme, false);
+    applyTheme(seasonal?.theme || state.defaultTheme);
+    state.applyTheme = applyTheme;
+    state.updateSeasonalBadges = updateSeasonalBadges;
+    state.syncDefaultThemeControls = syncDefaultControls;
 
     $("#theme-entry").addEventListener("click", () => {
-      applyTheme(document.documentElement.dataset.theme, false);
+      applyTheme(document.documentElement.dataset.theme);
       updateSeasonalBadges(getSeasonalTheme(new Date()));
+      syncDefaultControls();
       openDialog(dialog);
     });
     $$("[data-theme-option]").forEach((button) => {
       button.addEventListener("click", () => {
         const theme = button.dataset.themeOption;
         state.themeUserOverride = true;
-        applyTheme(theme, true);
+        applyTheme(theme);
         showToast("已切换为" + THEME_META[theme].name + "主题。");
       });
+    });
+    $("#set-default-theme").addEventListener("click", async () => {
+      if (!requireAdmin()) return;
+      const theme = document.documentElement.dataset.theme;
+      if (!THEME_META[theme] || theme === state.defaultTheme) return;
+      const previousDefault = state.defaultTheme;
+      const button = $("#set-default-theme");
+      const status = $("#default-theme-status");
+      button.disabled = true;
+      status.textContent = "正在发布默认主题...";
+      state.defaultTheme = theme;
+      try {
+        await publishSharedContent(
+          "Set shared default theme: " + THEME_META[theme].name
+        );
+        syncDefaultControls();
+        showToast(
+          "已将" + THEME_META[theme].name + "设为全站默认主题。"
+        );
+      } catch (error) {
+        state.defaultTheme = previousDefault;
+        syncDefaultControls();
+        showToast("默认主题设置失败：" + error.message);
+      }
     });
 
     window.setInterval(() => {
@@ -240,8 +266,11 @@
       if (nextKey === state.seasonalThemeKey) return;
       state.seasonalThemeKey = nextKey;
       updateSeasonalBadges(currentSeasonal);
-      if (!state.themeUserOverride) {
-        applyTheme(nextKey || savedTheme, false);
+      if (nextKey) {
+        state.themeUserOverride = false;
+        applyTheme(nextKey);
+      } else if (!state.themeUserOverride) {
+        applyTheme(state.defaultTheme);
       }
     }, 60_000);
   }
@@ -1298,6 +1327,15 @@
     const content = await response.json();
     state.sharedContent = content;
     state.sharedProfile = { ...(content.profile || {}) };
+    state.defaultTheme = THEME_META[content.defaultTheme]
+      ? content.defaultTheme
+      : state.defaultTheme;
+    const seasonalTheme = getSeasonalTheme(new Date());
+    if (!state.themeUserOverride) {
+      state.applyTheme?.(seasonalTheme?.theme || state.defaultTheme);
+    }
+    state.updateSeasonalBadges?.(seasonalTheme);
+    state.syncDefaultThemeControls?.();
     if (
       state.sharedProfile.avatar &&
       !Array.isArray(state.sharedProfile.avatarImages)
@@ -2203,6 +2241,9 @@
         deletions: [...new Set(deletions)]
       });
       state.sharedContent = content;
+      if (THEME_META[content.defaultTheme]) {
+        state.defaultTheme = content.defaultTheme;
+      }
       state.sharedProfile = {
         ...content.profile,
         avatarImages: [...(content.profile?.avatarImages || [])],
@@ -2431,9 +2472,20 @@
       legacyDecks = [];
     }
 
+    const defaultTheme = THEME_META[state.defaultTheme]
+      ? state.defaultTheme
+      : "deep-blue";
+    files.push({
+      path: "theme-default.js",
+      content:
+        "window.SHARED_DEFAULT_THEME = " +
+        JSON.stringify(defaultTheme) +
+        ";\n"
+    });
     return {
       version: 3,
       updatedAt: new Date().toISOString(),
+      defaultTheme,
       profile,
       attributes: state.attributes,
       tagGroups: state.tagGroups,

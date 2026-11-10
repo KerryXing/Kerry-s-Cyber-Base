@@ -3896,6 +3896,29 @@
         // Keep the original label when a style layer uses a special expression.
       }
     }
+    if (state.footprintMap.getLayer("label_city_capital")) {
+      try {
+        state.footprintMap.setLayoutProperty(
+          "label_city_capital",
+          "text-font",
+          [
+            "case",
+            [
+              "any",
+              ["==", ["get", "name"], "臺北市"],
+              ["==", ["get", "name"], "台北市"],
+              ["==", ["get", "name:zh"], "臺北市"],
+              ["==", ["get", "name:zh"], "台北市"],
+              ["==", ["get", "name:en"], "Taipei"]
+            ],
+            ["literal", ["Noto Sans Regular"]],
+            ["literal", ["Noto Sans Bold"]]
+          ]
+        );
+      } catch {
+        // Leave the original capital-city font stack if this style is unavailable.
+      }
+    }
   }
 
   function locateCurrentPosition() {

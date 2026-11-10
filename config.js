@@ -7,6 +7,6 @@ window.UPLOAD_CONFIG = {
   contentPath: "content.json",
   assetRoot: "shared",
   // Deploy guestbook-worker.js to Cloudflare Workers and put its URL here.
-  guestbookEndpoint: "https://kerry-guestbook.workers.dev",
+  guestbookEndpoint: "https://kerry-guestbook.kerry-guestbook.workers.dev",
   guestbookPath: "guestbook.json"
 };

@@ -57,7 +57,6 @@
     2039: [4, 5],
     2040: [4, 4]
   };
-
   const state = {
     db: null,
     albums: [],
@@ -97,6 +96,18 @@
     pendingAvatarItems: [],
     photoSelectionMode: false,
     selectedPhotoIds: [],
+    currentPage: "home",
+    pageSwitchToken: 0,
+    guestbook: [],
+    guestbookAnonymous: false,
+    pendingGuestbookDeleteId: "",
+    footprints: [],
+    pendingFootprintItems: [],
+    footprintMap: null,
+    footprintMarkers: [],
+    footprintUrls: [],
+    userLocationMarker: null,
+    mapReady: false,
     slideRenderToken: 0,
     reportFilePaths: new Set(),
     revealObserver: null,
@@ -121,6 +132,8 @@
     setupRevealAnimations();
     setupDeck();
     setupGallery();
+    setupGuestbook();
+    setupFootprints();
     setupProfileEditor();
     setupContactEditor();
     setupReportAccess();
@@ -131,11 +144,13 @@
     });
     updateBackToTopPlacement();
     window.addEventListener("resize", updateBackToTopPlacement);
+    window.addEventListener("scroll", updateBackToTopPlacement, { passive: true });
 
     $("#current-year").textContent = String(new Date().getFullYear());
 
     try {
       await loadSharedContent();
+      await loadGuestbook();
       await restoreReportAccess();
     } catch (error) {
       console.warn("Shared content is unavailable:", error);
@@ -144,6 +159,8 @@
     }
 
     renderAlbums();
+    renderGuestbook();
+    renderFootprints();
     renderDeckLibrary();
     await resumeAdminSession();
     activateAnimatedMedia();
@@ -377,13 +394,21 @@
 
   function updateBackToTopPlacement() {
     const button = $("#back-to-top");
-    const content = $("main .section-shell");
+    const activeView = $$("[data-page-view]").find((view) => !view.hidden);
+    const content = activeView
+      ? (activeView.matches(".section-shell")
+          ? activeView
+          : $(".section-shell", activeView))
+      : null;
     if (!button || !content) return;
     const viewportWidth = document.documentElement.clientWidth;
     const contentRight = content.getBoundingClientRect().right;
     const blankWidth = Math.max(0, viewportWidth - contentRight);
     const buttonWidth = button.offsetWidth || 80;
-    button.hidden = blankWidth < buttonWidth * 3;
+    const showAfterScroll = Math.max(360, window.innerHeight * 0.32);
+    button.hidden =
+      window.scrollY < showAfterScroll ||
+      blankWidth < buttonWidth * 3;
     if (!button.hidden) {
       button.style.right = Math.max(
         0,
@@ -635,7 +660,7 @@
     try {
       await publishSharedContent("Update contact information");
       status.textContent = "联系信息已发布。";
-      $("#contact-editor-dialog").close();
+      closeDialogAnimated($("#contact-editor-dialog"));
       showToast("联系信息已发布。");
     } catch (error) {
       state.contactGroups = previousGroups;
@@ -735,7 +760,7 @@
     try {
       await publishSharedContent("Update profile attributes");
       status.textContent = "属性表已发布。";
-      $("#profile-editor-dialog").close();
+      closeDialogAnimated($("#profile-editor-dialog"));
       showToast("属性表已发布到共享网站。");
     } catch (error) {
       state.attributes = previousAttributes;
@@ -1308,7 +1333,9 @@
       repo,
       branch: String(configured.branch || "").trim(),
       contentPath: configured.contentPath || "content.json",
-      assetRoot: (configured.assetRoot || "shared").replace(/\/+$/, "")
+      assetRoot: (configured.assetRoot || "shared").replace(/\/+$/, ""),
+      guestbookEndpoint: String(configured.guestbookEndpoint || "").trim(),
+      guestbookPath: configured.guestbookPath || "guestbook.json"
     };
   }
 
@@ -1399,6 +1426,9 @@
             : []
         }))
       : [];
+    state.footprints = Array.isArray(content.footprints)
+      ? content.footprints.map((item) => ({ ...item }))
+      : [];
     state.legacyDecks = Array.isArray(content.decks)
       ? content.decks.map((deck) => ({
           ...deck,
@@ -1486,7 +1516,7 @@
       try {
         await authenticateAdmin(token, false);
         setAdminStatus("管理员登录成功，编辑按钮已显示。", "success");
-        window.setTimeout(() => dialog.close(), 450);
+        window.setTimeout(() => closeDialogAnimated(dialog), 450);
       } catch (error) {
         setAdminStatus(error.message, "error");
       } finally {
@@ -1539,7 +1569,7 @@
       setReportAccessStatus("正在验证并解密...");
       try {
         await unlockReport(token);
-        $("#report-access-dialog").close();
+        closeDialogAnimated($("#report-access-dialog"));
       } catch (error) {
         setReportAccessStatus(error.message, "error");
       } finally {
@@ -1566,11 +1596,10 @@
   }
 
   function setReportVisibility(visible) {
-    $("#report-nav-link").hidden = !visible;
     $("#diary").hidden = !visible;
     const trigger = $("#report-access-trigger");
     trigger.hidden = !state.isAdmin && visible;
-    trigger.textContent = state.isAdmin ? "口令编辑" : "查看隐藏内容";
+    trigger.textContent = state.isAdmin ? "口令编辑" : "隐藏内容";
   }
 
   async function restoreReportAccess() {
@@ -1588,7 +1617,7 @@
   async function unlockReport(token, silent = false) {
     if (!state.reportAccess?.manifest) {
       if (!state.isAdmin) {
-        throw new Error("管理员尚未设置日常Report访问口令。");
+        throw new Error("管理员尚未设置日常访问口令。");
       }
       state.decks = normalizeEncryptedDecks(state.legacyDecks || []);
       state.reportUnlocked = true;
@@ -1634,7 +1663,7 @@
     renderDeckLibrary();
     if (!silent) {
       $("#diary").scrollIntoView({ behavior: "smooth", block: "start" });
-      showToast("日常Report已解锁。");
+      showToast("日常已解锁。");
     }
   }
 
@@ -1712,7 +1741,7 @@
         includeReports: true
       });
       status.textContent = "访客口令已更新并发布。";
-      $("#hidden-password-dialog").close();
+      closeDialogAnimated($("#hidden-password-dialog"));
       showToast("隐藏内容口令已更新。");
     } catch (error) {
       status.textContent = "口令更新失败：" + error.message;
@@ -1765,7 +1794,7 @@
     }
     setReportVisibility(true);
     throw new Error(
-      "这是 V0.2 旧版直接加密内容。请在本浏览器解锁一次后，V0.3 即可通过管理员 Token 自动解密。"
+      "这是 V0.2 旧版直接加密内容。请在本浏览器解锁一次后，V0.4 即可通过管理员 Token 自动解密。"
     );
   }
 
@@ -1983,7 +2012,7 @@
       await publishSharedContent("Import legacy local content", {
         includeReports: Boolean(state.reportKey)
       });
-      $("#admin-dialog").close();
+      closeDialogAnimated($("#admin-dialog"));
       showToast("本机旧内容已合并并发布。");
     } catch (error) {
       setAdminStatus("导入失败：" + error.message, "error");
@@ -2031,10 +2060,10 @@
     } else {
       setReportVisibility(true);
     }
-    $("#report-access-trigger").textContent = "查看隐藏内容";
+    $("#report-access-trigger").textContent = "隐藏内容";
     updateAdminDialog();
     const adminDialog = $("#admin-dialog");
-    if (adminDialog?.open) adminDialog.close();
+    if (adminDialog?.open) closeDialogAnimated(adminDialog);
     showToast("已退出管理员模式，当前页面为只读状态。");
   }
 
@@ -2251,11 +2280,15 @@
       };
       state.reportAccess = content.reportAccess || null;
       state.reportFilePaths = currentReportPaths;
+      state.footprints = Array.isArray(content.footprints)
+        ? content.footprints
+        : state.footprints;
       if (options.includeReports) state.legacyDecks = [];
       state.pendingHeroMedia = null;
       state.pendingHeroItems = [];
       state.pendingAvatarMedia = null;
       state.pendingAvatarItems = [];
+      state.pendingFootprintItems = [];
       showToast("内容已发布到 GitHub，Pages 更新通常需要约一分钟。");
       return content;
     } finally {
@@ -2283,6 +2316,7 @@
     for (const album of content?.albums || []) {
       for (const photo of album.photos || []) addMedia(photo);
     }
+    for (const footprint of content?.footprints || []) addMedia(footprint);
     return paths;
   }
 
@@ -2472,6 +2506,47 @@
       legacyDecks = [];
     }
 
+    const footprints = [];
+    const materializeFootprint = async (record) => {
+      const item = {
+        id: record.id || createId("footprint"),
+        title: record.title || "旅行照片",
+        kind: "photo",
+        lat: Number.isFinite(Number(record.lat)) ? Number(record.lat) : null,
+        lng: Number.isFinite(Number(record.lng)) ? Number(record.lng) : null,
+        createdAt: record.createdAt || new Date().toISOString()
+      };
+      if (record.src) {
+        item.src = record.src;
+        if (record.thumbnail) item.thumbnail = record.thumbnail;
+        return item;
+      }
+      const media = record.media || {};
+      const sourceBlob = media.imageBlob || media.stillBlob || null;
+      if (!sourceBlob) return null;
+      const path =
+        config.assetRoot + "/footprints/" + item.id +
+        (blobExtension(sourceBlob) || ".jpg");
+      files.push({ path, content: sourceBlob });
+      item.src = path;
+      const thumbnail = await ensureSharedThumbnail(
+        files,
+        config,
+        media,
+        sourceBlob
+      );
+      if (thumbnail) item.thumbnail = thumbnail;
+      return item;
+    };
+    for (const record of state.footprints || []) {
+      const item = await materializeFootprint(record);
+      if (item) footprints.push(item);
+    }
+    for (const record of state.pendingFootprintItems || []) {
+      const item = await materializeFootprint(record);
+      if (item) footprints.push(item);
+    }
+
     const defaultTheme = THEME_META[state.defaultTheme]
       ? state.defaultTheme
       : "deep-blue";
@@ -2483,7 +2558,7 @@
         ";\n"
     });
     return {
-      version: 3,
+      version: 4,
       updatedAt: new Date().toISOString(),
       defaultTheme,
       profile,
@@ -2491,6 +2566,7 @@
       tagGroups: state.tagGroups,
       contactGroups: state.contactGroups,
       albums,
+      footprints,
       decks: reportAccess ? [] : legacyDecks,
       reportAccess
     };
@@ -2512,7 +2588,7 @@
 
   async function buildEncryptedReportPackage(files, config) {
     if (!state.reportKey || !state.reportRawKey) {
-      throw new Error("请先设置并解锁日常Report只读口令");
+      throw new Error("请先设置并解锁日常只读口令");
     }
     if (
       !state.reportAccess?.visitorWrap ||
@@ -2605,14 +2681,15 @@
   function setupNavigation() {
     const menuButton = $("#menu-button");
     const nav = $("#site-nav");
-    const homeToggle = $("#nav-home-toggle");
-    const dropdown = $("#nav-dropdown");
-    const navLinks = $$("a", dropdown);
+    const settingsToggle = $("#settings-toggle");
+    const settingsDropdown = $("#settings-dropdown");
+    const pageButtons = $$("[data-page-target]");
+    const pageViews = $$("[data-page-view]");
 
-    const closeDropdown = () => {
-      dropdown.classList.remove("open");
-      homeToggle.setAttribute("aria-expanded", "false");
-      homeToggle.classList.remove("active");
+    const closeSettings = () => {
+      settingsDropdown.classList.remove("open");
+      settingsToggle.setAttribute("aria-expanded", "false");
+      settingsToggle.classList.remove("active");
     };
     const closeMobileNav = () => {
       nav.classList.remove("open");
@@ -2626,54 +2703,111 @@
       menuButton.setAttribute("aria-label", isOpen ? "关闭导航" : "打开导航");
     });
 
-    homeToggle.addEventListener("click", (event) => {
+    settingsToggle.addEventListener("click", (event) => {
       event.stopPropagation();
-      const isOpen = !dropdown.classList.contains("open");
-      dropdown.classList.toggle("open", isOpen);
-      homeToggle.setAttribute("aria-expanded", String(isOpen));
-      homeToggle.classList.toggle("active", isOpen);
+      const isOpen = !settingsDropdown.classList.contains("open");
+      settingsDropdown.classList.toggle("open", isOpen);
+      settingsToggle.setAttribute("aria-expanded", String(isOpen));
+      settingsToggle.classList.toggle("active", isOpen);
     });
 
     document.addEventListener("click", (event) => {
-      if (!event.target.closest(".nav-dropdown-wrap")) closeDropdown();
+      if (!event.target.closest(".settings-dropdown")) closeSettings();
     });
 
-    navLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        closeDropdown();
+    $$(".nav-dropdown-item", settingsDropdown).forEach((item) => {
+      item.addEventListener("click", () => {
+        closeSettings();
         closeMobileNav();
       });
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        closeDropdown();
+        closeSettings();
         closeMobileNav();
       }
     });
 
-    const sections = ["home", "profile", "diary", "gallery", "contact"]
-      .map((id) => document.getElementById(id))
-      .filter(Boolean);
+    const revealPage = (target) => {
+      target.hidden = false;
+      target.classList.remove("page-leaving");
+      target.classList.add("page-entering");
+      observeRevealElements(target);
+      const finishReveal = (event) => {
+        if (event && event.target !== target) return;
+        target.classList.remove("page-entering");
+        updateBackToTopPlacement();
+      };
+      target.addEventListener("animationend", finishReveal, { once: true });
+      window.setTimeout(() => finishReveal(), 520);
+      window.requestAnimationFrame(() => {
+        updateBackToTopPlacement();
+        if (target.dataset.pageView === "footprints") {
+          ensureFootprintsMap();
+          state.footprintMap?.resize();
+        }
+      });
+    };
 
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            navLinks.forEach((link) => {
-              link.classList.toggle(
-                "active",
-                link.getAttribute("href") === "#" + entry.target.id
-              );
-            });
-            homeToggle.classList.toggle("active", entry.target.id === "home");
-          });
-        },
-        { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+    const switchPage = (pageName) => {
+      const target = pageViews.find(
+        (view) => view.dataset.pageView === pageName
       );
-      sections.forEach((section) => observer.observe(section));
-    }
+      const current = pageViews.find(
+        (view) => view.dataset.pageView === state.currentPage
+      );
+      if (!target) return;
+      if (current === target && !target.hidden) {
+        closeSettings();
+        closeMobileNav();
+        return;
+      }
+
+      const switchToken = ++state.pageSwitchToken;
+      state.currentPage = pageName;
+      pageButtons.forEach((button) => {
+        const active = button.dataset.pageTarget === pageName;
+        button.classList.toggle("active", active);
+        if (active) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+      });
+      closeSettings();
+      closeMobileNav();
+      closeDeckLibrary();
+      window.scrollTo({ top: 0, behavior: "auto" });
+      updateBackToTopPlacement();
+
+      if (!current || current.hidden || current === target) {
+        pageViews.forEach((view) => {
+          if (view !== target) view.hidden = true;
+        });
+        revealPage(target);
+      } else {
+        current.classList.remove("page-entering");
+        current.classList.add("page-leaving");
+        window.setTimeout(() => {
+          if (switchToken !== state.pageSwitchToken) return;
+          current.hidden = true;
+          current.classList.remove("page-leaving");
+          revealPage(target);
+        }, 300);
+      }
+
+    };
+
+    pageButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        switchPage(button.dataset.pageTarget);
+      });
+    });
+
+    $(".brand").addEventListener("click", (event) => {
+      event.preventDefault();
+      switchPage("home");
+    });
+
+    state.switchPage = switchPage;
   }
 
   function setupRevealAnimations() {
@@ -2722,13 +2856,13 @@
     $$("[data-close-dialog]").forEach((button) => {
       button.addEventListener("click", () => {
         const dialog = document.getElementById(button.dataset.closeDialog);
-        if (dialog) dialog.close();
+        if (dialog) closeDialogAnimated(dialog);
       });
     });
 
     $$(".modal").forEach((dialog) => {
       dialog.addEventListener("click", (event) => {
-        if (event.target === dialog) dialog.close();
+        if (event.target === dialog) closeDialogAnimated(dialog);
       });
       dialog.addEventListener("close", () => {
         if (!$("dialog[open]")) document.body.classList.remove("dialog-open");
@@ -2741,7 +2875,7 @@
         const openDialog = $$("dialog[open]").pop();
         if (openDialog) {
           event.preventDefault();
-          openDialog.close();
+          closeDialogAnimated(openDialog);
         }
       }
 
@@ -2750,8 +2884,18 @@
 
   function openDialog(dialog) {
     if (!dialog || dialog.open) return;
+    dialog.classList.remove("modal-closing");
     dialog.showModal();
     document.body.classList.add("dialog-open");
+  }
+
+  function closeDialogAnimated(dialog) {
+    if (!dialog?.open || dialog.classList.contains("modal-closing")) return;
+    dialog.classList.add("modal-closing");
+    window.setTimeout(() => {
+      dialog.classList.remove("modal-closing");
+      if (dialog.open) dialog.close();
+    }, 170);
   }
 
   async function openDB() {
@@ -2868,7 +3012,7 @@
     try {
       await publishSharedContent("Create album: " + album.name);
       renderAlbums();
-      $("#create-album-dialog").close();
+      closeDialogAnimated($("#create-album-dialog"));
       openAlbum(album.id);
       status.textContent = "";
       showToast("相册已创建并发布。");
@@ -3250,7 +3394,7 @@
     try {
       await publishSharedContent("Delete album: " + album.name);
       state.currentAlbumId = null;
-      $("#album-dialog").close();
+      closeDialogAnimated($("#album-dialog"));
       renderAlbums();
       showToast("相册删除已发布。");
     } catch {
@@ -3261,6 +3405,699 @@
 
   function currentAlbum() {
     return state.albums.find((album) => album.id === state.currentAlbumId) || null;
+  }
+
+  async function loadGuestbook() {
+    const config = getUploadConfig();
+    const endpoint = new URL(config.guestbookPath, document.baseURI);
+    try {
+      const response = await fetch(endpoint.href + "?v=" + Date.now(), {
+        cache: "no-store"
+      });
+      if (!response.ok) {
+        state.guestbook = [];
+        return;
+      }
+      const data = await response.json();
+      state.guestbook = Array.isArray(data.messages)
+        ? data.messages
+            .filter((item) => item && item.id && item.content)
+            .map((item) => ({
+              id: String(item.id),
+              content: String(item.content),
+              name: String(item.name || "访客"),
+              anonymous: Boolean(item.anonymous),
+              createdAt: String(item.createdAt || "")
+            }))
+        : [];
+    } catch (error) {
+      console.warn("Guestbook could not be loaded:", error);
+      state.guestbook = [];
+    }
+  }
+
+  function setupGuestbook() {
+    const anonymousButton = $("#guestbook-anonymous");
+    const nameInput = $("#guestbook-name");
+    const form = $("#guestbook-form");
+    const status = $("#guestbook-status");
+
+    anonymousButton.addEventListener("click", () => {
+      state.guestbookAnonymous = !state.guestbookAnonymous;
+      anonymousButton.classList.toggle("active", state.guestbookAnonymous);
+      anonymousButton.setAttribute(
+        "aria-pressed",
+        String(state.guestbookAnonymous)
+      );
+      if (state.guestbookAnonymous) {
+        nameInput.value = "";
+        nameInput.disabled = true;
+      } else {
+        nameInput.disabled = false;
+        nameInput.focus();
+      }
+    });
+    nameInput.addEventListener("input", () => {
+      if (!nameInput.value.trim()) return;
+      state.guestbookAnonymous = false;
+      anonymousButton.classList.remove("active");
+      anonymousButton.setAttribute("aria-pressed", "false");
+    });
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await submitGuestbookMessage();
+    });
+    $("#confirm-delete-guestbook").addEventListener(
+      "click",
+      deletePendingGuestbookMessage
+    );
+    status.textContent = getUploadConfig().guestbookEndpoint
+      ? ""
+      : "留言写入服务尚未配置；管理员登录后仍可通过 GitHub 保存留言。";
+  }
+
+  function renderGuestbook() {
+    const grid = $("#guestbook-grid");
+    const empty = $("#guestbook-empty");
+    if (!grid || !empty) return;
+    const messages = [...state.guestbook].sort((left, right) =>
+      String(right.createdAt).localeCompare(String(left.createdAt))
+    );
+    empty.hidden = messages.length > 0;
+    grid.hidden = messages.length === 0;
+    grid.replaceChildren(
+      ...messages.map((message, index) => {
+        const card = document.createElement("article");
+        card.className = "guestbook-card reveal";
+        card.dataset.messageId = message.id;
+        card.style.setProperty("--reveal-delay", Math.min(index, 8) * 35 + "ms");
+
+        const content = document.createElement("p");
+        content.className = "guestbook-card-content";
+        content.textContent = message.content;
+
+        const footer = document.createElement("div");
+        footer.className = "guestbook-card-footer";
+        const name = document.createElement("strong");
+        name.textContent = message.anonymous ? "匿名" : message.name || "访客";
+        const date = document.createElement("time");
+        if (message.createdAt) {
+          const parsed = new Date(message.createdAt);
+          date.textContent = Number.isNaN(parsed.getTime())
+            ? ""
+            : parsed.toLocaleDateString("zh-CN");
+          date.dateTime = message.createdAt;
+        }
+        footer.append(name, date);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "guestbook-delete admin-only";
+        remove.setAttribute("aria-label", "删除这条留言");
+        remove.textContent = "×";
+        remove.addEventListener("click", () => {
+          state.pendingGuestbookDeleteId = message.id;
+          $("#guestbook-delete-copy").textContent =
+            "确定删除“" + (message.anonymous ? "匿名" : message.name) +
+            "”的这条留言吗？删除后会同步更新 GitHub。";
+          openDialog($("#guestbook-delete-dialog"));
+        });
+
+        card.append(remove, content, footer);
+        return card;
+      })
+    );
+    observeRevealElements(grid);
+    activateAnimatedMedia(grid);
+  }
+
+  async function submitGuestbookMessage() {
+    const messageInput = $("#guestbook-message");
+    const nameInput = $("#guestbook-name");
+    const button = $("#guestbook-send");
+    const status = $("#guestbook-status");
+    const content = messageInput.value.trim();
+    if (!content) {
+      status.textContent = "请先写下留言内容。";
+      messageInput.focus();
+      return;
+    }
+    const anonymous = state.guestbookAnonymous;
+    const name = anonymous ? "匿名" : nameInput.value.trim() || "访客";
+    const config = getUploadConfig();
+
+    button.disabled = true;
+    status.textContent = "正在发送留言...";
+    try {
+      let savedMessage;
+      if (config.guestbookEndpoint) {
+        const response = await fetch(config.guestbookEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content, name, anonymous })
+        });
+        let payload = null;
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+        if (!response.ok) {
+          throw new Error(payload?.error || "留言服务暂时不可用");
+        }
+        savedMessage = payload?.message || {
+          id: createId("message"),
+          content,
+          name,
+          anonymous,
+          createdAt: new Date().toISOString()
+        };
+      } else if (state.isAdmin) {
+        const message = {
+          id: createId("message"),
+          content,
+          name,
+          anonymous,
+          createdAt: new Date().toISOString()
+        };
+        const next = await mutateRemoteGuestbook(
+          (data) => ({
+            version: 1,
+            messages: [message, ...(data.messages || [])].slice(0, 500)
+          }),
+          "Add guestbook message"
+        );
+        savedMessage = message;
+        state.guestbook = next.messages;
+      } else {
+        throw new Error(
+          "留言服务尚未配置。请先部署留言写入服务，或由管理员登录后发布留言。"
+        );
+      }
+      if (!state.guestbook.some((item) => item.id === savedMessage.id)) {
+        state.guestbook.unshift(savedMessage);
+      }
+      messageInput.value = "";
+      nameInput.value = "";
+      status.textContent = "留言已发送，感谢你的到访。";
+      renderGuestbook();
+    } catch (error) {
+      status.textContent = "发送失败：" + error.message;
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function deletePendingGuestbookMessage() {
+    if (!requireAdmin()) return;
+    const id = state.pendingGuestbookDeleteId;
+    const message = state.guestbook.find((item) => item.id === id);
+    if (!message) return;
+    const button = $("#confirm-delete-guestbook");
+    button.disabled = true;
+    try {
+      const next = await mutateRemoteGuestbook(
+        (data) => ({
+          version: 1,
+          messages: (data.messages || []).filter((item) => item.id !== id)
+        }),
+        "Delete guestbook message"
+      );
+      const card = $(
+        '.guestbook-card[data-message-id="' + CSS.escape(id) + '"]',
+        $("#guestbook-grid")
+      );
+      if (card) {
+        card.classList.add("is-removing");
+        await new Promise((resolve) => window.setTimeout(resolve, 180));
+      }
+      state.guestbook = next.messages;
+      state.pendingGuestbookDeleteId = "";
+      closeDialogAnimated($("#guestbook-delete-dialog"));
+      renderGuestbook();
+      showToast("留言已删除。");
+    } catch (error) {
+      $("#guestbook-delete-copy").textContent = "删除失败：" + error.message;
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function mutateRemoteGuestbook(mutator, commitMessage) {
+    if (!state.isAdmin) throw new Error("管理员尚未登录");
+    const config = getUploadConfig();
+    const branch = config.branch || state.repoInfo?.default_branch || "main";
+    const path = config.guestbookPath.split("/").map(encodeURIComponent).join("/");
+    let lastError = null;
+    for (let attempt = 1; attempt <= 4; attempt += 1) {
+      try {
+        let sha = "";
+        let current = { version: 1, messages: [] };
+        try {
+          const existing = await githubRequest(
+            "/repos/" + config.owner + "/" + config.repo +
+              "/contents/" + path + "?ref=" + encodeURIComponent(branch),
+            state.adminToken
+          );
+          sha = existing.sha || "";
+          if (existing.content) {
+            const decoded = new TextDecoder().decode(
+              base64ToBytes(String(existing.content).replace(/\s+/g, ""))
+            );
+            current = JSON.parse(decoded);
+          }
+        } catch (error) {
+          if (error.status !== 404) throw error;
+        }
+        const next = mutator(current);
+        const encoded = bytesToBase64(
+          new TextEncoder().encode(JSON.stringify(next, null, 2) + "\n")
+        );
+        await githubRequest(
+          "/repos/" + config.owner + "/" + config.repo + "/contents/" + path,
+          state.adminToken,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              message: commitMessage,
+              content: encoded,
+              branch,
+              ...(sha ? { sha } : {})
+            })
+          }
+        );
+        return next;
+      } catch (error) {
+        lastError = error;
+        if (
+          !error.status ||
+          ![409, 422, 429, 500, 502, 503, 504].includes(error.status) ||
+          attempt === 4
+        ) {
+          throw error;
+        }
+        await new Promise((resolve) =>
+          window.setTimeout(resolve, 450 * attempt)
+        );
+      }
+    }
+    throw lastError;
+  }
+
+  function setupFootprints() {
+    $("#map-zoom-in").addEventListener("click", () => {
+      ensureFootprintsMap();
+      state.footprintMap?.zoomIn();
+    });
+    $("#map-zoom-out").addEventListener("click", () => {
+      ensureFootprintsMap();
+      state.footprintMap?.zoomOut();
+    });
+    $("#map-locate").addEventListener("click", locateCurrentPosition);
+    $("#open-footprint-upload").addEventListener("click", () => {
+      if (!requireAdmin()) return;
+      $("#footprint-files").value = "";
+      $("#footprint-latitude").value = "";
+      $("#footprint-longitude").value = "";
+      $("#footprint-preview-list").replaceChildren();
+      $("#footprint-upload-status").textContent = "";
+      openDialog($("#footprint-upload-dialog"));
+    });
+    $("#footprint-files").addEventListener("change", () => {
+      const files = [...($("#footprint-files").files || [])];
+      $("#footprint-preview-list").replaceChildren(
+        ...files.map((file) => {
+          const item = document.createElement("span");
+          item.textContent = file.name;
+          return item;
+        })
+      );
+    });
+    $("#footprint-upload-form").addEventListener(
+      "submit",
+      uploadFootprintPhotos
+    );
+  }
+
+  function renderFootprints() {
+    revokeUrls(state.footprintUrls);
+    state.footprintUrls = [];
+    const gallery = $("#footprint-gallery");
+    const empty = $("#footprint-empty");
+    const items = [...state.footprints].sort((left, right) =>
+      String(right.createdAt).localeCompare(String(left.createdAt))
+    );
+    empty.hidden = items.length > 0;
+    gallery.hidden = items.length === 0;
+    gallery.replaceChildren(
+      ...items.map((item) => createFootprintCard(item))
+    );
+    observeRevealElements(gallery);
+    activateAnimatedMedia(gallery);
+    updateFootprintMapMarkers();
+  }
+
+  function createFootprintCard(item) {
+    const card = document.createElement("article");
+    card.className = "footprint-card reveal";
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute(
+      "aria-label",
+      "查看足迹：" + (item.title || "旅行照片")
+    );
+    const media = createMediaNode(item, state.footprintUrls, true);
+    const info = document.createElement("div");
+    info.className = "footprint-card-info";
+    const title = document.createElement("strong");
+    title.textContent = item.title || "旅行照片";
+    const coordinate = document.createElement("span");
+    coordinate.textContent =
+      Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lng))
+        ? Number(item.lat).toFixed(3) + "°, " + Number(item.lng).toFixed(3) + "°"
+        : "未记录坐标";
+    info.append(title, coordinate);
+    card.append(media, info);
+    const open = () => openPhotoLightbox(item);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        open();
+      }
+    });
+    return card;
+  }
+
+  function ensureFootprintsMap() {
+    if (!window.maplibregl) {
+      showToast("地图组件加载失败，请检查 vendor/maplibre-gl.js。");
+      return;
+    }
+    if (state.footprintMap) return;
+    state.mapReady = false;
+    state.footprintMap = new window.maplibregl.Map({
+      container: "footprints-map",
+      style: "https://tiles.openfreemap.org/styles/liberty",
+      center: [18, 24],
+      zoom: 3,
+      minZoom: 3,
+      maxZoom: 18,
+      renderWorldCopies: false,
+      attributionControl: false,
+      dragRotate: false,
+      pitchWithRotate: false,
+      touchPitch: false,
+      fadeDuration: 180
+    });
+    state.footprintMap.dragRotate.disable();
+    state.footprintMap.touchZoomRotate.disableRotation();
+    state.footprintMap.on("load", () => {
+      state.mapReady = true;
+      applyBuiltInBilingualLabels();
+      updateFootprintMapMarkers();
+    });
+  }
+
+  function applyBuiltInBilingualLabels() {
+    if (!state.footprintMap || !state.mapReady) return;
+    const style = state.footprintMap.getStyle();
+    const localName = [
+      "coalesce",
+      ["get", "name"],
+      ["get", "name:en"],
+      ["get", "name:latin"],
+      ""
+    ];
+    const chineseName = [
+      "coalesce",
+      ["get", "name:zh"],
+      ["get", "name:zh-Hans"],
+      ""
+    ];
+    const bilingualLabel = [
+      "case",
+      [
+        "all",
+        ["has", "name:zh"],
+        ["!=", ["get", "name:zh"], localName]
+      ],
+      ["concat", localName, "\n", chineseName],
+      ["coalesce", chineseName, localName]
+    ];
+    const labelSources = new Set([
+      "place",
+      "transportation_name",
+      "water_name",
+      "poi",
+      "aerodrome_label"
+    ]);
+    for (const layer of style.layers || []) {
+      if (
+        layer.type !== "symbol" ||
+        !layer.layout?.["text-field"] ||
+        !labelSources.has(layer["source-layer"]) ||
+        layer.id.includes("shield")
+      ) {
+        continue;
+      }
+      try {
+        state.footprintMap.setLayoutProperty(
+          layer.id,
+          "text-field",
+          bilingualLabel
+        );
+        const existingFilter = state.footprintMap.getFilter(layer.id);
+        const hideTaiwanLabel = [
+          "!",
+          [
+            "match",
+            [
+              "coalesce",
+              ["get", "name:zh"],
+              ["get", "name:zh-Hant"],
+              ["get", "name"],
+              ["get", "name:en"],
+              ""
+            ],
+            ["台湾", "臺灣", "Taiwan"],
+            true,
+            false
+          ]
+        ];
+        state.footprintMap.setFilter(
+          layer.id,
+          existingFilter
+            ? ["all", existingFilter, hideTaiwanLabel]
+            : hideTaiwanLabel
+        );
+      } catch {
+        // Keep the original label when a style layer uses a special expression.
+      }
+    }
+  }
+
+  function locateCurrentPosition() {
+    ensureFootprintsMap();
+    if (!state.footprintMap) return;
+    if (!state.mapReady) {
+      state.footprintMap.once("load", locateCurrentPosition);
+      return;
+    }
+    if (!navigator.geolocation) {
+      showToast("当前浏览器不支持位置定位。");
+      return;
+    }
+    const button = $("#map-locate");
+    button.disabled = true;
+    button.classList.add("is-locating");
+    button.setAttribute("aria-busy", "true");
+    const finish = () => {
+      button.disabled = false;
+      button.classList.remove("is-locating");
+      button.removeAttribute("aria-busy");
+    };
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const rawLatitude = Number(position.coords.latitude);
+        const rawLongitude = Number(position.coords.longitude);
+        if (
+          !Number.isFinite(rawLatitude) ||
+          !Number.isFinite(rawLongitude)
+        ) {
+          showToast("未能读取有效的位置坐标。");
+          finish();
+          return;
+        }
+        const coordinate = { lat: rawLatitude, lng: rawLongitude };
+        if (state.userLocationMarker) state.userLocationMarker.remove();
+        const markerElement = document.createElement("span");
+        markerElement.className = "user-location-marker";
+        markerElement.append(document.createElement("i"));
+        const popup = new window.maplibregl.Popup({
+          offset: 18,
+          closeButton: false
+        }).setText("我的位置");
+        state.userLocationMarker = new window.maplibregl.Marker({
+          element: markerElement,
+          anchor: "center"
+        })
+          .setLngLat([coordinate.lng, coordinate.lat])
+          .setPopup(popup)
+          .addTo(state.footprintMap);
+        state.userLocationMarker.togglePopup();
+        state.footprintMap.flyTo({
+          center: [coordinate.lng, coordinate.lat],
+          zoom: 13,
+          duration: 900
+        });
+        showToast("已定位到你的当前位置。");
+        finish();
+      },
+      (error) => {
+        const reason =
+          error.code === error.PERMISSION_DENIED
+            ? "定位权限被拒绝，请在浏览器中允许位置访问。"
+            : "暂时无法获取当前位置，请稍后重试。";
+        showToast(reason);
+        finish();
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    );
+  }
+
+  function updateFootprintMapMarkers() {
+    if (!state.footprintMap || !state.mapReady) return;
+    state.footprintMarkers.forEach((marker) => marker.remove());
+    state.footprintMarkers = [];
+    const validItems = state.footprints.filter(
+      (item) =>
+        Number.isFinite(Number(item.lat)) &&
+        Number.isFinite(Number(item.lng))
+    );
+    const mapItems = validItems.map((item) => ({
+      item,
+      coordinate: {
+        lat: Number(item.lat),
+        lng: Number(item.lng)
+      }
+    }));
+    mapItems.forEach(({ item, coordinate }) => {
+      const markerElement = document.createElement("span");
+      markerElement.className = "footprint-marker";
+      markerElement.append(document.createElement("i"));
+      const popup = document.createElement("div");
+      popup.className = "footprint-popup";
+      const title = document.createElement("strong");
+      title.textContent = item.title || "旅行足迹";
+      const coordinateLabel = document.createElement("small");
+      coordinateLabel.textContent =
+        Number(item.lat).toFixed(3) + ", " + Number(item.lng).toFixed(3);
+      popup.append(title, coordinateLabel);
+      const marker = new window.maplibregl.Marker({
+        element: markerElement,
+        anchor: "bottom"
+      })
+        .setLngLat([coordinate.lng, coordinate.lat])
+        .setPopup(
+          new window.maplibregl.Popup({
+            offset: 28,
+            closeButton: false
+          }).setDOMContent(popup)
+        )
+        .addTo(state.footprintMap);
+      state.footprintMarkers.push(marker);
+    });
+    if (mapItems.length) {
+      const longitudes = mapItems.map(({ coordinate }) => coordinate.lng);
+      const latitudes = mapItems.map(({ coordinate }) => coordinate.lat);
+      state.footprintMap.fitBounds([
+        [Math.min(...longitudes), Math.min(...latitudes)],
+        [Math.max(...longitudes), Math.max(...latitudes)]
+      ], {
+        padding: 44,
+        maxZoom: 5,
+        duration: 650
+      });
+    }
+  }
+
+  async function readPhotoGps(file) {
+    try {
+      await loadScriptOnce("vendor/exifr.full.umd.js");
+      if (!window.exifr?.gps) return null;
+      const gps = await window.exifr.gps(file);
+      const lat = Number(gps?.latitude);
+      const lng = Number(gps?.longitude);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+      if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+      return { lat, lng };
+    } catch {
+      return null;
+    }
+  }
+
+  async function uploadFootprintPhotos(event) {
+    event.preventDefault();
+    if (!requireAdmin()) return;
+    const files = [...($("#footprint-files").files || [])];
+    const button = $("#upload-footprint-button");
+    const status = $("#footprint-upload-status");
+    const fallbackLat = Number($("#footprint-latitude").value);
+    const fallbackLng = Number($("#footprint-longitude").value);
+    const fallbackValid =
+      Number.isFinite(fallbackLat) &&
+      Number.isFinite(fallbackLng) &&
+      Math.abs(fallbackLat) <= 90 &&
+      Math.abs(fallbackLng) <= 180 &&
+      $("#footprint-latitude").value !== "" &&
+      $("#footprint-longitude").value !== "";
+
+    if (!files.length) {
+      status.textContent = "请先选择旅行照片。";
+      return;
+    }
+    button.disabled = true;
+    status.textContent = "正在读取照片位置并处理图片...";
+    const pending = [];
+    try {
+      for (let index = 0; index < files.length; index += 1) {
+        const file = files[index];
+        if (!isImageLike(file)) continue;
+        status.textContent =
+          "正在读取 GPS " + (index + 1) + " / " + files.length + " · " +
+          file.name;
+        const gps = await readPhotoGps(file);
+        const media = await createMediaItem(file);
+        pending.push({
+          id: createId("footprint"),
+          title: stripFileExtension(file.name) || "旅行照片 " + (index + 1),
+          createdAt: new Date().toISOString(),
+          lat: gps?.lat ?? (fallbackValid ? fallbackLat : null),
+          lng: gps?.lng ?? (fallbackValid ? fallbackLng : null),
+          media
+        });
+      }
+      if (!pending.length) throw new Error("没有可上传的图片文件");
+      state.pendingFootprintItems = pending;
+      status.textContent = "正在将 " + pending.length + " 张照片发布到 GitHub...";
+      await publishSharedContent("Upload footprint photos");
+      closeDialogAnimated($("#footprint-upload-dialog"));
+      renderFootprints();
+      ensureFootprintsMap();
+      status.textContent = "足迹照片已发布。";
+      showToast("足迹照片已上传。");
+    } catch (error) {
+      state.pendingFootprintItems = [];
+      status.textContent = "上传失败：" + error.message;
+    } finally {
+      button.disabled = false;
+    }
   }
 
   function setupDeck() {
@@ -3373,7 +4210,6 @@
     $("#delete-deck").hidden = !deck;
 
     if (!deck) {
-      $("#deck-viewer-title").textContent = "等待一本总结册";
       $("#deck-stage").replaceChildren();
       $("#slide-jump-input").value = "";
       $("#slide-jump-input").max = "";
@@ -3381,7 +4217,6 @@
     }
 
     state.currentDeckId = deck.id;
-    $("#deck-viewer-title").textContent = deck.name;
     renderSlide();
   }
 
@@ -3510,7 +4345,7 @@
     event.preventDefault();
     if (!requireAdmin()) return;
     if (!state.reportKey) {
-      showToast("请先设置并解锁日常Report只读口令。");
+      showToast("请先设置并解锁日常只读口令。");
       return;
     }
     const files = [...($("#deck-files").files || [])];

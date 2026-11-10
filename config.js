@@ -5,5 +5,8 @@ window.UPLOAD_CONFIG = {
   // Leave empty to use the repository's default branch.
   branch: "",
   contentPath: "content.json",
-  assetRoot: "shared"
+  assetRoot: "shared",
+  // Deploy guestbook-worker.js to Cloudflare Workers and put its URL here.
+  guestbookEndpoint: "https://kerry-guestbook.kerry-guestbook.workers.dev",
+  guestbookPath: "guestbook.json"
 };

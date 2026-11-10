@@ -29,6 +29,7 @@
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23a8d8f2'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='24' font-weight='700' fill='%2307111d'%3EKX%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -124,28 +125,32 @@
         </span>
       </a>
 
-      <nav class="site-nav" id="site-nav" aria-label="主导航">
-        <div class="nav-dropdown-wrap">
-          <button class="nav-trigger active" id="nav-home-toggle" type="button"
-            aria-expanded="false" aria-controls="nav-dropdown">
-            首页
+      <nav class="site-nav page-nav" id="site-nav" aria-label="主导航">
+        <button class="nav-trigger page-nav-button active" type="button"
+          data-page-target="home" aria-current="page">主页</button>
+        <button class="nav-trigger page-nav-button" type="button"
+          data-page-target="guestbook">留言墙</button>
+        <button class="nav-trigger page-nav-button" type="button"
+          data-page-target="footprints">足迹</button>
+        <div class="nav-dropdown-wrap settings-dropdown">
+          <button class="nav-trigger" id="settings-toggle" type="button"
+            aria-expanded="false" aria-controls="settings-dropdown">
+            设置
             <svg class="nav-chevron" viewBox="0 0 14 8" aria-hidden="true">
               <path d="M1 1.25 7 6.5l6-5.25"></path>
             </svg>
           </button>
-          <div class="nav-dropdown" id="nav-dropdown">
-            <a href="#profile">属性表</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#diary" id="report-nav-link" hidden>日常report</a>
-            <a href="#contact">联系</a>
+          <div class="nav-dropdown" id="settings-dropdown">
+            <button class="nav-dropdown-item" id="theme-entry" type="button">主题</button>
+            <button class="nav-dropdown-item admin-entry" id="admin-entry" type="button">管理</button>
+            <button class="nav-dropdown-item" id="report-access-trigger" type="button">
+              隐藏内容
+            </button>
           </div>
         </div>
-        <span class="nav-coming-soon">敬请期待...</span>
       </nav>
 
       <div class="nav-actions">
-        <button class="nav-action-button" id="theme-entry" type="button">主题</button>
-        <button class="nav-action-button admin-entry" id="admin-entry" type="button">管理</button>
         <button class="menu-button" id="menu-button" type="button"
           aria-expanded="false" aria-controls="site-nav" aria-label="打开导航">
           <span></span><span></span>
@@ -155,6 +160,7 @@
   </header>
 
   <main id="main-content">
+    <div class="page-view home-page-view" data-page-view="home">
     <section class="hero section-shell" id="home">
       <div class="hero-image-frame reveal" aria-label="首页图片预留位置">
         <div class="hero-placeholder-art" aria-hidden="true">
@@ -235,7 +241,7 @@
       <div class="section-shell">
         <header class="section-heading reveal">
           <div>
-            <h2>日常Report</h2>
+            <h2>日常</h2>
           </div>
         </header>
 
@@ -277,24 +283,24 @@
             </form>
           </aside>
 
-          <article class="deck-viewer">
-            <div class="deck-viewer-top">
+          <div class="deck-main">
+            <article class="deck-viewer deck-stage-panel">
+              <div class="deck-empty" id="deck-empty">
+                <span class="empty-emblem" aria-hidden="true">✦</span>
+                <h4>上传你的第一份总结</h4>
+                <p>PPTX 会被整理成可翻阅的网页幻灯片。</p>
+              </div>
+
+              <div class="deck-stage-wrap" id="deck-stage-wrap" hidden>
+                <div class="deck-stage" id="deck-stage" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <div class="deck-control-bar">
               <button class="deck-library-toggle" id="deck-library-toggle" type="button"
                 aria-expanded="false" aria-controls="deck-sidebar">
                 &lt; 总结册
               </button>
-              <h3 id="deck-viewer-title">等待一本总结册</h3>
-              <span class="deck-title-spacer" aria-hidden="true"></span>
-            </div>
-
-            <div class="deck-empty" id="deck-empty">
-              <span class="empty-emblem" aria-hidden="true">✦</span>
-              <h4>上传你的第一份总结</h4>
-              <p>PPTX 会被整理成可翻阅的网页幻灯片。</p>
-            </div>
-
-            <div class="deck-stage-wrap" id="deck-stage-wrap" hidden>
-              <div class="deck-stage" id="deck-stage" aria-live="polite"></div>
               <div class="deck-controls">
                 <button class="round-button" id="slide-prev" type="button" aria-label="上一页">←</button>
                 <button class="round-button" id="slide-next" type="button" aria-label="下一页">→</button>
@@ -306,7 +312,7 @@
                 </div>
               </div>
             </div>
-          </article>
+          </div>
         </div>
       </div>
     </section>
@@ -344,17 +350,94 @@
         <div class="contact-links" id="contact-groups"></div>
       </div>
     </section>
+    </div>
+
+    <section class="section page-view standalone-page guestbook-page" id="guestbook"
+      data-page-view="guestbook" hidden>
+      <div class="section-shell">
+        <header class="section-heading reveal">
+          <div>
+            <h2>留言墙</h2>
+          </div>
+        </header>
+
+        <div class="guestbook-grid" id="guestbook-grid" aria-live="polite"></div>
+        <div class="guestbook-empty" id="guestbook-empty">
+          <h3>还没有留言</h3>
+          <p>成为第一个在这里留下文字的人。</p>
+        </div>
+
+        <form class="guestbook-compose reveal" id="guestbook-form">
+          <label class="guestbook-message-field">
+            <span>想说的话</span>
+            <textarea id="guestbook-message" maxlength="800" rows="5"
+              placeholder="写下此刻想留下的话……" required></textarea>
+          </label>
+          <div class="guestbook-name-row">
+            <label class="guestbook-name-field">
+              <span>你的名字</span>
+              <input id="guestbook-name" type="text" maxlength="30"
+                placeholder="可以留下自定义名字">
+            </label>
+            <button class="guestbook-anonymous" id="guestbook-anonymous"
+              type="button" aria-pressed="false">匿名</button>
+          </div>
+          <div class="guestbook-submit-row">
+            <p class="action-status" id="guestbook-status" role="status" aria-live="polite"></p>
+            <button class="button button-primary guestbook-send" id="guestbook-send"
+              type="submit">发送留言</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section page-view standalone-page footprints-page" id="footprints"
+      data-page-view="footprints" hidden>
+      <div class="section-shell">
+        <header class="section-heading reveal">
+          <div>
+            <h2>足迹</h2>
+          </div>
+        </header>
+
+        <div class="footprints-map-shell reveal">
+          <div class="footprints-map" id="footprints-map" aria-label="旅行足迹世界地图"></div>
+          <div class="map-action-group" aria-label="地图控制">
+            <button class="map-action-button" id="map-zoom-in" type="button"
+              aria-label="放大地图" title="放大地图">+</button>
+            <button class="map-action-button" id="map-zoom-out" type="button"
+              aria-label="缩小地图" title="缩小地图">−</button>
+            <button class="map-action-button map-locate-button" id="map-locate"
+              type="button" aria-label="定位到我的位置" title="我的位置">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"></path>
+                <circle cx="12" cy="9" r="2.4"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="footprint-gallery" id="footprint-gallery" aria-live="polite"></div>
+        <div class="album-empty footprint-empty" id="footprint-empty">
+          <span class="empty-emblem" aria-hidden="true">⌖</span>
+          <h3>还没有足迹</h3>
+          <p>上传旅行照片，自动读取照片中的地理位置。</p>
+        </div>
+        <div class="footprint-upload-center">
+          <button class="button button-primary admin-only" id="open-footprint-upload" type="button">
+            上传
+          </button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer section-shell">
     <div class="footer-copy">
       <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
       <p>本网页由大肥鱼驱动的Codex赋能制作</p>
-      <p>网页版本：V0.3</p>
+      <p>网页版本：V0.4</p>
     </div>
-    <button class="report-access-trigger" id="report-access-trigger" type="button">
-      查看隐藏内容
-    </button>
   </footer>
 
   <dialog class="modal create-album-modal" id="create-album-dialog">
@@ -683,12 +766,12 @@
       <div class="modal-header">
         <div>
           <span class="mini-label">PRIVATE REPORT</span>
-          <h2>解锁日常Report</h2>
+          <h2>解锁日常</h2>
         </div>
         <button class="dialog-close" type="button" data-close-dialog="report-access-dialog" aria-label="关闭">×</button>
       </div>
       <p class="modal-intro">
-        输入只读查看口令后，才会显示日常Report栏目及顶部导航按钮。
+        输入只读查看口令后，才会显示日常栏目。
         第一次设置时，管理员输入的文本将作为加密密钥，因此请妥善保管。
       </p>
       <label>
@@ -736,6 +819,66 @@
     </form>
   </dialog>
 
+  <dialog class="modal confirm-dialog" id="guestbook-delete-dialog">
+    <form method="dialog">
+      <div class="modal-header">
+        <div>
+          <h2>删除这条留言？</h2>
+        </div>
+        <button class="dialog-close" type="button"
+          data-close-dialog="guestbook-delete-dialog" aria-label="关闭">×</button>
+      </div>
+      <p class="modal-intro" id="guestbook-delete-copy">
+        删除后将同步更新 GitHub 中的留言数据，此操作不可撤销。
+      </p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button"
+          data-close-dialog="guestbook-delete-dialog">取消</button>
+        <button class="button button-primary confirm-danger" id="confirm-delete-guestbook"
+          type="button">确认删除</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal footprint-upload-dialog" id="footprint-upload-dialog">
+    <form id="footprint-upload-form">
+      <div class="modal-header">
+        <div>
+          <h2>上传足迹</h2>
+        </div>
+        <button class="dialog-close" type="button"
+          data-close-dialog="footprint-upload-dialog" aria-label="关闭">×</button>
+      </div>
+      <label class="footprint-file-picker">
+        <input id="footprint-files" type="file" multiple
+          accept="image/*,image/heic,image/heif,.heic,.heif">
+        <span>选择旅行照片</span>
+        <small>会尝试从 JPEG / HEIC 的 EXIF 信息中读取经纬度</small>
+      </label>
+      <div class="footprint-preview-list" id="footprint-preview-list"></div>
+      <div class="footprint-coordinate-fields">
+        <label>
+          <span>纬度（可选）</span>
+          <input id="footprint-latitude" type="number" step="any"
+            min="-90" max="90" placeholder="例如 22.5431">
+        </label>
+        <label>
+          <span>经度（可选）</span>
+          <input id="footprint-longitude" type="number" step="any"
+            min="-180" max="180" placeholder="例如 114.0579">
+        </label>
+      </div>
+      <p class="modal-note">照片没有 GPS 信息时，可在这里填写经纬度作为该批次照片的位置。</p>
+      <p class="action-status" id="footprint-upload-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button"
+          data-close-dialog="footprint-upload-dialog">取消</button>
+        <button class="button button-primary" id="upload-footprint-button"
+          type="submit">上传并标记</button>
+      </div>
+    </form>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <button class="back-to-top" id="back-to-top" type="button" aria-label="回到页面顶部" hidden>
     <svg viewBox="0 0 24 20" aria-hidden="true">
@@ -743,6 +886,7 @@
     </svg>
   </button>
 
+  <script src="vendor/maplibre-gl.js"></script>
   <script src="config.js"></script>
   <script src="site-data.js"></script>
   <script src="script.js"></script>

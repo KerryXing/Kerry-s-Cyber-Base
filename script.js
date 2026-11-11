@@ -3550,29 +3550,7 @@
     status.textContent = "正在发送留言...";
     try {
       let savedMessage;
-      if (config.guestbookEndpoint) {
-        const response = await fetch(config.guestbookEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content, name, anonymous })
-        });
-        let payload = null;
-        try {
-          payload = await response.json();
-        } catch {
-          payload = null;
-        }
-        if (!response.ok) {
-          throw new Error(payload?.error || "留言服务暂时不可用");
-        }
-        savedMessage = payload?.message || {
-          id: createId("message"),
-          content,
-          name,
-          anonymous,
-          createdAt: new Date().toISOString()
-        };
-      } else if (state.isAdmin) {
+      if (state.isAdmin) {
         const message = {
           id: createId("message"),
           content,
@@ -3589,6 +3567,44 @@
         );
         savedMessage = message;
         state.guestbook = next.messages;
+      } else if (config.guestbookEndpoint) {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 12000);
+        let response;
+        try {
+          response = await fetch(config.guestbookEndpoint, {
+            method: "POST",
+            mode: "cors",
+            cache: "no-store",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content, name, anonymous }),
+            signal: controller.signal
+          });
+        } catch (error) {
+          throw new Error(
+            error.name === "AbortError"
+              ? "留言中转地址响应超时。请检查 Worker 是否正常运行，以及当前网络能否访问 workers.dev。"
+              : "无法连接留言服务。请检查 config.js 中的 guestbookEndpoint 是否为部署后的实际地址。"
+          );
+        } finally {
+          window.clearTimeout(timeout);
+        }
+        let payload = null;
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+        if (!response.ok) {
+          throw new Error(payload?.error || "留言服务暂时不可用");
+        }
+        savedMessage = payload?.message || {
+          id: createId("message"),
+          content,
+          name,
+          anonymous,
+          createdAt: new Date().toISOString()
+        };
       } else {
         throw new Error(
           "留言服务尚未配置。请先部署留言写入服务，或由管理员登录后发布留言。"

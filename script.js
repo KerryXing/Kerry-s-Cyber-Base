@@ -4332,8 +4332,11 @@
     }));
     mapItems.forEach(({ item, coordinate }) => {
       const markerElement = document.createElement("span");
-      markerElement.className = "footprint-marker";
-      markerElement.append(document.createElement("i"));
+      markerElement.className = "footprint-marker-wrap";
+      const markerPin = document.createElement("span");
+      markerPin.className = "footprint-marker";
+      markerPin.append(document.createElement("i"));
+      markerElement.append(markerPin);
       markerElement.addEventListener("click", (event) => {
         event.stopPropagation();
         highlightFootprintCard(item.id);

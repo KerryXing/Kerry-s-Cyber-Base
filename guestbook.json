@@ -1,4 +1,11 @@
 {
   "version": 1,
-  "messages": []
+  "messages": [
+    {
+      "id": "message-638b0682-deaa-48cf-889c-26f911a457dc",
+      "content": "这是留言测试帖（）\n欢迎留言！",
+      "name": "Kerry",
+      "createdAt": "2026-11-12T16:06:57.517Z"
+    }
+  ]
 }

@@ -6236,13 +6236,13 @@ html[data-theme="easter"] .password-fields input {
 .footprint-marker {
   position: relative;
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border: 3px solid rgba(255, 255, 255, 0.92);
-  border-radius: 50% 50% 50% 8px;
-  background: linear-gradient(145deg, var(--accent), var(--accent-strong));
+  border-radius: 50% 50% 50% 0;
+  background: linear-gradient(145deg, #f22a35, #d90017);
   box-shadow:
-    0 0 0 8px rgba(112, 198, 224, 0.15),
+    0 0 0 7px rgba(224, 18, 38, 0.14),
     0 10px 25px rgba(0, 12, 24, 0.28);
   transform: rotate(-45deg);
 }
@@ -6266,12 +6266,18 @@ html[data-theme="easter"] .password-fields input {
 }
 
 .footprint-card {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 22px;
   background: var(--surface);
   cursor: pointer;
   transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.footprint-card.selected {
+  border-color: #4fc598;
+  box-shadow: 0 0 0 2px rgba(79, 197, 152, 0.2);
 }
 
 .footprint-card:hover {
@@ -6296,6 +6302,60 @@ html[data-theme="easter"] .password-fields input {
 .footprint-card-info strong {
   color: var(--ink);
   font-size: 16px;
+}
+
+.renameable-photo-title {
+  cursor: text;
+  border-radius: 6px;
+}
+
+.renameable-photo-title:hover {
+  color: var(--accent);
+}
+
+.inline-rename-form {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+}
+
+.inline-rename-input {
+  min-width: 0;
+  min-height: 34px;
+  padding: 0 10px;
+  flex: 1;
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  outline: 0;
+  background: color-mix(in srgb, var(--surface-solid) 82%, transparent);
+  font-size: 14px;
+}
+
+.inline-rename-input:focus {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: 0 0 0 3px rgba(132, 191, 222, 0.1);
+}
+
+.inline-rename-confirm {
+  min-height: 34px;
+  padding: 0 12px;
+  flex: 0 0 auto;
+  color: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.footprint-actions {
+  display: flex;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .footprint-card-info span {

@@ -99,12 +99,14 @@
     currentPage: "home",
     pageSwitchToken: 0,
     guestbook: [],
-    guestbookAnonymous: false,
     pendingGuestbookDeleteId: "",
     footprints: [],
     pendingFootprintItems: [],
+    footprintSelectionMode: false,
+    selectedFootprintIds: [],
     footprintMap: null,
     footprintMarkers: [],
+    footprintMarkerLookup: new Map(),
     footprintUrls: [],
     userLocationMarker: null,
     mapReady: false,
@@ -3208,6 +3210,21 @@
     footer.className = "album-photo-footer";
     const title = document.createElement("span");
     title.textContent = photo.title;
+    title.className = "renameable-photo-title";
+    title.title = "双击重命名";
+    title.addEventListener("click", (event) => {
+      if (state.isAdmin && !state.photoSelectionMode) {
+        event.stopPropagation();
+      }
+    });
+    title.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!state.isAdmin || state.photoSelectionMode) return;
+      beginInlineRename(title, photo.title, async (name) => {
+        await renameAlbumPhoto(album.id, photo.id, name);
+      });
+    });
     footer.append(title);
     card.append(footer);
 
@@ -3232,6 +3249,107 @@
       }
     });
     return card;
+  }
+
+  async function renameAlbumPhoto(albumId, photoId, name) {
+    if (!requireAdmin()) return;
+    const album = state.albums.find((item) => item.id === albumId);
+    const photo = album?.photos?.find((item) => item.id === photoId);
+    if (!album || !photo) return;
+    const previous = photo.title;
+    photo.title = name;
+    album.updatedAt = new Date().toISOString();
+    try {
+      await publishSharedContent("Rename album photo: " + name);
+      renderAlbumPhotos(album);
+      renderAlbums();
+      showToast("照片名称已更新。");
+    } catch (error) {
+      photo.title = previous;
+      album.updatedAt = new Date().toISOString();
+      renderAlbumPhotos(album);
+      renderAlbums();
+      showToast("重命名失败：" + error.message);
+    }
+  }
+
+  function beginInlineRename(titleElement, currentName, saveHandler) {
+    if (!requireAdmin()) return;
+    if (state.activeInlineRename?.save) {
+      state.activeInlineRename.save().catch(() => {});
+    }
+
+    const form = document.createElement("form");
+    form.className = "inline-rename-form";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.maxLength = 100;
+    input.value = currentName;
+    input.className = "inline-rename-input";
+    input.setAttribute("aria-label", "输入新名称");
+    const confirm = document.createElement("button");
+    confirm.type = "submit";
+    confirm.className = "inline-rename-confirm";
+    confirm.textContent = "确认命名";
+    form.append(input, confirm);
+
+    let saving = false;
+    let closed = false;
+    const cleanup = () => {
+      closed = true;
+      document.removeEventListener("pointerdown", outside, true);
+      if (state.activeInlineRename?.form === form) {
+        state.activeInlineRename = null;
+      }
+    };
+    const close = () => {
+      cleanup();
+      if (form.isConnected) form.replaceWith(titleElement);
+    };
+    const save = async () => {
+      if (saving || closed) return;
+      const nextName = input.value.trim();
+      if (!nextName) {
+        input.focus();
+        showToast("名称不能为空。");
+        return;
+      }
+      if (nextName === currentName) {
+        close();
+        return;
+      }
+      saving = true;
+      input.disabled = true;
+      confirm.disabled = true;
+      try {
+        await saveHandler(nextName);
+        cleanup();
+      } catch (error) {
+        saving = false;
+        input.disabled = false;
+        confirm.disabled = false;
+        input.focus();
+        showToast("重命名失败：" + error.message);
+      }
+    };
+    const outside = (event) => {
+      if (form.contains(event.target)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      save();
+    };
+
+    form.addEventListener("click", (event) => event.stopPropagation());
+    form.addEventListener("dblclick", (event) => event.stopPropagation());
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      save();
+    });
+    document.addEventListener("pointerdown", outside, true);
+    state.activeInlineRename = { form, save };
+    titleElement.replaceWith(form);
+    input.focus();
+    input.select();
   }
 
   async function saveAlbumSettings() {
@@ -3443,25 +3561,15 @@
     const status = $("#guestbook-status");
 
     anonymousButton.addEventListener("click", () => {
-      state.guestbookAnonymous = !state.guestbookAnonymous;
-      anonymousButton.classList.toggle("active", state.guestbookAnonymous);
-      anonymousButton.setAttribute(
-        "aria-pressed",
-        String(state.guestbookAnonymous)
-      );
-      if (state.guestbookAnonymous) {
-        nameInput.value = "";
-        nameInput.disabled = true;
-      } else {
-        nameInput.disabled = false;
-        nameInput.focus();
-      }
+      nameInput.value = "匿名";
+      anonymousButton.classList.add("active");
+      anonymousButton.setAttribute("aria-pressed", "true");
+      nameInput.focus();
     });
     nameInput.addEventListener("input", () => {
-      if (!nameInput.value.trim()) return;
-      state.guestbookAnonymous = false;
-      anonymousButton.classList.remove("active");
-      anonymousButton.setAttribute("aria-pressed", "false");
+      const anonymous = nameInput.value.trim() === "匿名";
+      anonymousButton.classList.toggle("active", anonymous);
+      anonymousButton.setAttribute("aria-pressed", String(anonymous));
     });
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -3499,7 +3607,8 @@
         const footer = document.createElement("div");
         footer.className = "guestbook-card-footer";
         const name = document.createElement("strong");
-        name.textContent = message.anonymous ? "匿名" : message.name || "访客";
+        name.textContent =
+          message.name || (message.anonymous ? "匿名" : "访客");
         const date = document.createElement("time");
         if (message.createdAt) {
           const parsed = new Date(message.createdAt);
@@ -3518,7 +3627,7 @@
         remove.addEventListener("click", () => {
           state.pendingGuestbookDeleteId = message.id;
           $("#guestbook-delete-copy").textContent =
-            "确定删除“" + (message.anonymous ? "匿名" : message.name) +
+            "确定删除“" + (message.name || "匿名") +
             "”的这条留言吗？删除后会同步更新 GitHub。";
           openDialog($("#guestbook-delete-dialog"));
         });
@@ -3542,8 +3651,7 @@
       messageInput.focus();
       return;
     }
-    const anonymous = state.guestbookAnonymous;
-    const name = anonymous ? "匿名" : nameInput.value.trim() || "访客";
+    const name = nameInput.value.trim() || "访客";
     const config = getUploadConfig();
 
     button.disabled = true;
@@ -3555,7 +3663,6 @@
           id: createId("message"),
           content,
           name,
-          anonymous,
           createdAt: new Date().toISOString()
         };
         const next = await mutateRemoteGuestbook(
@@ -3577,13 +3684,13 @@
             mode: "cors",
             cache: "no-store",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content, name, anonymous }),
+            body: JSON.stringify({ content, name }),
             signal: controller.signal
           });
         } catch (error) {
           throw new Error(
             error.name === "AbortError"
-              ? "留言中转地址响应超时。请检查 Worker 是否正常运行，以及当前网络能否访问 workers.dev。"
+              ? "留言服务响应超时。请检查腾讯云函数和 API 网关是否正常运行。"
               : "无法连接留言服务。请检查 config.js 中的 guestbookEndpoint 是否为部署后的实际地址。"
           );
         } finally {
@@ -3602,7 +3709,6 @@
           id: createId("message"),
           content,
           name,
-          anonymous,
           createdAt: new Date().toISOString()
         };
       } else {
@@ -3731,6 +3837,14 @@
       state.footprintMap?.zoomOut();
     });
     $("#map-locate").addEventListener("click", locateCurrentPosition);
+    $("#footprint-multi-toggle").addEventListener(
+      "click",
+      toggleFootprintSelectionMode
+    );
+    $("#footprint-delete-selected").addEventListener(
+      "click",
+      deleteSelectedFootprints
+    );
     $("#open-footprint-upload").addEventListener("click", () => {
       if (!requireAdmin()) return;
       $("#footprint-files").value = "";
@@ -3761,22 +3875,30 @@
     state.footprintUrls = [];
     const gallery = $("#footprint-gallery");
     const empty = $("#footprint-empty");
+    const actions = $("#footprint-actions");
     const items = [...state.footprints].sort((left, right) =>
       String(right.createdAt).localeCompare(String(left.createdAt))
     );
+    state.selectedFootprintIds = state.selectedFootprintIds.filter((id) =>
+      items.some((item) => item.id === id)
+    );
     empty.hidden = items.length > 0;
     gallery.hidden = items.length === 0;
+    actions.hidden = items.length === 0;
     gallery.replaceChildren(
       ...items.map((item) => createFootprintCard(item))
     );
     observeRevealElements(gallery);
     activateAnimatedMedia(gallery);
     updateFootprintMapMarkers();
+    syncFootprintSelectionUI();
   }
 
   function createFootprintCard(item) {
     const card = document.createElement("article");
-    card.className = "footprint-card reveal";
+    const selected = state.selectedFootprintIds.includes(item.id);
+    card.className = "footprint-card reveal" + (selected ? " selected" : "");
+    card.dataset.footprintId = item.id;
     card.tabIndex = 0;
     card.setAttribute("role", "button");
     card.setAttribute(
@@ -3788,6 +3910,8 @@
     info.className = "footprint-card-info";
     const title = document.createElement("strong");
     title.textContent = item.title || "旅行照片";
+    title.className = "renameable-photo-title";
+    title.title = "双击重命名";
     const coordinate = document.createElement("span");
     coordinate.textContent =
       Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lng))
@@ -3795,15 +3919,164 @@
         : "未记录坐标";
     info.append(title, coordinate);
     card.append(media, info);
+    if (selected) {
+      const check = document.createElement("span");
+      check.className = "photo-selected-check";
+      check.textContent = "✓";
+      card.append(check);
+    }
+
+    title.addEventListener("click", (event) => {
+      if (state.isAdmin && !state.footprintSelectionMode) {
+        event.stopPropagation();
+      }
+    });
+    title.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!state.isAdmin || state.footprintSelectionMode) return;
+      beginInlineRename(title, item.title || "旅行照片", async (name) => {
+        await renameFootprint(item.id, name);
+      });
+    });
+
     const open = () => openPhotoLightbox(item);
-    card.addEventListener("click", open);
+    let locateTimer = null;
+    card.addEventListener("click", () => {
+      if (state.footprintSelectionMode) {
+        toggleFootprintSelection(item.id);
+        return;
+      }
+      clearTimeout(locateTimer);
+      locateTimer = window.setTimeout(() => {
+        focusFootprintOnMap(item);
+      }, 230);
+    });
+    card.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+      clearTimeout(locateTimer);
+      if (!state.footprintSelectionMode) open();
+    });
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        open();
+        if (state.footprintSelectionMode) toggleFootprintSelection(item.id);
+        else focusFootprintOnMap(item);
       }
     });
     return card;
+  }
+
+  function toggleFootprintSelectionMode() {
+    state.footprintSelectionMode = !state.footprintSelectionMode;
+    state.selectedFootprintIds = [];
+    syncFootprintSelectionUI();
+  }
+
+  function toggleFootprintSelection(id) {
+    state.selectedFootprintIds = state.selectedFootprintIds.includes(id)
+      ? state.selectedFootprintIds.filter((itemId) => itemId !== id)
+      : [...state.selectedFootprintIds, id];
+    syncFootprintSelectionUI();
+  }
+
+  function syncFootprintSelectionUI() {
+    const toggle = $("#footprint-multi-toggle");
+    const remove = $("#footprint-delete-selected");
+    if (!toggle || !remove) return;
+    toggle.textContent = state.footprintSelectionMode
+      ? "退出多选"
+      : "多选";
+    remove.hidden = !state.footprintSelectionMode;
+    remove.disabled = state.selectedFootprintIds.length === 0;
+    $$(".footprint-card", $("#footprint-gallery")).forEach((card) => {
+      const selected = state.selectedFootprintIds.includes(
+        card.dataset.footprintId
+      );
+      card.classList.toggle("selected", selected);
+      let check = card.querySelector(".photo-selected-check");
+      if (selected && !check) {
+        check = document.createElement("span");
+        check.className = "photo-selected-check";
+        check.textContent = "✓";
+        card.append(check);
+      } else if (!selected && check) {
+        check.remove();
+      }
+    });
+  }
+
+  async function deleteSelectedFootprints() {
+    if (!requireAdmin()) return;
+    const selectedIds = [...state.selectedFootprintIds];
+    if (!selectedIds.length) return;
+    if (
+      !window.confirm(
+        "从足迹中删除选中的 " + selectedIds.length + " 张照片吗？"
+      )
+    ) {
+      return;
+    }
+    const previous = [...state.footprints];
+    state.footprints = state.footprints.filter(
+      (item) => !selectedIds.includes(item.id)
+    );
+    state.footprintSelectionMode = false;
+    state.selectedFootprintIds = [];
+    const button = $("#footprint-delete-selected");
+    button.disabled = true;
+    try {
+      await publishSharedContent("Delete footprint photos");
+      renderFootprints();
+      showToast("所选足迹照片已删除。");
+    } catch (error) {
+      state.footprints = previous;
+      renderFootprints();
+      showToast("足迹照片删除失败：" + error.message);
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function focusFootprintOnMap(item) {
+    if (!Number.isFinite(Number(item.lat)) || !Number.isFinite(Number(item.lng))) {
+      showToast("这张照片没有可用的地理位置。");
+      return;
+    }
+    ensureFootprintsMap();
+    if (!state.footprintMap || !state.mapReady) {
+      state.footprintMap?.once("load", () => focusFootprintOnMap(item));
+      return;
+    }
+    const marker = state.footprintMarkerLookup.get(item.id);
+    if (!marker) return;
+    $("#footprints-map").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+    state.footprintMap.flyTo({
+      center: marker.getLngLat(),
+      zoom: Math.max(12, state.footprintMap.getZoom()),
+      duration: 800
+    });
+    marker.togglePopup();
+  }
+
+  async function renameFootprint(id, name) {
+    if (!requireAdmin()) return;
+    const item = state.footprints.find((footprint) => footprint.id === id);
+    if (!item) return;
+    const previous = item.title;
+    item.title = name;
+    try {
+      await publishSharedContent("Rename footprint photo: " + name);
+      renderFootprints();
+      showToast("足迹照片名称已更新。");
+    } catch (error) {
+      item.title = previous;
+      renderFootprints();
+      showToast("重命名失败：" + error.message);
+    }
   }
 
   function ensureFootprintsMap() {
@@ -4014,6 +4287,7 @@
     if (!state.footprintMap || !state.mapReady) return;
     state.footprintMarkers.forEach((marker) => marker.remove());
     state.footprintMarkers = [];
+    state.footprintMarkerLookup.clear();
     const validItems = state.footprints.filter(
       (item) =>
         Number.isFinite(Number(item.lat)) &&
@@ -4051,6 +4325,7 @@
         )
         .addTo(state.footprintMap);
       state.footprintMarkers.push(marker);
+      state.footprintMarkerLookup.set(item.id, marker);
     });
     if (mapItems.length) {
       const longitudes = mapItems.map(({ coordinate }) => coordinate.lng);

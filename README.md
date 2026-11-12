@@ -95,6 +95,8 @@ Report 页面图片使用 AES-GCM 在浏览器中加密后再提交到 GitHub。
 进入多选、勾选和取消勾选都只发生在本地，不会请求 GitHub；只有实际设置封面或删除时才会发布变更。
 删除照片、视频、相册、首页背景、头像或 Report 时，网站会把不再被任何内容引用的文件
 从 Git 树中一并移除，而不只是删除 `content.json` 中的索引。
+管理员可以双击照片名称打开原地重命名输入框；按“确认命名”、回车或点击输入框外部
+都会把新名称发布到 GitHub。
 
 ## 主题与设备适配
 
@@ -148,10 +150,12 @@ Report 页面图片使用 AES-GCM 在浏览器中加密后再提交到 GitHub。
 普通访客可以在“留言墙”页面填写内容、自定义名字或切换为匿名后发送。
 留言通过 `config.js` 中的 `guestbookEndpoint` 发送到安全写入中继，并保存到
 仓库根目录的 `guestbook.json`。管理员登录后，每条留言右上角会显示删除按钮。
+留言正文不做额外加密；“匿名”只是把访客名字写成“匿名”。
 
-GitHub Pages 本身不能安全保存可公开调用的写入 Token，因此匿名留言需要先按
-[Guestbook Worker.md](Tutorial/Guestbook%20Worker.md) 部署随附的 Cloudflare Worker。
-未配置中继时，管理员仍可通过管理员 Token 发布留言，普通访客的匿名发送会提示服务未配置。
+GitHub Pages 本身不能安全保存可公开调用的写入 Token，因此访客留言使用随附的
+腾讯云函数 SCF 和 API 网关写入 GitHub。部署步骤见
+[Tencent Guestbook.md](Tutorial/Tencent%20Guestbook.md)。GitHub Token 仅保存在
+云函数环境变量中。管理员模式不依赖该接口，可以直接使用自己的 GitHub Token 发布留言。
 
 ## 足迹
 
@@ -162,6 +166,8 @@ GitHub Pages 本身不能安全保存可公开调用的写入 Token，因此匿�
 管理员上传旅行照片时，
 页面会优先读取 JPEG / HEIC 中的 GPS 信息并在 map 上生成标记；照片没有 GPS 时，
 可以在上传窗口中手动填写纬度与经度。照片和位置数据发布到 GitHub 后会向所有访客展示。
+地图使用红色定位针；单击下方照片会定位到该地点，双击照片才打开大图预览。
+管理员还可以使用与 Gallery 相同的多选和删除功能。
 
 相册内容会通过 GitHub API 保存到 `content.json` 和
 `shared/`，因此所有访客读取相同内容。

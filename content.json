@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-12T17:18:12.582Z",
+  "updatedAt": "2026-11-12T17:53:56.243Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-12T17:18:12.582Z",
+      "updatedAt": "2026-11-12T17:53:56.243Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-12T17:18:12.582Z",
+      "updatedAt": "2026-11-12T17:53:56.243Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-12T17:18:12.582Z",
+      "updatedAt": "2026-11-12T17:53:56.243Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -311,6 +311,26 @@
       "createdAt": "2026-11-12T17:13:04.050Z",
       "src": "shared/footprints/footprint-dcd23633-0c78-410e-a28d-0607c403a85c.jpg",
       "thumbnail": "shared/thumbnails/photo-b02c2a23-2c09-46e4-8567-d2a2e3c0e8b1.jpg"
+    },
+    {
+      "id": "footprint-7877ee55-00bb-4515-a0ad-b6ac9d455e82",
+      "title": "澳门威尼斯人",
+      "kind": "photo",
+      "lat": 22.146880555555555,
+      "lng": 113.56296661111111,
+      "createdAt": "2026-11-12T17:53:53.214Z",
+      "src": "shared/footprints/footprint-7877ee55-00bb-4515-a0ad-b6ac9d455e82.jpg",
+      "thumbnail": "shared/thumbnails/photo-e6f816cb-67f3-4589-a270-8c5f4f8f43b1.jpg"
+    },
+    {
+      "id": "footprint-b88e3504-0e8a-487f-9f74-5e9d09e625a0",
+      "title": "理塘",
+      "kind": "photo",
+      "lat": 0,
+      "lng": 0,
+      "createdAt": "2026-11-12T17:53:56.242Z",
+      "src": "shared/footprints/footprint-b88e3504-0e8a-487f-9f74-5e9d09e625a0.jpg",
+      "thumbnail": "shared/thumbnails/photo-917ee1f8-a0b5-4d8b-a473-2b81e70d4cfc.jpg"
     }
   ],
   "decks": [],

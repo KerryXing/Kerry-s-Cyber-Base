@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-12T17:57:06.466Z",
+  "updatedAt": "2026-11-12T17:58:18.966Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-12T17:57:06.466Z",
+      "updatedAt": "2026-11-12T17:58:18.966Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-12T17:57:06.466Z",
+      "updatedAt": "2026-11-12T17:58:18.966Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-12T17:57:06.466Z",
+      "updatedAt": "2026-11-12T17:58:18.966Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -331,6 +331,16 @@
       "createdAt": "2026-11-12T17:57:06.466Z",
       "src": "shared/footprints/footprint-b4b4059d-f171-49b8-8c62-0f476b7397e0.jpg",
       "thumbnail": "shared/thumbnails/photo-2979bcce-820d-417a-9265-83faab7c5390.jpg"
+    },
+    {
+      "id": "footprint-77535895-6bd5-47fe-9636-290c843f66bc",
+      "title": "理塘",
+      "kind": "photo",
+      "lat": 29.996727777777778,
+      "lng": 100.26588333333333,
+      "createdAt": "2026-11-12T17:58:18.966Z",
+      "src": "shared/footprints/footprint-77535895-6bd5-47fe-9636-290c843f66bc.jpg",
+      "thumbnail": "shared/thumbnails/photo-a998d5b4-63ad-43d7-a215-fba38135a9ed.jpg"
     }
   ],
   "decks": [],

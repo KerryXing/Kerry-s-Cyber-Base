@@ -5688,32 +5688,32 @@ html[data-theme="easter"] .password-fields input {
 
 .deck-control-bar {
   display: flex;
-  width: 100%;
-  margin-top: 14px;
-  padding: 10px;
+  width: max-content;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding: 0;
   align-items: center;
-  gap: 9px;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  background: color-mix(in srgb, var(--surface-solid) 91%, transparent);
-  box-shadow: 0 12px 32px rgba(0, 8, 18, 0.15);
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .deck-control-bar .deck-controls {
-  display: grid;
+  display: contents;
   min-width: 0;
   margin: 0;
-  flex: 1;
-  grid-template-columns: 58px 58px minmax(190px, 1fr);
   align-items: center;
-  justify-content: flex-end;
-  gap: 9px;
+  justify-content: center;
+  gap: 12px;
 }
 
 .deck-control-bar .deck-library-toggle,
 .deck-control-bar .round-button,
 .deck-control-bar .slide-jump {
-  min-height: 58px;
+  min-height: 84px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   background: color-mix(in srgb, var(--surface-lift) 60%, transparent);
@@ -5722,20 +5722,26 @@ html[data-theme="easter"] .password-fields input {
 .deck-control-bar .deck-library-toggle {
   width: auto;
   max-width: none;
-  padding: 0 20px;
+  min-height: 84px;
+  padding: 0 30px;
   flex: 0 0 auto;
+  font-size: 19px;
 }
 
 .deck-control-bar .round-button {
-  width: 58px;
-  height: 58px;
+  width: 84px;
+  height: 84px;
+  flex: 0 0 auto;
+  font-size: 28px;
 }
 
 .deck-control-bar .slide-jump {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   margin: 0;
   padding-inline: 15px;
-  justify-content: flex-end;
+  flex: 0 0 auto;
+  justify-content: center;
 }
 
 .deck-sidebar {
@@ -6571,33 +6577,32 @@ html[data-theme="qingming"] .maplibregl-canvas {
   }
 
   .deck-control-bar {
-    display: grid;
-    padding: 8px;
-    grid-template-columns: 1fr;
+    display: flex;
+    width: 100%;
+    padding: 0;
     gap: 8px;
-    border-radius: 20px;
   }
 
   .deck-control-bar .deck-controls {
+    display: contents;
     width: 100%;
-    grid-template-columns: 48px 48px minmax(0, 1fr);
     gap: 7px;
   }
 
   .deck-control-bar .deck-library-toggle {
-    width: 100%;
-    min-height: 48px;
+    width: auto;
+    min-height: 58px;
     padding-inline: 14px;
   }
 
   .deck-control-bar .round-button {
-    width: 48px;
-    height: 48px;
-    min-height: 48px;
+    width: 58px;
+    height: 58px;
+    min-height: 58px;
   }
 
   .deck-control-bar .slide-jump {
-    min-height: 48px;
+    min-height: 58px;
     padding-inline: 9px;
     justify-content: center;
   }

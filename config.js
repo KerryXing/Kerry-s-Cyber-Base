@@ -6,7 +6,7 @@ window.UPLOAD_CONFIG = {
   branch: "",
   contentPath: "content.json",
   assetRoot: "shared",
-  // Deploy guestbook-worker.js to Cloudflare Workers and put its URL here.
-  guestbookEndpoint: "https://kerry-guestbook.kerry-guestbook.workers.dev",
+  // Fill this with the HTTP access URL of the Tencent Cloud SCF function.
+  guestbookEndpoint: "https://1530044146-ce2n1mpai9.ap-guangzhou.tencentscf.com",
   guestbookPath: "guestbook.json"
 };

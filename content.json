@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-12T17:58:18.966Z",
+  "updatedAt": "2026-11-12T19:29:13.176Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-12T17:58:18.966Z",
+      "updatedAt": "2026-11-12T19:29:13.176Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-12T17:58:18.966Z",
+      "updatedAt": "2026-11-12T19:29:13.176Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-12T17:58:18.966Z",
+      "updatedAt": "2026-11-12T19:29:13.176Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -294,7 +294,7 @@
     },
     {
       "id": "footprint-23ac1c96-e723-4b3a-a1cf-388470e76d94",
-      "title": "成都印象",
+      "title": "成都东郊记忆",
       "kind": "photo",
       "lat": 30.67221388888889,
       "lng": 104.12067488888889,

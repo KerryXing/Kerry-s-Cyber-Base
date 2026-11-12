@@ -110,6 +110,8 @@
     footprintUrls: [],
     userLocationMarker: null,
     mapReady: false,
+    deckAutoplayTimer: null,
+    deckControlsTimer: null,
     slideRenderToken: 0,
     reportFilePaths: new Set(),
     revealObserver: null,
@@ -1598,6 +1600,7 @@
   }
 
   function setReportVisibility(visible) {
+    if (!visible) stopDeckAutoplay();
     $("#diary").hidden = !visible;
     const trigger = $("#report-access-trigger");
     trigger.hidden = !state.isAdmin && visible;
@@ -2768,6 +2771,7 @@
 
       const switchToken = ++state.pageSwitchToken;
       state.currentPage = pageName;
+      if (pageName !== "home") stopDeckAutoplay();
       pageButtons.forEach((button) => {
         const active = button.dataset.pageTarget === pageName;
         button.classList.toggle("active", active);
@@ -4062,6 +4066,32 @@
     marker.togglePopup();
   }
 
+  function highlightFootprintCard(footprintId) {
+    const card = $(
+      '.footprint-card[data-footprint-id="' +
+        CSS.escape(footprintId) +
+        '"]',
+      $("#footprint-gallery")
+    );
+    if (!card) return;
+    card.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+    card.classList.remove("is-locating-photo");
+    void card.offsetWidth;
+    card.classList.add("is-locating-photo");
+    card.addEventListener(
+      "animationend",
+      () => card.classList.remove("is-locating-photo"),
+      { once: true }
+    );
+    window.setTimeout(
+      () => card.classList.remove("is-locating-photo"),
+      4200
+    );
+  }
+
   async function renameFootprint(id, name) {
     if (!requireAdmin()) return;
     const item = state.footprints.find((footprint) => footprint.id === id);
@@ -4249,7 +4279,7 @@
         markerElement.append(document.createElement("i"));
         const popup = new window.maplibregl.Popup({
           offset: 18,
-          closeButton: false
+          closeButton: true
         }).setText("我的位置");
         state.userLocationMarker = new window.maplibregl.Marker({
           element: markerElement,
@@ -4304,6 +4334,10 @@
       const markerElement = document.createElement("span");
       markerElement.className = "footprint-marker";
       markerElement.append(document.createElement("i"));
+      markerElement.addEventListener("click", (event) => {
+        event.stopPropagation();
+        highlightFootprintCard(item.id);
+      });
       const popup = document.createElement("div");
       popup.className = "footprint-popup";
       const title = document.createElement("strong");
@@ -4320,7 +4354,7 @@
         .setPopup(
           new window.maplibregl.Popup({
             offset: 28,
-            closeButton: false
+            closeButton: true
           }).setDOMContent(popup)
         )
         .addTo(state.footprintMap);
@@ -4437,7 +4471,143 @@
     $("#slide-jump-button").addEventListener("click", () => {
       jumpToSlide(Number($("#slide-jump-input").value));
     });
+    $("#deck-fullscreen-button").addEventListener(
+      "click",
+      toggleDeckFullscreen
+    );
+    $("#deck-autoplay-button").addEventListener(
+      "click",
+      toggleDeckAutoplay
+    );
+    document.addEventListener("fullscreenchange", updateDeckFullscreenUi);
+    document.addEventListener(
+      "webkitfullscreenchange",
+      updateDeckFullscreenUi
+    );
+    document.addEventListener("pointermove", handleDeckFullscreenPointer, {
+      passive: true
+    });
     $("#delete-deck").addEventListener("click", deleteCurrentDeck);
+  }
+
+  async function toggleDeckFullscreen() {
+    const main = $(".deck-main");
+    if (!main) return;
+    try {
+      if (document.fullscreenElement === main) {
+        await document.exitFullscreen();
+        return;
+      }
+      if (document.webkitFullscreenElement === main) {
+        document.webkitExitFullscreen?.();
+        return;
+      }
+      const request =
+        main.requestFullscreen ||
+        main.webkitRequestFullscreen ||
+        main.msRequestFullscreen;
+      if (!request) {
+        showToast("当前浏览器不支持网页全屏。");
+        return;
+      }
+      await request.call(main);
+    } catch {
+      showToast("无法进入全屏，请检查浏览器权限。");
+    }
+  }
+
+  function updateDeckFullscreenUi() {
+    const main = $(".deck-main");
+    if (!main) return;
+    const fullscreen =
+      document.fullscreenElement === main ||
+      document.webkitFullscreenElement === main;
+    main.classList.toggle("deck-controls-visible", false);
+    $("#deck-fullscreen-button").textContent = fullscreen
+      ? "退出全屏"
+      : "全屏";
+    $("#deck-fullscreen-button").setAttribute(
+      "aria-pressed",
+      String(fullscreen)
+    );
+  }
+
+  function handleDeckFullscreenPointer(event) {
+    const main = $(".deck-main");
+    if (!main) return;
+    const fullscreen =
+      document.fullscreenElement === main ||
+      document.webkitFullscreenElement === main;
+    if (!fullscreen) return;
+    const nearBottom = event.clientY >= window.innerHeight - 160;
+    main.classList.toggle("deck-controls-visible", nearBottom);
+  }
+
+  function toggleDeckAutoplay() {
+    if (state.deckAutoplayTimer) {
+      stopDeckAutoplay();
+      return;
+    }
+    const deck = currentDeck();
+    if (!deck || !deck.slides.length) {
+      showToast("请先选择一份日常总结。");
+      return;
+    }
+    if (deck.slides.length < 2) {
+      showToast("当前总结只有一页，无需自动放映。");
+      return;
+    }
+    state.deckAutoplayTimer = window.setInterval(() => {
+      const activeDeck = currentDeck();
+      if (!activeDeck?.slides.length) {
+        stopDeckAutoplay();
+        return;
+      }
+      state.currentSlide =
+        state.currentSlide >= activeDeck.slides.length - 1
+          ? 0
+          : state.currentSlide + 1;
+      renderSlide();
+    }, 10000);
+    $("#deck-autoplay-button").textContent = "取消自动放映";
+    $("#deck-autoplay-button").classList.add("active");
+    $("#deck-autoplay-button").setAttribute("aria-pressed", "true");
+    showToast("自动放映已开启，每 10 秒切换一页。");
+  }
+
+  function stopDeckAutoplay() {
+    if (state.deckAutoplayTimer) {
+      window.clearInterval(state.deckAutoplayTimer);
+      state.deckAutoplayTimer = null;
+    }
+    const button = $("#deck-autoplay-button");
+    if (button) {
+      button.textContent = "自动放映";
+      button.classList.remove("active");
+      button.setAttribute("aria-pressed", "false");
+    }
+  }
+
+  function restartDeckAutoplay() {
+    if (!state.deckAutoplayTimer) return;
+    window.clearInterval(state.deckAutoplayTimer);
+    const deck = currentDeck();
+    if (!deck?.slides.length) {
+      stopDeckAutoplay();
+      return;
+    }
+    state.deckAutoplayTimer = window.setInterval(() => {
+      const activeDeck = currentDeck();
+      if (!activeDeck?.slides.length) {
+        stopDeckAutoplay();
+        return;
+      }
+      state.currentSlide =
+        state.currentSlide >= activeDeck.slides.length - 1
+          ? 0
+          : state.currentSlide + 1;
+      renderSlide();
+    }, 10000);
   }
 
   function toggleDeckLibrary() {
@@ -4465,6 +4635,7 @@
     const list = $("#deck-list");
 
     if (!state.decks.length) {
+      stopDeckAutoplay();
       const empty = document.createElement("p");
       empty.className = "deck-list-empty";
       empty.textContent = "还没有上传总结。";
@@ -4524,6 +4695,7 @@
     $("#delete-deck").hidden = !deck;
 
     if (!deck) {
+      stopDeckAutoplay();
       $("#deck-stage").replaceChildren();
       $("#slide-jump-input").value = "";
       $("#slide-jump-input").max = "";
@@ -4637,6 +4809,7 @@
     if (next < 0 || next >= deck.slides.length) return;
     state.currentSlide = next;
     renderSlide();
+    restartDeckAutoplay();
   }
 
   function jumpToSlide(page) {
@@ -4649,6 +4822,7 @@
     }
     state.currentSlide = page - 1;
     renderSlide();
+    restartDeckAutoplay();
   }
 
   function currentDeck() {
@@ -4833,6 +5007,7 @@
     const deck = currentDeck();
     if (!deck) return;
     if (!window.confirm("删除总结册“" + deck.name + "”吗？")) return;
+    stopDeckAutoplay();
     const originalDecks = [...state.decks];
     state.decks = state.decks.filter((item) => item.id !== deck.id);
     state.currentDeckId = state.decks[0]?.id || null;

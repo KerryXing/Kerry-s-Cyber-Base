@@ -28,8 +28,8 @@
     }
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23a8d8f2'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='24' font-weight='700' fill='%2307111d'%3EKX%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">跳到主要内容</a>
@@ -310,6 +310,10 @@
                     inputmode="numeric" aria-label="输入页码后按回车跳转">
                   <button class="slide-jump-button" id="slide-jump-button" type="button">跳转</button>
                 </div>
+                <button class="deck-utility-button" id="deck-fullscreen-button"
+                  type="button" aria-pressed="false">全屏</button>
+                <button class="deck-utility-button" id="deck-autoplay-button"
+                  type="button" aria-pressed="false">自动放映</button>
               </div>
             </div>
           </div>

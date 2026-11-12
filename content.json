@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-12T17:01:05.565Z",
+  "updatedAt": "2026-11-12T17:01:40.741Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-12T17:01:05.565Z",
+      "updatedAt": "2026-11-12T17:01:40.741Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-12T17:01:05.565Z",
+      "updatedAt": "2026-11-12T17:01:40.741Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-12T17:01:05.565Z",
+      "updatedAt": "2026-11-12T17:01:40.741Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -291,6 +291,16 @@
       "createdAt": "2026-11-10T19:42:41.050Z",
       "src": "shared/footprints/footprint-4880fd05-2871-466c-b38f-47cc58ab4157.jpg",
       "thumbnail": "shared/thumbnails/photo-5502a3ba-f81e-4319-8c10-b0887c861268.jpg"
+    },
+    {
+      "id": "footprint-3efbcb09-aa4a-447a-b9b0-c1f27c7e5aee",
+      "title": "镇邦美食街",
+      "kind": "photo",
+      "lat": 0,
+      "lng": 0,
+      "createdAt": "2026-11-12T17:01:40.740Z",
+      "src": "shared/footprints/footprint-3efbcb09-aa4a-447a-b9b0-c1f27c7e5aee.jpg",
+      "thumbnail": "shared/thumbnails/photo-dd9842f4-408e-4e66-b442-74743010916a.jpg"
     }
   ],
   "decks": [],

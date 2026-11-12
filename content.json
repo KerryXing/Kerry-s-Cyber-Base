@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-12T17:55:08.239Z",
+  "updatedAt": "2026-11-12T17:57:06.466Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-12T17:55:08.239Z",
+      "updatedAt": "2026-11-12T17:57:06.466Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-12T17:55:08.239Z",
+      "updatedAt": "2026-11-12T17:57:06.466Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-12T17:55:08.239Z",
+      "updatedAt": "2026-11-12T17:57:06.466Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -321,6 +321,16 @@
       "createdAt": "2026-11-12T17:53:53.214Z",
       "src": "shared/footprints/footprint-7877ee55-00bb-4515-a0ad-b6ac9d455e82.jpg",
       "thumbnail": "shared/thumbnails/photo-e6f816cb-67f3-4589-a270-8c5f4f8f43b1.jpg"
+    },
+    {
+      "id": "footprint-b4b4059d-f171-49b8-8c62-0f476b7397e0",
+      "title": "稻城亚丁",
+      "kind": "photo",
+      "lat": 28.378425,
+      "lng": 100.3520361111111,
+      "createdAt": "2026-11-12T17:57:06.466Z",
+      "src": "shared/footprints/footprint-b4b4059d-f171-49b8-8c62-0f476b7397e0.jpg",
+      "thumbnail": "shared/thumbnails/photo-2979bcce-820d-417a-9265-83faab7c5390.jpg"
     }
   ],
   "decks": [],

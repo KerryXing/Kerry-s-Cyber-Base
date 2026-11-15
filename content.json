@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-15T14:37:42.382Z",
+  "updatedAt": "2026-11-15T14:39:03.092Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-15T14:37:42.382Z",
+      "updatedAt": "2026-11-15T14:39:03.092Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-15T14:37:42.382Z",
+      "updatedAt": "2026-11-15T14:39:03.092Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-15T14:37:42.382Z",
+      "updatedAt": "2026-11-15T14:39:03.092Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -361,6 +361,16 @@
       "createdAt": "2026-11-15T14:37:42.381Z",
       "src": "shared/footprints/footprint-e664c2b3-3090-450a-b9ca-bc8caa54c0f0.jpg",
       "thumbnail": "shared/thumbnails/photo-daa1ebf9-8f8e-42d8-af15-d68e1ed0b386.jpg"
+    },
+    {
+      "id": "footprint-24752a0c-c949-405e-bc20-b278c7148099",
+      "title": "长沙橘子洲",
+      "kind": "photo",
+      "lat": 28.17053888888889,
+      "lng": 112.95532222222222,
+      "createdAt": "2026-11-15T14:39:03.091Z",
+      "src": "shared/footprints/footprint-24752a0c-c949-405e-bc20-b278c7148099.jpg",
+      "thumbnail": "shared/thumbnails/photo-55b2697e-2021-45c6-874a-32958aff2234.jpg"
     }
   ],
   "decks": [],

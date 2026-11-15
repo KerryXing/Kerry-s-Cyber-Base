@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-15T14:31:11.746Z",
+  "updatedAt": "2026-11-15T14:32:10.404Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-15T14:31:11.745Z",
+      "updatedAt": "2026-11-15T14:32:10.404Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-15T14:31:11.745Z",
+      "updatedAt": "2026-11-15T14:32:10.404Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-15T14:31:11.745Z",
+      "updatedAt": "2026-11-15T14:32:10.404Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -351,16 +351,6 @@
       "createdAt": "2026-11-15T14:31:05.540Z",
       "src": "shared/footprints/footprint-61300cc3-781f-4a7a-9224-66fec535dda4.jpg",
       "thumbnail": "shared/thumbnails/photo-24c55fd1-9ae3-40db-b2c4-425d44a0395e.jpg"
-    },
-    {
-      "id": "footprint-4ee14286-800c-4eec-b318-b304d5b6c544",
-      "title": "广州长隆动物园",
-      "kind": "photo",
-      "lat": null,
-      "lng": null,
-      "createdAt": "2026-11-15T14:31:11.728Z",
-      "src": "shared/footprints/footprint-4ee14286-800c-4eec-b318-b304d5b6c544.jpg",
-      "thumbnail": "shared/thumbnails/photo-cd892a0c-a932-4cdf-8d7a-b8f176a826fb.jpg"
     }
   ],
   "decks": [],

@@ -1431,7 +1431,7 @@
         }))
       : [];
     state.footprints = Array.isArray(content.footprints)
-      ? content.footprints.map((item) => ({ ...item }))
+      ? content.footprints.map((item) => sanitizeFootprintRecord(item))
       : [];
     state.legacyDecks = Array.isArray(content.decks)
       ? content.decks.map((deck) => ({
@@ -2286,7 +2286,7 @@
       state.reportAccess = content.reportAccess || null;
       state.reportFilePaths = currentReportPaths;
       state.footprints = Array.isArray(content.footprints)
-        ? content.footprints
+        ? content.footprints.map((item) => sanitizeFootprintRecord(item))
         : state.footprints;
       if (options.includeReports) state.legacyDecks = [];
       state.pendingHeroMedia = null;
@@ -2517,10 +2517,14 @@
         id: record.id || createId("footprint"),
         title: record.title || "旅行照片",
         kind: "photo",
-        lat: Number.isFinite(Number(record.lat)) ? Number(record.lat) : null,
-        lng: Number.isFinite(Number(record.lng)) ? Number(record.lng) : null,
+        lat: parseCoordinateValue(record.lat, 90),
+        lng: parseCoordinateValue(record.lng, 180),
         createdAt: record.createdAt || new Date().toISOString()
       };
+      if (item.lat === 0 && item.lng === 0) {
+        item.lat = null;
+        item.lng = null;
+      }
       if (record.src) {
         item.src = record.src;
         if (record.thumbnail) item.thumbnail = record.thumbnail;
@@ -3918,7 +3922,7 @@
     title.title = "双击重命名";
     const coordinate = document.createElement("span");
     coordinate.textContent =
-      Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lng))
+      hasValidFootprintCoordinates(item)
         ? Number(item.lat).toFixed(3) + "°, " + Number(item.lng).toFixed(3) + "°"
         : "未记录坐标";
     info.append(title, coordinate);
@@ -3969,6 +3973,45 @@
       }
     });
     return card;
+  }
+
+  function parseCoordinateValue(value, maximum) {
+    if (value === null || value === undefined || value === "") return null;
+    let numeric = value;
+    if (Array.isArray(value)) {
+      if (!value.length) return null;
+      numeric = value.reduce(
+        (total, part, index) => total + Number(part) / 60 ** index,
+        0
+      );
+    }
+    const parsed = Number(numeric);
+    if (!Number.isFinite(parsed) || Math.abs(parsed) > maximum) return null;
+    return parsed;
+  }
+
+  function hasValidFootprintCoordinates(item) {
+    const latitude = parseCoordinateValue(item?.lat, 90);
+    const longitude = parseCoordinateValue(item?.lng, 180);
+    return (
+      latitude !== null &&
+      longitude !== null &&
+      !(latitude === 0 && longitude === 0)
+    );
+  }
+
+  function sanitizeFootprintRecord(item) {
+    const latitude = parseCoordinateValue(item?.lat, 90);
+    const longitude = parseCoordinateValue(item?.lng, 180);
+    const valid =
+      latitude !== null &&
+      longitude !== null &&
+      !(latitude === 0 && longitude === 0);
+    return {
+      ...item,
+      lat: valid ? latitude : null,
+      lng: valid ? longitude : null
+    };
   }
 
   function toggleFootprintSelectionMode() {
@@ -4043,7 +4086,7 @@
   }
 
   function focusFootprintOnMap(item) {
-    if (!Number.isFinite(Number(item.lat)) || !Number.isFinite(Number(item.lng))) {
+    if (!hasValidFootprintCoordinates(item)) {
       showToast("这张照片没有可用的地理位置。");
       return;
     }
@@ -4318,18 +4361,15 @@
     state.footprintMarkers.forEach((marker) => marker.remove());
     state.footprintMarkers = [];
     state.footprintMarkerLookup.clear();
-    const validItems = state.footprints.filter(
-      (item) =>
-        Number.isFinite(Number(item.lat)) &&
-        Number.isFinite(Number(item.lng))
-    );
-    const mapItems = validItems.map((item) => ({
-      item,
-      coordinate: {
-        lat: Number(item.lat),
-        lng: Number(item.lng)
-      }
-    }));
+    const mapItems = state.footprints
+      .filter(hasValidFootprintCoordinates)
+      .map((item) => ({
+        item,
+        coordinate: {
+          lat: parseCoordinateValue(item.lat, 90),
+          lng: parseCoordinateValue(item.lng, 180)
+        }
+      }));
     mapItems.forEach(({ item, coordinate }) => {
       const markerElement = document.createElement("span");
       markerElement.className = "footprint-marker-wrap";
@@ -4381,16 +4421,76 @@
   async function readPhotoGps(file) {
     try {
       await loadScriptOnce("vendor/exifr.full.umd.js");
-      if (!window.exifr?.gps) return null;
-      const gps = await window.exifr.gps(file);
-      const lat = Number(gps?.latitude);
-      const lng = Number(gps?.longitude);
-      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-      if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
-      return { lat, lng };
     } catch {
       return null;
     }
+    if (!window.exifr) return null;
+
+    const readers = [
+      async () => {
+        if (typeof window.exifr.gps !== "function") return null;
+        return coordinatesFromExif(await window.exifr.gps(file));
+      },
+      async () => {
+        if (typeof window.exifr.parse !== "function") return null;
+        const metadata = await window.exifr.parse(file, {
+          tiff: true,
+          ifd0: true,
+          exif: true,
+          gps: true,
+          translateKeys: true,
+          translateValues: true,
+          reviveValues: true,
+          silentErrors: true,
+          chunked: false
+        });
+        return coordinatesFromExif(metadata);
+      }
+    ];
+
+    // Some HEIC files keep the EXIF block beyond exifr's fast GPS read range.
+    // Retry each parser independently so one failure does not discard the other.
+    for (const read of readers) {
+      try {
+        const coordinates = await read();
+        if (coordinates) return coordinates;
+      } catch {
+        // Try the next parser.
+      }
+    }
+    return null;
+  }
+
+  function coordinatesFromExif(metadata) {
+    if (!metadata || typeof metadata !== "object") return null;
+    const candidates = [
+      metadata,
+      metadata.gps,
+      metadata.GPS,
+      metadata.exif,
+      metadata.ifd0
+    ].filter((item) => item && typeof item === "object");
+
+    for (const data of candidates) {
+      const latitudeValue =
+        data.latitude ?? data.lat ?? data.GPSLatitude;
+      const longitudeValue =
+        data.longitude ?? data.lng ?? data.lon ?? data.GPSLongitude;
+      const latitudeRef = String(
+        data.GPSLatitudeRef ?? data.latitudeRef ?? ""
+      ).toUpperCase();
+      const longitudeRef = String(
+        data.GPSLongitudeRef ?? data.longitudeRef ?? ""
+      ).toUpperCase();
+      let latitude = parseCoordinateValue(latitudeValue, 90);
+      let longitude = parseCoordinateValue(longitudeValue, 180);
+      if (latitude === null || longitude === null) continue;
+      if (latitudeRef.startsWith("S")) latitude = -Math.abs(latitude);
+      if (longitudeRef.startsWith("W")) longitude = -Math.abs(longitude);
+      if (latitude === 0 && longitude === 0) continue;
+      return { lat: latitude, lng: longitude };
+    }
+    return null;
   }
 
   async function uploadFootprintPhotos(event) {
@@ -4399,15 +4499,18 @@
     const files = [...($("#footprint-files").files || [])];
     const button = $("#upload-footprint-button");
     const status = $("#footprint-upload-status");
-    const fallbackLat = Number($("#footprint-latitude").value);
-    const fallbackLng = Number($("#footprint-longitude").value);
+    const fallbackLat = parseCoordinateValue(
+      $("#footprint-latitude").value,
+      90
+    );
+    const fallbackLng = parseCoordinateValue(
+      $("#footprint-longitude").value,
+      180
+    );
     const fallbackValid =
-      Number.isFinite(fallbackLat) &&
-      Number.isFinite(fallbackLng) &&
-      Math.abs(fallbackLat) <= 90 &&
-      Math.abs(fallbackLng) <= 180 &&
-      $("#footprint-latitude").value !== "" &&
-      $("#footprint-longitude").value !== "";
+      fallbackLat !== null &&
+      fallbackLng !== null &&
+      !(fallbackLat === 0 && fallbackLng === 0);
 
     if (!files.length) {
       status.textContent = "请先选择旅行照片。";
@@ -4416,6 +4519,7 @@
     button.disabled = true;
     status.textContent = "正在读取照片位置并处理图片...";
     const pending = [];
+      let missingGpsCount = 0;
     try {
       for (let index = 0; index < files.length; index += 1) {
         const file = files[index];
@@ -4424,6 +4528,7 @@
           "正在读取 GPS " + (index + 1) + " / " + files.length + " · " +
           file.name;
         const gps = await readPhotoGps(file);
+        if (!gps && !fallbackValid) missingGpsCount += 1;
         const media = await createMediaItem(file);
         pending.push({
           id: createId("footprint"),
@@ -4442,7 +4547,13 @@
       renderFootprints();
       ensureFootprintsMap();
       status.textContent = "足迹照片已发布。";
-      showToast("足迹照片已上传。");
+      showToast(
+        missingGpsCount
+          ? "足迹照片已上传；其中 " +
+              missingGpsCount +
+              " 张未读取到 GPS 位置。"
+          : "足迹照片已上传。"
+      );
     } catch (error) {
       state.pendingFootprintItems = [];
       status.textContent = "上传失败：" + error.message;
@@ -4490,42 +4601,43 @@
     document.addEventListener("pointermove", handleDeckFullscreenPointer, {
       passive: true
     });
+    document.addEventListener("keydown", handleDeckKeyboardShortcut);
     $("#delete-deck").addEventListener("click", deleteCurrentDeck);
   }
 
   async function toggleDeckFullscreen() {
-    const main = $(".deck-main");
-    if (!main) return;
+    const layout = $("#deck-layout");
+    if (!layout) return;
     try {
-      if (document.fullscreenElement === main) {
+      if (document.fullscreenElement === layout) {
         await document.exitFullscreen();
         return;
       }
-      if (document.webkitFullscreenElement === main) {
+      if (document.webkitFullscreenElement === layout) {
         document.webkitExitFullscreen?.();
         return;
       }
       const request =
-        main.requestFullscreen ||
-        main.webkitRequestFullscreen ||
-        main.msRequestFullscreen;
+        layout.requestFullscreen ||
+        layout.webkitRequestFullscreen ||
+        layout.msRequestFullscreen;
       if (!request) {
         showToast("当前浏览器不支持网页全屏。");
         return;
       }
-      await request.call(main);
+      await request.call(layout);
     } catch {
       showToast("无法进入全屏，请检查浏览器权限。");
     }
   }
 
   function updateDeckFullscreenUi() {
-    const main = $(".deck-main");
-    if (!main) return;
+    const layout = $("#deck-layout");
+    if (!layout) return;
     const fullscreen =
-      document.fullscreenElement === main ||
-      document.webkitFullscreenElement === main;
-    main.classList.toggle("deck-controls-visible", false);
+      document.fullscreenElement === layout ||
+      document.webkitFullscreenElement === layout;
+    layout.classList.toggle("deck-controls-visible", false);
     $("#deck-fullscreen-button").textContent = fullscreen
       ? "退出全屏"
       : "全屏";
@@ -4536,14 +4648,38 @@
   }
 
   function handleDeckFullscreenPointer(event) {
-    const main = $(".deck-main");
-    if (!main) return;
+    const layout = $("#deck-layout");
+    if (!layout) return;
     const fullscreen =
-      document.fullscreenElement === main ||
-      document.webkitFullscreenElement === main;
+      document.fullscreenElement === layout ||
+      document.webkitFullscreenElement === layout;
     if (!fullscreen) return;
     const nearBottom = event.clientY >= window.innerHeight - 160;
-    main.classList.toggle("deck-controls-visible", nearBottom);
+    layout.classList.toggle("deck-controls-visible", nearBottom);
+  }
+
+  function handleDeckKeyboardShortcut(event) {
+    const layout = $("#deck-layout");
+    const fullscreen =
+      document.fullscreenElement === layout ||
+      document.webkitFullscreenElement === layout;
+    if (!fullscreen) return;
+    if (
+      event.target instanceof HTMLInputElement ||
+      event.target instanceof HTMLTextAreaElement ||
+      event.target instanceof HTMLSelectElement ||
+      event.target?.isContentEditable
+    ) {
+      return;
+    }
+    const key = event.key.toLowerCase();
+    if (key === "a" || event.key === "ArrowLeft") {
+      event.preventDefault();
+      changeSlide(-1);
+    } else if (key === "d" || event.key === "ArrowRight") {
+      event.preventDefault();
+      changeSlide(1);
+    }
   }
 
   function toggleDeckAutoplay() {

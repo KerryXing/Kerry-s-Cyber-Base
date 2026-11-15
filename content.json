@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-15T14:58:02.996Z",
+  "updatedAt": "2026-11-15T14:59:57.465Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-15T14:58:02.996Z",
+      "updatedAt": "2026-11-15T14:59:57.465Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-15T14:58:02.996Z",
+      "updatedAt": "2026-11-15T14:59:57.465Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-15T14:58:02.996Z",
+      "updatedAt": "2026-11-15T14:59:57.465Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -411,6 +411,26 @@
       "createdAt": "2026-11-15T14:58:02.996Z",
       "src": "shared/footprints/footprint-bfaca957-3c84-42c0-82ea-545788289043.jpg",
       "thumbnail": "shared/thumbnails/photo-1af75e78-8ec1-4f86-836d-d749b647884c.jpg"
+    },
+    {
+      "id": "footprint-8d507cb7-270e-4585-9ce3-2222929dfd11",
+      "title": "大理洱海",
+      "kind": "photo",
+      "lat": 25.695305555555557,
+      "lng": 100.20783333333334,
+      "createdAt": "2026-11-15T14:59:51.641Z",
+      "src": "shared/footprints/footprint-8d507cb7-270e-4585-9ce3-2222929dfd11.jpg",
+      "thumbnail": "shared/thumbnails/photo-73caeb09-56ab-4190-a693-6658540d25f4.jpg"
+    },
+    {
+      "id": "footprint-de1c5d1b-5612-459e-8a67-6bf047537779",
+      "title": "丽江古城",
+      "kind": "photo",
+      "lat": 26.8765,
+      "lng": 100.2412638888889,
+      "createdAt": "2026-11-15T14:59:57.465Z",
+      "src": "shared/footprints/footprint-de1c5d1b-5612-459e-8a67-6bf047537779.jpg",
+      "thumbnail": "shared/thumbnails/photo-1979b570-7ae9-494d-8a0b-21c432b0bcb0.jpg"
     }
   ],
   "decks": [],

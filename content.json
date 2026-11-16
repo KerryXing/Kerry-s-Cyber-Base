@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-16T18:11:30.476Z",
+  "updatedAt": "2026-11-16T18:18:34.480Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-16T18:11:30.476Z",
+      "updatedAt": "2026-11-16T18:18:34.480Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -174,7 +174,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-16T18:11:30.476Z",
+      "updatedAt": "2026-11-16T18:18:34.480Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -192,7 +192,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-16T18:11:30.476Z",
+      "updatedAt": "2026-11-16T18:18:34.480Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -491,6 +491,36 @@
       "createdAt": "2026-11-16T18:11:30.476Z",
       "src": "shared/footprints/footprint-25244181-2f5e-41d0-bf0d-c8f7f3e9f654.jpg",
       "thumbnail": "shared/thumbnails/photo-1a435d2c-665f-4a2c-b34a-431106ab40e7.jpg"
+    },
+    {
+      "id": "footprint-aa1d800f-4db4-43ff-8796-1524ca05adf8",
+      "title": "IMG_20200725_081023",
+      "kind": "photo",
+      "lat": 23.08314697222222,
+      "lng": 116.558604,
+      "createdAt": "2026-11-16T18:18:34.329Z",
+      "src": "shared/footprints/footprint-aa1d800f-4db4-43ff-8796-1524ca05adf8.jpg",
+      "thumbnail": "shared/thumbnails/photo-4cb36eb2-8d20-47e4-9d76-45f06eabaaa1.jpg"
+    },
+    {
+      "id": "footprint-58b5b05f-d91e-42c0-97c6-014599ab6700",
+      "title": "鼓浪屿",
+      "kind": "photo",
+      "lat": 24.450376944444443,
+      "lng": 118.07414399999999,
+      "createdAt": "2026-11-16T18:18:34.389Z",
+      "src": "shared/footprints/footprint-58b5b05f-d91e-42c0-97c6-014599ab6700.jpg",
+      "thumbnail": "shared/thumbnails/photo-362b7ea1-2c25-407f-85b2-4dc040bd01dc.jpg"
+    },
+    {
+      "id": "footprint-da5a1fe0-f645-4336-8a45-e63ba8b80f76",
+      "title": "云门山",
+      "kind": "photo",
+      "lat": null,
+      "lng": null,
+      "createdAt": "2026-11-16T18:18:34.479Z",
+      "src": "shared/footprints/footprint-da5a1fe0-f645-4336-8a45-e63ba8b80f76.jpg",
+      "thumbnail": "shared/thumbnails/photo-10a7b8d1-03a9-4211-a733-125d564a6d37.jpg"
     }
   ],
   "decks": [],

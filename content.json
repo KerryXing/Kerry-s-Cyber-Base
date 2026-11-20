@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-18T17:06:11.479Z",
+  "updatedAt": "2026-11-20T16:48:53.693Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -156,7 +156,7 @@
       "displayWidth": 91,
       "coverPhotoId": null,
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-18T17:06:11.479Z",
+      "updatedAt": "2026-11-20T16:48:53.692Z",
       "photos": []
     },
     {
@@ -165,7 +165,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-18T17:06:11.479Z",
+      "updatedAt": "2026-11-20T16:48:53.693Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -183,7 +183,7 @@
       "displayWidth": 45,
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-18T17:06:11.479Z",
+      "updatedAt": "2026-11-20T16:48:53.693Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -201,7 +201,7 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-18T17:06:11.479Z",
+      "updatedAt": "2026-11-20T16:48:53.693Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
@@ -390,16 +390,6 @@
       "createdAt": "2026-11-15T14:52:23.191Z",
       "src": "shared/footprints/footprint-1254fb7f-e560-4d59-9f5e-c60b73846949.jpg",
       "thumbnail": "shared/thumbnails/photo-f7df6887-7e7a-4439-b4dd-9f06bf27e9a5.jpg"
-    },
-    {
-      "id": "footprint-63bd3a86-5e24-4f47-8419-7301078ab66a",
-      "title": "Oxford",
-      "kind": "photo",
-      "lat": 0,
-      "lng": 0,
-      "createdAt": "2026-11-15T14:53:05.126Z",
-      "src": "shared/footprints/footprint-63bd3a86-5e24-4f47-8419-7301078ab66a.jpg",
-      "thumbnail": "shared/thumbnails/photo-976f4749-00e1-426f-a611-5c1ccbfebeff.jpg"
     },
     {
       "id": "footprint-b3b9a8fc-3281-4b34-880b-26a85b85d9b6",

@@ -8,6 +8,8 @@
   const DECK_STORE = "decks";
   const SETTINGS_STORE = "settings";
   const GITHUB_API = "https://api.github.com";
+  const COVER_ROTATION_INTERVAL_MS = 5000;
+  const COVER_CROSSFADE_MS = 1100;
   const THEME_META = {
     "deep-blue": { name: "深蓝", color: "#0b192a" },
     "light-blue": { name: "浅蓝", color: "#d8edf9" },
@@ -17,7 +19,13 @@
     "new-year": { name: "元旦", color: "#11243d" },
     "spring-festival": { name: "春节", color: "#8a1925" },
     qingming: { name: "清明", color: "#9ebfbd" },
-    easter: { name: "复活节", color: "#f1dfdc" }
+    easter: { name: "复活节", color: "#f1dfdc" },
+    lantern: { name: "元宵", color: "#5d243a" },
+    labor: { name: "劳动", color: "#1d5b63" },
+    "dragon-boat": { name: "端午", color: "#1f5a45" },
+    "mid-autumn": { name: "中秋", color: "#172b4a" },
+    "national-day": { name: "中国国庆", color: "#9f1e27" },
+    "double-ninth": { name: "重阳", color: "#8a5d34" }
   };
   const SPRING_FESTIVAL_DATES = {
     2024: [2, 10],
@@ -91,6 +99,10 @@
     reportUnlockedByVisitor: false,
     heroSelectionMode: false,
     selectedHeroIds: [],
+    heroRotationTimer: null,
+    heroRotationLayers: [],
+    heroRotationIndex: 0,
+    albumRotationTimers: new Map(),
     avatarSelectionMode: false,
     selectedAvatarIds: [],
     pendingAvatarItems: [],
@@ -110,8 +122,10 @@
     footprintUrls: [],
     userLocationMarker: null,
     mapReady: false,
+    map3dEnabled: false,
     deckAutoplayTimer: null,
     deckControlsTimer: null,
+    deckLibraryMotionToken: 0,
     slideRenderToken: 0,
     reportFilePaths: new Set(),
     revealObserver: null,
@@ -301,6 +315,29 @@
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const dateValue = year * 10000 + month * 100 + day;
+    const lunar = getChineseLunarDate(date);
+
+    if (lunar && !lunar.leap) {
+      if (lunar.month === 1 && lunar.day === 15) {
+        return { theme: "lantern", label: "元宵主题" };
+      }
+      if (lunar.month === 5 && lunar.day === 5) {
+        return { theme: "dragon-boat", label: "端午主题" };
+      }
+      if (lunar.month === 8 && lunar.day === 15) {
+        return { theme: "mid-autumn", label: "中秋主题" };
+      }
+      if (lunar.month === 9 && lunar.day === 9) {
+        return { theme: "double-ninth", label: "重阳主题" };
+      }
+    }
+
+    if (month === 5 && day >= 1 && day <= 5) {
+      return { theme: "labor", label: "劳动主题" };
+    }
+    if (month === 10 && day >= 1 && day <= 7) {
+      return { theme: "national-day", label: "中国国庆主题" };
+    }
 
     if (
       (month === 12 && day === 31) ||
@@ -360,6 +397,41 @@
       }
     }
     return null;
+  }
+
+  function getChineseLunarDate(date) {
+    try {
+      const label = new Intl.DateTimeFormat("zh-CN-u-ca-chinese", {
+        month: "long",
+        day: "numeric"
+      }).format(date);
+      const match = label.match(/^(闰)?(.+?)月(\d+)日$/);
+      if (!match) return null;
+      const monthNames = {
+        正: 1,
+        一: 1,
+        二: 2,
+        三: 3,
+        四: 4,
+        五: 5,
+        六: 6,
+        七: 7,
+        八: 8,
+        九: 9,
+        十: 10,
+        十一: 11,
+        冬: 11,
+        十二: 12,
+        腊: 12
+      };
+      return {
+        leap: Boolean(match[1]),
+        month: monthNames[match[2]] || 0,
+        day: Number(match[3])
+      };
+    } catch {
+      return null;
+    }
   }
 
   function getEasterDate(year) {
@@ -795,9 +867,11 @@
     });
     $("#hero-multi-toggle").addEventListener("click", toggleHeroSelectionMode);
     $("#hero-set-cover").addEventListener("click", () => {
-      if (state.selectedHeroIds.length === 1) {
-        const media = heroMediaById(state.selectedHeroIds[0]);
-        if (media) selectHeroImage(media);
+      if (state.selectedHeroIds.length) {
+        const media = state.selectedHeroIds
+          .map(heroMediaById)
+          .filter(Boolean);
+        if (media.length) selectHeroImages(media);
       }
     });
     $("#hero-delete-button").addEventListener("click", deleteSelectedHeroImages);
@@ -892,6 +966,7 @@
     const images = Array.isArray(state.sharedProfile.heroImages)
       ? state.sharedProfile.heroImages
       : [];
+    const rotationIds = heroCoverMedia().map(heroMediaKey);
     const current = state.sharedProfile.heroMedia;
     const currentKey = typeof current === "string"
       ? current
@@ -915,9 +990,11 @@
         const button = document.createElement("button");
         button.type = "button";
         const key = media.id || media.src;
+        const rotationIndex = rotationIds.indexOf(key);
+        const selectedIndex = state.selectedHeroIds.indexOf(key);
         button.className = "hero-list-item" +
-          (state.selectedHeroIds.includes(key) ? " selected" : "") +
-          (key === currentKey ? " in-use" : "");
+          (selectedIndex >= 0 ? " selected" : "") +
+          (rotationIndex >= 0 || key === currentKey ? " in-use" : "");
         button.dataset.heroId = key;
         const preview = document.createElement("div");
         preview.className = "hero-list-preview";
@@ -926,12 +1003,12 @@
         label.textContent = "背景 " + String(index + 1).padStart(2, "0");
         const stateLabel = document.createElement("small");
         stateLabel.textContent =
-          key === currentKey
-            ? "当前使用"
-            : state.selectedHeroIds.includes(key)
-              ? "已选择"
+          selectedIndex >= 0
+            ? "已选择 · 第 " + (selectedIndex + 1) + " 位"
+            : rotationIndex >= 0
+              ? "轮换封面 " + (rotationIndex + 1) + " / " + rotationIds.length
               : state.heroSelectionMode
-                ? "点击多选"
+                ? "点击加入轮换"
                 : "点击进入多选";
         button.append(preview, label, stateLabel);
         button.addEventListener("click", () => {
@@ -957,9 +1034,34 @@
     ) || null;
   }
 
+  function heroMediaKey(media) {
+    if (typeof media === "string") return media;
+    return media?.id || media?.src || "";
+  }
+
+  function heroCoverMedia() {
+    const images = Array.isArray(state.sharedProfile.heroImages)
+      ? state.sharedProfile.heroImages
+      : [];
+    const ids = Array.isArray(state.sharedProfile.heroCoverIds)
+      ? state.sharedProfile.heroCoverIds
+      : [];
+    const media = ids
+      .map((id) => images.find((item) => heroMediaKey(item) === id))
+      .filter(Boolean);
+    if (media.length) return media;
+    const current = state.sharedProfile.heroMedia;
+    return current ? [current] : [];
+  }
+
   function toggleHeroSelectionMode() {
-    state.heroSelectionMode = !state.heroSelectionMode;
-    state.selectedHeroIds = [];
+    if (state.heroSelectionMode) {
+      state.heroSelectionMode = false;
+      state.selectedHeroIds = [];
+    } else {
+      state.heroSelectionMode = true;
+      state.selectedHeroIds = heroCoverMedia().map(heroMediaKey);
+    }
     syncHeroSelectionUI();
   }
 
@@ -969,7 +1071,7 @@
       : "多选";
     $("#hero-set-cover").hidden = !state.heroSelectionMode;
     $("#hero-delete-button").hidden = !state.heroSelectionMode;
-    $("#hero-set-cover").disabled = state.selectedHeroIds.length !== 1;
+    $("#hero-set-cover").disabled = state.selectedHeroIds.length === 0;
     $("#hero-delete-button").disabled = state.selectedHeroIds.length === 0;
     $$(".hero-list-item", $("#hero-image-list")).forEach((card) => {
       const selected = state.selectedHeroIds.includes(card.dataset.heroId);
@@ -983,26 +1085,41 @@
       } else if (!selected && check) {
         check.remove();
       }
+      let order = card.querySelector(".cover-order-badge");
+      const orderIndex = state.selectedHeroIds.indexOf(card.dataset.heroId);
+      if (selected && orderIndex >= 0) {
+        if (!order) {
+          order = document.createElement("span");
+          order.className = "cover-order-badge";
+          card.append(order);
+        }
+        order.textContent = String(orderIndex + 1);
+      } else if (order) {
+        order.remove();
+      }
     });
   }
 
-  async function selectHeroImage(media) {
+  async function selectHeroImages(mediaList) {
     if (!requireAdmin()) return;
     const previousHero = state.sharedProfile.heroMedia;
+    const previousCoverIds = [...(state.sharedProfile.heroCoverIds || [])];
     const previousSelectedIds = [...state.selectedHeroIds];
-    state.sharedProfile.heroMedia = media;
-    displayHeroMedia(media);
-    statusToastInDialog("正在切换首页背景...");
+    state.sharedProfile.heroMedia = mediaList[0];
+    state.sharedProfile.heroCoverIds = mediaList.map(heroMediaKey);
+    displayHeroCarousel(mediaList);
+    statusToastInDialog("正在发布首页封面轮换...");
     try {
-      await publishSharedContent("Change homepage background");
+      await publishSharedContent("Update homepage cover rotation");
       state.heroSelectionMode = false;
       state.selectedHeroIds = [];
       renderHeroImageList();
-      showToast("首页背景已切换并发布。");
+      showToast("首页封面轮换已发布。");
     } catch (error) {
       state.sharedProfile.heroMedia = previousHero;
+      state.sharedProfile.heroCoverIds = previousCoverIds;
       state.selectedHeroIds = previousSelectedIds;
-      if (previousHero) displayHeroMedia(previousHero);
+      displayHeroCarousel(heroCoverMedia());
       renderHeroImageList();
       showToast("背景切换失败：" + error.message);
     }
@@ -1018,6 +1135,7 @@
 
     const previousImages = [...(state.sharedProfile.heroImages || [])];
     const previousHero = state.sharedProfile.heroMedia;
+    const previousCoverIds = [...(state.sharedProfile.heroCoverIds || [])];
     const previousKey = typeof previousHero === "string"
       ? previousHero
       : previousHero?.id || previousHero?.src || "";
@@ -1025,14 +1143,19 @@
     state.sharedProfile.heroImages = previousImages.filter(
       (media) => !selectedIds.includes(media.id || media.src)
     );
+    state.sharedProfile.heroCoverIds = previousCoverIds.filter(
+      (id) => !selectedIds.includes(id)
+    );
     const next = deletingCurrent
-      ? state.sharedProfile.heroImages[0] || null
+      ? heroMediaById(state.sharedProfile.heroCoverIds[0]) ||
+        state.sharedProfile.heroImages[0] ||
+        null
       : previousHero;
     state.sharedProfile.heroMedia = next;
     state.heroSelectionMode = false;
     state.selectedHeroIds = [];
     if (deletingCurrent) {
-      if (next) displayHeroMedia(next);
+      if (next) displayHeroCarousel(heroCoverMedia());
       else clearHeroDisplay();
     }
 
@@ -1046,7 +1169,8 @@
     } catch (error) {
       state.sharedProfile.heroImages = previousImages;
       state.sharedProfile.heroMedia = previousHero;
-      if (previousHero) displayHeroMedia(previousHero);
+      state.sharedProfile.heroCoverIds = previousCoverIds;
+      if (previousHero) displayHeroCarousel(heroCoverMedia());
       renderHeroImageList();
       showToast("背景删除失败：" + error.message);
     }
@@ -1057,6 +1181,7 @@
   }
 
   function clearHeroDisplay() {
+    stopHeroRotation();
     revokeUrls(state.heroUrls);
     state.heroUrls = [];
     $$(".hero-site-media", $(".hero-image-frame")).forEach((node) => node.remove());
@@ -1227,23 +1352,75 @@
   }
 
   function displayHeroMedia(media) {
+    displayHeroCarousel(media ? [media] : []);
+  }
+
+  function displayHeroCarousel(mediaList) {
     const frame = $(".hero-image-frame");
     const art = $(".hero-placeholder-art");
     if (!frame || !art) return;
+    stopHeroRotation();
     revokeUrls(state.heroUrls);
     state.heroUrls = [];
     $$(".hero-site-media", frame).forEach((element) => element.remove());
-    const node = createMediaNode(media, state.heroUrls, false);
-    node.classList.add("hero-site-media");
-    if (node.tagName === "IMG") node.alt = "";
-    node.autoplay = true;
-    node.muted = true;
-    node.loop = true;
-    node.controls = false;
-    frame.insertBefore(node, art.nextSibling);
+    const media = (mediaList || []).filter(Boolean);
+    if (!media.length) {
+      art.hidden = false;
+      return;
+    }
+
+    const layers = media.map((item) => {
+      const node = createMediaNode(item, state.heroUrls, false);
+      node.classList.add("hero-site-media", "hero-rotation-layer");
+      if (node.tagName === "IMG") node.alt = "";
+      node.autoplay = true;
+      node.muted = true;
+      node.loop = true;
+      node.controls = false;
+      node.style.opacity = "0";
+      node.style.zIndex = "1";
+      node.style.transition =
+        "opacity " + COVER_CROSSFADE_MS + "ms ease";
+      frame.insertBefore(node, art.nextSibling);
+      return node;
+    });
+    layers[0].style.opacity = "1";
+    layers[0].style.zIndex = "2";
+    state.heroRotationLayers = layers;
+    state.heroRotationIndex = 0;
     art.hidden = true;
-    watchAdaptiveTitleContrast(node, $("h1", frame));
+    watchAdaptiveTitleContrast(layers[0], $("h1", frame));
     activateAnimatedMedia(frame);
+
+    if (layers.length > 1) {
+      state.heroRotationTimer = window.setInterval(() => {
+        if (state.heroRotationLayers.length !== layers.length) return;
+        const previousIndex = state.heroRotationIndex;
+        const nextIndex = (previousIndex + 1) % layers.length;
+        const previous = layers[previousIndex];
+        const next = layers[nextIndex];
+        previous.style.zIndex = "2";
+        next.style.zIndex = "3";
+        next.style.opacity = "1";
+        previous.style.opacity = "0";
+        state.heroRotationIndex = nextIndex;
+        watchAdaptiveTitleContrast(next, $("h1", frame));
+        window.setTimeout(() => {
+          layers.forEach((layer, index) => {
+            layer.style.zIndex = index === state.heroRotationIndex ? "2" : "1";
+          });
+        }, COVER_CROSSFADE_MS + 60);
+      }, COVER_ROTATION_INTERVAL_MS);
+    }
+  }
+
+  function stopHeroRotation() {
+    if (state.heroRotationTimer) {
+      window.clearInterval(state.heroRotationTimer);
+      state.heroRotationTimer = null;
+    }
+    state.heroRotationLayers = [];
+    state.heroRotationIndex = 0;
   }
 
   async function applyHeroMedia(path) {
@@ -1358,6 +1535,11 @@
     const content = await response.json();
     state.sharedContent = content;
     state.sharedProfile = { ...(content.profile || {}) };
+    if (!Array.isArray(state.sharedProfile.heroCoverIds)) {
+      state.sharedProfile.heroCoverIds = state.sharedProfile.heroMedia
+        ? [heroMediaKey(state.sharedProfile.heroMedia)]
+        : [];
+    }
     state.defaultTheme = THEME_META[content.defaultTheme]
       ? content.defaultTheme
       : state.defaultTheme;
@@ -1420,15 +1602,32 @@
         }))
       : defaultContactGroups();
     state.albums = Array.isArray(content.albums)
-      ? content.albums.map((album) => ({
-          ...album,
-          photos: Array.isArray(album.photos)
+      ? content.albums.map((album) => {
+          const photos = Array.isArray(album.photos)
             ? album.photos.map((photo) => ({
                 ...photo,
                 kind: photo.kind || "photo"
               }))
-            : []
-        }))
+            : [];
+          const photoIds = new Set(photos.map((photo) => photo.id));
+          const coverPhotoIds = (
+            Array.isArray(album.coverPhotoIds)
+              ? album.coverPhotoIds
+              : album.coverPhotoId
+                ? [album.coverPhotoId]
+                : []
+          ).filter((id) => photoIds.has(id));
+          return {
+            ...album,
+            photos,
+            coverPhotoIds: coverPhotoIds.length
+              ? coverPhotoIds
+              : photos[0]?.id
+                ? [photos[0].id]
+                : [],
+            coverPhotoId: coverPhotoIds[0] || photos[0]?.id || null
+          };
+        })
       : [];
     state.footprints = Array.isArray(content.footprints)
       ? content.footprints.map((item) => sanitizeFootprintRecord(item))
@@ -1459,8 +1658,16 @@
   async function applySharedProfile(profile) {
     await renderSharedAvatar();
 
+    const heroImages = Array.isArray(profile?.heroImages)
+      ? profile.heroImages
+      : [];
+    const rotation = (profile?.heroCoverIds || [])
+      .map((id) => heroImages.find((item) => heroMediaKey(item) === id))
+      .filter(Boolean);
     const hero = profile?.heroMedia;
-    if (hero && typeof hero === "object") {
+    if (rotation.length) {
+      displayHeroCarousel(rotation);
+    } else if (hero && typeof hero === "object") {
       displayHeroMedia(hero);
     } else {
       await applyHeroMedia(hero || DATA.profile?.heroMedia);
@@ -1799,7 +2006,7 @@
     }
     setReportVisibility(true);
     throw new Error(
-      "这是 V0.2 旧版直接加密内容。请在本浏览器解锁一次后，V0.4 即可通过管理员 Token 自动解密。"
+      "这是 V0.2 旧版直接加密内容。请在本浏览器解锁一次后，V0.5 即可通过管理员 Token 自动解密。"
     );
   }
 
@@ -2346,6 +2553,9 @@
     const heroImages = Array.isArray(profile.heroImages)
       ? [...profile.heroImages]
       : [];
+    const heroCoverIds = Array.isArray(profile.heroCoverIds)
+      ? [...profile.heroCoverIds]
+      : [];
     const avatarImages = Array.isArray(profile.avatarImages)
       ? [...profile.avatarImages]
       : [];
@@ -2416,9 +2626,19 @@
     }
     if (heroItems.length) {
       heroImages.unshift(...heroItems);
-      profile.heroMedia = heroItems[0];
+      if (!heroCoverIds.length) heroCoverIds.push(heroItems[0].id);
     }
     profile.heroImages = heroImages;
+    const heroKeys = new Set(heroImages.map(heroMediaKey));
+    profile.heroCoverIds = [...new Set(heroCoverIds)]
+      .filter((id) => heroKeys.has(id));
+    profile.heroMedia =
+      heroImages.find(
+        (item) => heroMediaKey(item) === profile.heroCoverIds[0]
+      ) ||
+      profile.heroMedia ||
+      heroImages[0] ||
+      null;
 
     const albums = [];
     for (const album of state.albums) {
@@ -2497,7 +2717,14 @@
         id: album.id,
         name: album.name,
         displayWidth: album.displayWidth || 60,
-        coverPhotoId: album.coverPhotoId || null,
+        coverPhotoId: album.coverPhotoIds?.[0] || album.coverPhotoId || null,
+        coverPhotoIds: (
+          album.coverPhotoIds?.length
+            ? album.coverPhotoIds
+            : album.coverPhotoId
+              ? [album.coverPhotoId]
+              : []
+        ).filter((id) => photos.some((photo) => photo.id === id)),
         createdAt: album.createdAt,
         updatedAt: new Date().toISOString(),
         photos
@@ -2981,8 +3208,8 @@
     $("#album-multi-toggle").addEventListener("click", toggleAlbumSelectionMode);
     $("#album-set-cover").addEventListener("click", () => {
       const album = currentAlbum();
-      if (album && state.selectedPhotoIds.length === 1) {
-        setAlbumCover(album, state.selectedPhotoIds[0]);
+      if (album && state.selectedPhotoIds.length) {
+        setAlbumCovers(album, state.selectedPhotoIds);
       }
     });
     $("#album-delete-photo").addEventListener("click", () => {
@@ -3009,6 +3236,7 @@
       name,
       displayWidth: 60,
       coverPhotoId: null,
+      coverPhotoIds: [],
       photos: [],
       createdAt: now,
       updatedAt: now
@@ -3036,6 +3264,7 @@
   }
 
   function renderAlbums() {
+    stopAlbumCoverRotations();
     revokeUrls(state.mainUrls);
     state.mainUrls = [];
     const list = $("#album-list");
@@ -3061,11 +3290,26 @@
 
     const cover = document.createElement("div");
     cover.className = "album-cover";
-    const coverPhoto = getAlbumCover(album);
-    if (coverPhoto) {
-      const coverMedia = createMediaNode(coverPhoto, state.mainUrls, true);
-      cover.append(coverMedia);
-      watchAdaptiveTitleContrast(coverMedia, null, cover);
+    const coverPhotos = getAlbumCovers(album);
+    if (coverPhotos.length) {
+      const stack = document.createElement("div");
+      stack.className = "album-cover-stack";
+      const slides = coverPhotos.map((coverPhoto, index) => {
+        const slide = document.createElement("div");
+        slide.className = "album-cover-slide" + (index === 0 ? " active" : "");
+        const coverMedia = createMediaNode(coverPhoto, state.mainUrls, true);
+        slide.append(coverMedia);
+        stack.append(slide);
+        return slide;
+      });
+      cover.append(stack);
+      watchAdaptiveTitleContrast(slides[0].firstElementChild, null, cover);
+      if (slides.length > 1) {
+        state.albumRotationTimers.set(
+          album.id,
+          startCoverRotation(slides, album.id)
+        );
+      }
     } else {
       cover.append(createAlbumPlaceholder());
     }
@@ -3074,9 +3318,7 @@
     info.className = "album-card-info";
     const title = document.createElement("h3");
     title.textContent = album.name;
-    const count = document.createElement("span");
-    count.textContent = album.photos.length + " 张照片";
-    info.append(title, count);
+    info.append(title);
     cover.append(info);
 
     const open = () => openAlbum(album.id);
@@ -3104,11 +3346,44 @@
   }
 
   function getAlbumCover(album) {
-    if (!album.photos?.length) return null;
-    return (
-      album.photos.find((photo) => photo.id === album.coverPhotoId) ||
-      album.photos[0]
-    );
+    return getAlbumCovers(album)[0] || null;
+  }
+
+  function getAlbumCovers(album) {
+    if (!album.photos?.length) return [];
+    const ids = Array.isArray(album.coverPhotoIds)
+      ? album.coverPhotoIds
+      : album.coverPhotoId
+        ? [album.coverPhotoId]
+        : [];
+    const covers = ids
+      .map((id) => album.photos.find((photo) => photo.id === id))
+      .filter(Boolean);
+    return covers.length ? covers : [album.photos[0]];
+  }
+
+  function startCoverRotation(slides, key) {
+    let index = 0;
+    return window.setInterval(() => {
+      const nextIndex = (index + 1) % slides.length;
+      const previous = slides[index];
+      const next = slides[nextIndex];
+      next.style.zIndex = "3";
+      previous.style.zIndex = "2";
+      next.classList.add("active");
+      previous.classList.remove("active");
+      index = nextIndex;
+      window.setTimeout(() => {
+        slides.forEach((slide, slideIndex) => {
+          slide.style.zIndex = slideIndex === index ? "2" : "1";
+        });
+      }, COVER_CROSSFADE_MS + 60);
+    }, COVER_ROTATION_INTERVAL_MS);
+  }
+
+  function stopAlbumCoverRotations() {
+    state.albumRotationTimers.forEach((timer) => window.clearInterval(timer));
+    state.albumRotationTimers.clear();
   }
 
   function openAlbum(albumId) {
@@ -3158,13 +3433,20 @@
     const count = state.selectedPhotoIds.length;
     $("#album-set-cover").hidden = !state.photoSelectionMode;
     $("#album-delete-photo").hidden = !state.photoSelectionMode;
-    $("#album-set-cover").disabled = count !== 1;
+    $("#album-set-cover").disabled = count === 0;
     $("#album-delete-photo").disabled = count === 0;
   }
 
   function toggleAlbumSelectionMode() {
-    state.photoSelectionMode = !state.photoSelectionMode;
-    state.selectedPhotoIds = [];
+    if (state.photoSelectionMode) {
+      state.photoSelectionMode = false;
+      state.selectedPhotoIds = [];
+    } else {
+      state.photoSelectionMode = true;
+      state.selectedPhotoIds = [
+        ...(currentAlbum()?.coverPhotoIds || [])
+      ];
+    }
     syncAlbumSelectionUI();
   }
 
@@ -3184,6 +3466,18 @@
         card.append(check);
       } else if (!selected && check) {
         check.remove();
+      }
+      let order = card.querySelector(".cover-order-badge");
+      const orderIndex = state.selectedPhotoIds.indexOf(card.dataset.photoId);
+      if (selected && orderIndex >= 0) {
+        if (!order) {
+          order = document.createElement("span");
+          order.className = "cover-order-badge";
+          card.append(order);
+        }
+        order.textContent = String(orderIndex + 1);
+      } else if (order) {
+        order.remove();
       }
     });
   }
@@ -3205,13 +3499,6 @@
       check.className = "photo-selected-check";
       check.textContent = "✓";
       card.append(check);
-    }
-
-    if (album.coverPhotoId === photo.id) {
-      const badge = document.createElement("span");
-      badge.className = "cover-badge";
-      badge.textContent = "置顶封面";
-      card.append(badge);
     }
 
     const footer = document.createElement("div");
@@ -3420,6 +3707,7 @@
     let imported = 0;
     const previousPhotos = [...album.photos];
     const previousCover = album.coverPhotoId;
+    const previousCoverIds = [...(album.coverPhotoIds || [])];
 
     for (let index = 0; index < files.length; index += 1) {
       status.textContent =
@@ -3436,6 +3724,7 @@
 
     if (imported && !album.coverPhotoId) {
       album.coverPhotoId = album.photos[album.photos.length - imported].id;
+      album.coverPhotoIds = [album.coverPhotoId];
     }
     album.updatedAt = new Date().toISOString();
 
@@ -3450,6 +3739,7 @@
     } catch {
       album.photos = previousPhotos;
       album.coverPhotoId = previousCover;
+      album.coverPhotoIds = previousCoverIds;
       renderAlbumPhotos(album);
       renderAlbums();
       status.textContent = "文件已读取，但保存失败。";
@@ -3460,20 +3750,23 @@
     }
   }
 
-  async function setAlbumCover(album, photoId) {
+  async function setAlbumCovers(album, photoIds) {
     if (!requireAdmin()) return;
     const previousCover = album.coverPhotoId;
-    album.coverPhotoId = photoId;
+    const previousCoverIds = [...(album.coverPhotoIds || [])];
+    album.coverPhotoIds = [...photoIds];
+    album.coverPhotoId = photoIds[0] || null;
     album.updatedAt = new Date().toISOString();
     try {
-      await publishSharedContent("Update album cover: " + album.name);
+      await publishSharedContent("Update album cover rotation: " + album.name);
       state.photoSelectionMode = false;
       state.selectedPhotoIds = [];
       renderAlbumPhotos(album);
       renderAlbums();
-      showToast("首页封面已发布。");
+      showToast("相册封面轮换已发布。");
     } catch {
       album.coverPhotoId = previousCover;
+      album.coverPhotoIds = previousCoverIds;
       showToast("封面更新失败。");
     }
   }
@@ -3488,12 +3781,19 @@
     if (!confirmed) return;
     const previousPhotos = [...album.photos];
     const previousCover = album.coverPhotoId;
+    const previousCoverIds = [...(album.coverPhotoIds || [])];
     album.photos = album.photos.filter(
       (photo) => !selectedIds.includes(photo.id)
     );
-    if (selectedIds.includes(album.coverPhotoId)) {
-      album.coverPhotoId = album.photos[0]?.id || null;
+    album.coverPhotoIds = (album.coverPhotoIds || []).filter(
+      (id) => !selectedIds.includes(id)
+    );
+    if (!album.coverPhotoIds.length) {
+      album.coverPhotoIds = album.photos[0]?.id
+        ? [album.photos[0].id]
+        : [];
     }
+    album.coverPhotoId = album.coverPhotoIds[0] || null;
     album.updatedAt = new Date().toISOString();
     try {
       await publishSharedContent("Delete photos from album: " + album.name);
@@ -3505,6 +3805,7 @@
     } catch {
       album.photos = previousPhotos;
       album.coverPhotoId = previousCover;
+      album.coverPhotoIds = previousCoverIds;
       renderAlbumPhotos(album);
       showToast("照片删除失败。");
     }
@@ -3631,7 +3932,10 @@
         remove.type = "button";
         remove.className = "guestbook-delete admin-only";
         remove.setAttribute("aria-label", "删除这条留言");
-        remove.textContent = "×";
+        remove.innerHTML =
+          '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+          '<path d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"></path>' +
+          "</svg>";
         remove.addEventListener("click", () => {
           state.pendingGuestbookDeleteId = message.id;
           $("#guestbook-delete-copy").textContent =
@@ -3845,6 +4149,7 @@
       state.footprintMap?.zoomOut();
     });
     $("#map-locate").addEventListener("click", locateCurrentPosition);
+    $("#map-3d-toggle").addEventListener("click", toggleFootprintMap3D);
     $("#footprint-multi-toggle").addEventListener(
       "click",
       toggleFootprintSelectionMode
@@ -4180,6 +4485,89 @@
       applyBuiltInBilingualLabels();
       updateFootprintMapMarkers();
     });
+  }
+
+  function toggleFootprintMap3D() {
+    ensureFootprintsMap();
+    if (!state.footprintMap) return;
+    if (!state.mapReady) {
+      state.footprintMap.once("load", toggleFootprintMap3D);
+      return;
+    }
+    const map = state.footprintMap;
+    const button = $("#map-3d-toggle");
+    const layerId = "footprint-3d-buildings";
+    const enabled = !state.map3dEnabled;
+
+    if (enabled) {
+      const style = map.getStyle();
+      const buildingLayer = (style.layers || []).find(
+        (layer) =>
+          layer["source-layer"] === "building" &&
+          layer.source &&
+          layer.type !== "symbol"
+      );
+      if (!buildingLayer) {
+        showToast("当前地图样式暂不包含 3D 建筑数据。");
+        return;
+      }
+      if (!map.getLayer(layerId)) {
+        map.addLayer({
+          id: layerId,
+          type: "fill-extrusion",
+          source: buildingLayer.source,
+          "source-layer": buildingLayer["source-layer"],
+          minzoom: 14,
+          paint: {
+            "fill-extrusion-color": "#91afc4",
+            "fill-extrusion-height": [
+              "max",
+              4,
+              [
+                "coalesce",
+                ["get", "render_height"],
+                ["get", "height"],
+                ["*", ["coalesce", ["get", "levels"], 3], 3],
+                12
+              ]
+            ],
+            "fill-extrusion-base": [
+              "coalesce",
+              ["get", "render_min_height"],
+              ["get", "min_height"],
+              0
+            ],
+            "fill-extrusion-opacity": 0.82
+          }
+        });
+      }
+      const firstLocatedFootprint = state.footprints.find(
+        hasValidFootprintCoordinates
+      );
+      const targetCenter =
+        map.getZoom() >= 12
+          ? map.getCenter()
+          : firstLocatedFootprint
+            ? {
+                lng: parseCoordinateValue(firstLocatedFootprint.lng, 180),
+                lat: parseCoordinateValue(firstLocatedFootprint.lat, 90)
+              }
+            : { lng: 114.0579, lat: 22.5431 };
+      map.easeTo({
+        center: targetCenter,
+        pitch: 60,
+        bearing: -18,
+        zoom: Math.max(map.getZoom(), 15.2),
+        duration: 900
+      });
+    } else {
+      if (map.getLayer(layerId)) map.removeLayer(layerId);
+      map.easeTo({ pitch: 0, bearing: 0, duration: 700 });
+    }
+    state.map3dEnabled = enabled;
+    button.classList.toggle("active", enabled);
+    button.setAttribute("aria-pressed", String(enabled));
+    button.setAttribute("aria-label", enabled ? "关闭 3D 建筑" : "开启 3D 建筑");
   }
 
   function applyBuiltInBilingualLabels() {
@@ -4749,18 +5137,136 @@
     }, 10000);
   }
 
-  function toggleDeckLibrary() {
+  async function toggleDeckLibrary() {
     const layout = $("#deck-layout");
     const open = !layout.classList.contains("deck-library-open");
-    layout.classList.toggle("deck-library-open", open);
-    $("#deck-sidebar").setAttribute("aria-hidden", String(!open));
-    $("#deck-library-toggle").setAttribute("aria-expanded", String(open));
+    if (open) await openDeckLibrary();
+    else await closeDeckLibrary();
   }
 
-  function closeDeckLibrary() {
-    $("#deck-layout").classList.remove("deck-library-open");
-    $("#deck-sidebar").setAttribute("aria-hidden", "true");
-    $("#deck-library-toggle").setAttribute("aria-expanded", "false");
+  async function openDeckLibrary() {
+    const layout = $("#deck-layout");
+    const sidebar = $("#deck-sidebar");
+    const button = $("#deck-library-toggle");
+    if (
+      !layout ||
+     !sidebar ||
+      !button ||
+      layout.classList.contains("deck-library-open") ||
+      layout.classList.contains("deck-library-closing")
+    ) {
+      return;
+    }
+    const token = ++state.deckLibraryMotionToken;
+    const buttonRect = button.getBoundingClientRect();
+    const targetRect = sidebar.getBoundingClientRect();
+    sidebar.setAttribute("aria-hidden", "false");
+    button.setAttribute("aria-expanded", "true");
+    layout.classList.add("deck-library-open", "deck-library-preparing");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      layout.classList.remove("deck-library-preparing");
+      layout.classList.add("deck-library-ready");
+      return;
+    }
+
+    button.classList.add("deck-library-source-hidden");
+    await animateDeckLibraryMorph(buttonRect, targetRect, "总结册");
+    if (token !== state.deckLibraryMotionToken) return;
+    layout.classList.remove("deck-library-preparing");
+    layout.classList.add("deck-library-ready");
+    window.setTimeout(() => {
+      if (token === state.deckLibraryMotionToken) {
+        button.classList.remove("deck-library-source-hidden");
+      }
+    }, 220);
+  }
+
+  async function closeDeckLibrary() {
+    const layout = $("#deck-layout");
+    const sidebar = $("#deck-sidebar");
+    const button = $("#deck-library-toggle");
+    if (!layout || !sidebar || !button) return;
+    if (
+      !layout.classList.contains("deck-library-open") ||
+      layout.classList.contains("deck-library-closing")
+    ) {
+      return;
+    }
+    const token = ++state.deckLibraryMotionToken;
+    layout.classList.add("deck-library-closing");
+    layout.classList.remove("deck-library-ready");
+    sidebar.setAttribute("aria-hidden", "true");
+    button.setAttribute("aria-expanded", "false");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      layout.classList.remove(
+        "deck-library-open",
+        "deck-library-closing",
+        "deck-library-preparing"
+      );
+      return;
+    }
+
+    await new Promise((resolve) => window.setTimeout(resolve, 180));
+    if (token !== state.deckLibraryMotionToken) return;
+    const targetRect = sidebar.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    layout.classList.add("deck-library-preparing");
+    button.classList.add("deck-library-source-hidden");
+    await animateDeckLibraryMorph(targetRect, buttonRect, "总结册");
+    if (token !== state.deckLibraryMotionToken) return;
+    layout.classList.remove(
+      "deck-library-open",
+      "deck-library-closing",
+      "deck-library-preparing",
+      "deck-library-ready"
+    );
+    button.classList.remove("deck-library-source-hidden");
+  }
+
+  function animateDeckLibraryMorph(fromRect, toRect, label) {
+    const morph = document.createElement("div");
+    morph.className = "deck-library-morph";
+    morph.setAttribute("aria-hidden", "true");
+    const text = document.createElement("span");
+    text.textContent = label;
+    morph.append(text);
+    document.body.append(morph);
+    const from = {
+      left: fromRect.left + "px",
+      top: fromRect.top + "px",
+      width: fromRect.width + "px",
+      height: fromRect.height + "px",
+      borderRadius: Math.min(fromRect.height / 2, 28) + "px"
+    };
+    const to = {
+      left: toRect.left + "px",
+      top: toRect.top + "px",
+      width: toRect.width + "px",
+      height: toRect.height + "px",
+      borderRadius: "26px"
+    };
+    Object.assign(morph.style, from);
+    const textAnimation = text.animate(
+      [
+        { opacity: 1, transform: "translateY(0)" },
+        { opacity: 0, transform: "translateY(-8px)" }
+      ],
+      { duration: 170, easing: "ease", fill: "forwards" }
+    );
+    const morphAnimation = morph.animate(
+      [from, to],
+      {
+        duration: 460,
+        easing: "cubic-bezier(0.22, 0.82, 0.3, 1)",
+        fill: "forwards"
+      }
+    );
+    return Promise.all([
+      morphAnimation.finished.catch(() => {}),
+      textAnimation.finished.catch(() => {})
+    ]).then(() => morph.remove());
   }
 
   function renderDeckLibrary() {

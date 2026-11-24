@@ -19,7 +19,13 @@
         "new-year",
         "spring-festival",
         "qingming",
-        "easter"
+        "easter",
+        "lantern",
+        "labor",
+        "dragon-boat",
+        "mid-autumn",
+        "national-day",
+        "double-ninth"
       ];
       document.documentElement.dataset.theme =
         themes.includes(sharedDefaultTheme) ? sharedDefaultTheme : "deep-blue";
@@ -113,6 +119,43 @@
       <span class="easter-egg egg-two"></span>
       <span class="easter-egg egg-three"></span>
       <span class="easter-flower-field"></span>
+    </div>
+    <div class="scene scene-lantern">
+      <span class="festival-orb lantern-moon"></span>
+      <span class="lantern-glow lantern-glow-one"></span>
+      <span class="lantern-glow lantern-glow-two"></span>
+      <span class="lantern-ribbon"></span>
+    </div>
+    <div class="scene scene-labor">
+      <span class="labor-sun"></span>
+      <span class="labor-beam beam-one"></span>
+      <span class="labor-beam beam-two"></span>
+      <span class="labor-grid"></span>
+    </div>
+    <div class="scene scene-dragon-boat">
+      <span class="dragon-water water-back"></span>
+      <span class="dragon-water water-front"></span>
+      <span class="dragon-sun"></span>
+      <span class="dragon-leaf leaf-one"></span>
+      <span class="dragon-leaf leaf-two"></span>
+    </div>
+    <div class="scene scene-mid-autumn">
+      <span class="festival-orb mid-autumn-moon"></span>
+      <span class="mid-autumn-cloud cloud-one"></span>
+      <span class="mid-autumn-cloud cloud-two"></span>
+      <span class="osmanthus-field"></span>
+    </div>
+    <div class="scene scene-national-day">
+      <span class="national-glow"></span>
+      <span class="national-ribbon ribbon-one"></span>
+      <span class="national-ribbon ribbon-two"></span>
+      <span class="national-stars"></span>
+    </div>
+    <div class="scene scene-double-ninth">
+      <span class="festival-orb double-ninth-sun"></span>
+      <span class="double-ninth-hill hill-back"></span>
+      <span class="double-ninth-hill hill-front"></span>
+      <span class="chrysanthemum-field"></span>
     </div>
   </div>
 
@@ -346,7 +389,7 @@
     <section class="section section-shell contact-section" id="contact">
       <div class="contact-card reveal">
         <div class="contact-copy">
-          <h2>谢谢来到<br><span class="accent-text">我的赛博基地。</span></h2>
+          <h2>感谢您来到<br><span class="accent-text">我的赛博基地。</span></h2>
           <button class="button button-small button-ghost admin-only" id="edit-contact-button" type="button">
             编辑联系
           </button>
@@ -418,6 +461,9 @@
                 <circle cx="12" cy="9" r="2.4"></circle>
               </svg>
             </button>
+            <button class="map-action-button map-3d-button" id="map-3d-toggle"
+              type="button" aria-label="开启 3D 建筑" aria-pressed="false"
+              title="3D 建筑">3D</button>
           </div>
         </div>
 
@@ -445,7 +491,7 @@
     <div class="footer-copy">
       <p>© <span id="current-year"></span> Kerry Xing. Built with curiosity.</p>
       <p>本网页由大肥鱼驱动的Codex赋能制作</p>
-      <p>网页版本：V0.4</p>
+      <p>网页版本：V0.5</p>
     </div>
   </footer>
 
@@ -567,7 +613,7 @@
       <div class="album-dialog-footer">
         <div class="album-footer-actions admin-only">
           <button class="pill-action" id="album-multi-toggle" type="button">多选</button>
-          <button class="pill-action pill-action-cover" id="album-set-cover" type="button" hidden>设置为封面</button>
+          <button class="pill-action pill-action-cover" id="album-set-cover" type="button" hidden>设为封面轮换</button>
           <button class="pill-action pill-danger" id="album-delete-photo" type="button" hidden>删除</button>
           <button class="pill-action pill-danger" id="delete-album-button" type="button">
             删除整个相册
@@ -643,7 +689,7 @@
       </div>
       <div class="hero-dialog-actions">
         <button class="pill-action" id="hero-multi-toggle" type="button">多选</button>
-        <button class="pill-action pill-action-cover" id="hero-set-cover" type="button" hidden>设置为封面</button>
+        <button class="pill-action pill-action-cover" id="hero-set-cover" type="button" hidden>设为封面轮换</button>
         <button class="pill-action pill-danger" id="hero-delete-button" type="button" hidden>删除</button>
         <button class="dialog-close" type="button" data-close-dialog="hero-dialog" aria-label="关闭">×</button>
       </div>
@@ -755,6 +801,48 @@
           <strong>复活节</strong>
           <small>春日晨光、彩蛋与柔和的花园色彩</small>
           <span class="theme-seasonal-badge" data-seasonal-badge="easter" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="lantern">
+          <span class="theme-swatch theme-swatch-lantern" aria-hidden="true"></span>
+          <strong>元宵</strong>
+          <small>暖粉灯火、金色月轮与团圆夜色</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="lantern" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="labor">
+          <span class="theme-swatch theme-swatch-labor" aria-hidden="true"></span>
+          <strong>劳动</strong>
+          <small>清亮工业蓝、日光与秩序线条</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="labor" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="dragon-boat">
+          <span class="theme-swatch theme-swatch-dragon-boat" aria-hidden="true"></span>
+          <strong>端午</strong>
+          <small>菖蒲青绿、粼粼水光与日光</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="dragon-boat" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="mid-autumn">
+          <span class="theme-swatch theme-swatch-mid-autumn" aria-hidden="true"></span>
+          <strong>中秋</strong>
+          <small>深蓝夜空、满月与桂花金色</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="mid-autumn" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="national-day">
+          <span class="theme-swatch theme-swatch-national-day" aria-hidden="true"></span>
+          <strong>中国国庆</strong>
+          <small>庄重红色、金色光芒与庆典丝带</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="national-day" hidden>节日主题</span>
+          <i class="theme-selected-mark" aria-hidden="true">✓</i>
+        </button>
+        <button class="theme-card" type="button" data-theme-option="double-ninth">
+          <span class="theme-swatch theme-swatch-double-ninth" aria-hidden="true"></span>
+          <strong>重阳</strong>
+          <small>秋日暖棕、层叠远山与菊花色</small>
+          <span class="theme-seasonal-badge" data-seasonal-badge="double-ninth" hidden>节日主题</span>
           <i class="theme-selected-mark" aria-hidden="true">✓</i>
         </button>
       </div>

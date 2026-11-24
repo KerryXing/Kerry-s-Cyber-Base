@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-24T16:49:08.515Z",
+  "updatedAt": "2026-11-24T17:03:14.935Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -163,7 +163,7 @@
       "coverPhotoId": null,
       "coverPhotoIds": [],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-24T16:49:08.515Z",
+      "updatedAt": "2026-11-24T17:03:14.935Z",
       "photos": []
     },
     {
@@ -175,7 +175,7 @@
         "photo-0f352f44-30bf-4438-9cd8-58976664f447"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-24T16:49:08.515Z",
+      "updatedAt": "2026-11-24T17:03:14.935Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -196,7 +196,7 @@
         "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-24T16:49:08.515Z",
+      "updatedAt": "2026-11-24T17:03:14.935Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -214,10 +214,12 @@
       "displayWidth": 91,
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "coverPhotoIds": [
-        "photo-5fadf840-c12d-4a3f-a843-e669782e97db"
+        "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
+        "photo-71049415-30f8-4851-a0f6-98a51176cdf4",
+        "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-24T16:49:08.515Z",
+      "updatedAt": "2026-11-24T17:03:14.935Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

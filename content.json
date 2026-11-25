@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-25T06:21:39.026Z",
+  "updatedAt": "2026-11-25T06:32:01.347Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -167,7 +167,7 @@
         "photo-3f0f1716-3ce1-4cff-8408-5f70592d100d"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-25T06:21:39.026Z",
+      "updatedAt": "2026-11-25T06:32:01.347Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -208,6 +208,62 @@
           "createdAt": "2026-11-25T06:19:40.860Z",
           "src": "shared/media/photo-3f0f1716-3ce1-4cff-8408-5f70592d100d.jpg",
           "thumbnail": "shared/thumbnails/photo-3f0f1716-3ce1-4cff-8408-5f70592d100d.jpg"
+        },
+        {
+          "id": "photo-d0f6fd51-1ace-4185-a69f-c90de7bf9b8b",
+          "title": "IMG_8609",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:48.692Z",
+          "src": "shared/media/photo-d0f6fd51-1ace-4185-a69f-c90de7bf9b8b.jpg",
+          "thumbnail": "shared/thumbnails/photo-d0f6fd51-1ace-4185-a69f-c90de7bf9b8b.jpg"
+        },
+        {
+          "id": "photo-b53154f2-d9dc-4c91-8524-fdb3267b98a5",
+          "title": "IMG_8789",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:50.526Z",
+          "src": "shared/media/photo-b53154f2-d9dc-4c91-8524-fdb3267b98a5.jpg",
+          "thumbnail": "shared/thumbnails/photo-b53154f2-d9dc-4c91-8524-fdb3267b98a5.jpg"
+        },
+        {
+          "id": "photo-0c69f081-edc5-4518-997a-1e57e7d70649",
+          "title": "IMG_8132",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:51.742Z",
+          "src": "shared/media/photo-0c69f081-edc5-4518-997a-1e57e7d70649.jpg",
+          "thumbnail": "shared/thumbnails/photo-0c69f081-edc5-4518-997a-1e57e7d70649.jpg"
+        },
+        {
+          "id": "photo-002c4609-80d2-4999-b41c-7d2ec4619524",
+          "title": "IMG_8120",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:52.674Z",
+          "src": "shared/media/photo-002c4609-80d2-4999-b41c-7d2ec4619524.jpg",
+          "thumbnail": "shared/thumbnails/photo-002c4609-80d2-4999-b41c-7d2ec4619524.jpg"
+        },
+        {
+          "id": "photo-1388cc3a-2b13-4321-9735-71125c20675f",
+          "title": "IMG_8119",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:53.456Z",
+          "src": "shared/media/photo-1388cc3a-2b13-4321-9735-71125c20675f.jpg",
+          "thumbnail": "shared/thumbnails/photo-1388cc3a-2b13-4321-9735-71125c20675f.jpg"
+        },
+        {
+          "id": "photo-fbfddcd0-afcf-460a-baae-f88e87536139",
+          "title": "IMG_8108",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:55.303Z",
+          "src": "shared/media/photo-fbfddcd0-afcf-460a-baae-f88e87536139.jpg",
+          "thumbnail": "shared/thumbnails/photo-fbfddcd0-afcf-460a-baae-f88e87536139.jpg"
+        },
+        {
+          "id": "photo-e4eab41c-f6eb-496b-8460-33f3ddc45bc9",
+          "title": "IMG_8105",
+          "kind": "photo",
+          "createdAt": "2026-11-25T06:31:57.440Z",
+          "src": "shared/media/photo-e4eab41c-f6eb-496b-8460-33f3ddc45bc9.jpg",
+          "thumbnail": "shared/thumbnails/photo-e4eab41c-f6eb-496b-8460-33f3ddc45bc9.jpg"
         }
       ]
     },
@@ -220,7 +276,7 @@
         "photo-0f352f44-30bf-4438-9cd8-58976664f447"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-25T06:21:39.026Z",
+      "updatedAt": "2026-11-25T06:32:01.347Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -241,7 +297,7 @@
         "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-25T06:21:39.026Z",
+      "updatedAt": "2026-11-25T06:32:01.347Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -272,7 +328,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-25T06:21:39.026Z",
+      "updatedAt": "2026-11-25T06:32:01.347Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

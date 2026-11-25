@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-25T07:36:49.648Z",
+  "updatedAt": "2026-11-25T07:48:51.252Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -170,7 +170,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-25T07:36:49.648Z",
+      "updatedAt": "2026-11-25T07:48:51.252Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -387,6 +387,30 @@
           "createdAt": "2026-11-25T07:31:15.476Z",
           "src": "shared/media/photo-a054b889-9468-4fed-a1c9-bb5299232c1f.jpg",
           "thumbnail": "shared/thumbnails/photo-a054b889-9468-4fed-a1c9-bb5299232c1f.jpg"
+        },
+        {
+          "id": "photo-28d084d7-afa9-4f32-acee-a7951e6f8490",
+          "title": "IMG_8705",
+          "kind": "photo",
+          "createdAt": "2026-11-25T07:48:44.900Z",
+          "src": "shared/media/photo-28d084d7-afa9-4f32-acee-a7951e6f8490.jpg",
+          "thumbnail": "shared/thumbnails/photo-28d084d7-afa9-4f32-acee-a7951e6f8490.jpg"
+        },
+        {
+          "id": "photo-ec8cdbb2-5b48-4285-884a-0930ecefc66d",
+          "title": "IMG_8419",
+          "kind": "photo",
+          "createdAt": "2026-11-25T07:48:48.326Z",
+          "src": "shared/media/photo-ec8cdbb2-5b48-4285-884a-0930ecefc66d.jpg",
+          "thumbnail": "shared/thumbnails/photo-ec8cdbb2-5b48-4285-884a-0930ecefc66d.jpg"
+        },
+        {
+          "id": "photo-40638aa5-9031-4934-a171-43b594cac858",
+          "title": "IMG_8131",
+          "kind": "photo",
+          "createdAt": "2026-11-25T07:48:49.020Z",
+          "src": "shared/media/photo-40638aa5-9031-4934-a171-43b594cac858.jpg",
+          "thumbnail": "shared/thumbnails/photo-40638aa5-9031-4934-a171-43b594cac858.jpg"
         }
       ]
     },
@@ -399,7 +423,7 @@
         "photo-0f352f44-30bf-4438-9cd8-58976664f447"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-25T07:36:49.648Z",
+      "updatedAt": "2026-11-25T07:48:51.252Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -424,7 +448,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-25T07:36:49.648Z",
+      "updatedAt": "2026-11-25T07:48:51.252Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -479,7 +503,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-25T07:36:49.648Z",
+      "updatedAt": "2026-11-25T07:48:51.252Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

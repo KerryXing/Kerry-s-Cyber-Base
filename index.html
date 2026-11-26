@@ -612,6 +612,9 @@
 
       <div class="album-dialog-footer">
         <div class="album-footer-actions admin-only">
+          <button class="pill-action" id="album-rotation-button" type="button">
+            轮换动画
+          </button>
           <button class="pill-action" id="album-multi-toggle" type="button">多选</button>
           <button class="pill-action pill-action-cover" id="album-set-cover" type="button" hidden>设为封面轮换</button>
           <button class="pill-action pill-danger" id="album-delete-photo" type="button" hidden>删除</button>
@@ -621,6 +624,49 @@
         </div>
         <button class="button button-ghost button-small" type="button" data-close-dialog="album-dialog">
           返回 Gallery
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal album-rotation-dialog" id="album-rotation-dialog">
+    <div class="album-rotation-shell">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">COVER ROTATION</span>
+          <h2>轮换动画</h2>
+        </div>
+        <button class="dialog-close" type="button"
+          data-close-dialog="album-rotation-dialog" aria-label="关闭">×</button>
+      </div>
+      <div class="album-rotation-options" id="album-rotation-options">
+        <button class="album-rotation-option" type="button" data-cover-animation="fade">
+          <strong>渐显</strong>
+          <small>下一张照片在原位置柔和淡入</small>
+        </button>
+        <button class="album-rotation-option" type="button" data-cover-animation="slide-right">
+          <strong>右滑</strong>
+          <small>下一张照片从左侧向右淡入浮现</small>
+        </button>
+        <button class="album-rotation-option" type="button" data-cover-animation="zoom">
+          <strong>放大</strong>
+          <small>下一张照片从中心向四周放大浮现</small>
+        </button>
+        <button class="album-rotation-option" type="button" data-cover-animation="slide-vertical">
+          <strong>竖直滚动</strong>
+          <small>下一张照片从上方落位并淡入</small>
+        </button>
+        <button class="album-rotation-option" type="button" data-cover-animation="page-transition">
+          <strong>页面转场</strong>
+          <small>以遮幕擦除和淡入淡出完成翻页</small>
+        </button>
+      </div>
+      <p class="action-status" id="album-rotation-status" role="status" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="button button-ghost" type="button"
+          data-close-dialog="album-rotation-dialog">取消</button>
+        <button class="button button-primary" id="save-album-rotation" type="button">
+          保存动画
         </button>
       </div>
     </div>

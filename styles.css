@@ -6955,20 +6955,30 @@ html[data-theme="qingming"] .maplibregl-canvas {
   transition-delay: 0ms;
 }
 
-.deck-library-morph {
-  position: fixed;
-  z-index: 4000;
+.deck-sidebar.deck-library-morphing {
+  overflow: hidden !important;
+  padding: 0 !important;
+  transition: none !important;
+  transform: none !important;
+  box-shadow: 0 22px 64px color-mix(in srgb, var(--bg-deep) 38%, transparent);
+}
+
+.deck-sidebar.deck-library-morphing > :not(.deck-library-morph-label) {
+  opacity: 0 !important;
+  transform: translateY(10px) !important;
+  transition: none !important;
+}
+
+.deck-library-morph-label {
+  position: absolute;
+  inset: 0;
   display: grid;
-  overflow: hidden;
   place-items: center;
   color: var(--ink);
-  border: 1px solid var(--line-strong);
-  background:
-    radial-gradient(circle at 0 100%, rgba(228, 164, 153, 0.08), transparent 45%),
-    color-mix(in srgb, var(--surface-solid) 95%, transparent);
-  box-shadow: 0 30px 90px rgba(0, 8, 18, 0.42);
   font-size: 18px;
   font-weight: 650;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
   pointer-events: none;
 }
 
@@ -6994,6 +7004,219 @@ html[data-theme="qingming"] .maplibregl-canvas {
   stroke-width: 2;
   stroke-linecap: round;
   pointer-events: none;
+}
+
+.album-cover-slide {
+  transform-origin: center;
+  will-change: opacity, transform, clip-path;
+}
+
+.album-rotation-dialog {
+  width: min(calc(100% - 48px), 880px);
+}
+
+.album-rotation-shell {
+  padding: 38px;
+}
+
+.album-rotation-options {
+  display: grid;
+  margin-top: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.album-rotation-option {
+  display: flex;
+  min-height: 118px;
+  padding: 20px 22px;
+  text-align: left;
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--line-strong) 78%, var(--accent));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface-lift) 48%, transparent);
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.album-rotation-option strong {
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.album-rotation-option small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.album-rotation-option:hover,
+.album-rotation-option:focus-visible,
+.album-rotation-option.selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-lift));
+}
+
+.album-rotation-option.selected {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.album-rotation-option:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.footprints-map.is-tilting,
+.footprints-map.is-tilting canvas {
+  cursor: grabbing !important;
+}
+
+.back-to-top {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--line-strong));
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      color-mix(in srgb, var(--accent) 26%, transparent),
+      transparent 62%
+    ),
+    color-mix(in srgb, var(--surface-solid) 90%, transparent);
+  box-shadow:
+    0 14px 38px color-mix(in srgb, var(--bg-deep) 42%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  color: var(--accent-soft);
+  border-color: var(--accent);
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      color-mix(in srgb, var(--accent) 34%, transparent),
+      transparent 62%
+    ),
+    color-mix(in srgb, var(--surface-lift) 94%, transparent);
+}
+
+.back-to-top:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Keep theme text and structural lines legible across light and dark palettes. */
+.character-card,
+.attribute-panel,
+.deck-sidebar,
+.deck-viewer,
+.contact-card,
+.album-card,
+.theme-card,
+.taste-card,
+.contact-group-card {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--line-strong));
+}
+
+.attribute-table,
+.attribute-row {
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--line-strong));
+}
+
+.attribute-row > span {
+  color: color-mix(in srgb, var(--ink) 78%, var(--accent));
+  font-weight: 680;
+}
+
+.attribute-row:nth-child(1) > span {
+  color: color-mix(in srgb, var(--ink) 68%, var(--accent));
+}
+
+.attribute-row:nth-child(2) > span {
+  color: color-mix(in srgb, var(--ink) 68%, var(--mint));
+}
+
+.attribute-row:nth-child(3) > span {
+  color: color-mix(in srgb, var(--ink) 68%, var(--coral));
+}
+
+.attribute-row:nth-child(4) > span {
+  color: color-mix(in srgb, var(--ink) 68%, var(--gold));
+}
+
+.attribute-row:nth-child(5) > span {
+  color: color-mix(in srgb, var(--ink) 68%, var(--lavender));
+}
+
+.attribute-row:nth-child(6) > span {
+  color: color-mix(in srgb, var(--ink) 68%, var(--rose));
+}
+
+.attribute-row strong,
+.taste-title strong,
+.contact-group-card > strong,
+.contact-group-items > span {
+  color: var(--ink);
+}
+
+.attribute-row strong i,
+.attribute-row strong b,
+.taste-title span,
+.contact-copy > p:last-child {
+  color: var(--muted);
+}
+
+.tag-list span:nth-child(n) {
+  color: color-mix(in srgb, var(--ink) 88%, var(--accent));
+  border-color: color-mix(in srgb, var(--accent) 44%, var(--line-strong));
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface-lift));
+  font-weight: 620;
+}
+
+.contact-group-card,
+.taste-card {
+  background: color-mix(in srgb, var(--surface-lift) 58%, transparent);
+}
+
+.contact-card::before,
+.character-card-art::before {
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--line));
+}
+
+.contact-group-items > span {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--line));
+}
+
+dialog,
+dialog *,
+.deck-sidebar,
+.deck-sidebar *,
+.album-dialog-shell,
+.profile-editor-shell,
+.theme-dialog-shell,
+.deck-list,
+.report-access-dialog {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+dialog::-webkit-scrollbar,
+dialog *::-webkit-scrollbar,
+.deck-sidebar::-webkit-scrollbar,
+.deck-sidebar *::-webkit-scrollbar,
+.album-dialog-shell::-webkit-scrollbar,
+.profile-editor-shell::-webkit-scrollbar,
+.theme-dialog-shell::-webkit-scrollbar,
+.deck-list::-webkit-scrollbar,
+.report-access-dialog::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .map-3d-button {
@@ -7571,7 +7794,21 @@ html[data-theme="double-ninth"] .scene-double-ninth {
     transition: none !important;
   }
 
-  .deck-library-morph {
-    display: none;
+  .deck-library-morph-label {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .album-rotation-shell {
+    padding: 24px 20px;
+  }
+
+  .album-rotation-options {
+    grid-template-columns: 1fr;
+  }
+
+  .album-rotation-option {
+    min-height: 96px;
   }
 }

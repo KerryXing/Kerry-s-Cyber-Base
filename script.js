@@ -10,6 +10,13 @@
   const GITHUB_API = "https://api.github.com";
   const COVER_ROTATION_INTERVAL_MS = 5000;
   const COVER_CROSSFADE_MS = 1100;
+  const ALBUM_COVER_ANIMATIONS = new Set([
+    "fade",
+    "slide-right",
+    "zoom",
+    "slide-vertical",
+    "page-transition"
+  ]);
   const THEME_META = {
     "deep-blue": { name: "深蓝", color: "#0b192a" },
     "light-blue": { name: "浅蓝", color: "#d8edf9" },
@@ -108,6 +115,7 @@
     pendingAvatarItems: [],
     photoSelectionMode: false,
     selectedPhotoIds: [],
+    pendingAlbumCoverAnimation: "fade",
     currentPage: "home",
     pageSwitchToken: 0,
     guestbook: [],
@@ -1620,6 +1628,9 @@
           return {
             ...album,
             photos,
+            coverAnimation: ALBUM_COVER_ANIMATIONS.has(album.coverAnimation)
+              ? album.coverAnimation
+              : "fade",
             coverPhotoIds: coverPhotoIds.length
               ? coverPhotoIds
               : photos[0]?.id
@@ -2718,6 +2729,9 @@
         name: album.name,
         displayWidth: album.displayWidth || 60,
         coverPhotoId: album.coverPhotoIds?.[0] || album.coverPhotoId || null,
+        coverAnimation: ALBUM_COVER_ANIMATIONS.has(album.coverAnimation)
+          ? album.coverAnimation
+          : "fade",
         coverPhotoIds: (
           album.coverPhotoIds?.length
             ? album.coverPhotoIds
@@ -3205,6 +3219,19 @@
     $("#save-album-settings").addEventListener("click", saveAlbumSettings);
     $("#album-upload-form").addEventListener("submit", uploadAlbumPhotos);
     $("#album-photo-files").addEventListener("change", updateAlbumFileLabel);
+    $("#album-rotation-button").addEventListener(
+      "click",
+      openAlbumRotationDialog
+    );
+    $("#album-rotation-options").addEventListener("click", (event) => {
+      const option = event.target.closest("[data-cover-animation]");
+      if (!option) return;
+      selectAlbumRotationOption(option.dataset.coverAnimation);
+    });
+    $("#save-album-rotation").addEventListener(
+      "click",
+      saveAlbumRotationAnimation
+    );
     $("#album-multi-toggle").addEventListener("click", toggleAlbumSelectionMode);
     $("#album-set-cover").addEventListener("click", () => {
       const album = currentAlbum();
@@ -3237,6 +3264,7 @@
       displayWidth: 60,
       coverPhotoId: null,
       coverPhotoIds: [],
+      coverAnimation: "fade",
       photos: [],
       createdAt: now,
       updatedAt: now
@@ -3307,7 +3335,7 @@
       if (slides.length > 1) {
         state.albumRotationTimers.set(
           album.id,
-          startCoverRotation(slides, album.id)
+          startCoverRotation(slides, album.id, album.coverAnimation)
         );
       }
     } else {
@@ -3362,7 +3390,7 @@
     return covers.length ? covers : [album.photos[0]];
   }
 
-  function startCoverRotation(slides, key) {
+  function startCoverRotation(slides, key, animation = "fade") {
     let index = 0;
     return window.setInterval(() => {
       const nextIndex = (index + 1) % slides.length;
@@ -3370,20 +3398,166 @@
       const next = slides[nextIndex];
       next.style.zIndex = "3";
       previous.style.zIndex = "2";
-      next.classList.add("active");
-      previous.classList.remove("active");
+      animateAlbumCoverSlide(previous, next, animation);
       index = nextIndex;
       window.setTimeout(() => {
         slides.forEach((slide, slideIndex) => {
           slide.style.zIndex = slideIndex === index ? "2" : "1";
+          slide.style.removeProperty("clip-path");
+          slide.style.removeProperty("transform");
+          slide.style.removeProperty("opacity");
         });
       }, COVER_CROSSFADE_MS + 60);
     }, COVER_ROTATION_INTERVAL_MS);
   }
 
+  function animateAlbumCoverSlide(previous, next, animation = "fade") {
+    next.getAnimations().forEach((item) => item.cancel());
+    previous.getAnimations().forEach((item) => item.cancel());
+    next.style.clipPath = "";
+    next.style.transform = "";
+    previous.style.transform = "";
+
+    if (animation === "page-transition") {
+      next.style.clipPath = "inset(0 100% 0 0)";
+      next.style.opacity = "1";
+      next.animate(
+        [
+          { clipPath: "inset(0 100% 0 0)", opacity: 0.92 },
+          { clipPath: "inset(0 0 0 0)", opacity: 1 }
+        ],
+        {
+          duration: COVER_CROSSFADE_MS,
+          easing: "cubic-bezier(.4,0,.2,1)",
+          fill: "forwards"
+        }
+      );
+      next.classList.add("active");
+      window.setTimeout(() => previous.classList.remove("active"), 60);
+      return;
+    }
+
+    const presets = {
+      fade: {
+        next: [
+          { opacity: 0, transform: "translate3d(0,0,0)" },
+          { opacity: 1, transform: "translate3d(0,0,0)" }
+        ],
+        previous: [{ opacity: 1 }, { opacity: 0 }]
+      },
+      "slide-right": {
+        next: [
+          { opacity: 0, transform: "translate3d(-14%,0,0)" },
+          { opacity: 1, transform: "translate3d(0,0,0)" }
+        ],
+        previous: [
+          { opacity: 1, transform: "translate3d(0,0,0)" },
+          { opacity: 0, transform: "translate3d(8%,0,0)" }
+        ]
+      },
+      zoom: {
+        next: [
+          { opacity: 0, transform: "scale(.72)" },
+          { opacity: 1, transform: "scale(1)" }
+        ],
+        previous: [
+          { opacity: 1, transform: "scale(1)" },
+          { opacity: 0, transform: "scale(1.08)" }
+        ]
+      },
+      "slide-vertical": {
+        next: [
+          { opacity: 0, transform: "translate3d(0,-18%,0)" },
+          { opacity: 1, transform: "translate3d(0,0,0)" }
+        ],
+        previous: [
+          { opacity: 1, transform: "translate3d(0,0,0)" },
+          { opacity: 0, transform: "translate3d(0,14%,0)" }
+        ]
+      }
+    };
+    const preset = presets[animation] || presets.fade;
+    next.style.opacity = "1";
+    next.classList.add("active");
+    previous.classList.add("active");
+    next.animate(preset.next, {
+      duration: COVER_CROSSFADE_MS,
+      easing: "cubic-bezier(.22,.75,.25,1)",
+      fill: "forwards"
+    });
+    const previousAnimation = previous.animate(preset.previous, {
+      duration: COVER_CROSSFADE_MS,
+      easing: "cubic-bezier(.22,.75,.25,1)",
+      fill: "forwards"
+    });
+    previousAnimation.finished.catch(() => {}).then(() => {
+      previous.classList.remove("active");
+    });
+  }
+
   function stopAlbumCoverRotations() {
     state.albumRotationTimers.forEach((timer) => window.clearInterval(timer));
     state.albumRotationTimers.clear();
+  }
+
+  function openAlbumRotationDialog() {
+    if (!requireAdmin()) return;
+    const album = currentAlbum();
+    if (!album) return;
+    state.pendingAlbumCoverAnimation = ALBUM_COVER_ANIMATIONS.has(
+      album.coverAnimation
+    )
+      ? album.coverAnimation
+      : "fade";
+    $("#album-rotation-status").textContent = "";
+    syncAlbumRotationOptions();
+    openDialog($("#album-rotation-dialog"));
+  }
+
+  function selectAlbumRotationOption(animation) {
+    if (!ALBUM_COVER_ANIMATIONS.has(animation)) return;
+    state.pendingAlbumCoverAnimation = animation;
+    syncAlbumRotationOptions();
+  }
+
+  function syncAlbumRotationOptions() {
+    $$("[data-cover-animation]", $("#album-rotation-options")).forEach(
+      (button) => {
+        const active =
+          button.dataset.coverAnimation === state.pendingAlbumCoverAnimation;
+        button.classList.toggle("selected", active);
+        button.setAttribute("aria-pressed", String(active));
+      }
+    );
+  }
+
+  async function saveAlbumRotationAnimation() {
+    if (!requireAdmin()) return;
+    const album = currentAlbum();
+    if (!album) return;
+    const previous = album.coverAnimation || "fade";
+    const next = state.pendingAlbumCoverAnimation;
+    if (!ALBUM_COVER_ANIMATIONS.has(next) || next === previous) {
+      closeDialogAnimated($("#album-rotation-dialog"));
+      return;
+    }
+    const button = $("#save-album-rotation");
+    const status = $("#album-rotation-status");
+    button.disabled = true;
+    status.textContent = "正在保存轮换动画...";
+    album.coverAnimation = next;
+    album.updatedAt = new Date().toISOString();
+    try {
+      await publishSharedContent("Update album cover animation: " + album.name);
+      renderAlbums();
+      closeDialogAnimated($("#album-rotation-dialog"));
+      showToast("相册轮换动画已更新。");
+    } catch (error) {
+      album.coverAnimation = previous;
+      status.textContent = "保存失败：" + error.message;
+    } finally {
+      button.disabled = false;
+    }
   }
 
   function openAlbum(albumId) {
@@ -3394,6 +3568,8 @@
     state.selectedPhotoIds = [];
     $("#album-dialog-title").textContent = album.name;
     $("#album-name-edit").value = album.name;
+    state.pendingAlbumCoverAnimation = album.coverAnimation || "fade";
+    syncAlbumRotationOptions();
     $("#album-size-edit").value = String(album.displayWidth);
     $("#album-size-value").textContent = album.displayWidth + "%";
     $("#album-photo-files").value = "";
@@ -4471,6 +4647,7 @@
       zoom: 3,
       minZoom: 3,
       maxZoom: 18,
+      maxPitch: 85,
       renderWorldCopies: false,
       attributionControl: false,
       dragRotate: false,
@@ -4480,11 +4657,66 @@
     });
     state.footprintMap.dragRotate.disable();
     state.footprintMap.touchZoomRotate.disableRotation();
+    setupFootprintMapTiltInteraction();
     state.footprintMap.on("load", () => {
       state.mapReady = true;
       applyBuiltInBilingualLabels();
       updateFootprintMapMarkers();
     });
+  }
+
+  function setupFootprintMapTiltInteraction() {
+    const map = state.footprintMap;
+    if (!map || map.__dualButtonTiltReady) return;
+    const container = map.getCanvasContainer();
+    const root = map.getContainer();
+    let session = null;
+    map.__dualButtonTiltReady = true;
+
+    const setTiltingClass = (active) => {
+      container.classList.toggle("is-tilting", active);
+      root.classList.toggle("is-tilting", active);
+    };
+
+    const finish = () => {
+      if (!session) return;
+      session = null;
+      map.dragPan.enable();
+      setTiltingClass(false);
+    };
+
+    container.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    });
+    container.addEventListener("pointerdown", (event) => {
+      if ((event.buttons & 3) !== 3 || session) return;
+      session = {
+        startY: event.clientY,
+        startPitch: map.getPitch()
+      };
+      map.dragPan.disable();
+      setTiltingClass(true);
+      event.preventDefault();
+      event.stopPropagation();
+    });
+    container.addEventListener("pointermove", (event) => {
+      if (!session) return;
+      if ((event.buttons & 3) !== 3) {
+        finish();
+        return;
+      }
+      const pitch = Math.min(
+        85,
+        Math.max(20, session.startPitch + (session.startY - event.clientY) * 0.32)
+      );
+      map.setPitch(pitch);
+      event.preventDefault();
+      event.stopPropagation();
+    });
+    container.addEventListener("pointerup", finish);
+    container.addEventListener("pointercancel", finish);
+    window.addEventListener("pointerup", finish);
+    window.addEventListener("blur", finish);
   }
 
   function toggleFootprintMap3D() {
@@ -5159,10 +5391,10 @@
     }
     const token = ++state.deckLibraryMotionToken;
     const buttonRect = button.getBoundingClientRect();
-    const targetRect = sidebar.getBoundingClientRect();
     sidebar.setAttribute("aria-hidden", "false");
     button.setAttribute("aria-expanded", "true");
     layout.classList.add("deck-library-open", "deck-library-preparing");
+    const targetRect = sidebar.getBoundingClientRect();
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       layout.classList.remove("deck-library-preparing");
@@ -5171,8 +5403,20 @@
     }
 
     button.classList.add("deck-library-source-hidden");
-    await animateDeckLibraryMorph(buttonRect, targetRect, "总结册");
-    if (token !== state.deckLibraryMotionToken) return;
+    const label = createDeckLibraryMorphLabel(sidebar);
+    setDeckSidebarMorphRect(sidebar, buttonRect, true);
+    sidebar.classList.add("deck-library-morphing");
+    const labelAnimation = animateDeckLibraryMorphLabel(label, false);
+    await animateDeckSidebarRect(sidebar, buttonRect, targetRect);
+    if (token !== state.deckLibraryMotionToken) {
+      labelAnimation.cancel();
+      label.remove();
+      return;
+    }
+    labelAnimation.cancel();
+    label.remove();
+    clearDeckSidebarMorphStyles(sidebar);
+    sidebar.classList.remove("deck-library-morphing");
     layout.classList.remove("deck-library-preparing");
     layout.classList.add("deck-library-ready");
     window.setTimeout(() => {
@@ -5212,10 +5456,21 @@
     if (token !== state.deckLibraryMotionToken) return;
     const targetRect = sidebar.getBoundingClientRect();
     const buttonRect = button.getBoundingClientRect();
-    layout.classList.add("deck-library-preparing");
+    const label = createDeckLibraryMorphLabel(sidebar);
+    setDeckSidebarMorphRect(sidebar, targetRect, true);
+    sidebar.classList.add("deck-library-morphing");
     button.classList.add("deck-library-source-hidden");
-    await animateDeckLibraryMorph(targetRect, buttonRect, "总结册");
-    if (token !== state.deckLibraryMotionToken) return;
+    const labelAnimation = animateDeckLibraryMorphLabel(label, true);
+    await animateDeckSidebarRect(sidebar, targetRect, buttonRect);
+    if (token !== state.deckLibraryMotionToken) {
+      labelAnimation.cancel();
+      label.remove();
+      return;
+    }
+    labelAnimation.cancel();
+    label.remove();
+    clearDeckSidebarMorphStyles(sidebar);
+    sidebar.classList.remove("deck-library-morphing");
     layout.classList.remove(
       "deck-library-open",
       "deck-library-closing",
@@ -5225,14 +5480,70 @@
     button.classList.remove("deck-library-source-hidden");
   }
 
-  function animateDeckLibraryMorph(fromRect, toRect, label) {
-    const morph = document.createElement("div");
-    morph.className = "deck-library-morph";
-    morph.setAttribute("aria-hidden", "true");
+  function createDeckLibraryMorphLabel(sidebar) {
     const text = document.createElement("span");
-    text.textContent = label;
-    morph.append(text);
-    document.body.append(morph);
+    text.className = "deck-library-morph-label";
+    text.textContent = "总结册";
+    sidebar.append(text);
+    return text;
+  }
+
+  function animateDeckLibraryMorphLabel(label, appearing) {
+    return label.animate(
+      [
+        { opacity: appearing ? 0 : 1, transform: "translateY(8px)" },
+        { opacity: appearing ? 1 : 0, transform: "translateY(0)" }
+      ],
+      {
+        duration: appearing ? 220 : 170,
+        delay: appearing ? 220 : 0,
+        easing: "ease",
+        fill: "forwards"
+      }
+    );
+  }
+
+  function setDeckSidebarMorphRect(sidebar, rect, visible) {
+    Object.assign(sidebar.style, {
+      position: "fixed",
+      left: rect.left + "px",
+      top: rect.top + "px",
+      right: "auto",
+      bottom: "auto",
+      width: rect.width + "px",
+      height: rect.height + "px",
+      margin: "0",
+      opacity: visible ? "1" : "0",
+      visibility: visible ? "visible" : "hidden",
+      transform: "none",
+      transformOrigin: "top left",
+      transition: "none",
+      pointerEvents: "none",
+      zIndex: "4000"
+    });
+  }
+
+  function clearDeckSidebarMorphStyles(sidebar) {
+    [
+      "position",
+      "left",
+      "top",
+      "right",
+      "bottom",
+      "width",
+      "height",
+      "margin",
+      "opacity",
+      "visibility",
+      "transform",
+      "transform-origin",
+      "transition",
+      "pointer-events",
+      "z-index"
+    ].forEach((property) => sidebar.style.removeProperty(property));
+  }
+
+  function animateDeckSidebarRect(sidebar, fromRect, toRect) {
     const from = {
       left: fromRect.left + "px",
       top: fromRect.top + "px",
@@ -5247,26 +5558,14 @@
       height: toRect.height + "px",
       borderRadius: "26px"
     };
-    Object.assign(morph.style, from);
-    const textAnimation = text.animate(
-      [
-        { opacity: 1, transform: "translateY(0)" },
-        { opacity: 0, transform: "translateY(-8px)" }
-      ],
-      { duration: 170, easing: "ease", fill: "forwards" }
-    );
-    const morphAnimation = morph.animate(
+    return sidebar.animate(
       [from, to],
       {
         duration: 460,
         easing: "cubic-bezier(0.22, 0.82, 0.3, 1)",
         fill: "forwards"
       }
-    );
-    return Promise.all([
-      morphAnimation.finished.catch(() => {}),
-      textAnimation.finished.catch(() => {})
-    ]).then(() => morph.remove());
+    ).finished.catch(() => {});
   }
 
   function renderDeckLibrary() {

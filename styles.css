@@ -6917,9 +6917,9 @@ html[data-theme="qingming"] .maplibregl-canvas {
 
 .deck-layout.deck-library-open .deck-drawer-backdrop {
   display: block;
-  background: rgba(3, 11, 20, 0.3);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 .deck-layout.deck-library-open .deck-sidebar {

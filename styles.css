@@ -26,8 +26,8 @@
   --radius-md: 20px;
   --radius-sm: 14px;
   --page-width: 1400px;
-  --font-sans: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  --font-serif: "Palatino Linotype", "Songti SC", "Noto Serif SC", serif;
+  --font-sans: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Microsoft Himalaya", "Noto Sans Tibetan", sans-serif;
+  --font-serif: "Palatino Linotype", "Songti SC", "Noto Serif SC", "Microsoft Himalaya", "Noto Serif Tibetan", serif;
 }
 
 * {

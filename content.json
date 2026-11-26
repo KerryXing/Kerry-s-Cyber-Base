@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-26T18:36:21.314Z",
+  "updatedAt": "2026-11-26T18:37:16.800Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -161,16 +161,16 @@
       "name": "游戏人生",
       "displayWidth": 60,
       "layout": {
-        "x": 0,
-        "y": 2067.5936889648438,
-        "width": 0.6,
-        "height": 420
+        "x": 0.04634922572544643,
+        "y": 2060.4721069335938,
+        "width": 0.9053968157087053,
+        "height": 790.6666564941406
       },
       "coverPhotoId": null,
       "coverAnimation": "fade",
       "coverPhotoIds": [],
       "createdAt": "2026-11-26T18:36:21.312Z",
-      "updatedAt": "2026-11-26T18:36:21.313Z",
+      "updatedAt": "2026-11-26T18:37:16.800Z",
       "photos": []
     },
     {
@@ -178,10 +178,10 @@
       "name": "水硕生活",
       "displayWidth": 91,
       "layout": {
-        "x": 0.03367745535714285,
+        "x": 0.033670654296875,
         "y": 0,
-        "width": 0.9302361188616072,
-        "height": 798.5286254882812
+        "width": 0.9302281842912946,
+        "height": 798.5277709960938
       },
       "coverPhotoId": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
       "coverAnimation": "flip-vertical",
@@ -194,7 +194,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-26T18:36:21.314Z",
+      "updatedAt": "2026-11-26T18:37:16.800Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -443,8 +443,8 @@
       "name": "Undergraduation",
       "displayWidth": 45,
       "layout": {
-        "x": 0.041415536063058034,
-        "y": 820.859375,
+        "x": 0.04140873500279018,
+        "y": 820.8472290039062,
         "width": 0.45,
         "height": 394.375
       },
@@ -456,7 +456,7 @@
         "photo-0bdb540b-fa1e-4ba5-9df1-0892af387fee"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-26T18:36:21.314Z",
+      "updatedAt": "2026-11-26T18:37:16.800Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -489,8 +489,8 @@
       "name": "Amigos",
       "displayWidth": 45,
       "layout": {
-        "x": 0.5085658482142857,
-        "y": 820.859375,
+        "x": 0.5085615539550781,
+        "y": 820.8472290039062,
         "width": 0.45,
         "height": 394.375
       },
@@ -504,7 +504,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-26T18:36:21.314Z",
+      "updatedAt": "2026-11-26T18:37:16.800Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -553,10 +553,10 @@
       "name": "Firefly",
       "displayWidth": 91,
       "layout": {
-        "x": 0.03605839320591518,
-        "y": 1232.5650634765625,
-        "width": 0.9266554478236607,
-        "height": 811.0286254882812
+        "x": 0.03605159214564732,
+        "y": 1232.5556030273438,
+        "width": 0.9266468157087053,
+        "height": 811.0277709960938
       },
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "coverAnimation": "fade",
@@ -566,7 +566,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-26T18:36:21.314Z",
+      "updatedAt": "2026-11-26T18:37:16.800Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

@@ -4537,6 +4537,48 @@ html[dir="rtl"] .guestbook-card-footer {
   .language-grid { grid-template-columns: 1fr; }
 }
 
+@media (max-width: 720px) {
+  .album-list.album-layout-custom:not(.album-layout-adjusting) {
+    display: flex !important;
+    height: auto !important;
+    min-height: 0;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .album-list.album-layout-custom:not(.album-layout-adjusting)
+    .album-card-positioned {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .album-list.album-layout-custom:not(.album-layout-adjusting)
+    .album-card-positioned
+    .album-cover {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .album-list.album-layout-adjusting {
+    min-height: 620px;
+  }
+
+  .album-list.album-layout-adjusting .album-card-adjusting {
+    min-width: 220px;
+  }
+
+  .album-list.album-layout-adjusting .album-resize-handle {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .album-rotation-preview i,
   .album-rotation-preview b,

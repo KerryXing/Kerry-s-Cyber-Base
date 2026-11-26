@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-26T19:44:53.425Z",
+  "updatedAt": "2026-11-26T19:50:49.737Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -177,7 +177,7 @@
         "photo-27b05ff9-41ef-40b3-aa67-658166ec73f3"
       ],
       "createdAt": "2026-11-26T19:18:23.727Z",
-      "updatedAt": "2026-11-26T19:44:53.425Z",
+      "updatedAt": "2026-11-26T19:50:49.726Z",
       "photos": [
         {
           "id": "photo-93a0b233-d33b-4b73-ba38-f1428a27b521",
@@ -270,7 +270,7 @@
         "photo-d2030ed1-c2ac-4098-a2ba-57fc720148b7"
       ],
       "createdAt": "2026-11-26T18:36:21.312Z",
-      "updatedAt": "2026-11-26T19:44:53.425Z",
+      "updatedAt": "2026-11-26T19:50:49.737Z",
       "photos": [
         {
           "id": "photo-d2030ed1-c2ac-4098-a2ba-57fc720148b7",
@@ -286,6 +286,83 @@
           "kind": "photo",
           "createdAt": "2026-11-26T19:09:02.279Z",
           "src": "shared/media/photo-b1c673de-050c-479d-b352-b778bb585e6f.jpg"
+        },
+        {
+          "id": "photo-405f719a-73bc-4fb4-9c3a-efb8f7847f89",
+          "title": "1b59f76d9548e22a215fa415e25786c3",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:46.945Z",
+          "src": "shared/media/photo-405f719a-73bc-4fb4-9c3a-efb8f7847f89.jpg"
+        },
+        {
+          "id": "photo-89575d4e-4d85-4da7-bf5a-e19d17a41959",
+          "title": "792c236c0a21c214ebfffc72dacd44b7",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:46.952Z",
+          "src": "shared/media/photo-89575d4e-4d85-4da7-bf5a-e19d17a41959.png",
+          "thumbnail": "shared/thumbnails/photo-89575d4e-4d85-4da7-bf5a-e19d17a41959.jpg"
+        },
+        {
+          "id": "photo-9256bd3d-d2b1-4504-b83f-abf7755b85c4",
+          "title": "IMG_1470",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.003Z",
+          "src": "shared/media/photo-9256bd3d-d2b1-4504-b83f-abf7755b85c4.jpg",
+          "thumbnail": "shared/thumbnails/photo-9256bd3d-d2b1-4504-b83f-abf7755b85c4.jpg"
+        },
+        {
+          "id": "photo-bf0f0857-b25c-470e-86b7-718e1879b80d",
+          "title": "IMG_2053",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.077Z",
+          "src": "shared/media/photo-bf0f0857-b25c-470e-86b7-718e1879b80d.jpg",
+          "thumbnail": "shared/thumbnails/photo-bf0f0857-b25c-470e-86b7-718e1879b80d.jpg"
+        },
+        {
+          "id": "photo-cbab1c8c-5659-4f76-876a-5d7692fc73b6",
+          "title": "IMG_2243",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.124Z",
+          "src": "shared/media/photo-cbab1c8c-5659-4f76-876a-5d7692fc73b6.jpg",
+          "thumbnail": "shared/thumbnails/photo-cbab1c8c-5659-4f76-876a-5d7692fc73b6.jpg"
+        },
+        {
+          "id": "photo-f615fb27-a25e-4779-ab93-402c00101fb7",
+          "title": "IMG_3764",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.157Z",
+          "src": "shared/media/photo-f615fb27-a25e-4779-ab93-402c00101fb7.jpg",
+          "thumbnail": "shared/thumbnails/photo-f615fb27-a25e-4779-ab93-402c00101fb7.jpg"
+        },
+        {
+          "id": "photo-0b379538-3fe3-42cd-a157-59429fa824c1",
+          "title": "IMG_4052",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.203Z",
+          "src": "shared/media/photo-0b379538-3fe3-42cd-a157-59429fa824c1.jpg",
+          "thumbnail": "shared/thumbnails/photo-0b379538-3fe3-42cd-a157-59429fa824c1.jpg"
+        },
+        {
+          "id": "photo-2def7c2a-ae60-4eb1-aad6-7c437ad9f993",
+          "title": "IMG_4859",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.234Z",
+          "src": "shared/media/photo-2def7c2a-ae60-4eb1-aad6-7c437ad9f993.jpg"
+        },
+        {
+          "id": "photo-cd1bc814-b987-4188-a252-33dc62ccf509",
+          "title": "IMG_6187",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:50:47.240Z",
+          "src": "shared/media/photo-cd1bc814-b987-4188-a252-33dc62ccf509.jpg",
+          "thumbnail": "shared/thumbnails/photo-cd1bc814-b987-4188-a252-33dc62ccf509.jpg"
+        },
+        {
+          "id": "photo-59d21cd4-8174-4915-9482-05ba248cee70",
+          "title": "小彩蛋",
+          "kind": "video",
+          "createdAt": "2026-11-26T19:50:49.726Z",
+          "src": "shared/media/photo-59d21cd4-8174-4915-9482-05ba248cee70.mp4"
         }
       ]
     },
@@ -310,7 +387,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-26T19:44:53.425Z",
+      "updatedAt": "2026-11-26T19:50:49.737Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -572,7 +649,7 @@
         "photo-0bdb540b-fa1e-4ba5-9df1-0892af387fee"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-26T19:44:53.425Z",
+      "updatedAt": "2026-11-26T19:50:49.737Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -620,7 +697,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-26T19:44:53.425Z",
+      "updatedAt": "2026-11-26T19:50:49.737Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -682,7 +759,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-26T19:44:53.425Z",
+      "updatedAt": "2026-11-26T19:50:49.737Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

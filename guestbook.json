@@ -2,6 +2,16 @@
   "version": 1,
   "messages": [
     {
+      "id": "message-35319f1e-675a-4b37-b227-ea0470ecdf82",
+      "content": "这是留言测试帖（）\n欢迎留言！",
+      "name": "Kerry",
+      "anonymous": false,
+      "shape": "octagon",
+      "x": 0.18955650929899856,
+      "y": 331.00006103515625,
+      "createdAt": "2026-11-26T17:08:07.697Z"
+    },
+    {
       "id": "message-638b0682-deaa-48cf-889c-26f911a457dc",
       "content": "这是留言测试帖（）\n欢迎留言！",
       "name": "Kerry",

@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-26T17:26:50.461Z",
+  "updatedAt": "2026-11-26T18:36:21.314Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -157,6 +157,23 @@
   ],
   "albums": [
     {
+      "id": "album-9f9fd4c7-9f1d-4e53-aca8-fe8e4720c8f4",
+      "name": "游戏人生",
+      "displayWidth": 60,
+      "layout": {
+        "x": 0,
+        "y": 2067.5936889648438,
+        "width": 0.6,
+        "height": 420
+      },
+      "coverPhotoId": null,
+      "coverAnimation": "fade",
+      "coverPhotoIds": [],
+      "createdAt": "2026-11-26T18:36:21.312Z",
+      "updatedAt": "2026-11-26T18:36:21.313Z",
+      "photos": []
+    },
+    {
       "id": "album-02b055ba-f918-4e5b-94f4-efb927ea7140",
       "name": "水硕生活",
       "displayWidth": 91,
@@ -177,7 +194,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-26T17:26:50.461Z",
+      "updatedAt": "2026-11-26T18:36:21.314Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -439,7 +456,7 @@
         "photo-0bdb540b-fa1e-4ba5-9df1-0892af387fee"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-26T17:26:50.461Z",
+      "updatedAt": "2026-11-26T18:36:21.314Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -487,7 +504,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-26T17:26:50.461Z",
+      "updatedAt": "2026-11-26T18:36:21.314Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -549,7 +566,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-26T17:26:50.461Z",
+      "updatedAt": "2026-11-26T18:36:21.314Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

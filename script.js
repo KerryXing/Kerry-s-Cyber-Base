@@ -133,7 +133,6 @@
     map3dEnabled: false,
     deckAutoplayTimer: null,
     deckControlsTimer: null,
-    deckLibraryMotionToken: 0,
     slideRenderToken: 0,
     reportFilePaths: new Set(),
     revealObserver: null,
@@ -4670,6 +4669,7 @@
     if (!map || map.__dualButtonTiltReady) return;
     const container = map.getCanvasContainer();
     const root = map.getContainer();
+    const heldButtons = new Set();
     let session = null;
     map.__dualButtonTiltReady = true;
 
@@ -4685,38 +4685,99 @@
       setTiltingClass(false);
     };
 
-    container.addEventListener("contextmenu", (event) => {
-      event.preventDefault();
-    });
-    container.addEventListener("pointerdown", (event) => {
-      if ((event.buttons & 3) !== 3 || session) return;
+    const isInsideMap = (event) => {
+      const rect = root.getBoundingClientRect();
+      return (
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom
+      );
+    };
+
+    const startIfReady = (event) => {
+      if (
+        session ||
+        !heldButtons.has(0) ||
+        !heldButtons.has(2) ||
+        !isInsideMap(event)
+      ) {
+        return false;
+      }
       session = {
         startY: event.clientY,
         startPitch: map.getPitch()
       };
       map.dragPan.disable();
       setTiltingClass(true);
+      return true;
+    };
+
+    root.addEventListener("contextmenu", (event) => {
       event.preventDefault();
-      event.stopPropagation();
     });
-    container.addEventListener("pointermove", (event) => {
-      if (!session) return;
-      if ((event.buttons & 3) !== 3) {
+
+    window.addEventListener(
+      "mousedown",
+      (event) => {
+        if (!isInsideMap(event) && !session) return;
+        heldButtons.add(event.button);
+        if (startIfReady(event)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      },
+      true
+    );
+
+    window.addEventListener(
+      "mousemove",
+      (event) => {
+        if (!session) return;
+        if (!heldButtons.has(0) || !heldButtons.has(2)) {
+          finish();
+          return;
+        }
+        const pitch = Math.min(
+          85,
+          Math.max(
+            20,
+            session.startPitch + (session.startY - event.clientY) * 0.32
+          )
+        );
+        map.setPitch(pitch);
+        root.dataset.mapPitch = pitch.toFixed(1);
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      true
+    );
+
+    window.addEventListener(
+      "mouseup",
+      (event) => {
+        heldButtons.delete(event.button);
+        if (session) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        if (!heldButtons.has(0) || !heldButtons.has(2)) {
+          finish();
+        }
+      },
+      true
+    );
+
+    window.addEventListener("blur", () => {
+      heldButtons.clear();
+      finish();
+    });
+    container.addEventListener("mouseleave", (event) => {
+      if (session && (event.buttons & 3) !== 3) {
+        heldButtons.clear();
         finish();
-        return;
       }
-      const pitch = Math.min(
-        85,
-        Math.max(20, session.startPitch + (session.startY - event.clientY) * 0.32)
-      );
-      map.setPitch(pitch);
-      event.preventDefault();
-      event.stopPropagation();
     });
-    container.addEventListener("pointerup", finish);
-    container.addEventListener("pointercancel", finish);
-    window.addEventListener("pointerup", finish);
-    window.addEventListener("blur", finish);
   }
 
   function toggleFootprintMap3D() {
@@ -5369,203 +5430,20 @@
     }, 10000);
   }
 
-  async function toggleDeckLibrary() {
+  function toggleDeckLibrary() {
     const layout = $("#deck-layout");
     const open = !layout.classList.contains("deck-library-open");
-    if (open) await openDeckLibrary();
-    else await closeDeckLibrary();
+    layout.classList.toggle("deck-library-open", open);
+    $("#deck-sidebar").setAttribute("aria-hidden", String(!open));
+    $("#deck-library-toggle").setAttribute("aria-expanded", String(open));
   }
 
-  async function openDeckLibrary() {
+  function closeDeckLibrary() {
     const layout = $("#deck-layout");
-    const sidebar = $("#deck-sidebar");
-    const button = $("#deck-library-toggle");
-    if (
-      !layout ||
-     !sidebar ||
-      !button ||
-      layout.classList.contains("deck-library-open") ||
-      layout.classList.contains("deck-library-closing")
-    ) {
-      return;
-    }
-    const token = ++state.deckLibraryMotionToken;
-    const buttonRect = button.getBoundingClientRect();
-    sidebar.setAttribute("aria-hidden", "false");
-    button.setAttribute("aria-expanded", "true");
-    layout.classList.add("deck-library-open", "deck-library-preparing");
-    const targetRect = sidebar.getBoundingClientRect();
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      layout.classList.remove("deck-library-preparing");
-      layout.classList.add("deck-library-ready");
-      return;
-    }
-
-    button.classList.add("deck-library-source-hidden");
-    const label = createDeckLibraryMorphLabel(sidebar);
-    setDeckSidebarMorphRect(sidebar, buttonRect, true);
-    sidebar.classList.add("deck-library-morphing");
-    const labelAnimation = animateDeckLibraryMorphLabel(label, false);
-    await animateDeckSidebarRect(sidebar, buttonRect, targetRect);
-    if (token !== state.deckLibraryMotionToken) {
-      labelAnimation.cancel();
-      label.remove();
-      return;
-    }
-    labelAnimation.cancel();
-    label.remove();
-    clearDeckSidebarMorphStyles(sidebar);
-    sidebar.classList.remove("deck-library-morphing");
-    layout.classList.remove("deck-library-preparing");
-    layout.classList.add("deck-library-ready");
-    window.setTimeout(() => {
-      if (token === state.deckLibraryMotionToken) {
-        button.classList.remove("deck-library-source-hidden");
-      }
-    }, 220);
-  }
-
-  async function closeDeckLibrary() {
-    const layout = $("#deck-layout");
-    const sidebar = $("#deck-sidebar");
-    const button = $("#deck-library-toggle");
-    if (!layout || !sidebar || !button) return;
-    if (
-      !layout.classList.contains("deck-library-open") ||
-      layout.classList.contains("deck-library-closing")
-    ) {
-      return;
-    }
-    const token = ++state.deckLibraryMotionToken;
-    layout.classList.add("deck-library-closing");
-    layout.classList.remove("deck-library-ready");
-    sidebar.setAttribute("aria-hidden", "true");
-    button.setAttribute("aria-expanded", "false");
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      layout.classList.remove(
-        "deck-library-open",
-        "deck-library-closing",
-        "deck-library-preparing"
-      );
-      return;
-    }
-
-    await new Promise((resolve) => window.setTimeout(resolve, 180));
-    if (token !== state.deckLibraryMotionToken) return;
-    const targetRect = sidebar.getBoundingClientRect();
-    const buttonRect = button.getBoundingClientRect();
-    const label = createDeckLibraryMorphLabel(sidebar);
-    setDeckSidebarMorphRect(sidebar, targetRect, true);
-    sidebar.classList.add("deck-library-morphing");
-    button.classList.add("deck-library-source-hidden");
-    const labelAnimation = animateDeckLibraryMorphLabel(label, true);
-    await animateDeckSidebarRect(sidebar, targetRect, buttonRect);
-    if (token !== state.deckLibraryMotionToken) {
-      labelAnimation.cancel();
-      label.remove();
-      return;
-    }
-    labelAnimation.cancel();
-    label.remove();
-    clearDeckSidebarMorphStyles(sidebar);
-    sidebar.classList.remove("deck-library-morphing");
-    layout.classList.remove(
-      "deck-library-open",
-      "deck-library-closing",
-      "deck-library-preparing",
-      "deck-library-ready"
-    );
-    button.classList.remove("deck-library-source-hidden");
-  }
-
-  function createDeckLibraryMorphLabel(sidebar) {
-    const text = document.createElement("span");
-    text.className = "deck-library-morph-label";
-    text.textContent = "总结册";
-    sidebar.append(text);
-    return text;
-  }
-
-  function animateDeckLibraryMorphLabel(label, appearing) {
-    return label.animate(
-      [
-        { opacity: appearing ? 0 : 1, transform: "translateY(8px)" },
-        { opacity: appearing ? 1 : 0, transform: "translateY(0)" }
-      ],
-      {
-        duration: appearing ? 220 : 170,
-        delay: appearing ? 220 : 0,
-        easing: "ease",
-        fill: "forwards"
-      }
-    );
-  }
-
-  function setDeckSidebarMorphRect(sidebar, rect, visible) {
-    Object.assign(sidebar.style, {
-      position: "fixed",
-      left: rect.left + "px",
-      top: rect.top + "px",
-      right: "auto",
-      bottom: "auto",
-      width: rect.width + "px",
-      height: rect.height + "px",
-      margin: "0",
-      opacity: visible ? "1" : "0",
-      visibility: visible ? "visible" : "hidden",
-      transform: "none",
-      transformOrigin: "top left",
-      transition: "none",
-      pointerEvents: "none",
-      zIndex: "4000"
-    });
-  }
-
-  function clearDeckSidebarMorphStyles(sidebar) {
-    [
-      "position",
-      "left",
-      "top",
-      "right",
-      "bottom",
-      "width",
-      "height",
-      "margin",
-      "opacity",
-      "visibility",
-      "transform",
-      "transform-origin",
-      "transition",
-      "pointer-events",
-      "z-index"
-    ].forEach((property) => sidebar.style.removeProperty(property));
-  }
-
-  function animateDeckSidebarRect(sidebar, fromRect, toRect) {
-    const from = {
-      left: fromRect.left + "px",
-      top: fromRect.top + "px",
-      width: fromRect.width + "px",
-      height: fromRect.height + "px",
-      borderRadius: Math.min(fromRect.height / 2, 28) + "px"
-    };
-    const to = {
-      left: toRect.left + "px",
-      top: toRect.top + "px",
-      width: toRect.width + "px",
-      height: toRect.height + "px",
-      borderRadius: "26px"
-    };
-    return sidebar.animate(
-      [from, to],
-      {
-        duration: 460,
-        easing: "cubic-bezier(0.22, 0.82, 0.3, 1)",
-        fill: "forwards"
-      }
-    ).finished.catch(() => {});
+    if (!layout) return;
+    layout.classList.remove("deck-library-open");
+    $("#deck-sidebar").setAttribute("aria-hidden", "true");
+    $("#deck-library-toggle").setAttribute("aria-expanded", "false");
   }
 
   function renderDeckLibrary() {

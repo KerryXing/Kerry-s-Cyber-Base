@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-26T19:32:28.084Z",
+  "updatedAt": "2026-11-26T19:33:54.009Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -166,13 +166,18 @@
         "width": 0.3936507742745535,
         "height": 386.22235107421875
       },
-      "coverPhotoId": "photo-93a0b233-d33b-4b73-ba38-f1428a27b521",
+      "coverPhotoId": "photo-0843b405-ea63-428d-af17-1422e6456c98",
       "coverAnimation": "fade",
       "coverPhotoIds": [
-        "photo-93a0b233-d33b-4b73-ba38-f1428a27b521"
+        "photo-0843b405-ea63-428d-af17-1422e6456c98",
+        "photo-202085ef-1075-4dec-8d3a-c696e54fa26d",
+        "photo-93a0b233-d33b-4b73-ba38-f1428a27b521",
+        "photo-234ba7a7-0c73-4b0c-9840-73604e349bfe",
+        "photo-892cb8dd-66fd-4626-adde-7486ed0c37f9",
+        "photo-27b05ff9-41ef-40b3-aa67-658166ec73f3"
       ],
       "createdAt": "2026-11-26T19:18:23.727Z",
-      "updatedAt": "2026-11-26T19:32:28.073Z",
+      "updatedAt": "2026-11-26T19:33:54.000Z",
       "photos": [
         {
           "id": "photo-93a0b233-d33b-4b73-ba38-f1428a27b521",
@@ -271,7 +276,7 @@
         "photo-95454d85-0f34-4a6f-bf11-4c4c64a97547"
       ],
       "createdAt": "2026-11-26T18:36:21.312Z",
-      "updatedAt": "2026-11-26T19:32:28.084Z",
+      "updatedAt": "2026-11-26T19:33:54.009Z",
       "photos": [
         {
           "id": "photo-d2030ed1-c2ac-4098-a2ba-57fc720148b7",
@@ -389,7 +394,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-26T19:32:28.084Z",
+      "updatedAt": "2026-11-26T19:33:54.009Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -651,7 +656,7 @@
         "photo-0bdb540b-fa1e-4ba5-9df1-0892af387fee"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-26T19:32:28.084Z",
+      "updatedAt": "2026-11-26T19:33:54.009Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -699,7 +704,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-26T19:32:28.084Z",
+      "updatedAt": "2026-11-26T19:33:54.009Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -761,7 +766,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-26T19:32:28.084Z",
+      "updatedAt": "2026-11-26T19:33:54.009Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

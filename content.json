@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-26T14:18:00.469Z",
+  "updatedAt": "2026-11-26T17:17:26.062Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -160,6 +160,12 @@
       "id": "album-02b055ba-f918-4e5b-94f4-efb927ea7140",
       "name": "水硕生活",
       "displayWidth": 91,
+      "layout": {
+        "x": 0.044401027134486605,
+        "y": 0,
+        "width": 0.9153552900041854,
+        "height": 798.5286254882812
+      },
       "coverPhotoId": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
       "coverAnimation": "page-transition",
       "coverPhotoIds": [
@@ -171,7 +177,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-26T14:18:00.469Z",
+      "updatedAt": "2026-11-26T17:17:26.062Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -419,6 +425,12 @@
       "id": "album-b151961f-6f12-4d9c-93ed-0c9b90c93d94",
       "name": "Undergraduation",
       "displayWidth": 45,
+      "layout": {
+        "x": 0.04142484392438616,
+        "y": 820.859375,
+        "width": 0.45,
+        "height": 394.375
+      },
       "coverPhotoId": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
       "coverAnimation": "slide-right",
       "coverPhotoIds": [
@@ -427,7 +439,7 @@
         "photo-0bdb540b-fa1e-4ba5-9df1-0892af387fee"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-26T14:18:00.469Z",
+      "updatedAt": "2026-11-26T17:17:26.062Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -459,6 +471,12 @@
       "id": "album-245a6f5f-f046-492d-ada0-2a39db1ea7b2",
       "name": "Amigos",
       "displayWidth": 45,
+      "layout": {
+        "x": 0.5085658482142857,
+        "y": 820.859375,
+        "width": 0.45,
+        "height": 394.375
+      },
       "coverPhotoId": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
       "coverAnimation": "slide-vertical",
       "coverPhotoIds": [
@@ -469,7 +487,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-26T14:18:00.469Z",
+      "updatedAt": "2026-11-26T17:17:26.062Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -517,6 +535,12 @@
       "id": "album-9aec9163-2c24-4a25-a606-451d435f6670",
       "name": "Firefly",
       "displayWidth": 91,
+      "layout": {
+        "x": 0.0360677010672433,
+        "y": 1232.5650329589844,
+        "width": 0.9266646902901786,
+        "height": 811.0285949707031
+      },
       "coverPhotoId": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",
       "coverAnimation": "fade",
       "coverPhotoIds": [
@@ -525,7 +549,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-26T14:18:00.469Z",
+      "updatedAt": "2026-11-26T17:17:26.062Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

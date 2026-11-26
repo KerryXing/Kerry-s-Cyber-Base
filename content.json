@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-11-26T19:18:23.736Z",
+  "updatedAt": "2026-11-26T19:26:59.703Z",
   "defaultTheme": "night-city",
   "profile": {
     "avatar": "shared/profile/avatar-mw0xzyqn-0.jpg",
@@ -166,12 +166,87 @@
         "width": 0.6,
         "height": 420
       },
-      "coverPhotoId": null,
+      "coverPhotoId": "photo-93a0b233-d33b-4b73-ba38-f1428a27b521",
       "coverAnimation": "fade",
-      "coverPhotoIds": [],
+      "coverPhotoIds": [
+        "photo-93a0b233-d33b-4b73-ba38-f1428a27b521"
+      ],
       "createdAt": "2026-11-26T19:18:23.727Z",
-      "updatedAt": "2026-11-26T19:18:23.728Z",
-      "photos": []
+      "updatedAt": "2026-11-26T19:26:59.697Z",
+      "photos": [
+        {
+          "id": "photo-93a0b233-d33b-4b73-ba38-f1428a27b521",
+          "title": "9",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.233Z",
+          "src": "shared/media/photo-93a0b233-d33b-4b73-ba38-f1428a27b521.jpg",
+          "thumbnail": "shared/thumbnails/photo-93a0b233-d33b-4b73-ba38-f1428a27b521.jpg"
+        },
+        {
+          "id": "photo-925ed8ec-2048-412c-a25d-c424ad2c59bc",
+          "title": "Atri1-simple",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.309Z",
+          "src": "shared/media/photo-925ed8ec-2048-412c-a25d-c424ad2c59bc.jpg",
+          "thumbnail": "shared/thumbnails/photo-925ed8ec-2048-412c-a25d-c424ad2c59bc.jpg"
+        },
+        {
+          "id": "photo-0843b405-ea63-428d-af17-1422e6456c98",
+          "title": "Firefly4",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.364Z",
+          "src": "shared/media/photo-0843b405-ea63-428d-af17-1422e6456c98.jpg",
+          "thumbnail": "shared/thumbnails/photo-0843b405-ea63-428d-af17-1422e6456c98.jpg"
+        },
+        {
+          "id": "photo-234ba7a7-0c73-4b0c-9840-73604e349bfe",
+          "title": "Furina1-simple",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.421Z",
+          "src": "shared/media/photo-234ba7a7-0c73-4b0c-9840-73604e349bfe.jpg",
+          "thumbnail": "shared/thumbnails/photo-234ba7a7-0c73-4b0c-9840-73604e349bfe.jpg"
+        },
+        {
+          "id": "photo-1b6f0418-f8b2-479e-9b4a-e790991b1aa4",
+          "title": "Horizon",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.472Z",
+          "src": "shared/media/photo-1b6f0418-f8b2-479e-9b4a-e790991b1aa4.jpg",
+          "thumbnail": "shared/thumbnails/photo-1b6f0418-f8b2-479e-9b4a-e790991b1aa4.jpg"
+        },
+        {
+          "id": "photo-892cb8dd-66fd-4626-adde-7486ed0c37f9",
+          "title": "Hyacine1",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.521Z",
+          "src": "shared/media/photo-892cb8dd-66fd-4626-adde-7486ed0c37f9.jpg",
+          "thumbnail": "shared/thumbnails/photo-892cb8dd-66fd-4626-adde-7486ed0c37f9.jpg"
+        },
+        {
+          "id": "photo-202085ef-1075-4dec-8d3a-c696e54fa26d",
+          "title": "Mountain",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.568Z",
+          "src": "shared/media/photo-202085ef-1075-4dec-8d3a-c696e54fa26d.jpg",
+          "thumbnail": "shared/thumbnails/photo-202085ef-1075-4dec-8d3a-c696e54fa26d.jpg"
+        },
+        {
+          "id": "photo-27b05ff9-41ef-40b3-aa67-658166ec73f3",
+          "title": "test",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.613Z",
+          "src": "shared/media/photo-27b05ff9-41ef-40b3-aa67-658166ec73f3.jpg",
+          "thumbnail": "shared/thumbnails/photo-27b05ff9-41ef-40b3-aa67-658166ec73f3.jpg"
+        },
+        {
+          "id": "photo-bd47aa94-3966-4139-a7d2-2c31e0342f8a",
+          "title": "ZZZ",
+          "kind": "photo",
+          "createdAt": "2026-11-26T19:26:59.663Z",
+          "src": "shared/media/photo-bd47aa94-3966-4139-a7d2-2c31e0342f8a.jpg",
+          "thumbnail": "shared/thumbnails/photo-bd47aa94-3966-4139-a7d2-2c31e0342f8a.jpg"
+        }
+      ]
     },
     {
       "id": "album-9f9fd4c7-9f1d-4e53-aca8-fe8e4720c8f4",
@@ -189,7 +264,7 @@
         "photo-d2030ed1-c2ac-4098-a2ba-57fc720148b7"
       ],
       "createdAt": "2026-11-26T18:36:21.312Z",
-      "updatedAt": "2026-11-26T19:18:23.735Z",
+      "updatedAt": "2026-11-26T19:26:59.702Z",
       "photos": [
         {
           "id": "photo-d2030ed1-c2ac-4098-a2ba-57fc720148b7",
@@ -307,7 +382,7 @@
         "photo-a054b889-9468-4fed-a1c9-bb5299232c1f"
       ],
       "createdAt": "2026-11-18T17:03:29.036Z",
-      "updatedAt": "2026-11-26T19:18:23.736Z",
+      "updatedAt": "2026-11-26T19:26:59.702Z",
       "photos": [
         {
           "id": "photo-5fe3efba-d5d1-4578-b09b-42037541e4a0",
@@ -569,7 +644,7 @@
         "photo-0bdb540b-fa1e-4ba5-9df1-0892af387fee"
       ],
       "createdAt": "2026-11-03T17:36:01.174Z",
-      "updatedAt": "2026-11-26T19:18:23.736Z",
+      "updatedAt": "2026-11-26T19:26:59.702Z",
       "photos": [
         {
           "id": "photo-0f352f44-30bf-4438-9cd8-58976664f447",
@@ -617,7 +692,7 @@
         "photo-b1132b50-6d93-4226-a93f-94a7518cef7b"
       ],
       "createdAt": "2026-11-03T17:32:08.135Z",
-      "updatedAt": "2026-11-26T19:18:23.736Z",
+      "updatedAt": "2026-11-26T19:26:59.702Z",
       "photos": [
         {
           "id": "photo-3bd6e990-9dc6-4529-93ad-ff57cabde577",
@@ -679,7 +754,7 @@
         "photo-5c81d007-a6ca-4928-8f07-5e392727d3d3"
       ],
       "createdAt": "2026-11-03T17:19:27.009Z",
-      "updatedAt": "2026-11-26T19:18:23.736Z",
+      "updatedAt": "2026-11-26T19:26:59.702Z",
       "photos": [
         {
           "id": "photo-5fadf840-c12d-4a3f-a843-e669782e97db",

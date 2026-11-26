@@ -15,6 +15,7 @@
     "slide-right",
     "zoom",
     "slide-vertical",
+    "flip-vertical",
     "page-transition"
   ]);
   const THEME_META = {
@@ -116,10 +117,17 @@
     photoSelectionMode: false,
     selectedPhotoIds: [],
     pendingAlbumCoverAnimation: "fade",
+    galleryLayoutMode: false,
+    galleryDraftLayouts: new Map(),
     currentPage: "home",
     pageSwitchToken: 0,
     guestbook: [],
     pendingGuestbookDeleteId: "",
+    guestbookComposeOpen: false,
+    guestbookShape: "circle",
+    guestbookPlacement: null,
+    guestbookAdjustMode: false,
+    guestbookLayoutSnapshot: [],
     footprints: [],
     pendingFootprintItems: [],
     footprintSelectionMode: false,
@@ -136,6 +144,8 @@
     slideRenderToken: 0,
     reportFilePaths: new Set(),
     revealObserver: null,
+    language: "zh-CN",
+    languageUserOverride: false,
     themeUserOverride: false,
     seasonalThemeKey: "",
     defaultTheme: THEME_META[window.SHARED_DEFAULT_THEME]
@@ -150,6 +160,7 @@
 
   async function init() {
     setupDeviceProfile();
+    setupLanguage();
     setupTheme();
     await populateProfile();
     setupNavigation();
@@ -170,6 +181,17 @@
     updateBackToTopPlacement();
     window.addEventListener("resize", updateBackToTopPlacement);
     window.addEventListener("scroll", updateBackToTopPlacement, { passive: true });
+    let galleryResizeTimer = null;
+    window.addEventListener("resize", () => {
+      if (
+        !state.galleryLayoutMode &&
+        !state.albums.some((album) => album.layout)
+      ) {
+        return;
+      }
+      window.clearTimeout(galleryResizeTimer);
+      galleryResizeTimer = window.setTimeout(renderAlbums, 180);
+    });
 
     $("#current-year").textContent = String(new Date().getFullYear());
 
@@ -188,6 +210,7 @@
     renderFootprints();
     renderDeckLibrary();
     await resumeAdminSession();
+    applyLanguageToDom();
     activateAnimatedMedia();
     document.addEventListener(
       "pointerdown",
@@ -223,6 +246,158 @@
       window.setTimeout(apply, 80);
     });
     window.visualViewport?.addEventListener("resize", apply, { passive: true });
+  }
+
+  function setupLanguage() {
+    const data = window.KERRY_I18N || { languages: [], dict: {} };
+    const supported = new Set(data.languages.map((item) => item.code));
+    const detectDeviceLanguage = () => {
+      const candidates = Array.isArray(navigator.languages) && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language || ""];
+      for (const raw of candidates) {
+        const value = String(raw || "").toLowerCase();
+        if (!value) continue;
+        if (value.startsWith("zh")) {
+          return /hant|tw|hk|mo/.test(value) ? "zh-TW" : "zh-CN";
+        }
+        const base = value.split("-")[0];
+        if (supported.has(base)) return base;
+      }
+      return data.fallback || "zh-CN";
+    };
+    let saved = "";
+    try {
+      saved = localStorage.getItem("kerry-site-language") || "";
+    } catch {
+      saved = "";
+    }
+    const initial = supported.has(saved) ? saved : detectDeviceLanguage();
+    state.languageUserOverride = supported.has(saved);
+    state.language = supported.has(initial) ? initial : "zh-CN";
+    state.languageTextSources = new WeakMap();
+    state.applyLanguage = applyLanguage;
+    state.translateUiText = translateUiText;
+    applyLanguage(state.language);
+
+    $("#language-entry").addEventListener("click", () => {
+      syncLanguageOptions();
+      openDialog($("#language-dialog"));
+    });
+    $("#language-grid").addEventListener("click", (event) => {
+      const option = event.target.closest("[data-language]");
+      if (!option) return;
+      const language = option.dataset.language;
+      if (!supported.has(language)) return;
+      state.languageUserOverride = true;
+      try {
+        localStorage.setItem("kerry-site-language", language);
+      } catch {
+        // Language still applies for this session when storage is unavailable.
+      }
+      applyLanguage(language);
+      closeDialogAnimated($("#language-dialog"));
+    });
+    syncLanguageOptions();
+    let languageRefreshTimer = null;
+    const observer = new MutationObserver(() => {
+      window.clearTimeout(languageRefreshTimer);
+      languageRefreshTimer = window.setTimeout(applyLanguageToDom, 20);
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+    state.languageObserver = observer;
+  }
+
+  function translateUiText(text) {
+    if (!text || state.language === "zh-CN") return text;
+    const data = window.KERRY_I18N;
+    const selected = data?.dict?.[state.language] || {};
+    return selected[text] || data?.dict?.en?.[text] || text;
+  }
+
+  function applyLanguage(language) {
+    const supported = new Set(
+      (window.KERRY_I18N?.languages || []).map((item) => item.code)
+    );
+    state.language = supported.has(language)
+      ? language
+      : window.KERRY_I18N?.fallback || "zh-CN";
+    document.documentElement.lang = state.language;
+    document.documentElement.dir = state.language === "fa" ? "rtl" : "ltr";
+    document.documentElement.dataset.language = state.language;
+    applyLanguageToDom();
+    syncLanguageOptions();
+  }
+
+  function applyLanguageToDom(root = document) {
+    const skipped = [
+      "script",
+      "style",
+      "[data-i18n-skip]",
+      ".album-card",
+      ".guestbook-card",
+      ".deck-list",
+      ".attribute-row strong",
+      ".tag-list",
+      ".contact-group-items",
+      ".lightbox-media"
+    ].join(",");
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const parent = node.parentElement;
+          if (!parent || parent.closest(skipped)) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((node) => {
+      if (!state.languageTextSources.has(node)) {
+        state.languageTextSources.set(node, node.nodeValue);
+      }
+      const original = state.languageTextSources.get(node);
+      const match = original.match(/^(\s*)(.*?)(\s*)$/s);
+      const nextValue = match[1] + translateUiText(match[2]) + match[3];
+      if (node.nodeValue !== nextValue) node.nodeValue = nextValue;
+    });
+    $$("input[placeholder], textarea[placeholder]", root).forEach((input) => {
+      if (!input.dataset.i18nPlaceholder) {
+        input.dataset.i18nPlaceholder = input.placeholder;
+      }
+      input.placeholder = translateUiText(input.dataset.i18nPlaceholder);
+    });
+    $$("[title], [aria-label]", root).forEach((element) => {
+      if (element.title) {
+        if (!element.dataset.i18nTitle) element.dataset.i18nTitle = element.title;
+        element.title = translateUiText(element.dataset.i18nTitle);
+      }
+      if (element.getAttribute("aria-label")) {
+        if (!element.dataset.i18nAriaLabel) {
+          element.dataset.i18nAriaLabel = element.getAttribute("aria-label");
+        }
+        element.setAttribute(
+          "aria-label",
+          translateUiText(element.dataset.i18nAriaLabel)
+        );
+      }
+    });
+  }
+
+  function syncLanguageOptions() {
+    $$("[data-language]", $("#language-grid")).forEach((button) => {
+      const active = button.dataset.language === state.language;
+      button.classList.toggle("selected", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
   }
 
   function setupTheme() {
@@ -1627,6 +1802,19 @@
           return {
             ...album,
             photos,
+            layout:
+              album.layout &&
+              Number.isFinite(Number(album.layout.x)) &&
+              Number.isFinite(Number(album.layout.y)) &&
+              Number.isFinite(Number(album.layout.width)) &&
+              Number.isFinite(Number(album.layout.height))
+                ? {
+                    x: Math.max(0, Math.min(1, Number(album.layout.x))),
+                    y: Math.max(0, Number(album.layout.y)),
+                    width: Math.max(0.2, Math.min(1, Number(album.layout.width))),
+                    height: Math.max(180, Number(album.layout.height))
+                  }
+                : null,
             coverAnimation: ALBUM_COVER_ANIMATIONS.has(album.coverAnimation)
               ? album.coverAnimation
               : "fade",
@@ -1783,7 +1971,7 @@
     $("#report-unlock-button").addEventListener("click", async () => {
       const token = $("#report-token-input").value.trim();
       if (!token) {
-        setReportAccessStatus("请输入 Report 只读口令。", "error");
+        setReportAccessStatus("请输入隐藏内容口令。", "error");
         return;
       }
       $("#report-unlock-button").disabled = true;
@@ -2727,6 +2915,7 @@
         id: album.id,
         name: album.name,
         displayWidth: album.displayWidth || 60,
+        layout: album.layout || null,
         coverPhotoId: album.coverPhotoIds?.[0] || album.coverPhotoId || null,
         coverAnimation: ALBUM_COVER_ANIMATIONS.has(album.coverAnimation)
           ? album.coverAnimation
@@ -2837,7 +3026,7 @@
 
   async function buildEncryptedReportPackage(files, config) {
     if (!state.reportKey || !state.reportRawKey) {
-      throw new Error("请先设置并解锁日常只读口令");
+      throw new Error("请先设置并解锁隐藏内容口令");
     }
     if (
       !state.reportAccess?.visitorWrap ||
@@ -2995,6 +3184,8 @@
         if (target.dataset.pageView === "footprints") {
           ensureFootprintsMap();
           state.footprintMap?.resize();
+        } else if (target.dataset.pageView === "guestbook") {
+          renderGuestbook();
         }
       });
     };
@@ -3203,6 +3394,18 @@
 
     $("#create-album-button").addEventListener("click", openCreate);
     $("#empty-create-album").addEventListener("click", openCreate);
+    $("#gallery-adjust-button").addEventListener(
+      "click",
+      enterGalleryAdjustMode
+    );
+    $("#gallery-adjust-cancel").addEventListener(
+      "click",
+      cancelGalleryAdjustMode
+    );
+    $("#gallery-adjust-confirm").addEventListener(
+      "click",
+      confirmGalleryAdjustMode
+    );
 
     $("#confirm-create-album").addEventListener("click", createAlbum);
     $("#new-album-name").addEventListener("keydown", (event) => {
@@ -3257,6 +3460,7 @@
     }
 
     const now = new Date().toISOString();
+    const customAlbums = state.albums.filter((item) => item.layout);
     const album = {
       id: createId("album"),
       name,
@@ -3264,6 +3468,16 @@
       coverPhotoId: null,
       coverPhotoIds: [],
       coverAnimation: "fade",
+      layout: customAlbums.length
+        ? {
+            x: 0,
+            y: Math.max(
+              ...customAlbums.map((item) => item.layout.y + item.layout.height)
+            ) + 24,
+            width: 0.6,
+            height: 420
+          }
+        : null,
       photos: [],
       createdAt: now,
       updatedAt: now
@@ -3296,14 +3510,22 @@
     state.mainUrls = [];
     const list = $("#album-list");
     const empty = $("#album-empty");
+    const hasCustomLayout =
+      state.galleryLayoutMode ||
+      state.albums.some((album) => Boolean(album.layout));
     empty.hidden = state.albums.length > 0;
     list.hidden = state.albums.length === 0;
+    list.classList.toggle("album-layout-custom", hasCustomLayout);
+    list.classList.toggle("album-layout-adjusting", state.galleryLayoutMode);
 
     list.replaceChildren(
       ...state.albums.map((album) => createAlbumCard(album))
     );
     observeRevealElements(list);
     activateAnimatedMedia(list);
+    syncGalleryAdjustUi();
+    window.requestAnimationFrame(updateGalleryLayoutHeight);
+    applyLanguageToDom();
   }
 
   function createAlbumCard(album) {
@@ -3314,6 +3536,21 @@
     card.tabIndex = 0;
     card.setAttribute("role", "button");
     card.setAttribute("aria-label", "打开相册：" + album.name);
+    const layout = state.galleryLayoutMode
+      ? state.galleryDraftLayouts.get(album.id)
+      : album.layout;
+    if (layout) {
+      card.classList.add("album-card-positioned");
+      applyAlbumCardLayout(card, layout);
+    }
+    if (state.galleryLayoutMode) {
+      card.classList.add("album-card-adjusting");
+      appendGalleryResizeHandles(card);
+      card.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0) return;
+        startAlbumLayoutPointer(event, album, card, "move");
+      });
+    }
 
     const cover = document.createElement("div");
     cover.className = "album-cover";
@@ -3349,16 +3586,199 @@
     cover.append(info);
 
     const open = () => openAlbum(album.id);
-    card.addEventListener("click", open);
+    card.addEventListener("click", () => {
+      if (!state.galleryLayoutMode) open();
+    });
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        open();
+        if (!state.galleryLayoutMode) open();
       }
     });
 
     card.append(cover);
     return card;
+  }
+
+  function enterGalleryAdjustMode() {
+    if (!requireAdmin()) return;
+    if (!state.albums.length) {
+      showToast("还没有可以调整的相册。");
+      return;
+    }
+    const list = $("#album-list");
+    const listRect = list.getBoundingClientRect();
+    state.galleryDraftLayouts = new Map();
+    state.albums.forEach((album) => {
+      const card = $(
+        '.album-card[data-album-id="' + CSS.escape(album.id) + '"]',
+        list
+      );
+      const rect = card?.getBoundingClientRect();
+      state.galleryDraftLayouts.set(
+        album.id,
+        rect
+          ? {
+              x: Math.max(0, Math.min(1, (rect.left - listRect.left) / listRect.width)),
+              y: Math.max(0, rect.top - listRect.top),
+              width: Math.max(0.2, Math.min(1, rect.width / listRect.width)),
+              height: Math.max(180, rect.height)
+            }
+          : { x: 0, y: 0, width: 0.6, height: 420 }
+      );
+    });
+    state.galleryLayoutMode = true;
+    document.body.classList.add("gallery-layout-mode");
+    renderAlbums();
+    showToast("拖动相册封面调整位置，拖动边缘调整尺寸。");
+  }
+
+  function cancelGalleryAdjustMode() {
+    state.galleryLayoutMode = false;
+    state.galleryDraftLayouts.clear();
+    document.body.classList.remove("gallery-layout-mode");
+    renderAlbums();
+  }
+
+  async function confirmGalleryAdjustMode() {
+    if (!requireAdmin() || !state.galleryLayoutMode) return;
+    const previousLayouts = new Map(
+      state.albums.map((album) => [album.id, album.layout || null])
+    );
+    state.albums.forEach((album) => {
+      const layout = state.galleryDraftLayouts.get(album.id);
+      if (layout) album.layout = { ...layout };
+    });
+    const button = $("#gallery-adjust-confirm");
+    button.disabled = true;
+    try {
+      await publishSharedContent("Update gallery layout");
+      state.galleryLayoutMode = false;
+      state.galleryDraftLayouts.clear();
+      document.body.classList.remove("gallery-layout-mode");
+      renderAlbums();
+      showToast("相册布局已发布。");
+    } catch (error) {
+      state.albums.forEach((album) => {
+        album.layout = previousLayouts.get(album.id) || null;
+      });
+      showToast("布局发布失败：" + error.message);
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function syncGalleryAdjustUi() {
+    const editing = state.galleryLayoutMode;
+    $("#gallery-adjust-button").hidden = editing;
+    $("#gallery-adjust-cancel").hidden = !editing;
+    $("#gallery-adjust-confirm").hidden = !editing;
+    $("#create-album-button").hidden = editing;
+  }
+
+  function appendGalleryResizeHandles(card) {
+    ["n", "ne", "e", "se", "s", "sw", "w", "nw"].forEach((handle) => {
+      const grip = document.createElement("span");
+      grip.className = "album-resize-handle handle-" + handle;
+      grip.dataset.handle = handle;
+      grip.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0) return;
+        startAlbumLayoutPointer(
+          event,
+          state.albums.find((album) => album.id === card.dataset.albumId),
+          card,
+          "resize",
+          handle
+        );
+      });
+      card.append(grip);
+    });
+  }
+
+  function startAlbumLayoutPointer(event, album, card, mode, handle = "") {
+    if (!state.galleryLayoutMode || !album) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const list = $("#album-list");
+    const listWidth = list.getBoundingClientRect().width;
+    const layout = { ...state.galleryDraftLayouts.get(album.id) };
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const start = { ...layout };
+    const minWidth = 0.24;
+    const minHeight = 210;
+    card.classList.add("is-adjusting");
+    card.setPointerCapture?.(event.pointerId);
+
+    const move = (moveEvent) => {
+      const dx = (moveEvent.clientX - startX) / listWidth;
+      const dy = moveEvent.clientY - startY;
+      const next = { ...start };
+      if (mode === "move") {
+        next.x = Math.max(0, Math.min(1 - start.width, start.x + dx));
+        next.y = Math.max(0, start.y + dy);
+      } else {
+        if (handle.includes("e")) {
+          next.width = Math.max(
+            minWidth,
+            Math.min(1 - start.x, start.width + dx)
+          );
+        }
+        if (handle.includes("s")) {
+          next.height = Math.max(minHeight, start.height + dy);
+        }
+        if (handle.includes("w")) {
+          const right = start.x + start.width;
+          next.x = Math.max(0, Math.min(right - minWidth, start.x + dx));
+          next.width = right - next.x;
+        }
+        if (handle.includes("n")) {
+          const bottom = start.y + start.height;
+          next.y = Math.max(0, Math.min(bottom - minHeight, start.y + dy));
+          next.height = bottom - next.y;
+        }
+      }
+      state.galleryDraftLayouts.set(album.id, next);
+      applyAlbumCardLayout(card, next);
+      updateGalleryLayoutHeight();
+    };
+
+    const finish = () => {
+      card.classList.remove("is-adjusting");
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", finish);
+      window.removeEventListener("pointercancel", finish);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", finish, { once: true });
+    window.addEventListener("pointercancel", finish, { once: true });
+  }
+
+  function applyAlbumCardLayout(card, layout) {
+    const list = $("#album-list");
+    const listWidth = Math.max(1, list.getBoundingClientRect().width);
+    const width = Math.max(240, layout.width * listWidth);
+    const x = Math.max(
+      0,
+      Math.min(listWidth - width, layout.x * listWidth)
+    );
+    card.style.left = x + "px";
+    card.style.top = layout.y + "px";
+    card.style.width = width + "px";
+    card.style.height = Math.max(210, layout.height) + "px";
+  }
+
+  function updateGalleryLayoutHeight() {
+    const list = $("#album-list");
+    if (!list.classList.contains("album-layout-custom")) {
+      list.style.removeProperty("height");
+      return;
+    }
+    const bottom = [...list.querySelectorAll(".album-card-positioned")]
+      .reduce((maximum, card) => {
+        return Math.max(maximum, card.offsetTop + card.offsetHeight);
+      }, 0);
+    list.style.height = Math.max(520, bottom + 36) + "px";
   }
 
   function createAlbumPlaceholder() {
@@ -3472,6 +3892,32 @@
         previous: [
           { opacity: 1, transform: "translate3d(0,0,0)" },
           { opacity: 0, transform: "translate3d(0,14%,0)" }
+        ]
+      },
+      "flip-vertical": {
+        next: [
+          {
+            opacity: 0,
+            transform: "rotateX(-90deg)",
+            transformOrigin: "center top"
+          },
+          {
+            opacity: 1,
+            transform: "rotateX(0deg)",
+            transformOrigin: "center top"
+          }
+        ],
+        previous: [
+          {
+            opacity: 1,
+            transform: "rotateX(0deg)",
+            transformOrigin: "center bottom"
+          },
+          {
+            opacity: 0,
+            transform: "rotateX(90deg)",
+            transformOrigin: "center bottom"
+          }
         ]
       }
     };
@@ -4029,7 +4475,14 @@
               content: String(item.content),
               name: String(item.name || "访客"),
               anonymous: Boolean(item.anonymous),
-              createdAt: String(item.createdAt || "")
+              createdAt: String(item.createdAt || ""),
+              shape: normalizeGuestbookShape(item.shape),
+              x: Number.isFinite(Number(item.x))
+                ? Math.max(0, Math.min(1, Number(item.x)))
+                : null,
+              y: Number.isFinite(Number(item.y))
+                ? Math.max(0, Number(item.y))
+                : null
             }))
         : [];
     } catch (error) {
@@ -4043,6 +4496,7 @@
     const nameInput = $("#guestbook-name");
     const form = $("#guestbook-form");
     const status = $("#guestbook-status");
+    const toggle = $("#guestbook-toggle");
 
     anonymousButton.addEventListener("click", () => {
       nameInput.value = "匿名";
@@ -4057,15 +4511,79 @@
     });
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      await submitGuestbookMessage();
+      prepareGuestbookPlacement();
     });
+    toggle.addEventListener("click", async () => {
+      if (state.guestbookPlacement) {
+        await confirmGuestbookPlacement();
+        return;
+      }
+      setGuestbookComposeOpen(!state.guestbookComposeOpen);
+    });
+    $("#guestbook-shape-options").addEventListener("click", (event) => {
+      const option = event.target.closest("[data-shape]");
+      if (!option) return;
+      state.guestbookShape = normalizeGuestbookShape(option.dataset.shape);
+      syncGuestbookShapeOptions();
+    });
+    $("#guestbook-adjust").addEventListener(
+      "click",
+      enterGuestbookAdjustMode
+    );
+    $("#guestbook-adjust-cancel").addEventListener(
+      "click",
+      cancelGuestbookAdjustMode
+    );
+    $("#guestbook-adjust-confirm").addEventListener(
+      "click",
+      confirmGuestbookAdjustMode
+    );
     $("#confirm-delete-guestbook").addEventListener(
       "click",
       deletePendingGuestbookMessage
     );
+    syncGuestbookShapeOptions();
+    syncGuestbookModeUi();
     status.textContent = getUploadConfig().guestbookEndpoint
       ? ""
       : "留言写入服务尚未配置；管理员登录后仍可通过 GitHub 保存留言。";
+  }
+
+  function normalizeGuestbookShape(value) {
+    return ["circle", "oval", "star", "chat", "octagon", "square"].includes(value)
+      ? value
+      : "circle";
+  }
+
+  function setGuestbookComposeOpen(open) {
+    if (state.guestbookPlacement) return;
+    state.guestbookComposeOpen = Boolean(open);
+    $("#guestbook-form").hidden = !state.guestbookComposeOpen;
+    if (state.guestbookComposeOpen) {
+      $("#guestbook-message").focus();
+    }
+    syncGuestbookModeUi();
+  }
+
+  function syncGuestbookShapeOptions() {
+    $$("[data-shape]", $("#guestbook-shape-options")).forEach((button) => {
+      const active = button.dataset.shape === state.guestbookShape;
+      button.classList.toggle("selected", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  function syncGuestbookModeUi() {
+    const placing = Boolean(state.guestbookPlacement);
+    const adjusting = state.guestbookAdjustMode;
+    $("#guestbook-toggle").textContent = placing ? "确认" : "留言";
+    $("#guestbook-toggle").hidden = adjusting;
+    $("#guestbook-adjust").hidden = adjusting || placing;
+    $("#guestbook-adjust-cancel").hidden = !adjusting;
+    $("#guestbook-adjust-confirm").hidden = !adjusting;
+    document.body.classList.toggle("guestbook-placement-mode", placing);
+    document.body.classList.toggle("guestbook-adjust-mode", adjusting);
+    applyLanguageToDom($(".guestbook-toolbar"));
   }
 
   function renderGuestbook() {
@@ -4075,62 +4593,217 @@
     const messages = [...state.guestbook].sort((left, right) =>
       String(right.createdAt).localeCompare(String(left.createdAt))
     );
-    empty.hidden = messages.length > 0;
-    grid.hidden = messages.length === 0;
-    grid.replaceChildren(
-      ...messages.map((message, index) => {
-        const card = document.createElement("article");
-        card.className = "guestbook-card reveal";
-        card.dataset.messageId = message.id;
-        card.style.setProperty("--reveal-delay", Math.min(index, 8) * 35 + "ms");
-
-        const content = document.createElement("p");
-        content.className = "guestbook-card-content";
-        content.textContent = message.content;
-
-        const footer = document.createElement("div");
-        footer.className = "guestbook-card-footer";
-        const name = document.createElement("strong");
-        name.textContent =
-          message.name || (message.anonymous ? "匿名" : "访客");
-        const date = document.createElement("time");
-        if (message.createdAt) {
-          const parsed = new Date(message.createdAt);
-          date.textContent = Number.isNaN(parsed.getTime())
-            ? ""
-            : parsed.toLocaleDateString("zh-CN");
-          date.dateTime = message.createdAt;
-        }
-        footer.append(name, date);
-
-        const remove = document.createElement("button");
-        remove.type = "button";
-        remove.className = "guestbook-delete admin-only";
-        remove.setAttribute("aria-label", "删除这条留言");
-        remove.innerHTML =
-          '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-          '<path d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"></path>' +
-          "</svg>";
-        remove.addEventListener("click", () => {
-          state.pendingGuestbookDeleteId = message.id;
-          $("#guestbook-delete-copy").textContent =
-            "确定删除“" + (message.name || "匿名") +
-            "”的这条留言吗？删除后会同步更新 GitHub。";
-          openDialog($("#guestbook-delete-dialog"));
-        });
-
-        card.append(remove, content, footer);
-        return card;
-      })
+    const board = $("#guestbook-board");
+    const boardWidth = Math.max(320, board.clientWidth || 720);
+    ensureGuestbookLayouts(messages, boardWidth);
+    const placementMessage = state.guestbookPlacement;
+    empty.hidden = messages.length > 0 || Boolean(placementMessage);
+    grid.hidden = messages.length === 0 && !placementMessage;
+    const cards = messages.map((message) =>
+      createGuestbookSticker(message, boardWidth, false)
     );
+    if (placementMessage) {
+      cards.push(createGuestbookSticker(placementMessage, boardWidth, true));
+    }
+    grid.replaceChildren(...cards);
     observeRevealElements(grid);
     activateAnimatedMedia(grid);
+    updateGuestbookBoardHeight();
+    applyLanguageToDom(board);
   }
 
-  async function submitGuestbookMessage() {
+  function guestbookShapeSize(shape, boardWidth) {
+    const scale = Math.min(1, boardWidth / 420);
+    const sizes = {
+      circle: [210, 210],
+      oval: [285, 165],
+      star: [245, 245],
+      chat: [300, 185],
+      octagon: [250, 195],
+      square: [225, 225]
+    };
+    const [width, height] = sizes[normalizeGuestbookShape(shape)];
+    return {
+      width: Math.round(width * scale),
+      height: Math.round(height * scale)
+    };
+  }
+
+  function ensureGuestbookLayouts(messages, boardWidth) {
+    const columns = Math.max(1, Math.floor(boardWidth / 330));
+    messages.forEach((message, index) => {
+      message.shape = normalizeGuestbookShape(message.shape);
+      if (Number.isFinite(message.x) && Number.isFinite(message.y)) return;
+      const size = guestbookShapeSize(message.shape, boardWidth);
+      const column = index % columns;
+      const row = Math.floor(index / columns);
+      message.x = Math.min(
+        0.92,
+        (20 + column * (size.width + 24)) / boardWidth
+      );
+      message.y = 24 + row * (size.height + 24) + (index % 2) * 18;
+    });
+  }
+
+  function createGuestbookSticker(message, boardWidth, preview) {
+    const card = document.createElement("article");
+    const shape = normalizeGuestbookShape(message.shape);
+    card.className =
+      "guestbook-card guestbook-sticker shape-" + shape +
+      (preview ? " guestbook-preview" : "") +
+      (state.guestbookAdjustMode && !preview ? " guestbook-adjustable" : "");
+    card.dataset.messageId = message.id;
+    card.tabIndex = preview || state.guestbookAdjustMode ? 0 : -1;
+    applyGuestbookStickerLayout(card, message, boardWidth);
+
+    const content = document.createElement("p");
+    content.className = "guestbook-card-content";
+    content.textContent = message.content;
+    const footer = document.createElement("div");
+    footer.className = "guestbook-card-footer";
+    const name = document.createElement("strong");
+    name.textContent = message.name || (message.anonymous ? "匿名" : "访客");
+    const date = document.createElement("time");
+    if (message.createdAt) {
+      const parsed = new Date(message.createdAt);
+      date.textContent = Number.isNaN(parsed.getTime())
+        ? ""
+        : parsed.toLocaleDateString(document.documentElement.lang || "zh-CN");
+      date.dateTime = message.createdAt;
+    }
+    footer.append(name, date);
+    card.append(content, footer);
+
+    if (!preview) {
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "guestbook-delete admin-only";
+      remove.setAttribute("aria-label", "删除这条留言");
+      remove.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"></path>' +
+        "</svg>";
+      remove.addEventListener("pointerdown", (event) => event.stopPropagation());
+      remove.addEventListener("click", (event) => {
+        event.stopPropagation();
+        state.pendingGuestbookDeleteId = message.id;
+        $("#guestbook-delete-copy").textContent =
+          "确定删除“" + (message.name || "匿名") +
+          "”的这条留言吗？删除后会同步更新 GitHub。";
+        openDialog($("#guestbook-delete-dialog"));
+      });
+      card.append(remove);
+      if (state.guestbookAdjustMode) {
+        card.addEventListener("pointerdown", (event) => {
+          if (event.button === 0 && !event.target.closest(".guestbook-delete")) {
+            startGuestbookDrag(event, message, card);
+          }
+        });
+      }
+    } else {
+      card.addEventListener("pointerdown", (event) => {
+        if (event.button === 0) startGuestbookDrag(event, message, card);
+      });
+    }
+    return card;
+  }
+
+  function applyGuestbookStickerLayout(card, message, boardWidth) {
+    const size = guestbookShapeSize(message.shape, boardWidth);
+    const x = Math.max(0, Math.min(boardWidth - size.width - 8, message.x * boardWidth));
+    const y = Math.max(8, message.y || 8);
+    card.style.left = x + "px";
+    card.style.top = y + "px";
+    card.style.width = size.width + "px";
+    card.style.height = size.height + "px";
+  }
+
+  function startGuestbookDrag(event, message, card) {
+    if (!state.guestbookPlacement && !state.guestbookAdjustMode) return;
+    const board = $("#guestbook-board");
+    const grid = $("#guestbook-grid");
+    const boardWidth = Math.max(320, board.clientWidth || 720);
+    const startX = event.clientX;
+    const startY = event.clientY;
+    const initial = { x: message.x || 0, y: message.y || 0 };
+    let lastValid = { ...initial };
+    event.preventDefault();
+    event.stopPropagation();
+    card.classList.add("is-dragging");
+    card.setPointerCapture?.(event.pointerId);
+
+    const move = (moveEvent) => {
+      message.x = Math.max(
+        0,
+        Math.min(0.96, initial.x + (moveEvent.clientX - startX) / boardWidth)
+      );
+      message.y = Math.max(8, initial.y + moveEvent.clientY - startY);
+      applyGuestbookStickerLayout(card, message, boardWidth);
+      const invalid = guestbookStickerOverlaps(card, grid);
+      card.classList.toggle("position-invalid", invalid);
+      if (!invalid) lastValid = { x: message.x, y: message.y };
+      updateGuestbookBoardHeight();
+    };
+    const finish = () => {
+      const invalid = card.classList.contains("position-invalid");
+      if (invalid) {
+        message.x = lastValid.x;
+        message.y = lastValid.y;
+        applyGuestbookStickerLayout(card, message, boardWidth);
+      } else {
+        lastValid = { x: message.x, y: message.y };
+      }
+      card.classList.remove("is-dragging", "position-invalid");
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", finish);
+      window.removeEventListener("pointercancel", finish);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", finish, { once: true });
+    window.addEventListener("pointercancel", finish, { once: true });
+  }
+
+  function guestbookStickerOverlaps(card, grid) {
+    const base = grid.getBoundingClientRect();
+    const own = card.getBoundingClientRect();
+    const rect = {
+      left: own.left - base.left,
+      top: own.top - base.top,
+      right: own.right - base.left,
+      bottom: own.bottom - base.top
+    };
+    return $$(".guestbook-sticker", grid).some((other) => {
+      if (other === card) return false;
+      const candidate = other.getBoundingClientRect();
+      const otherRect = {
+        left: candidate.left - base.left,
+        top: candidate.top - base.top,
+        right: candidate.right - base.left,
+        bottom: candidate.bottom - base.top
+      };
+      return !(
+        rect.right + 8 <= otherRect.left ||
+        rect.left >= otherRect.right + 8 ||
+        rect.bottom + 8 <= otherRect.top ||
+        rect.top >= otherRect.bottom + 8
+      );
+    });
+  }
+
+  function updateGuestbookBoardHeight() {
+    const grid = $("#guestbook-grid");
+    const board = $("#guestbook-board");
+    const bottom = $$(".guestbook-sticker", grid).reduce((maximum, card) => {
+      return Math.max(maximum, card.offsetTop + card.offsetHeight);
+    }, 0);
+    const height = Math.max(620, bottom + 40);
+    board.style.setProperty("--guestbook-board-height", height + "px");
+    grid.style.height = height + "px";
+  }
+
+  function prepareGuestbookPlacement() {
     const messageInput = $("#guestbook-message");
     const nameInput = $("#guestbook-name");
-    const button = $("#guestbook-send");
     const status = $("#guestbook-status");
     const content = messageInput.value.trim();
     if (!content) {
@@ -4139,79 +4812,230 @@
       return;
     }
     const name = nameInput.value.trim() || "访客";
-    const config = getUploadConfig();
+    const board = $("#guestbook-board");
+    const boardWidth = Math.max(320, board.clientWidth || 720);
+    const size = guestbookShapeSize(state.guestbookShape, boardWidth);
+    const placement = {
+      id: createId("guestbook-draft"),
+      content,
+      name,
+      anonymous: name === "匿名",
+      shape: state.guestbookShape,
+      x: Math.max(0, (boardWidth - size.width) / (2 * boardWidth)),
+      y: 60,
+      createdAt: new Date().toISOString()
+    };
+    findAvailableGuestbookPosition(placement, boardWidth);
+    state.guestbookPlacement = placement;
+    state.guestbookComposeOpen = false;
+    $("#guestbook-form").hidden = true;
+    status.textContent = "";
+    renderGuestbook();
+    syncGuestbookModeUi();
+    board.scrollIntoView({ behavior: "smooth", block: "center" });
+    showToast("拖动留言贴纸选择位置，然后点击“确认”。");
+  }
 
-    button.disabled = true;
-    status.textContent = "正在发送留言...";
+  function findAvailableGuestbookPosition(message, boardWidth) {
+    const size = guestbookShapeSize(message.shape, boardWidth);
+    const candidates = state.guestbook.map((item) => {
+      const itemSize = guestbookShapeSize(item.shape, boardWidth);
+      return {
+        left: item.x * boardWidth,
+        top: item.y,
+        right: item.x * boardWidth + itemSize.width,
+        bottom: item.y + itemSize.height
+      };
+    });
+    const overlaps = (left, top) =>
+      candidates.some((rect) =>
+        !(
+          left + size.width + 8 <= rect.left ||
+          left >= rect.right + 8 ||
+          top + size.height + 8 <= rect.top ||
+          top >= rect.bottom + 8
+        )
+      );
+    let y = 28;
+    while (overlaps((boardWidth - size.width) / 2, y)) {
+      y += size.height + 24;
+    }
+    message.y = y;
+  }
+
+  async function confirmGuestbookPlacement() {
+    if (!state.guestbookPlacement) return;
+    const preview = $(".guestbook-preview", $("#guestbook-grid"));
+    if (preview?.classList.contains("position-invalid")) {
+      $("#guestbook-status").textContent = "当前位置与其他留言重叠，请重新放置。";
+      return;
+    }
+    const draft = state.guestbookPlacement;
+    const toggle = $("#guestbook-toggle");
+    toggle.disabled = true;
+    toggle.textContent = "正在发布...";
     try {
-      let savedMessage;
-      if (state.isAdmin) {
-        const message = {
-          id: createId("message"),
-          content,
-          name,
-          createdAt: new Date().toISOString()
-        };
-        const next = await mutateRemoteGuestbook(
-          (data) => ({
-            version: 1,
-            messages: [message, ...(data.messages || [])].slice(0, 500)
-          }),
-          "Add guestbook message"
-        );
-        savedMessage = message;
-        state.guestbook = next.messages;
-      } else if (config.guestbookEndpoint) {
-        const controller = new AbortController();
-        const timeout = window.setTimeout(() => controller.abort(), 12000);
-        let response;
-        try {
-          response = await fetch(config.guestbookEndpoint, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-store",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content, name }),
-            signal: controller.signal
-          });
-        } catch (error) {
-          throw new Error(
-            error.name === "AbortError"
-              ? "留言服务响应超时。请检查腾讯云函数和 API 网关是否正常运行。"
-              : "无法连接留言服务。请检查 config.js 中的 guestbookEndpoint 是否为部署后的实际地址。"
-          );
-        } finally {
-          window.clearTimeout(timeout);
-        }
-        let payload = null;
-        try {
-          payload = await response.json();
-        } catch {
-          payload = null;
-        }
-        if (!response.ok) {
-          throw new Error(payload?.error || "留言服务暂时不可用");
-        }
-        savedMessage = payload?.message || {
-          id: createId("message"),
-          content,
-          name,
-          createdAt: new Date().toISOString()
-        };
-      } else {
-        throw new Error(
-          "留言服务尚未配置。请先部署留言写入服务，或由管理员登录后发布留言。"
-        );
-      }
-      if (!state.guestbook.some((item) => item.id === savedMessage.id)) {
-        state.guestbook.unshift(savedMessage);
-      }
-      messageInput.value = "";
-      nameInput.value = "";
-      status.textContent = "留言已发送，感谢你的到访。";
+      const saved = await publishGuestbookMessage(draft);
+      state.guestbook = [
+        saved,
+        ...state.guestbook.filter((item) => item.id !== saved.id)
+      ];
+      state.guestbookPlacement = null;
+      state.guestbookComposeOpen = false;
+      $("#guestbook-message").value = "";
+      $("#guestbook-name").value = "";
+      $("#guestbook-status").textContent = "";
       renderGuestbook();
+      syncGuestbookModeUi();
+      showToast("留言已张贴。");
     } catch (error) {
-      status.textContent = "发送失败：" + error.message;
+      restoreGuestbookCompose(draft, error.message);
+    } finally {
+      toggle.disabled = false;
+    }
+  }
+
+  function restoreGuestbookCompose(draft, errorMessage) {
+    state.guestbookPlacement = null;
+    state.guestbookComposeOpen = true;
+    state.guestbookShape = normalizeGuestbookShape(draft.shape);
+    $("#guestbook-message").value = draft.content;
+    $("#guestbook-name").value = draft.name;
+    $("#guestbook-form").hidden = false;
+    $("#guestbook-status").textContent = "张贴失败：" + errorMessage;
+    $("#guestbook-anonymous").classList.toggle("active", draft.anonymous);
+    $("#guestbook-anonymous").setAttribute("aria-pressed", String(draft.anonymous));
+    syncGuestbookShapeOptions();
+    renderGuestbook();
+    syncGuestbookModeUi();
+  }
+
+  async function publishGuestbookMessage(message) {
+    const config = getUploadConfig();
+    let savedMessage;
+    if (state.isAdmin) {
+      const remoteMessage = {
+        id: createId("message"),
+        content: message.content,
+        name: message.name,
+        anonymous: Boolean(message.anonymous),
+        shape: normalizeGuestbookShape(message.shape),
+        x: message.x,
+        y: message.y,
+        createdAt: new Date().toISOString()
+      };
+      const next = await mutateRemoteGuestbook(
+        (data) => ({
+          version: 1,
+          messages: [remoteMessage, ...(data.messages || [])].slice(0, 500)
+        }),
+        "Add guestbook message"
+      );
+      state.guestbook = next.messages.map((item) => ({
+        ...item,
+        shape: normalizeGuestbookShape(item.shape),
+        x: Number.isFinite(Number(item.x)) ? Number(item.x) : null,
+        y: Number.isFinite(Number(item.y)) ? Number(item.y) : null
+      }));
+      savedMessage = remoteMessage;
+    } else if (config.guestbookEndpoint) {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 12000);
+      let response;
+      try {
+        response = await fetch(config.guestbookEndpoint, {
+          method: "POST",
+          mode: "cors",
+          cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: message.content,
+            name: message.name,
+            anonymous: Boolean(message.anonymous),
+            shape: normalizeGuestbookShape(message.shape),
+            x: message.x,
+            y: message.y
+          }),
+          signal: controller.signal
+        });
+      } catch (error) {
+        throw new Error(
+          error.name === "AbortError"
+            ? "留言服务响应超时。请检查腾讯云函数和 API 网关是否正常运行。"
+            : "无法连接留言服务。请检查 config.js 中的 guestbookEndpoint 是否为部署后的实际地址。"
+        );
+      } finally {
+        window.clearTimeout(timeout);
+      }
+      let payload = null;
+      try {
+        payload = await response.json();
+      } catch {
+        payload = null;
+      }
+      if (!response.ok) {
+        throw new Error(payload?.error || "留言服务暂时不可用");
+      }
+      savedMessage = {
+        ...(payload?.message || {}),
+        id: payload?.message?.id || createId("message"),
+        content: message.content,
+        name: message.name,
+        anonymous: Boolean(message.anonymous),
+        shape: normalizeGuestbookShape(message.shape),
+        x: message.x,
+        y: message.y,
+        createdAt: payload?.message?.createdAt || new Date().toISOString()
+      };
+    } else {
+      throw new Error(
+        "留言服务尚未配置。请先部署留言写入服务，或由管理员登录后发布留言。"
+      );
+    }
+    return savedMessage;
+  }
+
+  function enterGuestbookAdjustMode() {
+    if (!requireAdmin()) return;
+    state.guestbookLayoutSnapshot = JSON.parse(JSON.stringify(state.guestbook));
+    state.guestbookAdjustMode = true;
+    renderGuestbook();
+    syncGuestbookModeUi();
+  }
+
+  function cancelGuestbookAdjustMode() {
+    state.guestbook = JSON.parse(JSON.stringify(state.guestbookLayoutSnapshot));
+    state.guestbookAdjustMode = false;
+    state.guestbookLayoutSnapshot = [];
+    renderGuestbook();
+    syncGuestbookModeUi();
+  }
+
+  async function confirmGuestbookAdjustMode() {
+    if (!requireAdmin() || !state.guestbookAdjustMode) return;
+    const button = $("#guestbook-adjust-confirm");
+    button.disabled = true;
+    try {
+      const next = await mutateRemoteGuestbook(
+        () => ({
+          version: 1,
+          messages: state.guestbook.map((message) => ({
+            ...message,
+            shape: normalizeGuestbookShape(message.shape),
+            x: Number(message.x || 0),
+            y: Number(message.y || 0)
+          }))
+        }),
+        "Update guestbook sticker layout"
+      );
+      state.guestbook = next.messages;
+      state.guestbookAdjustMode = false;
+      state.guestbookLayoutSnapshot = [];
+      renderGuestbook();
+      syncGuestbookModeUi();
+      showToast("留言贴纸布局已发布。");
+    } catch (error) {
+      showToast("留言布局保存失败：" + error.message);
     } finally {
       button.disabled = false;
     }
@@ -4673,16 +5497,18 @@
     let session = null;
     map.__dualButtonTiltReady = true;
 
-    const setTiltingClass = (active) => {
-      container.classList.toggle("is-tilting", active);
-      root.classList.toggle("is-tilting", active);
+    const setInteractionClass = (mode = "") => {
+      container.classList.toggle("is-tilting", mode === "tilt");
+      root.classList.toggle("is-tilting", mode === "tilt");
+      container.classList.toggle("is-rotating", mode === "rotate");
+      root.classList.toggle("is-rotating", mode === "rotate");
     };
 
     const finish = () => {
       if (!session) return;
       session = null;
       map.dragPan.enable();
-      setTiltingClass(false);
+      setInteractionClass();
     };
 
     const isInsideMap = (event) => {
@@ -4696,21 +5522,32 @@
     };
 
     const startIfReady = (event) => {
-      if (
-        session ||
-        !heldButtons.has(0) ||
-        !heldButtons.has(2) ||
-        !isInsideMap(event)
-      ) {
-        return false;
+      if (!isInsideMap(event)) return false;
+      if (heldButtons.has(0) && heldButtons.has(2)) {
+        session = {
+          mode: "tilt",
+          startX: event.clientX,
+          startY: event.clientY,
+          startPitch: map.getPitch(),
+          startBearing: map.getBearing()
+        };
+        map.dragPan.disable();
+        setInteractionClass("tilt");
+        return true;
       }
-      session = {
-        startY: event.clientY,
-        startPitch: map.getPitch()
-      };
-      map.dragPan.disable();
-      setTiltingClass(true);
-      return true;
+      if (heldButtons.has(2) && !heldButtons.has(0) && !session) {
+        session = {
+          mode: "rotate",
+          startX: event.clientX,
+          startY: event.clientY,
+          startPitch: map.getPitch(),
+          startBearing: map.getBearing()
+        };
+        map.dragPan.disable();
+        setInteractionClass("rotate");
+        return true;
+      }
+      return false;
     };
 
     root.addEventListener("contextmenu", (event) => {
@@ -4734,19 +5571,30 @@
       "mousemove",
       (event) => {
         if (!session) return;
-        if (!heldButtons.has(0) || !heldButtons.has(2)) {
-          finish();
-          return;
+        if (session.mode === "tilt") {
+          if (!heldButtons.has(0) || !heldButtons.has(2)) {
+            finish();
+            return;
+          }
+          const pitch = Math.min(
+            85,
+            Math.max(
+              20,
+              session.startPitch + (session.startY - event.clientY) * 0.32
+            )
+          );
+          map.setPitch(pitch);
+          root.dataset.mapPitch = pitch.toFixed(1);
+        } else {
+          if (!heldButtons.has(2) || heldButtons.has(0)) {
+            finish();
+            return;
+          }
+          const bearing =
+            session.startBearing + (event.clientX - session.startX) * 0.28;
+          map.setBearing(bearing);
+          root.dataset.mapBearing = bearing.toFixed(1);
         }
-        const pitch = Math.min(
-          85,
-          Math.max(
-            20,
-            session.startPitch + (session.startY - event.clientY) * 0.32
-          )
-        );
-        map.setPitch(pitch);
-        root.dataset.mapPitch = pitch.toFixed(1);
         event.preventDefault();
         event.stopPropagation();
       },
@@ -4761,7 +5609,11 @@
           event.preventDefault();
           event.stopPropagation();
         }
-        if (!heldButtons.has(0) || !heldButtons.has(2)) {
+        if (
+          (session?.mode === "tilt" &&
+            (!heldButtons.has(0) || !heldButtons.has(2))) ||
+          (session?.mode === "rotate" && !heldButtons.has(2))
+        ) {
           finish();
         }
       },
@@ -4773,7 +5625,11 @@
       finish();
     });
     container.addEventListener("mouseleave", (event) => {
-      if (session && (event.buttons & 3) !== 3) {
+      if (
+        session &&
+        ((session.mode === "tilt" && (event.buttons & 3) !== 3) ||
+          (session.mode === "rotate" && (event.buttons & 2) !== 2))
+      ) {
         heldButtons.clear();
         finish();
       }
@@ -5553,7 +6409,7 @@
         let sourceBlob = slideImage.blob || null;
         if (!sourceBlob && slideImage.encPath) {
           if (!state.reportKey) {
-            throw new Error("请先输入 Report 只读口令");
+            throw new Error("请先输入隐藏内容口令");
           }
           sourceBlob = await decryptReportImage(slideImage.encPath);
           slideImage.blob = sourceBlob;
@@ -5655,7 +6511,7 @@
     event.preventDefault();
     if (!requireAdmin()) return;
     if (!state.reportKey) {
-      showToast("请先设置并解锁日常只读口令。");
+      showToast("请先设置并解锁隐藏内容口令。");
       return;
     }
     const files = [...($("#deck-files").files || [])];

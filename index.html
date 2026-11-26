@@ -185,6 +185,7 @@
           </button>
           <div class="nav-dropdown" id="settings-dropdown">
             <button class="nav-dropdown-item" id="theme-entry" type="button">主题</button>
+            <button class="nav-dropdown-item" id="language-entry" type="button">语言</button>
             <button class="nav-dropdown-item admin-entry" id="admin-entry" type="button">管理</button>
             <button class="nav-dropdown-item" id="report-access-trigger" type="button">
               隐藏内容
@@ -369,9 +370,17 @@
         <div>
           <h2>Gallery</h2>
         </div>
-        <button class="button button-primary admin-only" id="create-album-button" type="button">
-          创建相册
-        </button>
+        <div class="section-heading-actions">
+          <button class="button button-primary admin-only" id="gallery-adjust-button"
+            type="button">调整</button>
+          <button class="button button-danger-solid admin-only" id="gallery-adjust-cancel"
+            type="button" hidden>取消修改</button>
+          <button class="button button-primary admin-only" id="gallery-adjust-confirm"
+            type="button" hidden>确认修改</button>
+          <button class="button button-primary admin-only" id="create-album-button" type="button">
+            创建相册
+          </button>
+        </div>
       </header>
 
       <div class="album-list reveal" id="album-list"></div>
@@ -408,13 +417,25 @@
           </div>
         </header>
 
-        <div class="guestbook-grid" id="guestbook-grid" aria-live="polite"></div>
-        <div class="guestbook-empty" id="guestbook-empty">
-          <h3>还没有留言</h3>
-          <p>成为第一个在这里留下文字的人。</p>
+        <div class="guestbook-toolbar reveal">
+          <button class="button button-primary" id="guestbook-toggle" type="button">留言</button>
+          <button class="button button-primary admin-only" id="guestbook-adjust"
+            type="button">调整</button>
+          <button class="button button-danger-solid admin-only" id="guestbook-adjust-cancel"
+            type="button" hidden>取消修改</button>
+          <button class="button button-primary admin-only" id="guestbook-adjust-confirm"
+            type="button" hidden>确认修改</button>
         </div>
 
-        <form class="guestbook-compose reveal" id="guestbook-form">
+        <div class="guestbook-board reveal" id="guestbook-board">
+          <div class="guestbook-grid" id="guestbook-grid" aria-live="polite"></div>
+          <div class="guestbook-empty" id="guestbook-empty">
+            <h3>还没有留言</h3>
+            <p>成为第一个在这里留下文字的人。</p>
+          </div>
+        </div>
+
+        <form class="guestbook-compose reveal" id="guestbook-form" hidden>
           <label class="guestbook-message-field">
             <span>想说的话</span>
             <textarea id="guestbook-message" maxlength="800" rows="5"
@@ -429,10 +450,27 @@
             <button class="guestbook-anonymous" id="guestbook-anonymous"
               type="button" aria-pressed="false">匿名</button>
           </div>
+          <div class="guestbook-shape-field">
+            <span>留言框形状</span>
+            <div class="guestbook-shape-options" id="guestbook-shape-options">
+              <button type="button" class="guestbook-shape-option selected"
+                data-shape="circle"><i class="shape-circle"></i><span>纯圆</span></button>
+              <button type="button" class="guestbook-shape-option"
+                data-shape="oval"><i class="shape-oval"></i><span>椭圆</span></button>
+              <button type="button" class="guestbook-shape-option"
+                data-shape="star"><i class="shape-star"></i><span>五角星</span></button>
+              <button type="button" class="guestbook-shape-option"
+                data-shape="chat"><i class="shape-chat"></i><span>聊天框</span></button>
+              <button type="button" class="guestbook-shape-option"
+                data-shape="octagon"><i class="shape-octagon"></i><span>八边形</span></button>
+              <button type="button" class="guestbook-shape-option"
+                data-shape="square"><i class="shape-square"></i><span>正方形</span></button>
+            </div>
+          </div>
           <div class="guestbook-submit-row">
             <p class="action-status" id="guestbook-status" role="status" aria-live="polite"></p>
             <button class="button button-primary guestbook-send" id="guestbook-send"
-              type="submit">发送留言</button>
+              type="submit">张贴留言</button>
           </div>
         </form>
       </div>
@@ -641,24 +679,28 @@
       </div>
       <div class="album-rotation-options" id="album-rotation-options">
         <button class="album-rotation-option" type="button" data-cover-animation="fade">
-          <strong>渐显</strong>
-          <small>下一张照片在原位置柔和淡入</small>
+          <span class="album-rotation-option-copy"><strong>渐显</strong><small>下一张照片在原位置柔和淡入</small></span>
+          <span class="album-rotation-preview preview-fade" aria-hidden="true"><i></i><b></b></span>
         </button>
         <button class="album-rotation-option" type="button" data-cover-animation="slide-right">
-          <strong>右滑</strong>
-          <small>下一张照片从左侧向右淡入浮现</small>
+          <span class="album-rotation-option-copy"><strong>右滑</strong><small>下一张照片从左侧向右淡入浮现</small></span>
+          <span class="album-rotation-preview preview-slide-right" aria-hidden="true"><i></i><b></b></span>
         </button>
         <button class="album-rotation-option" type="button" data-cover-animation="zoom">
-          <strong>放大</strong>
-          <small>下一张照片从中心向四周放大浮现</small>
+          <span class="album-rotation-option-copy"><strong>放大</strong><small>下一张照片从中心向四周放大浮现</small></span>
+          <span class="album-rotation-preview preview-zoom" aria-hidden="true"><i></i><b></b></span>
         </button>
         <button class="album-rotation-option" type="button" data-cover-animation="slide-vertical">
-          <strong>竖直滚动</strong>
-          <small>下一张照片从上方落位并淡入</small>
+          <span class="album-rotation-option-copy"><strong>竖直滚动</strong><small>下一张照片从上方落位并淡入</small></span>
+          <span class="album-rotation-preview preview-slide-vertical" aria-hidden="true"><i></i><b></b></span>
         </button>
         <button class="album-rotation-option" type="button" data-cover-animation="page-transition">
-          <strong>页面转场</strong>
-          <small>以遮幕擦除和淡入淡出完成翻页</small>
+          <span class="album-rotation-option-copy"><strong>页面转场</strong><small>以遮幕擦除和淡入淡出完成翻页</small></span>
+          <span class="album-rotation-preview preview-page-transition" aria-hidden="true"><i></i><b></b></span>
+        </button>
+        <button class="album-rotation-option" type="button" data-cover-animation="flip-vertical">
+          <span class="album-rotation-option-copy"><strong>上下翻转</strong><small>下一张照片像方块另一面从上往下翻出</small></span>
+          <span class="album-rotation-preview preview-flip-vertical" aria-hidden="true"><i></i><b></b></span>
         </button>
       </div>
       <p class="action-status" id="album-rotation-status" role="status" aria-live="polite"></p>
@@ -904,21 +946,49 @@
     </div>
   </dialog>
 
+  <dialog class="modal language-dialog" id="language-dialog">
+    <div class="language-dialog-shell">
+      <div class="modal-header">
+        <div>
+          <span class="mini-label">LANGUAGE</span>
+          <h2>语言</h2>
+        </div>
+        <button class="dialog-close" type="button"
+          data-close-dialog="language-dialog" aria-label="关闭">×</button>
+      </div>
+      <div class="language-grid" id="language-grid">
+        <button class="language-option" type="button" data-language="zh-CN"><strong>中文</strong><small>简体中文</small></button>
+        <button class="language-option" type="button" data-language="zh-TW"><strong>繁體中文</strong><small>Traditional Chinese</small></button>
+        <button class="language-option" type="button" data-language="en"><strong>English</strong><small>English</small></button>
+        <button class="language-option" type="button" data-language="ja"><strong>日本語</strong><small>Japanese</small></button>
+        <button class="language-option" type="button" data-language="es"><strong>Español</strong><small>Spanish</small></button>
+        <button class="language-option" type="button" data-language="ko"><strong>한국어</strong><small>Korean</small></button>
+        <button class="language-option" type="button" data-language="ru"><strong>Русский</strong><small>Russian</small></button>
+        <button class="language-option" type="button" data-language="de"><strong>Deutsch</strong><small>German</small></button>
+        <button class="language-option" type="button" data-language="fa"><strong>فارسی</strong><small>Persian</small></button>
+        <button class="language-option" type="button" data-language="fr"><strong>Français</strong><small>French</small></button>
+        <button class="language-option" type="button" data-language="id"><strong>Bahasa Indonesia</strong><small>Indonesian</small></button>
+        <button class="language-option" type="button" data-language="th"><strong>ไทย</strong><small>Thai</small></button>
+        <button class="language-option" type="button" data-language="vi"><strong>Tiếng Việt</strong><small>Vietnamese</small></button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="modal report-access-dialog" id="report-access-dialog">
     <form method="dialog">
       <div class="modal-header">
         <div>
-          <span class="mini-label">PRIVATE REPORT</span>
-          <h2>解锁日常</h2>
+          <span class="mini-label">HIDDEN CONTENT</span>
+          <h2>解锁隐藏内容</h2>
         </div>
         <button class="dialog-close" type="button" data-close-dialog="report-access-dialog" aria-label="关闭">×</button>
       </div>
       <p class="modal-intro">
-        输入只读查看口令后，才会显示日常栏目。
+        输入只读查看口令后，才会显示隐藏内容栏目。
         第一次设置时，管理员输入的文本将作为加密密钥，因此请妥善保管。
       </p>
       <label>
-        <span>Report 只读口令</span>
+        <span>隐藏内容口令</span>
         <input id="report-token-input" type="password" autocomplete="off">
       </label>
       <p class="action-status" id="report-access-status" role="status" aria-live="polite"></p>
@@ -1032,6 +1102,7 @@
   <script src="vendor/maplibre-gl.js"></script>
   <script src="config.js"></script>
   <script src="site-data.js"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

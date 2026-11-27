@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:15:35.508Z",
+  "updatedAt": "2026-11-27T07:15:45.940Z",
   "entries": [
     {
       "language": "en",
@@ -806,6 +806,86 @@
       "language": "es",
       "source": "潮汕海门湾",
       "translation": "Bahía de Haimen de Chaozhou y Shantou"
+    },
+    {
+      "language": "es",
+      "source": "KERRY XING",
+      "translation": "KERRY XING"
+    },
+    {
+      "language": "es",
+      "source": "编辑属性表",
+      "translation": "Editar tabla de propiedades"
+    },
+    {
+      "language": "es",
+      "source": "YOUR AVATAR",
+      "translation": "tu avatar"
+    },
+    {
+      "language": "es",
+      "source": "研究生",
+      "translation": "MÁSTER(P)"
+    },
+    {
+      "language": "es",
+      "source": "编辑头像",
+      "translation": "Editar foto de perfil"
+    },
+    {
+      "language": "es",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Estudiante de posgrado / Recopiladora de inspiración / Aficionada al manga y a los videojuegos"
+    },
+    {
+      "language": "es",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "es",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "es",
+      "source": "Perfil",
+      "translation": "Perfil"
+    },
+    {
+      "language": "es",
+      "source": "Apodo",
+      "translation": "Apodo"
+    },
+    {
+      "language": "es",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "China · Guangdong · Shenzhen"
+    },
+    {
+      "language": "es",
+      "source": "0 本",
+      "translation": "unidad"
+    },
+    {
+      "language": "es",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "Seleccionar PPTX o imágenes página por página"
+    },
+    {
+      "language": "es",
+      "source": "删除当前总结册",
+      "translation": "Eliminar el álbum de resumen actual"
+    },
+    {
+      "language": "es",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP Aventurero inspirado"
+    },
+    {
+      "language": "es",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · Aventurero inspirado"
     }
   ]
 }

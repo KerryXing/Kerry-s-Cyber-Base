@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T16:23:43.231Z",
+  "updatedAt": "2026-11-27T17:27:11.701Z",
   "entries": [
     {
       "language": "en",
@@ -2386,6 +2386,306 @@
       "language": "en",
       "source": "小彩蛋",
       "translation": "small easter egg"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Kerry's Cyber Base",
+      "translation": "凱莉的網路基地"
+    },
+    {
+      "language": "zh-TW",
+      "source": "跳到主要内容",
+      "translation": "跳到主要內容"
+    },
+    {
+      "language": "zh-TW",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "zh-TW",
+      "source": "暱稱",
+      "translation": "暱稱"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "zh-TW",
+      "source": "身份",
+      "translation": "身份"
+    },
+    {
+      "language": "zh-TW",
+      "source": "KERRY XING",
+      "translation": "KERRY XING"
+    },
+    {
+      "language": "zh-TW",
+      "source": "编辑属性表",
+      "translation": "編輯屬性表"
+    },
+    {
+      "language": "zh-TW",
+      "source": "YOUR AVATAR",
+      "translation": "頭像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "研究生",
+      "translation": "研究生"
+    },
+    {
+      "language": "zh-TW",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "zh-TW",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP 靈感型冒險家"
+    },
+    {
+      "language": "zh-TW",
+      "source": "编辑头像",
+      "translation": "編輯頭像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "研究生／靈感收集者／漫畫與遊戲愛好者"
+    },
+    {
+      "language": "zh-TW",
+      "source": "座標",
+      "translation": "座標"
+    },
+    {
+      "language": "zh-TW",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "中國 · 廣東 · 深圳"
+    },
+    {
+      "language": "zh-TW",
+      "source": "技能",
+      "translation": "技能"
+    },
+    {
+      "language": "zh-TW",
+      "source": "0 本",
+      "translation": "0 本"
+    },
+    {
+      "language": "zh-TW",
+      "source": "删除当前总结册",
+      "translation": "刪除目前總結冊"
+    },
+    {
+      "language": "zh-TW",
+      "source": "绘画 · 代码",
+      "translation": "繪畫 · 程式碼"
+    },
+    {
+      "language": "zh-TW",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "選擇 PPTX 或逐頁圖片"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传总结",
+      "translation": "上傳摘要"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传你的第一份总结",
+      "translation": "上傳你的第一份總結"
+    },
+    {
+      "language": "zh-TW",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "PPTX 會被整理成可翻閱的網頁投影片。"
+    },
+    {
+      "language": "zh-TW",
+      "source": "< 总结册",
+      "translation": "< 總結冊"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Gallery",
+      "translation": "圖像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "创建第一个相册",
+      "translation": "建立第一個相簿"
+    },
+    {
+      "language": "zh-TW",
+      "source": "编辑联系",
+      "translation": "編輯聯絡人"
+    },
+    {
+      "language": "zh-TW",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传",
+      "translation": "上傳"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing。以好奇心打造。"
+    },
+    {
+      "language": "zh-TW",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "本網頁由大肥魚驅動的Codex賦能製作"
+    },
+    {
+      "language": "zh-TW",
+      "source": "网页版本：V0.5",
+      "translation": "網頁版本：V0.5"
+    },
+    {
+      "language": "zh-TW",
+      "source": "NEW ALBUM",
+      "translation": "新的相簿"
+    },
+    {
+      "language": "zh-TW",
+      "source": "相册名称",
+      "translation": "相簿名稱"
+    },
+    {
+      "language": "zh-TW",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "建立後，可以繼續上傳相片和更換封面。"
+    },
+    {
+      "language": "zh-TW",
+      "source": "取消",
+      "translation": "取消"
+    },
+    {
+      "language": "zh-TW",
+      "source": "创建",
+      "translation": "創建"
+    },
+    {
+      "language": "zh-TW",
+      "source": "PROFILE EDITOR",
+      "translation": "設定檔編輯器"
+    },
+    {
+      "language": "zh-TW",
+      "source": "属性行",
+      "translation": "屬性行"
+    },
+    {
+      "language": "zh-TW",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · 靈感型冒險家"
+    },
+    {
+      "language": "zh-TW",
+      "source": "广东 · 深圳",
+      "translation": "廣東 · 深圳"
+    },
+    {
+      "language": "zh-TW",
+      "source": "爱好",
+      "translation": "喜好"
+    },
+    {
+      "language": "zh-TW",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "電玩、運動、桌遊、聚會"
+    },
+    {
+      "language": "zh-TW",
+      "source": "看过的番",
+      "translation": "看過的番"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re：從零開始的異世界生活"
+    },
+    {
+      "language": "zh-TW",
+      "source": "死亡笔记",
+      "translation": "死亡筆記本"
+    },
+    {
+      "language": "zh-TW",
+      "source": "关于邻家的天使大人",
+      "translation": "關於鄰家的天使大人"
+    },
+    {
+      "language": "zh-TW",
+      "source": "刀剑神域",
+      "translation": "刀劍神域"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Jobless Reincarnation",
+      "translation": "無職轉生"
+    },
+    {
+      "language": "zh-TW",
+      "source": "游戏宇宙",
+      "translation": "遊戲宇宙"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Steam",
+      "translation": "Steam"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Minecraft",
+      "translation": "Minecraft"
+    },
+    {
+      "language": "zh-TW",
+      "source": "崩坏：星穹铁道",
+      "translation": "崩壞：星穹鐵道"
+    },
+    {
+      "language": "zh-TW",
+      "source": "明日方舟",
+      "translation": "明日方舟"
+    },
+    {
+      "language": "zh-TW",
+      "source": "明日方舟：终末地",
+      "translation": "明日方舟：終末地"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Terraria",
+      "translation": "泰拉瑞亞"
+    },
+    {
+      "language": "zh-TW",
+      "source": "社交平台",
+      "translation": "社交平台"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Bilibili",
+      "translation": "Bilibili"
+    },
+    {
+      "language": "zh-TW",
+      "source": "抖音",
+      "translation": "抖音"
     }
   ]
 }

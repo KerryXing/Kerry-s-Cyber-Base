@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T09:57:11.453Z",
+  "updatedAt": "2026-11-27T09:57:32.795Z",
   "entries": [
     {
       "language": "en",
@@ -1206,6 +1206,111 @@
       "language": "zh-TW",
       "source": "CONTACT EDITOR",
       "translation": "편집자에게 연락하기"
+    },
+    {
+      "language": "es",
+      "source": "技能",
+      "translation": "Habilidad"
+    },
+    {
+      "language": "es",
+      "source": "坐标",
+      "translation": "xy"
+    },
+    {
+      "language": "es",
+      "source": "惠州巽寮湾",
+      "translation": "Bahía de Xunliao, Huizhou"
+    },
+    {
+      "language": "es",
+      "source": "柳州马鞍山顶",
+      "translation": "Cima del monte Ma'anshan de Liuzhou"
+    },
+    {
+      "language": "es",
+      "source": "丽江古城",
+      "translation": "Ciudad antigua de Lijiang"
+    },
+    {
+      "language": "es",
+      "source": "大理洱海",
+      "translation": "Lago Erhai de Dali"
+    },
+    {
+      "language": "es",
+      "source": "太平山顶",
+      "translation": "Cima del monte Victoria"
+    },
+    {
+      "language": "ja",
+      "source": "Kerry's Cyber Base",
+      "translation": "ケリーのサイバー基地"
+    },
+    {
+      "language": "ja",
+      "source": "跳到主要内容",
+      "translation": "メインコンテンツへ移動"
+    },
+    {
+      "language": "ja",
+      "source": "KX",
+      "translation": "ケイマン航空"
+    },
+    {
+      "language": "ja",
+      "source": "昵称",
+      "translation": "ニックネーム"
+    },
+    {
+      "language": "ja",
+      "source": "Kerry Xing",
+      "translation": "ケリー・シン"
+    },
+    {
+      "language": "ja",
+      "source": "身份",
+      "translation": "身分"
+    },
+    {
+      "language": "ja",
+      "source": "KERRY XING",
+      "translation": "ケリー・シング"
+    },
+    {
+      "language": "ja",
+      "source": "编辑属性表",
+      "translation": "属性テーブルを編集する"
+    },
+    {
+      "language": "ja",
+      "source": "YOUR AVATAR",
+      "translation": "あなたのアバター"
+    },
+    {
+      "language": "ja",
+      "source": "研究生",
+      "translation": "大学院"
+    },
+    {
+      "language": "ja",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "ja",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "ja",
+      "source": "编辑头像",
+      "translation": "<string name=\"edit_avatar\">アバターを編集する</string>"
+    },
+    {
+      "language": "ja",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "大学院生/インスピレーションコレクター/漫画・ゲーム愛好家"
     }
   ]
 }

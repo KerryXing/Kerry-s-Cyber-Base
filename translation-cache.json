@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:27:11.701Z",
+  "updatedAt": "2026-11-27T17:27:16.078Z",
   "entries": [
     {
       "language": "en",
@@ -2686,6 +2686,286 @@
       "language": "zh-TW",
       "source": "抖音",
       "translation": "抖音"
+    },
+    {
+      "language": "zh-TW",
+      "source": "联系方式",
+      "translation": "聯絡方式"
+    },
+    {
+      "language": "zh-TW",
+      "source": "QQ",
+      "translation": "QQ"
+    },
+    {
+      "language": "zh-TW",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "zh-TW",
+      "source": "绘画，代码",
+      "translation": "繪畫，程式碼"
+    },
+    {
+      "language": "zh-TW",
+      "source": "紫罗兰永恒花园",
+      "translation": "紫羅蘭永恆花園"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Email",
+      "translation": "電子郵件"
+    },
+    {
+      "language": "zh-TW",
+      "source": "添加一行",
+      "translation": "新增一行"
+    },
+    {
+      "language": "zh-TW",
+      "source": "标签框",
+      "translation": "標籤框"
+    },
+    {
+      "language": "zh-TW",
+      "source": "添加标签框",
+      "translation": "新增標籤框"
+    },
+    {
+      "language": "zh-TW",
+      "source": "微信",
+      "translation": "微信"
+    },
+    {
+      "language": "zh-TW",
+      "source": "百崖大峡谷",
+      "translation": "百崖大峽谷"
+    },
+    {
+      "language": "zh-TW",
+      "source": "云门山",
+      "translation": "雲門山"
+    },
+    {
+      "language": "zh-TW",
+      "source": "保存并发布",
+      "translation": "儲存並發布"
+    },
+    {
+      "language": "zh-TW",
+      "source": "联系标签框",
+      "translation": "聯絡人標籤框"
+    },
+    {
+      "language": "zh-TW",
+      "source": "ALBUM VIEWER",
+      "translation": "相簿檢視器"
+    },
+    {
+      "language": "zh-TW",
+      "source": "鼓浪屿",
+      "translation": "鼓浪嶼"
+    },
+    {
+      "language": "zh-TW",
+      "source": "潮汕海门湾",
+      "translation": "潮汕海門灣"
+    },
+    {
+      "language": "zh-TW",
+      "source": "相册",
+      "translation": "相簿"
+    },
+    {
+      "language": "zh-TW",
+      "source": "珠海日月贝",
+      "translation": "珠海日月貝"
+    },
+    {
+      "language": "zh-TW",
+      "source": "展示大小",
+      "translation": "顯示大小"
+    },
+    {
+      "language": "zh-TW",
+      "source": "保存设置",
+      "translation": "儲存設定"
+    },
+    {
+      "language": "zh-TW",
+      "source": "贵州千户苗寨",
+      "translation": "貴州千戶苗寨"
+    },
+    {
+      "language": "zh-TW",
+      "source": "FAST望远镜",
+      "translation": "FAST望遠鏡"
+    },
+    {
+      "language": "zh-TW",
+      "source": "太平山顶",
+      "translation": "太平山頂"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Oxford",
+      "translation": "牛津"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Cambridge",
+      "translation": "Cambridge"
+    },
+    {
+      "language": "zh-TW",
+      "source": "长沙橘子洲",
+      "translation": "長沙橘子洲"
+    },
+    {
+      "language": "zh-TW",
+      "source": "广州长隆动物园",
+      "translation": "廣州長隆動物園"
+    },
+    {
+      "language": "zh-TW",
+      "source": "20RMB",
+      "translation": "20 元人民幣"
+    },
+    {
+      "language": "zh-TW",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "選擇相片／影片／LIVP"
+    },
+    {
+      "language": "zh-TW",
+      "source": "黄果树瀑布",
+      "translation": "黃果樹瀑布"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传到相册",
+      "translation": "上傳到相簿"
+    },
+    {
+      "language": "zh-TW",
+      "source": "设为封面轮换",
+      "translation": "設為封面輪換"
+    },
+    {
+      "language": "zh-TW",
+      "source": "柳州马鞍山顶",
+      "translation": "柳州馬鞍山頂"
+    },
+    {
+      "language": "zh-TW",
+      "source": "理塘",
+      "translation": "理塘"
+    },
+    {
+      "language": "zh-TW",
+      "source": "删除整个相册",
+      "translation": "刪除整個相簿"
+    },
+    {
+      "language": "zh-TW",
+      "source": "稻城亚丁",
+      "translation": "稻城亞丁"
+    },
+    {
+      "language": "zh-TW",
+      "source": "返回 Gallery",
+      "translation": "返回 Gallery"
+    },
+    {
+      "language": "zh-TW",
+      "source": "COVER ROTATION",
+      "translation": "封面輪播"
+    },
+    {
+      "language": "zh-TW",
+      "source": "澳门威尼斯人",
+      "translation": "澳門威尼斯人"
+    },
+    {
+      "language": "zh-TW",
+      "source": "镇邦美食街",
+      "translation": "鎮邦美食街"
+    },
+    {
+      "language": "zh-TW",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "下一張相片在原位置柔和淡入"
+    },
+    {
+      "language": "zh-TW",
+      "source": "成都东郊记忆",
+      "translation": "成都東郊記憶"
+    },
+    {
+      "language": "zh-TW",
+      "source": "下一张照片从左侧向右淡入浮现",
+      "translation": "下一張相片從左側向右淡入浮現"
+    },
+    {
+      "language": "zh-TW",
+      "source": "下一张照片从中心向四周放大浮现",
+      "translation": "下一張相片從中心向四周放大浮現"
+    },
+    {
+      "language": "zh-TW",
+      "source": "大本钟",
+      "translation": "大笨鐘"
+    },
+    {
+      "language": "zh-TW",
+      "source": "下一张照片从上方落位并淡入",
+      "translation": "下一張相片從上方落位並淡入"
+    },
+    {
+      "language": "zh-TW",
+      "source": "拖动留言贴纸选择位置，然后点击“确认”。",
+      "translation": "拖曳留言貼紙選擇位置，然後點擊「確認」。"
+    },
+    {
+      "language": "zh-TW",
+      "source": "以遮幕擦除和淡入淡出完成翻页",
+      "translation": "以遮幕擦除和淡入淡出完成翻頁"
+    },
+    {
+      "language": "zh-TW",
+      "source": "保存动画",
+      "translation": "儲存動畫"
+    },
+    {
+      "language": "zh-TW",
+      "source": "照片预览",
+      "translation": "相片預覽"
+    },
+    {
+      "language": "zh-TW",
+      "source": "PRIVATE MANAGEMENT",
+      "translation": "私人管理"
+    },
+    {
+      "language": "zh-TW",
+      "source": "管理员登录",
+      "translation": "管理員登錄"
+    },
+    {
+      "language": "zh-TW",
+      "source": "使用只允许编辑此仓库的 GitHub Fine-grained Personal Access Token 登录。\n        令牌仅保存在当前浏览器会话中，不会写入网页或 GitHub 仓库。",
+      "translation": "使用只允許編輯此儲存庫的 GitHub 細粒度個人存取權杖登入。\n 權杖僅儲存在目前的瀏覽器工作階段中，不會寫入網頁或 GitHub 儲存庫。"
+    },
+    {
+      "language": "zh-TW",
+      "source": "GitHub Token",
+      "translation": "GitHub 權杖"
+    },
+    {
+      "language": "zh-TW",
+      "source": "下一张照片像方块另一面从上往下翻出",
+      "translation": "下一張相片像方塊的另一面從上往下翻出"
     }
   ]
 }

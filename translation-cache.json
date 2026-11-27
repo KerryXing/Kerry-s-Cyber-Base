@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:51:23.673Z",
+  "updatedAt": "2026-11-27T19:51:27.806Z",
   "entries": [
     {
       "language": "en",
@@ -2245,7 +2245,7 @@
     {
       "language": "en",
       "source": "明日方舟",
-      "translation": "명일방주"
+      "translation": "arknight"
     },
     {
       "language": "en",
@@ -3971,6 +3971,156 @@
       "language": "zh-CN",
       "source": "3D",
       "translation": "3D"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Oxford",
+      "translation": "牛津"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Cambridge",
+      "translation": "剑桥"
+    },
+    {
+      "language": "zh-CN",
+      "source": "20RMB",
+      "translation": "20 元人民币"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing。以好奇心为动力。"
+    },
+    {
+      "language": "zh-CN",
+      "source": "PROFILE EDITOR",
+      "translation": "编辑资料"
+    },
+    {
+      "language": "zh-CN",
+      "source": "CONTACT EDITOR",
+      "translation": "联系编辑"
+    },
+    {
+      "language": "zh-CN",
+      "source": "ALBUM VIEWER",
+      "translation": "相册查看器"
+    },
+    {
+      "language": "zh-CN",
+      "source": "게임 세계관",
+      "translation": "Game Worldview"
+    },
+    {
+      "language": "zh-CN",
+      "source": "ไทย",
+      "translation": "泰国语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Gallery",
+      "translation": "大厅"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Thai",
+      "translation": "泰语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "轮换动画",
+      "translation": "Rotation Animation"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Vietnamese",
+      "translation": "越南语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Tiếng Việt",
+      "translation": "越南文"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Português",
+      "translation": "葡萄牙语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Portuguese",
+      "translation": "葡萄牙语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "བོད་སྐད་",
+      "translation": "藏语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Tibetan",
+      "translation": "藏语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Ελληνικά",
+      "translation": "希腊字符"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Bahasa Melayu",
+      "translation": "马来文"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Malay",
+      "translation": "马来语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Greek",
+      "translation": "希腊语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "العربية",
+      "translation": "阿语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Arabic",
+      "translation": "阿拉伯语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "HIDDEN CONTENT",
+      "translation": "隐藏内容"
+    },
+    {
+      "language": "zh-CN",
+      "source": "HIDDEN CONTENT PASSWORD",
+      "translation": "隐藏内容密码"
+    },
+    {
+      "language": "en",
+      "source": "닉네임",
+      "translation": "Nickname"
+    },
+    {
+      "language": "en",
+      "source": "신분",
+      "translation": "social position, origin, identity"
+    },
+    {
+      "language": "en",
+      "source": "위치",
+      "translation": "Position"
+    },
+    {
+      "language": "en",
+      "source": "3 本",
+      "translation": "3. This"
     }
   ]
 }

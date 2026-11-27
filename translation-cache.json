@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:27:26.857Z",
+  "updatedAt": "2026-11-27T17:27:34.183Z",
   "entries": [
     {
       "language": "en",
@@ -3266,6 +3266,106 @@
       "language": "zh-TW",
       "source": "Korean",
       "translation": "韓文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "日本語",
+      "translation": "日文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Russian",
+      "translation": "俄文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Deutsch",
+      "translation": "德語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Русский",
+      "translation": "俄羅斯人"
+    },
+    {
+      "language": "zh-TW",
+      "source": "فارسی",
+      "translation": "波斯语"
+    },
+    {
+      "language": "zh-TW",
+      "source": "German",
+      "translation": "德文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Persian",
+      "translation": "波斯語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "French",
+      "translation": "法文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Français",
+      "translation": "法語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Indonesian",
+      "translation": "印度尼西亞語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Thai",
+      "translation": "泰文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Bahasa Indonesia",
+      "translation": "印尼文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Tiếng Việt",
+      "translation": "越南語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "ไทย",
+      "translation": "泰文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Vietnamese",
+      "translation": "越南語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Português",
+      "translation": "葡萄牙文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Portuguese",
+      "translation": "葡萄牙文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "བོད་སྐད་",
+      "translation": "藏語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Tibetan",
+      "translation": "藏語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Ελληνικά",
+      "translation": "希臘文"
     }
   ]
 }

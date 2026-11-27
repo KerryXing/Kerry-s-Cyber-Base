@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:30:46.048Z",
+  "updatedAt": "2026-11-27T05:35:30.989Z",
   "entries": [
     {
       "language": "ja",
@@ -1486,6 +1486,86 @@
       "language": "en",
       "source": "设为封面轮换",
       "translation": "Set as Cover Rotation"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "zh-CN",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Steam",
+      "translation": "蒸汽"
+    },
+    {
+      "language": "zh-CN",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Minecraft",
+      "translation": "我的世界"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Terraria",
+      "translation": "泰拉瑞亚"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Bilibili",
+      "translation": "哔哩哔哩"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Jobless Reincarnation",
+      "translation": "无职转生"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Undergraduation",
+      "translation": "本科"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Amigos",
+      "translation": "朋友"
+    },
+    {
+      "language": "zh-CN",
+      "source": "QQ",
+      "translation": "QQ"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Firefly",
+      "translation": "萤火虫"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Email",
+      "translation": "电子邮箱"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Oxford",
+      "translation": "牛津"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Cambridge",
+      "translation": "剑桥"
+    },
+    {
+      "language": "zh-CN",
+      "source": "20RMB",
+      "translation": "20 元人民币"
     }
   ]
 }

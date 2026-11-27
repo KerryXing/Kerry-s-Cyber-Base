@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:52:09.531Z",
+  "updatedAt": "2026-11-27T19:52:20.463Z",
   "entries": [
     {
       "language": "en",
@@ -4401,6 +4401,36 @@
       "language": "ja",
       "source": "庄重红色、金色光芒与庆典丝带",
       "translation": "厳かな赤色、金色の輝き、祝祭のリボン"
+    },
+    {
+      "language": "fa",
+      "source": "ニックネーム",
+      "translation": "نام مستعار:"
+    },
+    {
+      "language": "fa",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "fa",
+      "source": "Kerry's Cyber Base",
+      "translation": "پایگاه سایبری کری"
+    },
+    {
+      "language": "fa",
+      "source": "跳到主要内容",
+      "translation": "رفتن به محتوای اصلی"
+    },
+    {
+      "language": "fa",
+      "source": "Kerry Xing",
+      "translation": "کری شینگ"
+    },
+    {
+      "language": "fa",
+      "source": "身分",
+      "translation": "هویت"
     }
   ]
 }

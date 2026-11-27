@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:14:55.913Z",
+  "updatedAt": "2026-11-27T06:15:02.481Z",
   "entries": [
     {
       "language": "ja",
@@ -3486,6 +3486,91 @@
       "language": "ru",
       "source": "下一张照片从中心向四周放大浮现",
       "translation": "Следующая фотография увеличивается от центра к краям"
+    },
+    {
+      "language": "ru",
+      "source": "广州长隆动物园",
+      "translation": "Зоопарк «Чанлун» в Гуанчжоу"
+    },
+    {
+      "language": "ru",
+      "source": "20RMB",
+      "translation": "20 юаней"
+    },
+    {
+      "language": "ru",
+      "source": "理塘",
+      "translation": "Литанг"
+    },
+    {
+      "language": "ru",
+      "source": "竖直滚动",
+      "translation": "Прокрутка по вертикали"
+    },
+    {
+      "language": "ru",
+      "source": "页面转场",
+      "translation": "Переход между страницами"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片从上方落位并淡入",
+      "translation": "Следующее фото опускается сверху и появляется"
+    },
+    {
+      "language": "ru",
+      "source": "澳门威尼斯人",
+      "translation": "The Venetian Macao"
+    },
+    {
+      "language": "ru",
+      "source": "稻城亚丁",
+      "translation": "Даочэн-Ядин"
+    },
+    {
+      "language": "ru",
+      "source": "镇邦美食街",
+      "translation": "Улица еды Чжэньбан"
+    },
+    {
+      "language": "ru",
+      "source": "上下翻转",
+      "translation": "Повёрнутое вверх ногами"
+    },
+    {
+      "language": "ru",
+      "source": "以遮幕擦除和淡入淡出完成翻页",
+      "translation": "Переворачивание страниц с помощью эффектов «Стирание» и «Затухание»"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片像方块另一面从上往下翻出",
+      "translation": "Следующая фотография появляется, переворачиваясь сверху вниз, как другая сторона квадрата."
+    },
+    {
+      "language": "ru",
+      "source": "成都东郊记忆",
+      "translation": "Парк «Воспоминания восточной окраины Чэнду»"
+    },
+    {
+      "language": "ru",
+      "source": "大本钟",
+      "translation": "Биг-Бен"
+    },
+    {
+      "language": "ru",
+      "source": "保存动画",
+      "translation": "Сохранить анимацию"
+    },
+    {
+      "language": "ru",
+      "source": "PHOTO VIEW",
+      "translation": "Просмотр фото"
+    },
+    {
+      "language": "ru",
+      "source": "照片预览",
+      "translation": "Предпросмотр фотографии"
     }
   ]
 }

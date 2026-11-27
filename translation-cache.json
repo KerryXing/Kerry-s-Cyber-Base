@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:29:11.136Z",
+  "updatedAt": "2026-11-27T06:29:18.126Z",
   "entries": [
     {
       "language": "ja",
@@ -3871,6 +3871,11 @@
       "language": "ru",
       "source": "English",
       "translation": "Английский язык"
+    },
+    {
+      "language": "en",
+      "source": "العربية",
+      "translation": "Arabic"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:52:47.376Z",
+  "updatedAt": "2026-11-27T19:53:41.699Z",
   "entries": [
     {
       "language": "en",
@@ -4506,6 +4506,76 @@
       "language": "ar",
       "source": "绘画，代码",
       "translation": "الرسم، البرمجة"
+    },
+    {
+      "language": "ar",
+      "source": "绘画 · 代码",
+      "translation": "الرسم · البرمجة"
+    },
+    {
+      "language": "ar",
+      "source": "编辑头像",
+      "translation": "تعديل الصورة الشخصية"
+    },
+    {
+      "language": "ar",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "طالب دراسات عليا / جامع أفكار إبداعية / عاشق للرسوم المتحركة والألعاب"
+    },
+    {
+      "language": "ar",
+      "source": "0 本",
+      "translation": "0 نسخة"
+    },
+    {
+      "language": "ar",
+      "source": "爱好",
+      "translation": "الاهتمامات:"
+    },
+    {
+      "language": "ar",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "الألعاب الإلكترونية، التمارين الرياضية، ألعاب الطاولة، الحفلات"
+    },
+    {
+      "language": "ar",
+      "source": "看过的番",
+      "translation": "الأنمي الذي شاهدته"
+    },
+    {
+      "language": "ar",
+      "source": "删除当前总结册",
+      "translation": "حذف الألبوم الموجز الحالي"
+    },
+    {
+      "language": "ar",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "اختر ملف PPTX أو صورًا لكل صفحة"
+    },
+    {
+      "language": "ar",
+      "source": "上传总结",
+      "translation": "تحميل الملخص"
+    },
+    {
+      "language": "ar",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "رد: حياة في عالم آخر تبدأ من الصفر"
+    },
+    {
+      "language": "ar",
+      "source": "死亡笔记",
+      "translation": "مذكرة الموت"
+    },
+    {
+      "language": "ar",
+      "source": "自动放映已开启，每 10 秒切换一页。",
+      "translation": "تم تشغيل العرض التلقائي، ويتم تبديل الصفحة كل 10 ثوانٍ."
+    },
+    {
+      "language": "ar",
+      "source": "关于邻家的天使大人",
+      "translation": "حول الملاك المجاور"
     }
   ]
 }

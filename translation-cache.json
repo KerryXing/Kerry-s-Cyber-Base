@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:15:14.701Z",
+  "updatedAt": "2026-11-27T07:15:27.642Z",
   "entries": [
     {
       "language": "en",
@@ -710,7 +710,7 @@
     {
       "language": "es",
       "source": "绘画，代码",
-      "translation": "Drawing, Code"
+      "translation": "Drawing, Coding"
     },
     {
       "language": "es",
@@ -725,12 +725,62 @@
     {
       "language": "es",
       "source": "Re:从零开始的异世界生活",
-      "translation": "Re:Zero − Starting Life in Another World"
+      "translation": "Re: Zero − Starting Life in Another World"
     },
     {
       "language": "es",
       "source": "联系方式",
       "translation": "联系方式"
+    },
+    {
+      "language": "es",
+      "source": "死亡笔记",
+      "translation": "Death Note"
+    },
+    {
+      "language": "es",
+      "source": "百崖大峡谷",
+      "translation": "Baiya Grand Canyon"
+    },
+    {
+      "language": "es",
+      "source": "关于邻家的天使大人",
+      "translation": "El ángel de al lado"
+    },
+    {
+      "language": "es",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "es",
+      "source": "昵称",
+      "translation": "Nickname"
+    },
+    {
+      "language": "es",
+      "source": "Kerry's Cyber Base",
+      "translation": "La base cibernética de Kerry"
+    },
+    {
+      "language": "es",
+      "source": "身份",
+      "translation": "Situación"
+    },
+    {
+      "language": "es",
+      "source": "跳到主要内容",
+      "translation": "Ir al contenido principal"
+    },
+    {
+      "language": "es",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "es",
+      "source": "云门山",
+      "translation": "Monte Yunmen"
     }
   ]
 }

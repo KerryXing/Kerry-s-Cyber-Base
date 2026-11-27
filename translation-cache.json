@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:52:00.750Z",
+  "updatedAt": "2026-11-27T19:52:06.339Z",
   "entries": [
     {
       "language": "en",
@@ -4161,6 +4161,96 @@
       "language": "ja",
       "source": "Jobless Reincarnation",
       "translation": "無職転生"
+    },
+    {
+      "language": "ja",
+      "source": "松绿、暖红、星光与细雪",
+      "translation": "松緑、暖色系の赤、星明かりと細雪"
+    },
+    {
+      "language": "ja",
+      "source": "圣诞",
+      "translation": "クリスマス"
+    },
+    {
+      "language": "ja",
+      "source": "节日主题",
+      "translation": "祝日テーマ"
+    },
+    {
+      "language": "ja",
+      "source": "元旦",
+      "translation": "元日"
+    },
+    {
+      "language": "ja",
+      "source": "春节",
+      "translation": "春節"
+    },
+    {
+      "language": "ja",
+      "source": "午夜蓝、金色烟花与新一年的微光",
+      "translation": "ミッドナイトブルー、金色の花火、新年のきらめき"
+    },
+    {
+      "language": "ja",
+      "source": "朱红、鎏金、灯笼与祥云",
+      "translation": "朱色、金メッキ、提灯と吉祥雲"
+    },
+    {
+      "language": "ja",
+      "source": "清明",
+      "translation": "タンミン"
+    },
+    {
+      "language": "ja",
+      "source": "复活节",
+      "translation": "イースター"
+    },
+    {
+      "language": "ja",
+      "source": "青黛远山、薄雾、细雨与垂柳",
+      "translation": "青黛色の遠山、薄霧、小雨、しだれ柳"
+    },
+    {
+      "language": "ja",
+      "source": "春日晨光、彩蛋与柔和的花园色彩",
+      "translation": "春の朝の光、イースターエッグ、柔らかな庭の色"
+    },
+    {
+      "language": "ja",
+      "source": "元宵",
+      "translation": "元宵節"
+    },
+    {
+      "language": "ja",
+      "source": "暖粉灯火、金色月轮与团圆夜色",
+      "translation": "温かみのあるピンク色の灯り、金色に輝く月、そして団らんの夜の景色"
+    },
+    {
+      "language": "ja",
+      "source": "劳动",
+      "translation": "労働"
+    },
+    {
+      "language": "ja",
+      "source": "清亮工业蓝、日光与秩序线条",
+      "translation": "明るいインダストリアルブルー、日光と秩序あるライン"
+    },
+    {
+      "language": "ja",
+      "source": "端午",
+      "translation": "端午の節句"
+    },
+    {
+      "language": "ja",
+      "source": "菖蒲青绿、粼粼水光与日光",
+      "translation": "ショウブの青緑色、きらめく水面と日光"
+    },
+    {
+      "language": "ja",
+      "source": "深蓝夜空、满月与桂花金色",
+      "translation": "紺碧の夜空、満月、金色の桂花"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:41:45.267Z",
+  "updatedAt": "2026-11-27T06:51:12.518Z",
   "entries": [
     {
       "language": "en",
@@ -21,6 +21,306 @@
       "language": "en",
       "source": "广东 · 深圳",
       "translation": "Shenzhen, Guangdong"
+    },
+    {
+      "language": "ru",
+      "source": "Kerry's Cyber Base",
+      "translation": "Кибербаза Керри"
+    },
+    {
+      "language": "ru",
+      "source": "跳到主要内容",
+      "translation": "Перейти к основному содержанию"
+    },
+    {
+      "language": "ru",
+      "source": "KX",
+      "translation": "Kx"
+    },
+    {
+      "language": "ru",
+      "source": "Kerry Xing",
+      "translation": "Керри Син (Kerry Xing)"
+    },
+    {
+      "language": "ru",
+      "source": "KERRY XING",
+      "translation": "КЕРРИ СИН (KERRY XING)"
+    },
+    {
+      "language": "ru",
+      "source": "编辑属性表",
+      "translation": "Редактировать таблицу свойств"
+    },
+    {
+      "language": "ru",
+      "source": "YOUR AVATAR",
+      "translation": "ваша аватара"
+    },
+    {
+      "language": "ru",
+      "source": "研究生",
+      "translation": "Аспирант"
+    },
+    {
+      "language": "ru",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "ru",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP — Вдохновенный искатель приключений"
+    },
+    {
+      "language": "ru",
+      "source": "编辑头像",
+      "translation": "Редактировать аватар"
+    },
+    {
+      "language": "ru",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Аспирант / Собиратель вдохновения / Любитель комиксов и игр"
+    },
+    {
+      "language": "ru",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "Китай · Гуандун · Шэньчжэнь"
+    },
+    {
+      "language": "ru",
+      "source": "0 本",
+      "translation": "учета"
+    },
+    {
+      "language": "ru",
+      "source": "删除当前总结册",
+      "translation": "Удалить текущий альбом с итогами"
+    },
+    {
+      "language": "ru",
+      "source": "绘画 · 代码",
+      "translation": "Рисование · Код"
+    },
+    {
+      "language": "ru",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "Выберите PPTX или изображения по страницам"
+    },
+    {
+      "language": "ru",
+      "source": "上传总结",
+      "translation": "Загрузить отчет"
+    },
+    {
+      "language": "ru",
+      "source": "上传你的第一份总结",
+      "translation": "Загрузите свой первый отчет"
+    },
+    {
+      "language": "ru",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "Файл PPTX будет преобразован в слайды, которые можно просматривать на веб-странице."
+    },
+    {
+      "language": "ru",
+      "source": "< 总结册",
+      "translation": "< Сборник итогов"
+    },
+    {
+      "language": "ru",
+      "source": "Gallery",
+      "translation": "Галерея"
+    },
+    {
+      "language": "ru",
+      "source": "创建第一个相册",
+      "translation": "Создать первый альбом"
+    },
+    {
+      "language": "ru",
+      "source": "编辑联系",
+      "translation": "Редактировать контакт"
+    },
+    {
+      "language": "ru",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "ru",
+      "source": "上传",
+      "translation": "Загрузить"
+    },
+    {
+      "language": "ru",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Керри Син. Создано с любопытством."
+    },
+    {
+      "language": "ru",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "Данная веб-страница создана с использованием платформы Codex от компании «Дафэйюй»"
+    },
+    {
+      "language": "ru",
+      "source": "网页版本：V0.5",
+      "translation": "Версия веб-страницы: V0.5"
+    },
+    {
+      "language": "ru",
+      "source": "NEW ALBUM",
+      "translation": "Новый альбом"
+    },
+    {
+      "language": "ru",
+      "source": "相册名称",
+      "translation": "Название альбома"
+    },
+    {
+      "language": "ru",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "После создания можно продолжить загрузку фотографий и изменить обложку."
+    },
+    {
+      "language": "ru",
+      "source": "取消",
+      "translation": "Отмена"
+    },
+    {
+      "language": "ru",
+      "source": "创建",
+      "translation": "Создано"
+    },
+    {
+      "language": "ru",
+      "source": "PROFILE EDITOR",
+      "translation": "Редактировать свой профиль"
+    },
+    {
+      "language": "ru",
+      "source": "属性行",
+      "translation": "Строка атрибутов"
+    },
+    {
+      "language": "ru",
+      "source": "添加一行",
+      "translation": "Добавить строку"
+    },
+    {
+      "language": "ru",
+      "source": "标签框",
+      "translation": "Рамка для этикеток"
+    },
+    {
+      "language": "ru",
+      "source": "添加标签框",
+      "translation": "Добавить поле для меток"
+    },
+    {
+      "language": "ru",
+      "source": "保存并发布",
+      "translation": "Сохранить и опубликовать"
+    },
+    {
+      "language": "ru",
+      "source": "CONTACT EDITOR",
+      "translation": "ÐÐ´ÑÐµÑÐ°"
+    },
+    {
+      "language": "ru",
+      "source": "联系标签框",
+      "translation": "Поле тегов контактов"
+    },
+    {
+      "language": "ru",
+      "source": "ALBUM VIEWER",
+      "translation": "ПРОСМОТР АЛЬБОМА"
+    },
+    {
+      "language": "ru",
+      "source": "相册",
+      "translation": "Альбомы"
+    },
+    {
+      "language": "ru",
+      "source": "展示大小",
+      "translation": "Размер отображения"
+    },
+    {
+      "language": "ru",
+      "source": "保存设置",
+      "translation": "сохранить настройки"
+    },
+    {
+      "language": "ru",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "Выбрать фото/видео/LIVP"
+    },
+    {
+      "language": "ru",
+      "source": "上传到相册",
+      "translation": "Загрузить в альбом"
+    },
+    {
+      "language": "ru",
+      "source": "轮换动画",
+      "translation": "Анимация смены"
+    },
+    {
+      "language": "ru",
+      "source": "设为封面轮换",
+      "translation": "Установить в качестве сменяющейся обложки"
+    },
+    {
+      "language": "ru",
+      "source": "删除整个相册",
+      "translation": "Удалить весь альбом"
+    },
+    {
+      "language": "ru",
+      "source": "返回 Gallery",
+      "translation": "Вернуться в галерею"
+    },
+    {
+      "language": "ru",
+      "source": "COVER ROTATION",
+      "translation": "ВРАЩЕНИЕ КРЫШКИ"
+    },
+    {
+      "language": "ru",
+      "source": "渐显",
+      "translation": "Постепенное появление"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "Следующее фото плавно появляется на том же месте"
+    },
+    {
+      "language": "ru",
+      "source": "右滑",
+      "translation": "Провести пальцем вправо"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片从左侧向右淡入浮现",
+      "translation": "Следующее фото появляется с плавным переходом слева направо"
+    },
+    {
+      "language": "ru",
+      "source": "放大",
+      "translation": "Увел"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片从中心向四周放大浮现",
+      "translation": "Следующая фотография увеличивается от центра к краям"
+    },
+    {
+      "language": "ru",
+      "source": "竖直滚动",
+      "translation": "Прокрутка по вертикали"
     }
   ]
 }

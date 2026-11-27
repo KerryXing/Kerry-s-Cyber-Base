@@ -1,4 +1,15 @@
 {
   "version": 1,
-  "messages": []
+  "messages": [
+    {
+      "id": "message-d462ce82-8be0-4f3f-ab03-94200e7155ab",
+      "content": "这是一则测试帖\n欢迎留言！\nWelcome to leave your comments!",
+      "name": "Kerry",
+      "anonymous": false,
+      "shape": "chat",
+      "x": 0.04307737336820461,
+      "y": 8,
+      "createdAt": "2026-11-27T06:44:22.924Z"
+    }
+  ]
 }

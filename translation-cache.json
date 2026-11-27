@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:52:20.463Z",
+  "updatedAt": "2026-11-27T19:52:47.376Z",
   "entries": [
     {
       "language": "en",
@@ -4431,6 +4431,81 @@
       "language": "fa",
       "source": "身分",
       "translation": "هویت"
+    },
+    {
+      "language": "ar",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "ar",
+      "source": "Kerry's Cyber Base",
+      "translation": "قاعدة كيري الإلكترونية"
+    },
+    {
+      "language": "ar",
+      "source": "跳到主要内容",
+      "translation": "الانتقال إلى المحتوى الرئيسي"
+    },
+    {
+      "language": "ar",
+      "source": "研究生",
+      "translation": "الدراسات العليا"
+    },
+    {
+      "language": "ar",
+      "source": "Kerry Xing",
+      "translation": "كيري شينغ"
+    },
+    {
+      "language": "ar",
+      "source": "MBTI",
+      "translation": "مؤشر مايرز بريجز للنوعية (MBTI)"
+    },
+    {
+      "language": "ar",
+      "source": "KERRY XING",
+      "translation": "كيري شينغ"
+    },
+    {
+      "language": "ar",
+      "source": "YOUR AVATAR",
+      "translation": "صورتك الرمزية"
+    },
+    {
+      "language": "ar",
+      "source": "编辑属性表",
+      "translation": "تحرير جدول الخصائص"
+    },
+    {
+      "language": "ar",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · المغامر الملهم"
+    },
+    {
+      "language": "ar",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "ar",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "شنتشن، قوانغدونغ، الصين"
+    },
+    {
+      "language": "ar",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP المغامرون الملهمون"
+    },
+    {
+      "language": "ar",
+      "source": "广东 · 深圳",
+      "translation": "شنتشن، قوانغدونغ"
+    },
+    {
+      "language": "ar",
+      "source": "绘画，代码",
+      "translation": "الرسم، البرمجة"
     }
   ]
 }

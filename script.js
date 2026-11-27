@@ -111,6 +111,10 @@
     heroRotationLayers: [],
     heroRotationIndex: 0,
     albumRotationTimers: new Map(),
+    visibleAlbumCovers: new Set(),
+    albumCoverObserver: null,
+    mediaObserver: null,
+    mediaActivationFrame: null,
     avatarSelectionMode: false,
     selectedAvatarIds: [],
     pendingAvatarItems: [],
@@ -128,6 +132,7 @@
     guestbookPlacement: null,
     guestbookAdjustMode: false,
     guestbookLayoutSnapshot: [],
+    guestbookStickerStates: new Map(),
     footprints: [],
     pendingFootprintItems: [],
     footprintSelectionMode: false,
@@ -166,6 +171,7 @@
     setupNavigation();
     setupDialogs();
     setupRevealAnimations();
+    setupMediaVisibilityObserver();
     setupDeck();
     setupGallery();
     setupGuestbook();
@@ -198,7 +204,7 @@
         return;
       }
       window.clearTimeout(galleryResizeTimer);
-      galleryResizeTimer = window.setTimeout(renderAlbums, 180);
+      galleryResizeTimer = window.setTimeout(reflowGalleryLayouts, 120);
     });
 
     $("#current-year").textContent = String(new Date().getFullYear());
@@ -222,11 +228,11 @@
     activateAnimatedMedia();
     document.addEventListener(
       "pointerdown",
-      () => activateAnimatedMedia(),
+      () => scheduleAnimatedMediaActivation(),
       { capture: true, passive: true }
     );
     document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) activateAnimatedMedia();
+      if (!document.hidden) scheduleAnimatedMediaActivation();
     });
   }
 
@@ -347,12 +353,16 @@
       : "ltr";
     document.documentElement.dataset.language = state.language;
     state.userTranslationToken = (state.userTranslationToken || 0) + 1;
+    state.guestbookStickerStates?.clear();
     state.userTranslationCache =
       state.userTranslationCache || loadTranslationCache();
     applyLanguageToDom();
     translateMissingStaticUi();
     translateUserContentDom();
     if (state.mapReady) applyBuiltInBilingualLabels();
+    if (state.guestbook?.length && $("#guestbook-board")) {
+      renderGuestbook();
+    }
     syncLanguageOptions();
   }
 
@@ -581,7 +591,6 @@
       ".contact-group-card > strong",
       ".contact-group-items b",
       ".album-photo-footer .renameable-photo-title",
-      ".guestbook-sticker .guestbook-card-content",
       ".footprint-card-info > strong",
       ".deck-list-item > strong"
     ];
@@ -3889,6 +3898,7 @@
 
   function renderAlbums() {
     stopAlbumCoverRotations();
+    state.visibleAlbumCovers.clear();
     revokeUrls(state.mainUrls);
     state.mainUrls = [];
     const list = $("#album-list");
@@ -3950,6 +3960,7 @@
         return slide;
       });
       cover.append(stack);
+      observeAlbumCoverVisibility(album.id, cover);
       watchAdaptiveTitleContrast(slides[0].firstElementChild, null, cover);
       if (slides.length > 1) {
         state.albumRotationTimers.set(
@@ -4195,6 +4206,7 @@
   function startCoverRotation(slides, key, animation = "fade") {
     let index = 0;
     return window.setInterval(() => {
+      if (!state.visibleAlbumCovers.has(key) || document.hidden) return;
       const nextIndex = (index + 1) % slides.length;
       const previous = slides[index];
       const next = slides[nextIndex];
@@ -4326,6 +4338,48 @@
   function stopAlbumCoverRotations() {
     state.albumRotationTimers.forEach((timer) => window.clearInterval(timer));
     state.albumRotationTimers.clear();
+  }
+
+  function observeAlbumCoverVisibility(albumId, element) {
+    if (!("IntersectionObserver" in window)) {
+      state.visibleAlbumCovers.add(albumId);
+      return;
+    }
+    if (!state.albumCoverObserver) {
+      state.albumCoverObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const id = entry.target.dataset.albumCoverId;
+            if (!id) return;
+            if (entry.isIntersecting) state.visibleAlbumCovers.add(id);
+            else state.visibleAlbumCovers.delete(id);
+          });
+        },
+        { rootMargin: "80px 0px", threshold: 0.01 }
+      );
+    }
+    element.dataset.albumCoverId = albumId;
+    state.albumCoverObserver.observe(element);
+  }
+
+  function reflowGalleryLayouts() {
+    const list = $("#album-list");
+    if (!list) return;
+    const custom =
+      state.galleryLayoutMode ||
+      state.albums.some((album) => Boolean(album.layout));
+    if (!custom) return;
+    $$(".album-card-positioned", list).forEach((card) => {
+      const album = state.albums.find(
+        (item) => item.id === card.dataset.albumId
+      );
+      if (!album) return;
+      const layout = state.galleryLayoutMode
+        ? state.galleryDraftLayouts.get(album.id)
+        : album.layout;
+      if (layout) applyAlbumCardLayout(card, layout);
+    });
+    updateGalleryLayoutHeight();
   }
 
   function openAlbumRotationDialog() {
@@ -5074,11 +5128,25 @@
       (state.guestbookAdjustMode && !preview ? " guestbook-adjustable" : "");
     card.dataset.messageId = message.id;
     card.tabIndex = preview || state.guestbookAdjustMode ? 0 : -1;
-    applyGuestbookStickerLayout(card, message, boardWidth);
+    const translationState = state.guestbookStickerStates.get(message.id);
+    const translationActive = Boolean(
+      translationState &&
+      translationState.active &&
+      translationState.language === state.language
+    );
+    const displayedContent =
+      translationActive && translationState.translation
+        ? translationState.translation
+        : message.content;
+    applyGuestbookStickerLayout(
+      card,
+      { ...message, content: displayedContent },
+      boardWidth
+    );
 
     const content = document.createElement("p");
     content.className = "guestbook-card-content";
-    content.textContent = message.content;
+    content.textContent = displayedContent;
     const footer = document.createElement("div");
     footer.className = "guestbook-card-footer";
     const name = document.createElement("strong");
@@ -5093,6 +5161,41 @@
     }
     footer.append(name, date);
     card.append(content, footer);
+
+    const sourceLanguage = detectTranslationSource(message.content);
+    if (!preview && sourceLanguage !== state.language) {
+      const tools = document.createElement("div");
+      tools.className = "guestbook-sticker-tools";
+      const translate = document.createElement("button");
+      translate.type = "button";
+      translate.className =
+        "guestbook-translate-toggle" +
+        (translationActive ? " active" : "");
+      translate.setAttribute(
+        "aria-label",
+        translationActive ? "显示原文" : "翻译为当前语言"
+      );
+      translate.title = translationActive ? "显示原文" : "翻译";
+      translate.innerHTML =
+        '<span class="guestbook-translate-icon" aria-hidden="true">' +
+        '<span class="translate-source">文</span>' +
+        '<span class="translate-target">A</span>' +
+        "</span>";
+      translate.addEventListener("pointerdown", (event) =>
+        event.stopPropagation()
+      );
+      translate.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        await toggleGuestbookStickerTranslation(
+          message,
+          card,
+          content,
+          translate
+        );
+      });
+      tools.append(translate);
+      card.append(tools);
+    }
 
     if (!preview) {
       const remove = document.createElement("button");
@@ -5147,6 +5250,51 @@
       });
     }
     return card;
+  }
+
+  async function toggleGuestbookStickerTranslation(
+    message,
+    card,
+    content,
+    button
+  ) {
+    const current = state.guestbookStickerStates.get(message.id);
+    if (
+      current?.active &&
+      current.language === state.language
+    ) {
+      current.active = false;
+      content.textContent = message.content;
+      button.classList.remove("active");
+      button.setAttribute("aria-label", "翻译为当前语言");
+      button.title = "翻译";
+      refreshGuestbookStickerSize(content);
+      return;
+    }
+    button.disabled = true;
+    button.classList.add("loading");
+    try {
+      const translated = await translateUserText(message.content, {
+        chineseOnly: false
+      });
+      if (!translated || translated === message.content) {
+        showToast("这句留言暂时没有可用的译文。");
+        return;
+      }
+      state.guestbookStickerStates.set(message.id, {
+        active: true,
+        language: state.language,
+        translation: translated
+      });
+      content.textContent = translated;
+      button.classList.add("active");
+      button.setAttribute("aria-label", "显示原文");
+      button.title = "显示原文";
+      refreshGuestbookStickerSize(content);
+    } finally {
+      button.disabled = false;
+      button.classList.remove("loading");
+    }
   }
 
   function applyGuestbookStickerLayout(card, message, boardWidth) {
@@ -7446,32 +7594,73 @@
     }
   }
 
+  function setupMediaVisibilityObserver() {
+    if (!("IntersectionObserver" in window)) return;
+    state.mediaObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) playAnimatedVideo(entry.target);
+          else entry.target.pause();
+        });
+      },
+      { rootMargin: "180px 0px", threshold: 0.01 }
+    );
+  }
+
+  function scheduleAnimatedMediaActivation() {
+    if (state.mediaActivationFrame) return;
+    state.mediaActivationFrame = window.requestAnimationFrame(() => {
+      state.mediaActivationFrame = null;
+      activateAnimatedMedia();
+    });
+  }
+
+  function isElementNearViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.bottom >= -180 &&
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) + 180
+    );
+  }
+
+  function playAnimatedVideo(video) {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.playsInline = true;
+    if (!video.dataset.loopPlaybackBound) {
+      video.dataset.loopPlaybackBound = "true";
+      ["loadedmetadata", "loadeddata", "canplay"].forEach((eventName) => {
+        video.addEventListener(eventName, () => {
+          if (isElementNearViewport(video)) {
+            const promise = video.play();
+            if (promise?.catch) promise.catch(() => {});
+          }
+        });
+      });
+    }
+    if (isElementNearViewport(video) && video.readyState >= 2) {
+      const promise = video.play();
+      if (promise?.catch) promise.catch(() => {});
+    }
+  }
+
   function activateAnimatedMedia(root = document) {
     const scope = root instanceof Element ? root : document;
-    scope.querySelectorAll("video").forEach((video) => {
+    const videos = [
+      ...(scope instanceof HTMLVideoElement ? [scope] : []),
+      ...scope.querySelectorAll("video")
+    ];
+    videos.forEach((video) => {
       video.muted = true;
       video.defaultMuted = true;
       video.loop = true;
       video.autoplay = true;
       video.playsInline = true;
-
-      const play = () => {
-        const promise = video.play();
-        if (promise?.catch) promise.catch(() => {});
-      };
-
-      if (!video.dataset.loopPlaybackBound) {
-        video.dataset.loopPlaybackBound = "true";
-        ["loadedmetadata", "loadeddata", "canplay"].forEach((eventName) => {
-          video.addEventListener(eventName, play);
-        });
-      }
-
-      if (video.readyState >= 2) {
-        play();
-      } else {
-        video.load();
-      }
+      video.dataset.loopPlaybackBound = video.dataset.loopPlaybackBound || "";
+      if (state.mediaObserver) state.mediaObserver.observe(video);
+      if (isElementNearViewport(video)) playAnimatedVideo(video);
+      else video.pause();
     });
   }
 

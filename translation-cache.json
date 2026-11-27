@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T20:03:57.624Z",
+  "updatedAt": "2026-11-27T20:09:57.456Z",
   "entries": [
     {
       "language": "en",
@@ -3975,17 +3975,17 @@
     {
       "language": "zh-CN",
       "source": "Oxford",
-      "translation": "牛津"
+      "translation": "Oxford"
     },
     {
       "language": "zh-CN",
       "source": "Cambridge",
-      "translation": "剑桥"
+      "translation": "Cambridge"
     },
     {
       "language": "zh-CN",
       "source": "20RMB",
-      "translation": "20 元人民币"
+      "translation": "20 γουάν"
     },
     {
       "language": "zh-CN",
@@ -5065,7 +5065,7 @@
     {
       "language": "el",
       "source": "贵州千户苗寨",
-      "translation": "Χωριό των Μιάο των Χιλίων Νοικοκυριών στην επαρχία Γκουιζού"
+      "translation": "Χωριό των Μιαο των Χιλίων Νοικοκυριών στην επαρχία Γκουιτζόου"
     },
     {
       "language": "el",
@@ -5081,6 +5081,116 @@
       "language": "el",
       "source": "联系标签框",
       "translation": "Πλαίσιο ετικετών επαφής"
+    },
+    {
+      "language": "el",
+      "source": "ALBUM VIEWER",
+      "translation": "ΠΡΟΓΡΑΜΜΑ ΠΡΟΒΟΛΗΣ ΑΛΜΠΟΥΜ"
+    },
+    {
+      "language": "el",
+      "source": "黄果树瀑布",
+      "translation": "Καταρράκτες Χουανγκκουόσου"
+    },
+    {
+      "language": "el",
+      "source": "柳州马鞍山顶",
+      "translation": "Κορυφή του Όρους Μαάνσαν στη Λιουτζόου"
+    },
+    {
+      "language": "el",
+      "source": "惠州巽寮湾",
+      "translation": "Κόλπος Σουνλιάο, Χουιζού"
+    },
+    {
+      "language": "el",
+      "source": "相册",
+      "translation": "Άλμπουμ φωτογραφιών"
+    },
+    {
+      "language": "el",
+      "source": "展示大小",
+      "translation": "Μέγεθος εμφάνισης"
+    },
+    {
+      "language": "el",
+      "source": "保存设置",
+      "translation": "Αποθήκευση ρυθμίσεων"
+    },
+    {
+      "language": "el",
+      "source": "这是一则测试帖\n欢迎留言！\nWelcome to leave your comments!",
+      "translation": "Αυτή είναι μια δοκιμαστική ανάρτηση.\nΚαλώς ήρθατε να αφήσετε τα σχόλιά σας!\nΚαλώς ήρθατε να αφήσετε τα σχόλιά σας!"
+    },
+    {
+      "language": "el",
+      "source": "丽江古城",
+      "translation": "Αρχαία Πόλη του Λιτζιάνγκ"
+    },
+    {
+      "language": "el",
+      "source": "大理洱海",
+      "translation": "Λίμνη Έρχαι στο Νταλί"
+    },
+    {
+      "language": "el",
+      "source": "太平山顶",
+      "translation": "Κορυφή του Όρους Βικτόρια"
+    },
+    {
+      "language": "el",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "Επιλογή φωτογραφίας / βίντεο / LIVP"
+    },
+    {
+      "language": "el",
+      "source": "上传到相册",
+      "translation": "Μεταφόρτωση στο άλμπουμ φωτογραφιών"
+    },
+    {
+      "language": "el",
+      "source": "设为封面轮换",
+      "translation": "Ορισμός ως εναλλασσόμενο εξώφυλλο"
+    },
+    {
+      "language": "el",
+      "source": "Oxford",
+      "translation": "Oxford"
+    },
+    {
+      "language": "el",
+      "source": "Cambridge",
+      "translation": "Cambridge"
+    },
+    {
+      "language": "el",
+      "source": "长沙橘子洲",
+      "translation": "Νήσος Τζούτζιτζόου της Τσανγκσά"
+    },
+    {
+      "language": "el",
+      "source": "删除整个相册",
+      "translation": "Διαγραφή ολόκληρου του άλμπουμ"
+    },
+    {
+      "language": "el",
+      "source": "返回 Gallery",
+      "translation": "Επιστροφή στη Συλλογή"
+    },
+    {
+      "language": "el",
+      "source": "COVER ROTATION",
+      "translation": "ΠΕΡΙΣΤΡΟΦΗ ΚΑΛΥΜΜΑΤΟΣ"
+    },
+    {
+      "language": "zh-CN",
+      "source": "长沙橘子洲",
+      "translation": "Νήσος Τζούτζιτζου της Τσανγκσά"
+    },
+    {
+      "language": "zh-CN",
+      "source": "广州长隆动物园",
+      "translation": "Ζωολογικός Κήπος Τσανγκλόνγκ της Γκουανγκτζόου"
     }
   ]
 }

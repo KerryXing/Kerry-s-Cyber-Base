@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T20:01:18.588Z",
+  "updatedAt": "2026-11-27T20:03:52.685Z",
   "entries": [
     {
       "language": "en",
@@ -4830,7 +4830,7 @@
     {
       "language": "el",
       "source": "Re:从零开始的异世界生活",
-      "translation": "Απ: Re:Zero − Η ζωή σε έναν άλλο κόσμο ξεκινάει από το μηδέν"
+      "translation": "Απ: Re:Zero − Starting Life in Another World"
     },
     {
       "language": "el",
@@ -4841,6 +4841,166 @@
       "language": "el",
       "source": "关于邻家的天使大人",
       "translation": "Ο Άγγελος της Διπλανής Πόρτας"
+    },
+    {
+      "language": "el",
+      "source": "上传你的第一份总结",
+      "translation": "Ανεβάστε την πρώτη σας περίληψη"
+    },
+    {
+      "language": "el",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "Το αρχείο PPTX θα αναδιαταχθεί σε διαφάνειες ιστοσελίδας που μπορούν να αναδιπλωθούν."
+    },
+    {
+      "language": "el",
+      "source": "< 总结册",
+      "translation": "< Βιβλίο σύνοψης"
+    },
+    {
+      "language": "el",
+      "source": "Gallery",
+      "translation": "Γκαλερί"
+    },
+    {
+      "language": "el",
+      "source": "创建第一个相册",
+      "translation": "Δημιουργία πρώτου άλμπουμ φωτογραφιών"
+    },
+    {
+      "language": "el",
+      "source": "编辑联系",
+      "translation": "Επεξεργασία επαφής"
+    },
+    {
+      "language": "el",
+      "source": "刀剑神域",
+      "translation": "Sword Art Online"
+    },
+    {
+      "language": "el",
+      "source": "Jobless Reincarnation",
+      "translation": "Μεταincarnation χωρίς δουλειά"
+    },
+    {
+      "language": "el",
+      "source": "游戏宇宙",
+      "translation": "Σύμπαν του παιχνιδιού"
+    },
+    {
+      "language": "el",
+      "source": "Steam",
+      "translation": "Ατμός"
+    },
+    {
+      "language": "el",
+      "source": "Minecraft",
+      "translation": "Minecraft"
+    },
+    {
+      "language": "el",
+      "source": "紫罗兰永恒花园",
+      "translation": "Violet Evergarden"
+    },
+    {
+      "language": "el",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "el",
+      "source": "明日方舟",
+      "translation": "Arknights"
+    },
+    {
+      "language": "el",
+      "source": "崩坏：星穹铁道",
+      "translation": "Honkai: Star Rail"
+    },
+    {
+      "language": "el",
+      "source": "上传",
+      "translation": "Αποστολές"
+    },
+    {
+      "language": "el",
+      "source": "明日方舟：终末地",
+      "translation": "Arknights: Endfield"
+    },
+    {
+      "language": "el",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing. Δημιουργήθηκε με περιέργεια."
+    },
+    {
+      "language": "el",
+      "source": "Terraria",
+      "translation": "Terraria"
+    },
+    {
+      "language": "el",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "Αυτή η ιστοσελίδα δημιουργήθηκε με την υποστήριξη του Codex, που υποστηρίζεται από την Dafei Yu."
+    },
+    {
+      "language": "el",
+      "source": "社交平台",
+      "translation": "Πλατφόρμα κοινωνικής δικτύωσης"
+    },
+    {
+      "language": "el",
+      "source": "Bilibili",
+      "translation": "Bilibili"
+    },
+    {
+      "language": "el",
+      "source": "网页版本：V0.5",
+      "translation": "Έκδοση ιστοσελίδας: V0.5"
+    },
+    {
+      "language": "el",
+      "source": "NEW ALBUM",
+      "translation": "Νέο λεύκωμα"
+    },
+    {
+      "language": "el",
+      "source": "相册名称",
+      "translation": "Όνομα άλμπουμ"
+    },
+    {
+      "language": "el",
+      "source": "抖音",
+      "translation": "TikTok"
+    },
+    {
+      "language": "el",
+      "source": "联系方式",
+      "translation": "Στοιχεία επικοινωνίας"
+    },
+    {
+      "language": "el",
+      "source": "QQ",
+      "translation": "QQ"
+    },
+    {
+      "language": "el",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "Μετά τη δημιουργία, μπορείτε να συνεχίσετε να ανεβάζετε φωτογραφίες και να αλλάζετε το εξώφυλλο."
+    },
+    {
+      "language": "el",
+      "source": "取消",
+      "translation": "Ακύρωση"
+    },
+    {
+      "language": "el",
+      "source": "创建",
+      "translation": "Δημιουργία"
+    },
+    {
+      "language": "el",
+      "source": "微信",
+      "translation": "WeChat"
     }
   ]
 }

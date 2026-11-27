@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T09:58:33.153Z",
+  "updatedAt": "2026-11-27T09:58:39.221Z",
   "entries": [
     {
       "language": "en",
@@ -2166,6 +2166,221 @@
       "language": "en",
       "source": "输入只读查看口令后，才会显示隐藏内容栏目。\n        第一次设置时，管理员输入的文本将作为加密密钥，因此请妥善保管。",
       "translation": "The hidden content section will only be displayed after entering the read-only view password.\n        When setting up for the first time, the text entered by the administrator will be used as the encryption key, so please keep it safe."
+    },
+    {
+      "language": "en",
+      "source": "设置访客查看隐藏内容时使用的口令。口令不会明文写入 GitHub；\n        内容文件会使用由此口令派生的 AES 密钥加密。",
+      "translation": "Set the password used by guests to view hidden content. The password will not be written to GitHub in plain text;\n        Content files will be encrypted using an AES key derived from this password."
+    },
+    {
+      "language": "en",
+      "source": "新口令",
+      "translation": "New password"
+    },
+    {
+      "language": "en",
+      "source": "再次输入新口令",
+      "translation": "Input the new password again:"
+    },
+    {
+      "language": "en",
+      "source": "修改口令时将由管理员模式自动完成重新加密，无需再次输入旧口令。",
+      "translation": "When changing the password, re-encryption will be automatically performed in administrator mode, and there is no need to enter the old password again."
+    },
+    {
+      "language": "en",
+      "source": "删除后将同步更新 GitHub 中的留言数据，此操作不可撤销。",
+      "translation": "After deletion, the comment data in GitHub will be updated synchronously. This operation cannot be undone."
+    },
+    {
+      "language": "en",
+      "source": "选择旅行照片",
+      "translation": "Select travel photos"
+    },
+    {
+      "language": "en",
+      "source": "会尝试从 JPEG / HEIC 的 EXIF 信息中读取经纬度",
+      "translation": "Will attempt to read latitude and longitude from the EXIF information of JPEG/HEIC files"
+    },
+    {
+      "language": "en",
+      "source": "纬度（可选）",
+      "translation": "Map Latitude (optional)"
+    },
+    {
+      "language": "en",
+      "source": "经度（可选）",
+      "translation": "Map Longitude (optional)"
+    },
+    {
+      "language": "en",
+      "source": "照片没有 GPS 信息时，可在这里填写经纬度作为该批次照片的位置。",
+      "translation": "When photos do not have GPS information, you can enter the latitude and longitude here as the location of the batch of photos."
+    },
+    {
+      "language": "en",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re: Life in a Different World from Zero"
+    },
+    {
+      "language": "en",
+      "source": "死亡笔记",
+      "translation": "Death Note"
+    },
+    {
+      "language": "en",
+      "source": "关于邻家的天使大人",
+      "translation": "The Angel Next Door Spoils Me Rotten"
+    },
+    {
+      "language": "en",
+      "source": "刀剑神域",
+      "translation": "Sword Art Online"
+    },
+    {
+      "language": "en",
+      "source": "崩坏：星穹铁道",
+      "translation": "Honkai: Star Rail"
+    },
+    {
+      "language": "en",
+      "source": "明日方舟",
+      "translation": "arknight"
+    },
+    {
+      "language": "en",
+      "source": "明日方舟：终末地",
+      "translation": "Arknights: Endfield"
+    },
+    {
+      "language": "en",
+      "source": "社交平台",
+      "translation": "Social Platform"
+    },
+    {
+      "language": "en",
+      "source": "抖音",
+      "translation": "Douyin"
+    },
+    {
+      "language": "en",
+      "source": "联系方式",
+      "translation": "联系方式"
+    },
+    {
+      "language": "en",
+      "source": "微信",
+      "translation": "WeChat"
+    },
+    {
+      "language": "en",
+      "source": "紫罗兰永恒花园",
+      "translation": "Violet Evergarden"
+    },
+    {
+      "language": "en",
+      "source": "百崖大峡谷",
+      "translation": "Baiya Grand Canyon"
+    },
+    {
+      "language": "en",
+      "source": "云门山",
+      "translation": "Yunmen Mountain"
+    },
+    {
+      "language": "en",
+      "source": "鼓浪屿",
+      "translation": "Gulangyu"
+    },
+    {
+      "language": "en",
+      "source": "潮汕海门湾",
+      "translation": "Chaoshan Haimen Bay"
+    },
+    {
+      "language": "en",
+      "source": "珠海日月贝",
+      "translation": "Zhuhai Sun and Moon Shell Theater"
+    },
+    {
+      "language": "en",
+      "source": "贵州千户苗寨",
+      "translation": "Qianhu Miao Village in Guizhou"
+    },
+    {
+      "language": "en",
+      "source": "FAST望远镜",
+      "translation": "FAST Telescope"
+    },
+    {
+      "language": "en",
+      "source": "黄果树瀑布",
+      "translation": "Huangguoshu Waterfall"
+    },
+    {
+      "language": "en",
+      "source": "柳州马鞍山顶",
+      "translation": "Liuzhou Ma'anshan Summit"
+    },
+    {
+      "language": "en",
+      "source": "惠州巽寮湾",
+      "translation": "Xuliǎo Bay, Huizhou"
+    },
+    {
+      "language": "en",
+      "source": "丽江古城",
+      "translation": "Old Town of Lijiang"
+    },
+    {
+      "language": "en",
+      "source": "大理洱海",
+      "translation": "Dali Erhai Lake"
+    },
+    {
+      "language": "en",
+      "source": "太平山顶",
+      "translation": "Victoria Peak"
+    },
+    {
+      "language": "en",
+      "source": "长沙橘子洲",
+      "translation": "Changsha Orange Isle"
+    },
+    {
+      "language": "en",
+      "source": "广州长隆动物园",
+      "translation": "Guangzhou Chimelong Safari Park"
+    },
+    {
+      "language": "en",
+      "source": "理塘",
+      "translation": "Litang"
+    },
+    {
+      "language": "en",
+      "source": "稻城亚丁",
+      "translation": "Yading"
+    },
+    {
+      "language": "en",
+      "source": "澳门威尼斯人",
+      "translation": "The Venetian Macao"
+    },
+    {
+      "language": "en",
+      "source": "镇邦美食街",
+      "translation": "Zhenbang Food Street"
+    },
+    {
+      "language": "en",
+      "source": "成都东郊记忆",
+      "translation": "Chengdu East Suburb Memory"
+    },
+    {
+      "language": "en",
+      "source": "大本钟",
+      "translation": "Great Bell"
     }
   ]
 }

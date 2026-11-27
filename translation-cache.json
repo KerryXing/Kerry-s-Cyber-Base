@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:51:27.806Z",
+  "updatedAt": "2026-11-27T19:51:50.921Z",
   "entries": [
     {
       "language": "en",
@@ -4121,6 +4121,26 @@
       "language": "en",
       "source": "3 本",
       "translation": "3. This"
+    },
+    {
+      "language": "ja",
+      "source": "身分",
+      "translation": "身分"
+    },
+    {
+      "language": "ja",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP 霊感型冒険家"
+    },
+    {
+      "language": "ja",
+      "source": "場所",
+      "translation": "場所"
+    },
+    {
+      "language": "ja",
+      "source": "绘画 · 代码",
+      "translation": "絵画・コード"
     }
   ]
 }

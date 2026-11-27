@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:54:54.987Z",
+  "updatedAt": "2026-11-27T19:56:03.718Z",
   "entries": [
     {
       "language": "en",
@@ -4641,6 +4641,36 @@
       "language": "ar",
       "source": "崩坏：星穹铁道",
       "translation": "هونكاي: ستار ريل"
+    },
+    {
+      "language": "ar",
+      "source": "3D",
+      "translation": "نموذج"
+    },
+    {
+      "language": "ar",
+      "source": "上传",
+      "translation": "أعد التحميل"
+    },
+    {
+      "language": "ar",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "كيري شينغ. مبنية على الفضول."
+    },
+    {
+      "language": "ar",
+      "source": "明日方舟",
+      "translation": "أرك أزول"
+    },
+    {
+      "language": "ar",
+      "source": "明日方舟：终末地",
+      "translation": "أركانيفيا: الأرض الأخيرة"
+    },
+    {
+      "language": "ar",
+      "source": "Terraria",
+      "translation": "تيراريا"
     }
   ]
 }

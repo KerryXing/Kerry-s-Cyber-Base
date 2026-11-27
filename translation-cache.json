@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T09:57:57.877Z",
+  "updatedAt": "2026-11-27T09:58:08.535Z",
   "entries": [
     {
       "language": "en",
@@ -1611,6 +1611,306 @@
       "language": "ja",
       "source": "PROFILE EDITOR",
       "translation": "プロフィールエディター"
+    },
+    {
+      "language": "ja",
+      "source": "属性行",
+      "translation": "属性行"
+    },
+    {
+      "language": "ja",
+      "source": "添加一行",
+      "translation": "行を追加"
+    },
+    {
+      "language": "ja",
+      "source": "标签框",
+      "translation": "ラベルボックス"
+    },
+    {
+      "language": "ja",
+      "source": "添加标签框",
+      "translation": "ラベルボックスを追加"
+    },
+    {
+      "language": "ja",
+      "source": "保存并发布",
+      "translation": "保存して公開"
+    },
+    {
+      "language": "ja",
+      "source": "CONTACT EDITOR",
+      "translation": "エディターに連絡する"
+    },
+    {
+      "language": "ja",
+      "source": "联系标签框",
+      "translation": "連絡先ラベルボックス"
+    },
+    {
+      "language": "ja",
+      "source": "ALBUM VIEWER",
+      "translation": "アルバムビューア"
+    },
+    {
+      "language": "ja",
+      "source": "相册",
+      "translation": "アルバム"
+    },
+    {
+      "language": "ja",
+      "source": "展示大小",
+      "translation": "表示サイズ"
+    },
+    {
+      "language": "ja",
+      "source": "保存设置",
+      "translation": "設定保存"
+    },
+    {
+      "language": "ja",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "写真/動画/LIVPを選択"
+    },
+    {
+      "language": "ja",
+      "source": "上传到相册",
+      "translation": "アルバムにアップロード"
+    },
+    {
+      "language": "ja",
+      "source": "轮换动画",
+      "translation": "ローテーションアニメーション"
+    },
+    {
+      "language": "ja",
+      "source": "设为封面轮换",
+      "translation": "カバーローテーションに設定"
+    },
+    {
+      "language": "ja",
+      "source": "删除整个相册",
+      "translation": "アルバム全体を削除する"
+    },
+    {
+      "language": "ja",
+      "source": "返回 Gallery",
+      "translation": "ギャラリーに戻る"
+    },
+    {
+      "language": "ja",
+      "source": "COVER ROTATION",
+      "translation": "カバーのローテーション"
+    },
+    {
+      "language": "ja",
+      "source": "渐显",
+      "translation": "フェードイン"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "次の写真が元の位置にフェードインする"
+    },
+    {
+      "language": "ja",
+      "source": "右滑",
+      "translation": "右にスワイプ"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片从左侧向右淡入浮现",
+      "translation": "次の写真が左から右にフェードインして現れます"
+    },
+    {
+      "language": "ja",
+      "source": "放大",
+      "translation": "巨大化"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片从中心向四周放大浮现",
+      "translation": "次の写真は、中央から周囲に向かって拡大して現れます"
+    },
+    {
+      "language": "ja",
+      "source": "竖直滚动",
+      "translation": "垂直スクロール"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片从上方落位并淡入",
+      "translation": "次の写真が上から落ちてきてフェードインする"
+    },
+    {
+      "language": "ja",
+      "source": "页面转场",
+      "translation": "ページ遷移"
+    },
+    {
+      "language": "ja",
+      "source": "以遮幕擦除和淡入淡出完成翻页",
+      "translation": "ワイプ消去とフェードイン・フェードアウトでページをめくる"
+    },
+    {
+      "language": "ja",
+      "source": "上下翻转",
+      "translation": "上下回転"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片像方块另一面从上往下翻出",
+      "translation": "次の写真は、四角形の反対側から上から下にめくられるように表示されます。"
+    },
+    {
+      "language": "ja",
+      "source": "保存动画",
+      "translation": "アニメーションを保存する"
+    },
+    {
+      "language": "ja",
+      "source": "PHOTO VIEW",
+      "translation": "写真ビュー"
+    },
+    {
+      "language": "ja",
+      "source": "照片预览",
+      "translation": "写真のプレビュー"
+    },
+    {
+      "language": "ja",
+      "source": "PRIVATE MANAGEMENT",
+      "translation": "秘密鍵の管理"
+    },
+    {
+      "language": "ja",
+      "source": "管理员登录",
+      "translation": "管理者ログイン"
+    },
+    {
+      "language": "ja",
+      "source": "使用只允许编辑此仓库的 GitHub Fine-grained Personal Access Token 登录。\n        令牌仅保存在当前浏览器会话中，不会写入网页或 GitHub 仓库。",
+      "translation": "このリポジトリの編集のみを許可するGitHubのきめ細かな個人アクセストークンを使用してログインします。\n        トークンは現在のブラウザセッションにのみ保存され、ウェブページやGitHubリポジトリには書き込まれません。"
+    },
+    {
+      "language": "ja",
+      "source": "GitHub Token",
+      "translation": "GitHubトークン"
+    },
+    {
+      "language": "ja",
+      "source": "需要该仓库的 Contents 读写权限。请勿使用账号密码，也不要授予无关仓库的权限。",
+      "translation": "このリポジトリのContentsの読み書き権限が必要です。アカウントのパスワードを使用したり、関連のないリポジトリに権限を付与したりしないでください。"
+    },
+    {
+      "language": "ja",
+      "source": "创建 Token",
+      "translation": "トークンを作成する"
+    },
+    {
+      "language": "ja",
+      "source": "验证并登录",
+      "translation": "認証してログイン"
+    },
+    {
+      "language": "ja",
+      "source": "下载内容备份",
+      "translation": "コンテンツのバックアップをダウンロード"
+    },
+    {
+      "language": "ja",
+      "source": "导入本机旧内容",
+      "translation": "このデバイスの古いコンテンツをインポートする"
+    },
+    {
+      "language": "ja",
+      "source": "退出管理",
+      "translation": "管理を終了する"
+    },
+    {
+      "language": "ja",
+      "source": "HOMEPAGE BACKGROUND",
+      "translation": "ホームページの背景"
+    },
+    {
+      "language": "ja",
+      "source": "更换首页背景",
+      "translation": "トップページの背景を変更する"
+    },
+    {
+      "language": "ja",
+      "source": "上传新背景",
+      "translation": "新しい背景をアップロード"
+    },
+    {
+      "language": "ja",
+      "source": "支持图片、视频、GIF 和 LIVP",
+      "translation": "画像、動画、GIF、LIVPをサポート"
+    },
+    {
+      "language": "ja",
+      "source": "上传新头像",
+      "translation": "新しいプロフィール写真をアップロードする"
+    },
+    {
+      "language": "ja",
+      "source": "支持 JPG、PNG、GIF、HEIC 等图片格式",
+      "translation": "JPG、PNG、GIF、HEICなどの画像形式をサポート"
+    },
+    {
+      "language": "ja",
+      "source": "使用头像",
+      "translation": "アバターを使用する"
+    },
+    {
+      "language": "ja",
+      "source": "完成",
+      "translation": "ok"
+    },
+    {
+      "language": "ja",
+      "source": "切换主题",
+      "translation": "テーマを切り替える"
+    },
+    {
+      "language": "ja",
+      "source": "深蓝",
+      "translation": "Deepal"
+    },
+    {
+      "language": "ja",
+      "source": "沉静、清晰的夜间赛博感",
+      "translation": "静かで澄んだ夜のサイバー感"
+    },
+    {
+      "language": "ja",
+      "source": "浅蓝",
+      "translation": "ライトブルー"
+    },
+    {
+      "language": "ja",
+      "source": "轻盈、柔和的日间蓝调",
+      "translation": "軽やかで柔らかな昼のブルー"
+    },
+    {
+      "language": "ja",
+      "source": "黑夜城市",
+      "translation": "夜の街"
+    },
+    {
+      "language": "ja",
+      "source": "从天际线一路降温到霓虹街道的纵深夜景",
+      "translation": "スカイラインからネオン街まで、夜の景色が徐々に冷えていく様子"
+    },
+    {
+      "language": "ja",
+      "source": "感恩",
+      "translation": "感謝"
+    },
+    {
+      "language": "ja",
+      "source": "暖金、枫叶与柔和暮色",
+      "translation": "暖かな金色、紅葉、柔らかな夕暮れ"
     }
   ]
 }

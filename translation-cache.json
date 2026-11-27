@@ -1,5 +1,306 @@
 {
   "version": 1,
-  "updatedAt": "",
-  "entries": []
+  "updatedAt": "2026-11-27T05:29:30.584Z",
+  "entries": [
+    {
+      "language": "ja",
+      "source": "Kerry's Cyber Base",
+      "translation": "ケリーのサイバー基地"
+    },
+    {
+      "language": "ja",
+      "source": "跳到主要内容",
+      "translation": "メインコンテンツへ移動"
+    },
+    {
+      "language": "ja",
+      "source": "KX",
+      "translation": "ケイマン航空"
+    },
+    {
+      "language": "ja",
+      "source": "Kerry Xing",
+      "translation": "ケリー・シン"
+    },
+    {
+      "language": "ja",
+      "source": "KERRY XING",
+      "translation": "ケリー・シング"
+    },
+    {
+      "language": "ja",
+      "source": "编辑属性表",
+      "translation": "属性テーブルを編集する"
+    },
+    {
+      "language": "ja",
+      "source": "YOUR AVATAR",
+      "translation": "あなたのアバター"
+    },
+    {
+      "language": "ja",
+      "source": "研究生",
+      "translation": "大学院"
+    },
+    {
+      "language": "ja",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "ja",
+      "source": "编辑头像",
+      "translation": "<string name=\"edit_avatar\">アバターを編集する</string>"
+    },
+    {
+      "language": "ja",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "大学院生/インスピレーションコレクター/漫画・ゲーム愛好家"
+    },
+    {
+      "language": "ja",
+      "source": "0 本",
+      "translation": "ス"
+    },
+    {
+      "language": "ja",
+      "source": "删除当前总结册",
+      "translation": "現在のまとめアルバムを削除する"
+    },
+    {
+      "language": "ja",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "PPTXまたはページごとの画像を選択"
+    },
+    {
+      "language": "ja",
+      "source": "上传总结",
+      "translation": "概要をアップロード"
+    },
+    {
+      "language": "ja",
+      "source": "上传你的第一份总结",
+      "translation": "最初の要約をアップロードする"
+    },
+    {
+      "language": "ja",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "PPTXは、閲覧可能なウェブページのスライドに整理されます。"
+    },
+    {
+      "language": "ja",
+      "source": "< 总结册",
+      "translation": "< まとめ冊子"
+    },
+    {
+      "language": "ja",
+      "source": "Gallery",
+      "translation": "ギャラリー"
+    },
+    {
+      "language": "ja",
+      "source": "创建第一个相册",
+      "translation": "最初のアルバムを作成する"
+    },
+    {
+      "language": "ja",
+      "source": "编辑联系",
+      "translation": "連絡先を編集"
+    },
+    {
+      "language": "ja",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "ja",
+      "source": "上传",
+      "translation": "アップロード"
+    },
+    {
+      "language": "ja",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing。好奇心から生まれた。"
+    },
+    {
+      "language": "ja",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "このウェブページは、大肥魚が運営するCodexによって作成されています。"
+    },
+    {
+      "language": "ja",
+      "source": "网页版本：V0.5",
+      "translation": "ウェブページバージョン：V0.5"
+    },
+    {
+      "language": "ja",
+      "source": "NEW ALBUM",
+      "translation": "ニュー・アルバム"
+    },
+    {
+      "language": "ja",
+      "source": "相册名称",
+      "translation": "アルバム名"
+    },
+    {
+      "language": "ja",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "作成後、引き続き写真のアップロードやカバーの変更が可能です。"
+    },
+    {
+      "language": "ja",
+      "source": "取消",
+      "translation": "キャンセル"
+    },
+    {
+      "language": "ja",
+      "source": "创建",
+      "translation": "作成"
+    },
+    {
+      "language": "ja",
+      "source": "PROFILE EDITOR",
+      "translation": "プロフィールエディター"
+    },
+    {
+      "language": "ja",
+      "source": "属性行",
+      "translation": "属性行"
+    },
+    {
+      "language": "ja",
+      "source": "添加一行",
+      "translation": "行を追加"
+    },
+    {
+      "language": "ja",
+      "source": "标签框",
+      "translation": "ラベルボックス"
+    },
+    {
+      "language": "ja",
+      "source": "添加标签框",
+      "translation": "ラベルボックスを追加"
+    },
+    {
+      "language": "ja",
+      "source": "保存并发布",
+      "translation": "保存して公開"
+    },
+    {
+      "language": "ja",
+      "source": "CONTACT EDITOR",
+      "translation": "エディターに連絡する"
+    },
+    {
+      "language": "ja",
+      "source": "联系标签框",
+      "translation": "連絡先ラベルボックス"
+    },
+    {
+      "language": "ja",
+      "source": "ALBUM VIEWER",
+      "translation": "アルバムビューア"
+    },
+    {
+      "language": "ja",
+      "source": "相册",
+      "translation": "アルバム"
+    },
+    {
+      "language": "ja",
+      "source": "展示大小",
+      "translation": "表示サイズ"
+    },
+    {
+      "language": "ja",
+      "source": "保存设置",
+      "translation": "設定保存"
+    },
+    {
+      "language": "ja",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "写真/動画/LIVPを選択"
+    },
+    {
+      "language": "ja",
+      "source": "上传到相册",
+      "translation": "アルバムにアップロード"
+    },
+    {
+      "language": "ja",
+      "source": "轮换动画",
+      "translation": "ローテーションアニメーション"
+    },
+    {
+      "language": "ja",
+      "source": "设为封面轮换",
+      "translation": "カバーローテーションに設定"
+    },
+    {
+      "language": "ja",
+      "source": "删除整个相册",
+      "translation": "アルバム全体を削除する"
+    },
+    {
+      "language": "ja",
+      "source": "返回 Gallery",
+      "translation": "ギャラリーに戻る"
+    },
+    {
+      "language": "ja",
+      "source": "COVER ROTATION",
+      "translation": "カバーのローテーション"
+    },
+    {
+      "language": "ja",
+      "source": "渐显",
+      "translation": "フェードイン"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "次の写真が元の位置にフェードインする"
+    },
+    {
+      "language": "ja",
+      "source": "右滑",
+      "translation": "右にスワイプ"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片从左侧向右淡入浮现",
+      "translation": "次の写真が左から右にフェードインして現れます"
+    },
+    {
+      "language": "ja",
+      "source": "放大",
+      "translation": "巨大化"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片从中心向四周放大浮现",
+      "translation": "次の写真は、中央から周囲に向かって拡大して現れます"
+    },
+    {
+      "language": "ja",
+      "source": "竖直滚动",
+      "translation": "垂直スクロール"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片从上方落位并淡入",
+      "translation": "次の写真が上から落ちてきてフェードインする"
+    },
+    {
+      "language": "ja",
+      "source": "页面转场",
+      "translation": "ページ遷移"
+    },
+    {
+      "language": "ja",
+      "source": "以遮幕擦除和淡入淡出完成翻页",
+      "translation": "ワイプ消去とフェードイン・フェードアウトでページをめくる"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:29:59.441Z",
+  "updatedAt": "2026-11-27T05:30:16.078Z",
   "entries": [
     {
       "language": "ja",
@@ -586,6 +586,306 @@
       "language": "ja",
       "source": "电游，锻炼，桌游，聚会",
       "translation": "ビデオゲーム、エクササイズ、ボードゲーム、パーティー"
+    },
+    {
+      "language": "ja",
+      "source": "看过的番",
+      "translation": "視聴済みの番組"
+    },
+    {
+      "language": "ja",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re:ゼロから始める異世界生活"
+    },
+    {
+      "language": "ja",
+      "source": "死亡笔记",
+      "translation": "デスノート"
+    },
+    {
+      "language": "ja",
+      "source": "关于邻家的天使大人",
+      "translation": "隣の天使様について"
+    },
+    {
+      "language": "ja",
+      "source": "刀剑神域",
+      "translation": "ソードアート・オンライン"
+    },
+    {
+      "language": "ja",
+      "source": "紫罗兰永恒花园",
+      "translation": "ヴァイオレット・エヴァーガーデン"
+    },
+    {
+      "language": "ja",
+      "source": "游戏宇宙",
+      "translation": "ゲームの世界"
+    },
+    {
+      "language": "ja",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · インスピレーション型冒険家"
+    },
+    {
+      "language": "ja",
+      "source": "今日主题",
+      "translation": "今日のテーマ"
+    },
+    {
+      "language": "ja",
+      "source": "庄重红色、金色光芒与庆典丝带",
+      "translation": "厳粛な赤、輝く金色、そして祝祭のリボン"
+    },
+    {
+      "language": "ja",
+      "source": "場所",
+      "translation": "場所"
+    },
+    {
+      "language": "ja",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP 霊感型冒険家"
+    },
+    {
+      "language": "ja",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "ja",
+      "source": "崩坏：星穹铁道",
+      "translation": "崩壊：スターレイル"
+    },
+    {
+      "language": "ja",
+      "source": "明日方舟",
+      "translation": "アークナイツ"
+    },
+    {
+      "language": "ja",
+      "source": "明日方舟：终末地",
+      "translation": "アークナイツ：エンドフィールド"
+    },
+    {
+      "language": "ja",
+      "source": "广东 · 深圳",
+      "translation": "広東省・深圳"
+    },
+    {
+      "language": "ja",
+      "source": "Steam",
+      "translation": "蒸気"
+    },
+    {
+      "language": "ja",
+      "source": "小作",
+      "translation": "小作"
+    },
+    {
+      "language": "ja",
+      "source": "游戏人生",
+      "translation": "ゲームライフ"
+    },
+    {
+      "language": "ja",
+      "source": "水硕生活",
+      "translation": "水碩生活"
+    },
+    {
+      "language": "ja",
+      "source": "重阳",
+      "translation": "重陽"
+    },
+    {
+      "language": "ja",
+      "source": "绘画 · 代码",
+      "translation": "絵画・コード"
+    },
+    {
+      "language": "ja",
+      "source": "秋日暖棕、层叠远山与菊花色",
+      "translation": "秋の暖かいブラウン、重なり合う遠山と菊の色"
+    },
+    {
+      "language": "ja",
+      "source": "全站默认主题",
+      "translation": "サイト全体のデフォルトテーマ"
+    },
+    {
+      "language": "ja",
+      "source": "Jobless Reincarnation",
+      "translation": "無職転生"
+    },
+    {
+      "language": "ja",
+      "source": "社交平台",
+      "translation": "ソーシャルプラットフォーム"
+    },
+    {
+      "language": "ja",
+      "source": "Minecraft",
+      "translation": "Minecraft"
+    },
+    {
+      "language": "ja",
+      "source": "抖音",
+      "translation": "抖音"
+    },
+    {
+      "language": "ja",
+      "source": "联系方式",
+      "translation": "連絡先メモ"
+    },
+    {
+      "language": "ja",
+      "source": "Terraria",
+      "translation": "テラリア"
+    },
+    {
+      "language": "ja",
+      "source": "微信",
+      "translation": "WeChatPay"
+    },
+    {
+      "language": "ja",
+      "source": "Undergraduation",
+      "translation": "学部課程"
+    },
+    {
+      "language": "ja",
+      "source": "当前默认：深蓝",
+      "translation": "現在のデフォルト：ダークブルー"
+    },
+    {
+      "language": "ja",
+      "source": "设为默认",
+      "translation": "SET DEFAULT"
+    },
+    {
+      "language": "ja",
+      "source": "LANGUAGE",
+      "translation": "言語"
+    },
+    {
+      "language": "ja",
+      "source": "Bilibili",
+      "translation": "BILIBILI"
+    },
+    {
+      "language": "ja",
+      "source": "QQ",
+      "translation": "QQ"
+    },
+    {
+      "language": "ja",
+      "source": "Amigos",
+      "translation": "アミーゴ"
+    },
+    {
+      "language": "ja",
+      "source": "这是留言测试帖（）\n欢迎留言！",
+      "translation": "これはコメントテスト投稿です（）\nコメントをお待ちしております！"
+    },
+    {
+      "language": "ja",
+      "source": "百崖大峡谷",
+      "translation": "百崖大峡谷"
+    },
+    {
+      "language": "ja",
+      "source": "云门山",
+      "translation": "雲門山"
+    },
+    {
+      "language": "ja",
+      "source": "鼓浪屿",
+      "translation": "鼓浪嶼"
+    },
+    {
+      "language": "ja",
+      "source": "潮汕海门湾",
+      "translation": "潮汕海門湾"
+    },
+    {
+      "language": "ja",
+      "source": "珠海日月贝",
+      "translation": "珠海日月貝"
+    },
+    {
+      "language": "ja",
+      "source": "贵州千户苗寨",
+      "translation": "貴州千戸苗寨"
+    },
+    {
+      "language": "ja",
+      "source": "FAST望远镜",
+      "translation": "FAST望遠鏡"
+    },
+    {
+      "language": "ja",
+      "source": "黄果树瀑布",
+      "translation": "黄果樹瀑布"
+    },
+    {
+      "language": "ja",
+      "source": "柳州马鞍山顶",
+      "translation": "柳州馬鞍山頂"
+    },
+    {
+      "language": "ja",
+      "source": "惠州巽寮湾",
+      "translation": "恵州巽寮湾"
+    },
+    {
+      "language": "ja",
+      "source": "丽江古城",
+      "translation": "麗江古城"
+    },
+    {
+      "language": "ja",
+      "source": "大理洱海",
+      "translation": "大理洱海"
+    },
+    {
+      "language": "ja",
+      "source": "太平山顶",
+      "translation": "ビクトリアピーク"
+    },
+    {
+      "language": "ja",
+      "source": "Oxford",
+      "translation": "Oxford（オックスフォード）"
+    },
+    {
+      "language": "ja",
+      "source": "Cambridge",
+      "translation": "ケンブリッジ"
+    },
+    {
+      "language": "ja",
+      "source": "长沙橘子洲",
+      "translation": "長沙橘子洲"
+    },
+    {
+      "language": "ja",
+      "source": "广州长隆动物园",
+      "translation": "広州長隆動物園"
+    },
+    {
+      "language": "ja",
+      "source": "20RMB",
+      "translation": "20元"
+    },
+    {
+      "language": "ja",
+      "source": "理塘",
+      "translation": "理塘"
+    },
+    {
+      "language": "ja",
+      "source": "稻城亚丁",
+      "translation": "稲城県亜丁"
     }
   ]
 }

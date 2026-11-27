@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:30:01.339Z",
+  "updatedAt": "2026-11-27T06:31:04.234Z",
   "entries": [
     {
       "language": "ja",
@@ -3906,6 +3906,131 @@
       "language": "fr",
       "source": "Rôle",
       "translation": "Rôle"
+    },
+    {
+      "language": "fr",
+      "source": "KERRY XING",
+      "translation": "KERRY XING"
+    },
+    {
+      "language": "fr",
+      "source": "研究生",
+      "translation": "Études universitaires supérieures"
+    },
+    {
+      "language": "fr",
+      "source": "编辑属性表",
+      "translation": "Modifier la table des attributs"
+    },
+    {
+      "language": "fr",
+      "source": "YOUR AVATAR",
+      "translation": "Votre avatar"
+    },
+    {
+      "language": "fr",
+      "source": "MBTI",
+      "translation": "IPMB"
+    },
+    {
+      "language": "fr",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP L'aventurier inspiré"
+    },
+    {
+      "language": "fr",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · L'aventurier inspiré"
+    },
+    {
+      "language": "fr",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "fr",
+      "source": "Lieu",
+      "translation": "Lieu"
+    },
+    {
+      "language": "fr",
+      "source": "编辑头像",
+      "translation": "Modifier la photo de profil"
+    },
+    {
+      "language": "fr",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Étudiante en master / Chasseuse d'inspiration / Passionnée de mangas et de jeux vidéo"
+    },
+    {
+      "language": "fr",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "Chine · Guangdong · Shenzhen"
+    },
+    {
+      "language": "fr",
+      "source": "绘画 · 代码",
+      "translation": "Dessin · Code"
+    },
+    {
+      "language": "fr",
+      "source": "广东 · 深圳",
+      "translation": "Guangdong Shenzhen"
+    },
+    {
+      "language": "fr",
+      "source": "绘画，代码",
+      "translation": "Dessin, code"
+    },
+    {
+      "language": "fr",
+      "source": "0 本",
+      "translation": "Ben"
+    },
+    {
+      "language": "fr",
+      "source": "爱好",
+      "translation": "3"
+    },
+    {
+      "language": "fr",
+      "source": "删除当前总结册",
+      "translation": "Supprimer le livre de souvenirs actuel"
+    },
+    {
+      "language": "fr",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "Sélectionner un PPTX ou des images page par page"
+    },
+    {
+      "language": "fr",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "Jeux vidéo, sport, jeux de société, fêtes"
+    },
+    {
+      "language": "fr",
+      "source": "看过的番",
+      "translation": "Séries animées regardées"
+    },
+    {
+      "language": "fr",
+      "source": "上传总结",
+      "translation": "Télécharger le résumé"
+    },
+    {
+      "language": "fr",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re : Re:Zero – Re:Vie dans un autre monde"
+    },
+    {
+      "language": "fr",
+      "source": "上传你的第一份总结",
+      "translation": "Téléchargez votre premier résumé"
+    },
+    {
+      "language": "fr",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "Le PPTX sera organisé en diapositives Web feuilletables."
     }
   ]
 }

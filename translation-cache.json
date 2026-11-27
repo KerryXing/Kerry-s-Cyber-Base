@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:37:21.297Z",
+  "updatedAt": "2026-11-27T05:37:25.148Z",
   "entries": [
     {
       "language": "ja",
@@ -1841,6 +1841,21 @@
       "language": "en",
       "source": "剑桥",
       "translation": "sword bridge"
+    },
+    {
+      "language": "en",
+      "source": "20 元人民币",
+      "translation": "CNY 20"
+    },
+    {
+      "language": "ja",
+      "source": "昵称",
+      "translation": "ニックネーム"
+    },
+    {
+      "language": "ja",
+      "source": "身份",
+      "translation": "身分"
     }
   ]
 }

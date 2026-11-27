@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:29:28.234Z",
+  "updatedAt": "2026-11-27T06:30:01.339Z",
   "entries": [
     {
       "language": "ja",
@@ -3876,6 +3876,36 @@
       "language": "en",
       "source": "العربية",
       "translation": "Arabic"
+    },
+    {
+      "language": "fr",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "fr",
+      "source": "Pseudo",
+      "translation": "Pseudonyme"
+    },
+    {
+      "language": "fr",
+      "source": "Kerry's Cyber Base",
+      "translation": "La base cybernétique de Kerry"
+    },
+    {
+      "language": "fr",
+      "source": "跳到主要内容",
+      "translation": "Passer au contenu principal"
+    },
+    {
+      "language": "fr",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "fr",
+      "source": "Rôle",
+      "translation": "Rôle"
     }
   ]
 }

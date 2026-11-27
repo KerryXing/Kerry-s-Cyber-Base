@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:29:30.584Z",
+  "updatedAt": "2026-11-27T05:29:59.441Z",
   "entries": [
     {
       "language": "ja",
@@ -301,6 +301,291 @@
       "language": "ja",
       "source": "以遮幕擦除和淡入淡出完成翻页",
       "translation": "ワイプ消去とフェードイン・フェードアウトでページをめくる"
+    },
+    {
+      "language": "ja",
+      "source": "上下翻转",
+      "translation": "上下回転"
+    },
+    {
+      "language": "ja",
+      "source": "下一张照片像方块另一面从上往下翻出",
+      "translation": "次の写真は、四角形の反対側から上から下にめくられるように表示されます。"
+    },
+    {
+      "language": "ja",
+      "source": "保存动画",
+      "translation": "アニメーションを保存する"
+    },
+    {
+      "language": "ja",
+      "source": "PHOTO VIEW",
+      "translation": "写真ビュー"
+    },
+    {
+      "language": "ja",
+      "source": "照片预览",
+      "translation": "写真のプレビュー"
+    },
+    {
+      "language": "ja",
+      "source": "PRIVATE MANAGEMENT",
+      "translation": "秘密鍵の管理"
+    },
+    {
+      "language": "ja",
+      "source": "管理员登录",
+      "translation": "管理者ログイン"
+    },
+    {
+      "language": "ja",
+      "source": "使用只允许编辑此仓库的 GitHub Fine-grained Personal Access Token 登录。\n        令牌仅保存在当前浏览器会话中，不会写入网页或 GitHub 仓库。",
+      "translation": "このリポジトリの編集のみを許可するGitHubのきめ細かな個人アクセストークンを使用してログインします。\n        トークンは現在のブラウザセッションにのみ保存され、ウェブページやGitHubリポジトリには書き込まれません。"
+    },
+    {
+      "language": "ja",
+      "source": "GitHub Token",
+      "translation": "GitHubトークン"
+    },
+    {
+      "language": "ja",
+      "source": "需要该仓库的 Contents 读写权限。请勿使用账号密码，也不要授予无关仓库的权限。",
+      "translation": "このリポジトリのContentsの読み書き権限が必要です。アカウントのパスワードを使用したり、関連のないリポジトリに権限を付与したりしないでください。"
+    },
+    {
+      "language": "ja",
+      "source": "创建 Token",
+      "translation": "トークンを作成する"
+    },
+    {
+      "language": "ja",
+      "source": "验证并登录",
+      "translation": "認証してログイン"
+    },
+    {
+      "language": "ja",
+      "source": "下载内容备份",
+      "translation": "コンテンツのバックアップをダウンロード"
+    },
+    {
+      "language": "ja",
+      "source": "导入本机旧内容",
+      "translation": "このデバイスの古いコンテンツをインポートする"
+    },
+    {
+      "language": "ja",
+      "source": "退出管理",
+      "translation": "管理を終了する"
+    },
+    {
+      "language": "ja",
+      "source": "HOMEPAGE BACKGROUND",
+      "translation": "ホームページの背景"
+    },
+    {
+      "language": "ja",
+      "source": "更换首页背景",
+      "translation": "トップページの背景を変更する"
+    },
+    {
+      "language": "ja",
+      "source": "上传新背景",
+      "translation": "新しい背景をアップロード"
+    },
+    {
+      "language": "ja",
+      "source": "支持图片、视频、GIF 和 LIVP",
+      "translation": "画像、動画、GIF、LIVPをサポート"
+    },
+    {
+      "language": "ja",
+      "source": "上传新头像",
+      "translation": "新しいプロフィール写真をアップロードする"
+    },
+    {
+      "language": "ja",
+      "source": "支持 JPG、PNG、GIF、HEIC 等图片格式",
+      "translation": "JPG、PNG、GIF、HEICなどの画像形式をサポート"
+    },
+    {
+      "language": "ja",
+      "source": "使用头像",
+      "translation": "アバターを使用する"
+    },
+    {
+      "language": "ja",
+      "source": "完成",
+      "translation": "ok"
+    },
+    {
+      "language": "ja",
+      "source": "切换主题",
+      "translation": "テーマを切り替える"
+    },
+    {
+      "language": "ja",
+      "source": "深蓝",
+      "translation": "Deepal"
+    },
+    {
+      "language": "ja",
+      "source": "沉静、清晰的夜间赛博感",
+      "translation": "静かで澄んだ夜のサイバー感"
+    },
+    {
+      "language": "ja",
+      "source": "浅蓝",
+      "translation": "ライトブルー"
+    },
+    {
+      "language": "ja",
+      "source": "轻盈、柔和的日间蓝调",
+      "translation": "軽やかで柔らかな昼のブルー"
+    },
+    {
+      "language": "ja",
+      "source": "黑夜城市",
+      "translation": "夜の街"
+    },
+    {
+      "language": "ja",
+      "source": "从天际线一路降温到霓虹街道的纵深夜景",
+      "translation": "スカイラインからネオン街まで、夜の景色が徐々に冷えていく様子"
+    },
+    {
+      "language": "ja",
+      "source": "感恩",
+      "translation": "感謝"
+    },
+    {
+      "language": "ja",
+      "source": "暖金、枫叶与柔和暮色",
+      "translation": "暖かな金色、紅葉、柔らかな夕暮れ"
+    },
+    {
+      "language": "ja",
+      "source": "圣诞",
+      "translation": "クリスマス"
+    },
+    {
+      "language": "ja",
+      "source": "松绿、暖红、星光与细雪",
+      "translation": "松緑、暖色系の赤、星光と細雪"
+    },
+    {
+      "language": "ja",
+      "source": "节日主题",
+      "translation": "祝日テーマ"
+    },
+    {
+      "language": "ja",
+      "source": "元旦",
+      "translation": "元日"
+    },
+    {
+      "language": "ja",
+      "source": "午夜蓝、金色烟花与新一年的微光",
+      "translation": "ミッドナイトブルー、金色の花火、新年のきらめき"
+    },
+    {
+      "language": "ja",
+      "source": "春节",
+      "translation": "春節"
+    },
+    {
+      "language": "ja",
+      "source": "朱红、鎏金、灯笼与祥云",
+      "translation": "朱色、金メッキ、提灯と吉祥雲"
+    },
+    {
+      "language": "ja",
+      "source": "清明",
+      "translation": "タンミン"
+    },
+    {
+      "language": "ja",
+      "source": "青黛远山、薄雾、细雨与垂柳",
+      "translation": "青黛色の遠山、薄霧、小雨、しだれ柳"
+    },
+    {
+      "language": "ja",
+      "source": "复活节",
+      "translation": "イースター"
+    },
+    {
+      "language": "ja",
+      "source": "春日晨光、彩蛋与柔和的花园色彩",
+      "translation": "春の朝の光、イースターエッグ、柔らかな庭の色"
+    },
+    {
+      "language": "ja",
+      "source": "元宵",
+      "translation": "元宵節"
+    },
+    {
+      "language": "ja",
+      "source": "暖粉灯火、金色月轮与团圆夜色",
+      "translation": "温かみのあるピンク色の灯り、金色の月輪、そして団欒の夜の色"
+    },
+    {
+      "language": "ja",
+      "source": "劳动",
+      "translation": "労働"
+    },
+    {
+      "language": "ja",
+      "source": "清亮工业蓝、日光与秩序线条",
+      "translation": "明るいインダストリアルブルー、日光と秩序あるライン"
+    },
+    {
+      "language": "ja",
+      "source": "端午",
+      "translation": "端午の節句"
+    },
+    {
+      "language": "ja",
+      "source": "菖蒲青绿、粼粼水光与日光",
+      "translation": "ショウブの青緑色、きらめく水面と日光"
+    },
+    {
+      "language": "ja",
+      "source": "中秋",
+      "translation": "仲秋"
+    },
+    {
+      "language": "ja",
+      "source": "深蓝夜空、满月与桂花金色",
+      "translation": "紺碧の夜空、満月、金色の桂花"
+    },
+    {
+      "language": "ja",
+      "source": "身分",
+      "translation": "身分"
+    },
+    {
+      "language": "ja",
+      "source": "中国国庆",
+      "translation": "中国の国慶節"
+    },
+    {
+      "language": "ja",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "中国・広東省・深圳市"
+    },
+    {
+      "language": "ja",
+      "source": "绘画，代码",
+      "translation": "絵画、コード"
+    },
+    {
+      "language": "ja",
+      "source": "爱好",
+      "translation": "好き"
+    },
+    {
+      "language": "ja",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "ビデオゲーム、エクササイズ、ボードゲーム、パーティー"
     }
   ]
 }

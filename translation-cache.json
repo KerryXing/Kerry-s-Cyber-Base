@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:17:28.830Z",
+  "updatedAt": "2026-11-27T07:17:40.524Z",
   "entries": [
     {
       "language": "en",
@@ -1111,6 +1111,16 @@
       "language": "ko",
       "source": "Email",
       "translation": "Correo electrónico"
+    },
+    {
+      "language": "ko",
+      "source": "添加一行",
+      "translation": "Añadir una fila"
+    },
+    {
+      "language": "ko",
+      "source": "柳州马鞍山顶",
+      "translation": "Cima del monte Ma'anshan de Liuzhou"
     }
   ]
 }

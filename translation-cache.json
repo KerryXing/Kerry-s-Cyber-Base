@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:39:37.548Z",
+  "updatedAt": "2026-11-27T06:39:52.906Z",
   "entries": [
     {
       "language": "ja",
@@ -4476,6 +4476,26 @@
       "language": "zh-TW",
       "source": "Re:从零开始的异世界生活",
       "translation": "Re：從零開始的異世界生活"
+    },
+    {
+      "language": "en",
+      "source": "上传你的第一份总结",
+      "translation": "上傳你的第一份總結"
+    },
+    {
+      "language": "en",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "PPTX 會被整理成可翻閱的網頁投影片。"
+    },
+    {
+      "language": "en",
+      "source": "< 总结册",
+      "translation": "< 總結冊"
+    },
+    {
+      "language": "en",
+      "source": "坐標",
+      "translation": "Coordinates"
     }
   ]
 }

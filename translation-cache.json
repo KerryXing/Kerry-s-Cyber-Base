@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:56:03.718Z",
+  "updatedAt": "2026-11-27T19:57:20.512Z",
   "entries": [
     {
       "language": "en",
@@ -4671,6 +4671,36 @@
       "language": "ar",
       "source": "Terraria",
       "translation": "تيراريا"
+    },
+    {
+      "language": "ar",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "تم إنشاء هذه الصفحة بواسطة Codex المدعوم من دافييوي"
+    },
+    {
+      "language": "ar",
+      "source": "网页版本：V0.5",
+      "translation": "إصدار صفحة الويب: V0.5"
+    },
+    {
+      "language": "ar",
+      "source": "NEW ALBUM",
+      "translation": "البوم جديد"
+    },
+    {
+      "language": "ar",
+      "source": "社交平台",
+      "translation": "منصات التواصل الاجتماعي"
+    },
+    {
+      "language": "ar",
+      "source": "Bilibili",
+      "translation": "Bilibili"
+    },
+    {
+      "language": "ar",
+      "source": "抖音",
+      "translation": "تيك توك"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:16:23.384Z",
+  "updatedAt": "2026-11-27T07:17:28.830Z",
   "entries": [
     {
       "language": "en",
@@ -715,7 +715,7 @@
     {
       "language": "es",
       "source": "社交平台",
-      "translation": "Plataformas sociales"
+      "translation": "Plataformas de redes sociales"
     },
     {
       "language": "es",
@@ -730,7 +730,7 @@
     {
       "language": "es",
       "source": "联系方式",
-      "translation": "联系方式"
+      "translation": "CONTACTO"
     },
     {
       "language": "es",
@@ -740,7 +740,7 @@
     {
       "language": "es",
       "source": "百崖大峡谷",
-      "translation": "Baiya Grand Canyon"
+      "translation": "Gran Cañón de Baiya"
     },
     {
       "language": "es",
@@ -1011,6 +1011,106 @@
       "language": "es",
       "source": "本网页由大肥鱼驱动的Codex赋能制作",
       "translation": "Esta página web ha sido creada con la tecnología Codex de Big Fat Fish."
+    },
+    {
+      "language": "es",
+      "source": "网页版本：V0.5",
+      "translation": "Versión de la página web: V0.5"
+    },
+    {
+      "language": "es",
+      "source": "Bilibili",
+      "translation": "Bilibili"
+    },
+    {
+      "language": "es",
+      "source": "抖音",
+      "translation": "TikTok"
+    },
+    {
+      "language": "es",
+      "source": "NEW ALBUM",
+      "translation": "Nuevo Album"
+    },
+    {
+      "language": "es",
+      "source": "相册名称",
+      "translation": "Nombre del álbum"
+    },
+    {
+      "language": "es",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "Después de crearla, puedes seguir subiendo fotos y cambiar la portada."
+    },
+    {
+      "language": "es",
+      "source": "QQ",
+      "translation": "QQ"
+    },
+    {
+      "language": "es",
+      "source": "微信",
+      "translation": "WeChat"
+    },
+    {
+      "language": "es",
+      "source": "珠海日月贝",
+      "translation": "Teatro Ópera de Zhuhai"
+    },
+    {
+      "language": "es",
+      "source": "贵州千户苗寨",
+      "translation": "Pueblo miao de Qianhu, Guizhou"
+    },
+    {
+      "language": "es",
+      "source": "FAST望远镜",
+      "translation": "Radiotelescopio FAST"
+    },
+    {
+      "language": "es",
+      "source": "取消",
+      "translation": "Cancelar"
+    },
+    {
+      "language": "es",
+      "source": "创建",
+      "translation": "Crear"
+    },
+    {
+      "language": "es",
+      "source": "Email",
+      "translation": "Correo electrónico"
+    },
+    {
+      "language": "es",
+      "source": "PROFILE EDITOR",
+      "translation": "editor de perfiles"
+    },
+    {
+      "language": "es",
+      "source": "黄果树瀑布",
+      "translation": "Cataratas Huangguoshu"
+    },
+    {
+      "language": "es",
+      "source": "属性行",
+      "translation": "Línea de atributos"
+    },
+    {
+      "language": "ko",
+      "source": "百崖大峡谷",
+      "translation": "Gran Cañón de Baiya"
+    },
+    {
+      "language": "ko",
+      "source": "黄果树瀑布",
+      "translation": "Cataratas Huangguoshu"
+    },
+    {
+      "language": "ko",
+      "source": "Email",
+      "translation": "Correo electrónico"
     }
   ]
 }

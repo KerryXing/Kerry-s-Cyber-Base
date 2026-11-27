@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:13:05.545Z",
+  "updatedAt": "2026-11-27T06:14:55.913Z",
   "entries": [
     {
       "language": "ja",
@@ -3456,6 +3456,36 @@
       "language": "ms",
       "source": "相册名称",
       "translation": "Nama album"
+    },
+    {
+      "language": "ru",
+      "source": "渐显",
+      "translation": "Постепенное появление"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "Следующее фото плавно появляется на том же месте"
+    },
+    {
+      "language": "ru",
+      "source": "右滑",
+      "translation": "Провести пальцем вправо"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片从左侧向右淡入浮现",
+      "translation": "Следующее фото появляется с плавным переходом слева направо"
+    },
+    {
+      "language": "ru",
+      "source": "放大",
+      "translation": "Увел"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片从中心向四周放大浮现",
+      "translation": "Следующая фотография увеличивается от центра к краям"
     }
   ]
 }

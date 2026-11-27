@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:17:40.524Z",
+  "updatedAt": "2026-11-27T07:18:13.468Z",
   "entries": [
     {
       "language": "en",
@@ -1120,7 +1120,72 @@
     {
       "language": "ko",
       "source": "柳州马鞍山顶",
-      "translation": "Cima del monte Ma'anshan de Liuzhou"
+      "translation": "류저우 마안산 정상"
+    },
+    {
+      "language": "ko",
+      "source": "标签框",
+      "translation": "Cuadro de etiquetas"
+    },
+    {
+      "language": "ko",
+      "source": "惠州巽寮湾",
+      "translation": "후이저우 쉰랴오완"
+    },
+    {
+      "language": "ko",
+      "source": "丽江古城",
+      "translation": "리장 고성"
+    },
+    {
+      "language": "ko",
+      "source": "添加标签框",
+      "translation": "Añadir cuadro de etiquetas"
+    },
+    {
+      "language": "ko",
+      "source": "Kerry's Cyber Base",
+      "translation": "케리의 사이버 기지"
+    },
+    {
+      "language": "ko",
+      "source": "跳到主要内容",
+      "translation": "메인 콘텐츠로 이동"
+    },
+    {
+      "language": "ko",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "ko",
+      "source": "Apodo",
+      "translation": "Apodo"
+    },
+    {
+      "language": "ko",
+      "source": "Kerry Xing",
+      "translation": "커리 싱(Kerry Xing)"
+    },
+    {
+      "language": "ko",
+      "source": "Perfil",
+      "translation": "프로필"
+    },
+    {
+      "language": "ko",
+      "source": "这是一则测试帖\n欢迎留言！\nWelcome to leave your comments!",
+      "translation": "이것은 테스트 게시물입니다.\n댓글을 남겨 주세요!\n댓글을 남겨 주세요!"
+    },
+    {
+      "language": "ko",
+      "source": "保存并发布",
+      "translation": "저장 및 게시"
+    },
+    {
+      "language": "ko",
+      "source": "大理洱海",
+      "translation": "다리 얼하이"
     }
   ]
 }

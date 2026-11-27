@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:15:08.172Z",
+  "updatedAt": "2026-11-27T07:15:14.701Z",
   "entries": [
     {
       "language": "en",
@@ -706,6 +706,31 @@
       "language": "en",
       "source": "电游，锻炼，桌游，聚会",
       "translation": "Video games, exercise, board games, parties"
+    },
+    {
+      "language": "es",
+      "source": "绘画，代码",
+      "translation": "Drawing, Code"
+    },
+    {
+      "language": "es",
+      "source": "社交平台",
+      "translation": "Social Platform"
+    },
+    {
+      "language": "es",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "Video games, exercise, board games, parties"
+    },
+    {
+      "language": "es",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re:Zero − Starting Life in Another World"
+    },
+    {
+      "language": "es",
+      "source": "联系方式",
+      "translation": "联系方式"
     }
   ]
 }

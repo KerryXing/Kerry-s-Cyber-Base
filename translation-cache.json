@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:51:12.518Z",
+  "updatedAt": "2026-11-27T06:51:14.847Z",
   "entries": [
     {
       "language": "en",
@@ -321,6 +321,306 @@
       "language": "ru",
       "source": "竖直滚动",
       "translation": "Прокрутка по вертикали"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片从上方落位并淡入",
+      "translation": "Следующее фото опускается сверху и появляется"
+    },
+    {
+      "language": "ru",
+      "source": "页面转场",
+      "translation": "Переход между страницами"
+    },
+    {
+      "language": "ru",
+      "source": "以遮幕擦除和淡入淡出完成翻页",
+      "translation": "Переворачивание страниц с помощью эффектов «Стирание» и «Затухание»"
+    },
+    {
+      "language": "ru",
+      "source": "上下翻转",
+      "translation": "Повёрнутое вверх ногами"
+    },
+    {
+      "language": "ru",
+      "source": "下一张照片像方块另一面从上往下翻出",
+      "translation": "Следующая фотография появляется, переворачиваясь сверху вниз, как другая сторона квадрата."
+    },
+    {
+      "language": "ru",
+      "source": "保存动画",
+      "translation": "Сохранить анимацию"
+    },
+    {
+      "language": "ru",
+      "source": "PHOTO VIEW",
+      "translation": "Просмотр фото"
+    },
+    {
+      "language": "ru",
+      "source": "照片预览",
+      "translation": "Предпросмотр фотографии"
+    },
+    {
+      "language": "ru",
+      "source": "PRIVATE MANAGEMENT",
+      "translation": "Управление закрытыми ключами"
+    },
+    {
+      "language": "ru",
+      "source": "管理员登录",
+      "translation": "Вход администратора"
+    },
+    {
+      "language": "ru",
+      "source": "使用只允许编辑此仓库的 GitHub Fine-grained Personal Access Token 登录。\n        令牌仅保存在当前浏览器会话中，不会写入网页或 GitHub 仓库。",
+      "translation": "Войдите с помощью точного персонального токена доступа GitHub, который позволяет редактировать только этот репозиторий.\n Токен сохраняется только в текущей сессии браузера и не записывается на веб-страницу или в репозиторий GitHub."
+    },
+    {
+      "language": "ru",
+      "source": "GitHub Token",
+      "translation": "Токен GitHub"
+    },
+    {
+      "language": "ru",
+      "source": "需要该仓库的 Contents 读写权限。请勿使用账号密码，也不要授予无关仓库的权限。",
+      "translation": "Требуются права на чтение и запись содержимого этого репозитория. Не используйте пароль учетной записи и не предоставляйте права доступа к посторонним репозиториям."
+    },
+    {
+      "language": "ru",
+      "source": "创建 Token",
+      "translation": "Создать токен"
+    },
+    {
+      "language": "ru",
+      "source": "验证并登录",
+      "translation": "Подтвердить и войти"
+    },
+    {
+      "language": "ru",
+      "source": "下载内容备份",
+      "translation": "Скачать резервную копию контента"
+    },
+    {
+      "language": "ru",
+      "source": "导入本机旧内容",
+      "translation": "Импортировать старый контент с этого устройства"
+    },
+    {
+      "language": "ru",
+      "source": "退出管理",
+      "translation": "Выйти из управления"
+    },
+    {
+      "language": "ru",
+      "source": "HOMEPAGE BACKGROUND",
+      "translation": "ФОН ГЛАВНОЙ СТРАНИЦЫ"
+    },
+    {
+      "language": "ru",
+      "source": "更换首页背景",
+      "translation": "Изменить фон главной страницы"
+    },
+    {
+      "language": "ru",
+      "source": "上传新背景",
+      "translation": "Загрузить новый фон"
+    },
+    {
+      "language": "ru",
+      "source": "支持图片、视频、GIF 和 LIVP",
+      "translation": "Поддержка изображений, видео, GIF и LIVP"
+    },
+    {
+      "language": "ru",
+      "source": "上传新头像",
+      "translation": "Загрузить новый аватар"
+    },
+    {
+      "language": "ru",
+      "source": "支持 JPG、PNG、GIF、HEIC 等图片格式",
+      "translation": "Поддерживаются форматы изображений JPG, PNG, GIF, HEIC и др."
+    },
+    {
+      "language": "ru",
+      "source": "使用头像",
+      "translation": "Использовать аватар"
+    },
+    {
+      "language": "ru",
+      "source": "完成",
+      "translation": "Ок"
+    },
+    {
+      "language": "ru",
+      "source": "切换主题",
+      "translation": "Изменить тему"
+    },
+    {
+      "language": "ru",
+      "source": "深蓝",
+      "translation": "Синева"
+    },
+    {
+      "language": "ru",
+      "source": "沉静、清晰的夜间赛博感",
+      "translation": "Спокойная, четкая кибер-атмосфера ночи"
+    },
+    {
+      "language": "ru",
+      "source": "浅蓝",
+      "translation": "Голубой"
+    },
+    {
+      "language": "ru",
+      "source": "轻盈、柔和的日间蓝调",
+      "translation": "Легкие, мягкие дневные оттенки синего"
+    },
+    {
+      "language": "ru",
+      "source": "黑夜城市",
+      "translation": "Ночной город"
+    },
+    {
+      "language": "ru",
+      "source": "从天际线一路降温到霓虹街道的纵深夜景",
+      "translation": "Ночной вид с панорамы города до ярко освещенных улиц"
+    },
+    {
+      "language": "ru",
+      "source": "感恩",
+      "translation": "Премного благодарен."
+    },
+    {
+      "language": "ru",
+      "source": "暖金、枫叶与柔和暮色",
+      "translation": "Теплое золото, кленовые листья и мягкие сумерки"
+    },
+    {
+      "language": "ru",
+      "source": "今日主题",
+      "translation": "Сегодняшняя тема"
+    },
+    {
+      "language": "ru",
+      "source": "圣诞",
+      "translation": "Рождество"
+    },
+    {
+      "language": "ru",
+      "source": "松绿、暖红、星光与细雪",
+      "translation": "Бирюзовый, теплый красный, звездный свет и мелкий снег"
+    },
+    {
+      "language": "ru",
+      "source": "节日主题",
+      "translation": "Праздничная тема"
+    },
+    {
+      "language": "ru",
+      "source": "元旦",
+      "translation": "Новый год"
+    },
+    {
+      "language": "ru",
+      "source": "午夜蓝、金色烟花与新一年的微光",
+      "translation": "Полуночный синий, золотые фейерверки и мерцание Нового года"
+    },
+    {
+      "language": "ru",
+      "source": "春节",
+      "translation": "Весенний фестиваль"
+    },
+    {
+      "language": "ru",
+      "source": "朱红、鎏金、灯笼与祥云",
+      "translation": "Киноварь, позолота, фонари и облака"
+    },
+    {
+      "language": "ru",
+      "source": "清明",
+      "translation": "Цинмин"
+    },
+    {
+      "language": "ru",
+      "source": "青黛远山、薄雾、细雨与垂柳",
+      "translation": "Голубые горы вдалеке, туман, моросящий дождь и плакучие ивы"
+    },
+    {
+      "language": "ru",
+      "source": "复活节",
+      "translation": "Пасха"
+    },
+    {
+      "language": "ru",
+      "source": "春日晨光、彩蛋与柔和的花园色彩",
+      "translation": "Весеннее утро, пасхальные яйца и нежные оттенки сада"
+    },
+    {
+      "language": "ru",
+      "source": "元宵",
+      "translation": "Юаньсяо"
+    },
+    {
+      "language": "ru",
+      "source": "暖粉灯火、金色月轮与团圆夜色",
+      "translation": "Теплый розовый свет фонарей, золотой диск луны и ночь воссоединения"
+    },
+    {
+      "language": "ru",
+      "source": "劳动",
+      "translation": "Труд"
+    },
+    {
+      "language": "ru",
+      "source": "清亮工业蓝、日光与秩序线条",
+      "translation": "Яркий промышленный синий, солнечный свет и упорядоченные линии"
+    },
+    {
+      "language": "ru",
+      "source": "端午",
+      "translation": "Праздник Дуаньу"
+    },
+    {
+      "language": "ru",
+      "source": "菖蒲青绿、粼粼水光与日光",
+      "translation": "Зелёный аир, мерцающая вода и солнечный свет"
+    },
+    {
+      "language": "ru",
+      "source": "中秋",
+      "translation": "В середине осени"
+    },
+    {
+      "language": "ru",
+      "source": "深蓝夜空、满月与桂花金色",
+      "translation": "Темно-синее ночное небо, полная луна и золотой цвет османтуса"
+    },
+    {
+      "language": "ru",
+      "source": "中国国庆",
+      "translation": "Национальный праздник Китая"
+    },
+    {
+      "language": "ru",
+      "source": "庄重红色、金色光芒与庆典丝带",
+      "translation": "Торжественный красный цвет, золотое сияние и праздничные ленты"
+    },
+    {
+      "language": "ru",
+      "source": "重阳",
+      "translation": "Праздник двойной девятки"
+    },
+    {
+      "language": "ru",
+      "source": "秋日暖棕、层叠远山与菊花色",
+      "translation": "Теплый коричневый цвет осени, многослойные дальние горы и цвет хризантем"
+    },
+    {
+      "language": "ru",
+      "source": "全站默认主题",
+      "translation": "Тема по умолчанию для всего сайта"
     }
   ]
 }

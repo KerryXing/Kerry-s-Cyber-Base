@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:16:08.734Z",
+  "updatedAt": "2026-11-27T07:16:23.384Z",
   "entries": [
     {
       "language": "en",
@@ -715,7 +715,7 @@
     {
       "language": "es",
       "source": "社交平台",
-      "translation": "Social Platform"
+      "translation": "Plataformas sociales"
     },
     {
       "language": "es",
@@ -991,6 +991,26 @@
       "language": "es",
       "source": "上传",
       "translation": "Carga"
+    },
+    {
+      "language": "es",
+      "source": "明日方舟：终末地",
+      "translation": "Arknights: Endfield"
+    },
+    {
+      "language": "es",
+      "source": "Terraria",
+      "translation": "Terraria"
+    },
+    {
+      "language": "es",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing. Creada con curiosidad."
+    },
+    {
+      "language": "es",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "Esta página web ha sido creada con la tecnología Codex de Big Fat Fish."
     }
   ]
 }

@@ -1,5 +1,26 @@
 {
   "version": 1,
-  "updatedAt": "",
-  "entries": []
+  "updatedAt": "2026-11-27T06:41:45.267Z",
+  "entries": [
+    {
+      "language": "en",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP The Inspired Adventurer"
+    },
+    {
+      "language": "en",
+      "source": "绘画 · 代码",
+      "translation": "Drawing · Code"
+    },
+    {
+      "language": "en",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · The Inspired Adventurer"
+    },
+    {
+      "language": "en",
+      "source": "广东 · 深圳",
+      "translation": "Shenzhen, Guangdong"
+    }
+  ]
 }

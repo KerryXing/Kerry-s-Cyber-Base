@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:15:27.642Z",
+  "updatedAt": "2026-11-27T07:15:35.508Z",
   "entries": [
     {
       "language": "en",
@@ -735,7 +735,7 @@
     {
       "language": "es",
       "source": "死亡笔记",
-      "translation": "Death Note"
+      "translation": "El cuaderno de la muerte"
     },
     {
       "language": "es",
@@ -745,7 +745,7 @@
     {
       "language": "es",
       "source": "关于邻家的天使大人",
-      "translation": "El ángel de al lado"
+      "translation": "Sobre el ángel de al lado"
     },
     {
       "language": "es",
@@ -781,6 +781,31 @@
       "language": "es",
       "source": "云门山",
       "translation": "Monte Yunmen"
+    },
+    {
+      "language": "es",
+      "source": "刀剑神域",
+      "translation": "Sword Art Online"
+    },
+    {
+      "language": "es",
+      "source": "鼓浪屿",
+      "translation": "Isla Gulangyu"
+    },
+    {
+      "language": "es",
+      "source": "这是一则测试帖\n欢迎留言！\nWelcome to leave your comments!",
+      "translation": "Esta es una publicación de prueba.\n¡Os invitamos a dejar vuestros comentarios!\n¡Os invitamos a dejar vuestros comentarios!"
+    },
+    {
+      "language": "es",
+      "source": "紫罗兰永恒花园",
+      "translation": "Violet Evergarden"
+    },
+    {
+      "language": "es",
+      "source": "潮汕海门湾",
+      "translation": "Bahía de Haimen de Chaozhou y Shantou"
     }
   ]
 }

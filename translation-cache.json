@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T09:58:08.535Z",
+  "updatedAt": "2026-11-27T09:58:33.153Z",
   "entries": [
     {
       "language": "en",
@@ -1911,6 +1911,261 @@
       "language": "ja",
       "source": "暖金、枫叶与柔和暮色",
       "translation": "暖かな金色、紅葉、柔らかな夕暮れ"
+    },
+    {
+      "language": "en",
+      "source": "上传",
+      "translation": "Upload it"
+    },
+    {
+      "language": "en",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "This webpage is powered by Codex, driven by Big Fish."
+    },
+    {
+      "language": "en",
+      "source": "网页版本：V0.5",
+      "translation": "Web Version: V0.5"
+    },
+    {
+      "language": "en",
+      "source": "相册名称",
+      "translation": "New Gallery Name"
+    },
+    {
+      "language": "en",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "After creation, you can continue to upload photos and change the cover photo."
+    },
+    {
+      "language": "en",
+      "source": "属性行",
+      "translation": "Attribute Row"
+    },
+    {
+      "language": "en",
+      "source": "添加一行",
+      "translation": "Add a Line"
+    },
+    {
+      "language": "en",
+      "source": "标签框",
+      "translation": "Label Box"
+    },
+    {
+      "language": "en",
+      "source": "添加标签框",
+      "translation": "Add Label Box"
+    },
+    {
+      "language": "en",
+      "source": "联系标签框",
+      "translation": "Contact Label Box"
+    },
+    {
+      "language": "en",
+      "source": "相册",
+      "translation": "Albums"
+    },
+    {
+      "language": "en",
+      "source": "展示大小",
+      "translation": "Display Size"
+    },
+    {
+      "language": "en",
+      "source": "保存设置",
+      "translation": "Save"
+    },
+    {
+      "language": "en",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "Select Photo / Video / LIVP"
+    },
+    {
+      "language": "en",
+      "source": "上传到相册",
+      "translation": "Upload to Album"
+    },
+    {
+      "language": "en",
+      "source": "设为封面轮换",
+      "translation": "Set as Cover Rotation"
+    },
+    {
+      "language": "en",
+      "source": "删除整个相册",
+      "translation": "Delete entire album"
+    },
+    {
+      "language": "en",
+      "source": "返回 Gallery",
+      "translation": "Back to Gallery"
+    },
+    {
+      "language": "en",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "The next photo fades in softly at its original position."
+    },
+    {
+      "language": "en",
+      "source": "下一张照片从左侧向右淡入浮现",
+      "translation": "The next photo fades in from left to right."
+    },
+    {
+      "language": "en",
+      "source": "下一张照片从中心向四周放大浮现",
+      "translation": "The next photo zooms out from the center to the edges."
+    },
+    {
+      "language": "en",
+      "source": "下一张照片从上方落位并淡入",
+      "translation": "The next photo drops in from above and fades in."
+    },
+    {
+      "language": "en",
+      "source": "以遮幕擦除和淡入淡出完成翻页",
+      "translation": "Complete page turn with wipe and fade"
+    },
+    {
+      "language": "en",
+      "source": "下一张照片像方块另一面从上往下翻出",
+      "translation": "The next photo flips over from top to bottom like the other side of a square."
+    },
+    {
+      "language": "en",
+      "source": "保存动画",
+      "translation": "Save Animation"
+    },
+    {
+      "language": "en",
+      "source": "使用只允许编辑此仓库的 GitHub Fine-grained Personal Access Token 登录。\n        令牌仅保存在当前浏览器会话中，不会写入网页或 GitHub 仓库。",
+      "translation": "Log in using a GitHub Fine-grained Personal Access Token that only allows editing of this repository.\n        The token is only stored in the current browser session and is not written to the web page or GitHub repository."
+    },
+    {
+      "language": "en",
+      "source": "需要该仓库的 Contents 读写权限。请勿使用账号密码，也不要授予无关仓库的权限。",
+      "translation": "Read and write access to the Contents of this repository is required. Do not use your account password, and do not grant permissions to unrelated repositories."
+    },
+    {
+      "language": "en",
+      "source": "创建 Token",
+      "translation": "Create Token"
+    },
+    {
+      "language": "en",
+      "source": "验证并登录",
+      "translation": "Verify & Login"
+    },
+    {
+      "language": "en",
+      "source": "下载内容备份",
+      "translation": "Download Content Backup"
+    },
+    {
+      "language": "en",
+      "source": "导入本机旧内容",
+      "translation": "Import old content from this device"
+    },
+    {
+      "language": "en",
+      "source": "退出管理",
+      "translation": "Quit management"
+    },
+    {
+      "language": "en",
+      "source": "更换首页背景",
+      "translation": "Change Home Page Background"
+    },
+    {
+      "language": "en",
+      "source": "支持 JPG、PNG、GIF、HEIC 等图片格式",
+      "translation": "Supports image formats such as JPG, PNG, GIF, HEIC, etc."
+    },
+    {
+      "language": "en",
+      "source": "完成",
+      "translation": "Complete"
+    },
+    {
+      "language": "en",
+      "source": "中文",
+      "translation": "Chinese"
+    },
+    {
+      "language": "en",
+      "source": "简体中文",
+      "translation": "zh_CN"
+    },
+    {
+      "language": "en",
+      "source": "繁體中文",
+      "translation": "Traditional Chinese"
+    },
+    {
+      "language": "en",
+      "source": "日本語",
+      "translation": "Japanese"
+    },
+    {
+      "language": "en",
+      "source": "Español",
+      "translation": "Spanish"
+    },
+    {
+      "language": "en",
+      "source": "한국어",
+      "translation": "Korean language"
+    },
+    {
+      "language": "en",
+      "source": "Русский",
+      "translation": "Russian"
+    },
+    {
+      "language": "en",
+      "source": "فارسی",
+      "translation": "ENGLISH"
+    },
+    {
+      "language": "en",
+      "source": "Français",
+      "translation": "French"
+    },
+    {
+      "language": "en",
+      "source": "ไทย",
+      "translation": "Thai"
+    },
+    {
+      "language": "en",
+      "source": "Tiếng Việt",
+      "translation": "Vietnamese"
+    },
+    {
+      "language": "en",
+      "source": "Português",
+      "translation": "Português"
+    },
+    {
+      "language": "en",
+      "source": "བོད་སྐད་",
+      "translation": "Standard Tibetan"
+    },
+    {
+      "language": "en",
+      "source": "Ελληνικά",
+      "translation": "English"
+    },
+    {
+      "language": "en",
+      "source": "العربية",
+      "translation": "Arabic"
+    },
+    {
+      "language": "en",
+      "source": "输入只读查看口令后，才会显示隐藏内容栏目。\n        第一次设置时，管理员输入的文本将作为加密密钥，因此请妥善保管。",
+      "translation": "The hidden content section will only be displayed after entering the read-only view password.\n        When setting up for the first time, the text entered by the administrator will be used as the encryption key, so please keep it safe."
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:35:56.105Z",
+  "updatedAt": "2026-11-27T06:36:19.520Z",
   "entries": [
     {
       "language": "ja",
@@ -4031,6 +4031,26 @@
       "language": "fr",
       "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
       "translation": "Le PPTX sera organisé en diapositives Web feuilletables."
+    },
+    {
+      "language": "en",
+      "source": "绘画 · 代码",
+      "translation": "Drawing · Code"
+    },
+    {
+      "language": "en",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP The Inspired Adventurer"
+    },
+    {
+      "language": "en",
+      "source": "广东 · 深圳",
+      "translation": "Shenzhen, Guangdong"
+    },
+    {
+      "language": "en",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · The Inspired Adventurer"
     }
   ]
 }

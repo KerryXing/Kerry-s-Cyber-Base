@@ -4309,36 +4309,36 @@ body.device-phone .back-to-top {
 
 .guestbook-sticker.shape-circle {
   border-radius: 50%;
-  padding: 17% 16%;
+  padding: clamp(30px, 3.4vw, 48px);
   text-align: center;
 }
 
 .guestbook-sticker.shape-oval {
   border-radius: 50%;
-  padding: 16% 15%;
+  padding: clamp(30px, 3.2vw, 46px) clamp(32px, 3.6vw, 50px);
   text-align: center;
 }
 
 .guestbook-sticker.shape-chat {
   border-radius: 32px 32px 32px 8px;
-  padding: 14% 15%;
+  padding: clamp(28px, 2.8vw, 42px) clamp(30px, 3.2vw, 46px);
 }
 
 .guestbook-sticker.shape-square {
   border-radius: 10px;
-  padding: 14%;
+  padding: clamp(28px, 2.8vw, 42px);
 }
 
 .guestbook-sticker.shape-octagon {
   clip-path: polygon(28% 0, 72% 0, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0 72%, 0 28%);
   border-radius: 0;
-  padding: 17% 15%;
+  padding: clamp(30px, 3vw, 44px) clamp(28px, 2.8vw, 42px);
 }
 
 .guestbook-sticker.shape-star {
   clip-path: polygon(50% 0, 61% 34%, 98% 35%, 68% 56%, 79% 92%, 50% 71%, 21% 92%, 32% 56%, 2% 35%, 39% 34%);
   border-radius: 0;
-  padding: 22% 16% 18%;
+  padding: clamp(42px, 4vw, 56px) clamp(36px, 3.4vw, 48px) clamp(36px, 3.4vw, 48px);
   text-align: center;
 }
 
@@ -4351,6 +4351,8 @@ body.device-phone .back-to-top {
   line-height: 1.62;
   text-align: inherit;
   overflow-wrap: anywhere;
+  word-break: normal;
+  unicode-bidi: plaintext;
   -webkit-line-clamp: unset;
 }
 

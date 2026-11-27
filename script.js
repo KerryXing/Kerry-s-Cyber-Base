@@ -342,7 +342,9 @@
       ? language
       : window.KERRY_I18N?.fallback || "zh-CN";
     document.documentElement.lang = state.language;
-    document.documentElement.dir = state.language === "fa" ? "rtl" : "ltr";
+    document.documentElement.dir = ["fa", "ar"].includes(state.language)
+      ? "rtl"
+      : "ltr";
     document.documentElement.dataset.language = state.language;
     state.userTranslationToken = (state.userTranslationToken || 0) + 1;
     state.userTranslationCache =
@@ -441,7 +443,9 @@
   }
 
   function detectTranslationSource(text) {
-    if (/[\u0600-\u06ff]/i.test(text)) return "fa";
+    if (/[\u0600-\u06ff]/i.test(text)) {
+      return /[\u067e\u0686\u0698\u06af\u06cc\u06a9]/u.test(text) ? "fa" : "ar";
+    }
     if (/[\u0f00-\u0fff]/u.test(text)) return "bo";
     if (/[\u3040-\u30ff]/i.test(text)) return "ja";
     if (/[\uac00-\ud7af]/i.test(text)) return "ko";
@@ -576,7 +580,6 @@
       ".tag-list > span",
       ".contact-group-card > strong",
       ".contact-group-items b",
-      ".album-card-info h3",
       ".album-photo-footer .renameable-photo-title",
       ".guestbook-sticker .guestbook-card-content",
       ".footprint-card-info > strong",
@@ -592,6 +595,12 @@
           state.userTranslationNodes.set(element, element.textContent);
         }
         const original = state.userTranslationNodes.get(element);
+        if (state.language === "zh-CN") {
+          if (element.textContent !== original) {
+            element.textContent = original;
+          }
+          continue;
+        }
         const translated = await translateUserText(original);
         if (
           token !== state.userTranslationToken ||
@@ -6216,7 +6225,8 @@
       pt: ["name:pt"],
       bo: ["name:bo"],
       el: ["name:el"],
-      ms: ["name:ms"]
+      ms: ["name:ms"],
+      ar: ["name:ar"]
     };
     const selectedName = [
       "coalesce",

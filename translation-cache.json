@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:30:16.078Z",
+  "updatedAt": "2026-11-27T05:30:30.032Z",
   "entries": [
     {
       "language": "ja",
@@ -886,6 +886,306 @@
       "language": "ja",
       "source": "稻城亚丁",
       "translation": "稲城県亜丁"
+    },
+    {
+      "language": "ja",
+      "source": "澳门威尼斯人",
+      "translation": "ザ・ヴェネチアン・マカオ"
+    },
+    {
+      "language": "ja",
+      "source": "镇邦美食街",
+      "translation": "鎮邦グルメストリート"
+    },
+    {
+      "language": "ja",
+      "source": "成都东郊记忆",
+      "translation": "成都東郊記憶"
+    },
+    {
+      "language": "ja",
+      "source": "大本钟",
+      "translation": "ビッグ・ベン"
+    },
+    {
+      "language": "ja",
+      "source": "Firefly",
+      "translation": "ホタル"
+    },
+    {
+      "language": "ja",
+      "source": "Email",
+      "translation": "メールアドレス"
+    },
+    {
+      "language": "ja",
+      "source": "中文",
+      "translation": "中文"
+    },
+    {
+      "language": "ja",
+      "source": "简体中文",
+      "translation": "英語"
+    },
+    {
+      "language": "ja",
+      "source": "繁體中文",
+      "translation": "繁体字"
+    },
+    {
+      "language": "ja",
+      "source": "Traditional Chinese",
+      "translation": "Traditional Chinese"
+    },
+    {
+      "language": "ja",
+      "source": "日本語",
+      "translation": "日语"
+    },
+    {
+      "language": "ja",
+      "source": "English",
+      "translation": "Japanese"
+    },
+    {
+      "language": "ja",
+      "source": "Japanese",
+      "translation": "日本語"
+    },
+    {
+      "language": "ja",
+      "source": "Spanish",
+      "translation": "スペイン語"
+    },
+    {
+      "language": "ja",
+      "source": "Español",
+      "translation": "スペイン語"
+    },
+    {
+      "language": "ja",
+      "source": "Korean",
+      "translation": "韓国語"
+    },
+    {
+      "language": "ja",
+      "source": "한국어",
+      "translation": "韓国語"
+    },
+    {
+      "language": "ja",
+      "source": "Russian",
+      "translation": "ロシア語"
+    },
+    {
+      "language": "ja",
+      "source": "Русский",
+      "translation": "ロシア人"
+    },
+    {
+      "language": "ja",
+      "source": "Deutsch",
+      "translation": "ドイツ語"
+    },
+    {
+      "language": "ja",
+      "source": "German",
+      "translation": "ドイツ語"
+    },
+    {
+      "language": "ja",
+      "source": "فارسی",
+      "translation": "ペルシア語"
+    },
+    {
+      "language": "ja",
+      "source": "French",
+      "translation": "フランス語"
+    },
+    {
+      "language": "ja",
+      "source": "Persian",
+      "translation": "ペルシャ語"
+    },
+    {
+      "language": "ja",
+      "source": "Français",
+      "translation": "フランス語"
+    },
+    {
+      "language": "ja",
+      "source": "Bahasa Indonesia",
+      "translation": "バハサ・インドネシア語"
+    },
+    {
+      "language": "ja",
+      "source": "Indonesian",
+      "translation": "インドネシア語"
+    },
+    {
+      "language": "en",
+      "source": "跳到主要内容",
+      "translation": "Skip to content"
+    },
+    {
+      "language": "en",
+      "source": "编辑头像",
+      "translation": "Edit Profile Photo"
+    },
+    {
+      "language": "en",
+      "source": "研究生",
+      "translation": "PG"
+    },
+    {
+      "language": "en",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Graduate Student / Inspiration Collector / Comics and Gaming Enthusiast"
+    },
+    {
+      "language": "en",
+      "source": "ニックネーム",
+      "translation": "Nick"
+    },
+    {
+      "language": "en",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "Shenzhen, Guangdong, China"
+    },
+    {
+      "language": "en",
+      "source": "身分",
+      "translation": "Identity"
+    },
+    {
+      "language": "en",
+      "source": "绘画，代码",
+      "translation": "Drawing, Coding"
+    },
+    {
+      "language": "en",
+      "source": "爱好",
+      "translation": "Hobbies"
+    },
+    {
+      "language": "en",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "Video games, exercise, board games, parties"
+    },
+    {
+      "language": "en",
+      "source": "看过的番",
+      "translation": "Anime I've watched"
+    },
+    {
+      "language": "en",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re: Life in a Different World from Zero"
+    },
+    {
+      "language": "en",
+      "source": "死亡笔记",
+      "translation": "Death Note"
+    },
+    {
+      "language": "en",
+      "source": "关于邻家的天使大人",
+      "translation": "The Angel Next Door Spoils Me Rotten"
+    },
+    {
+      "language": "en",
+      "source": "刀剑神域",
+      "translation": "Sword Art Online"
+    },
+    {
+      "language": "en",
+      "source": "紫罗兰永恒花园",
+      "translation": "Violet Evergarden"
+    },
+    {
+      "language": "en",
+      "source": "游戏宇宙",
+      "translation": "Gaming Universe"
+    },
+    {
+      "language": "en",
+      "source": "崩坏：星穹铁道",
+      "translation": "Honkai: Star Rail"
+    },
+    {
+      "language": "en",
+      "source": "明日方舟",
+      "translation": "arknight"
+    },
+    {
+      "language": "en",
+      "source": "明日方舟：终末地",
+      "translation": "Arknights: Endfield"
+    },
+    {
+      "language": "en",
+      "source": "小作",
+      "translation": "Minor work"
+    },
+    {
+      "language": "en",
+      "source": "游戏人生",
+      "translation": "Game Life"
+    },
+    {
+      "language": "en",
+      "source": "水硕生活",
+      "translation": "Shuoshuo Life"
+    },
+    {
+      "language": "en",
+      "source": "社交平台",
+      "translation": "Social Platform"
+    },
+    {
+      "language": "en",
+      "source": "抖音",
+      "translation": "Douyin"
+    },
+    {
+      "language": "en",
+      "source": "联系方式",
+      "translation": "联系方式"
+    },
+    {
+      "language": "en",
+      "source": "微信",
+      "translation": "WeChat"
+    },
+    {
+      "language": "en",
+      "source": "这是留言测试帖（）\n欢迎留言！",
+      "translation": "This is a test post for comments ()\nFeel free to leave a comment!"
+    },
+    {
+      "language": "en",
+      "source": "百崖大峡谷",
+      "translation": "Baiya Grand Canyon"
+    },
+    {
+      "language": "en",
+      "source": "云门山",
+      "translation": "Yunmen Mountain"
+    },
+    {
+      "language": "en",
+      "source": "鼓浪屿",
+      "translation": "Gulangyu"
+    },
+    {
+      "language": "en",
+      "source": "潮汕海门湾",
+      "translation": "Chaoshan Haimen Bay"
+    },
+    {
+      "language": "en",
+      "source": "珠海日月贝",
+      "translation": "Zhuhai Sun and Moon Shell Theater"
     }
   ]
 }

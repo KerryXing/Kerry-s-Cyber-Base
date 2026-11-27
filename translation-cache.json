@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:30:30.032Z",
+  "updatedAt": "2026-11-27T05:30:46.048Z",
   "entries": [
     {
       "language": "ja",
@@ -1186,6 +1186,306 @@
       "language": "en",
       "source": "珠海日月贝",
       "translation": "Zhuhai Sun and Moon Shell Theater"
+    },
+    {
+      "language": "en",
+      "source": "贵州千户苗寨",
+      "translation": "Qianhu Miao Village in Guizhou"
+    },
+    {
+      "language": "en",
+      "source": "FAST望远镜",
+      "translation": "FAST Telescope"
+    },
+    {
+      "language": "en",
+      "source": "黄果树瀑布",
+      "translation": "Huangguoshu Waterfall"
+    },
+    {
+      "language": "en",
+      "source": "柳州马鞍山顶",
+      "translation": "Liuzhou Ma'anshan Summit"
+    },
+    {
+      "language": "en",
+      "source": "惠州巽寮湾",
+      "translation": "Xuliǎo Bay, Huizhou"
+    },
+    {
+      "language": "en",
+      "source": "丽江古城",
+      "translation": "Old Town of Lijiang"
+    },
+    {
+      "language": "en",
+      "source": "大理洱海",
+      "translation": "Dali Erhai Lake"
+    },
+    {
+      "language": "en",
+      "source": "太平山顶",
+      "translation": "Victoria Peak"
+    },
+    {
+      "language": "en",
+      "source": "长沙橘子洲",
+      "translation": "Changsha Orange Isle"
+    },
+    {
+      "language": "en",
+      "source": "广州长隆动物园",
+      "translation": "Guangzhou Chimelong Safari Park"
+    },
+    {
+      "language": "en",
+      "source": "理塘",
+      "translation": "Litang"
+    },
+    {
+      "language": "en",
+      "source": "稻城亚丁",
+      "translation": "Yading"
+    },
+    {
+      "language": "en",
+      "source": "澳门威尼斯人",
+      "translation": "The Venetian Macao"
+    },
+    {
+      "language": "en",
+      "source": "镇邦美食街",
+      "translation": "Zhenbang Food Street"
+    },
+    {
+      "language": "en",
+      "source": "成都东郊记忆",
+      "translation": "Chengdu East Suburb Memory"
+    },
+    {
+      "language": "en",
+      "source": "大本钟",
+      "translation": "Great Bell"
+    },
+    {
+      "language": "en",
+      "source": "場所",
+      "translation": "Site"
+    },
+    {
+      "language": "en",
+      "source": "ゲームの世界",
+      "translation": "The world of gaming"
+    },
+    {
+      "language": "en",
+      "source": "0 本",
+      "translation": "This Hospital"
+    },
+    {
+      "language": "en",
+      "source": "创建第一个相册",
+      "translation": "Create your first photo album"
+    },
+    {
+      "language": "en",
+      "source": "好き",
+      "translation": "I like"
+    },
+    {
+      "language": "en",
+      "source": "スキル",
+      "translation": "Skills"
+    },
+    {
+      "language": "en",
+      "source": "視聴済みの番組",
+      "translation": "Watched programs"
+    },
+    {
+      "language": "en",
+      "source": "雲門山",
+      "translation": "Yunmen Mountain"
+    },
+    {
+      "language": "en",
+      "source": "鼓浪嶼",
+      "translation": "Gulangyu Island"
+    },
+    {
+      "language": "en",
+      "source": "連絡先メモ",
+      "translation": "Contact notes"
+    },
+    {
+      "language": "en",
+      "source": "珠海日月貝",
+      "translation": "Zhuhai Sun and Moon Shell"
+    },
+    {
+      "language": "en",
+      "source": "潮汕海門湾",
+      "translation": "Chaoshan Haimen Bay"
+    },
+    {
+      "language": "en",
+      "source": "FAST望遠鏡",
+      "translation": "FAST Telescope"
+    },
+    {
+      "language": "en",
+      "source": "ソーシャルプラットフォーム",
+      "translation": "Social Platform"
+    },
+    {
+      "language": "en",
+      "source": "柳州馬鞍山頂",
+      "translation": "Liuzhou Ma'anshan Summit"
+    },
+    {
+      "language": "en",
+      "source": "貴州千戸苗寨",
+      "translation": "Qiandohu Miao Village, Guizhou"
+    },
+    {
+      "language": "en",
+      "source": "麗江古城",
+      "translation": "Lijiang Old Town"
+    },
+    {
+      "language": "en",
+      "source": "黄果樹瀑布",
+      "translation": "Huangguoshu Waterfall"
+    },
+    {
+      "language": "en",
+      "source": "恵州巽寮湾",
+      "translation": "Xuliǎo Bay, Huizhou"
+    },
+    {
+      "language": "en",
+      "source": "ケンブリッジ",
+      "translation": "Cambridge"
+    },
+    {
+      "language": "en",
+      "source": "長沙橘子洲",
+      "translation": "Changsha Orange Isle"
+    },
+    {
+      "language": "en",
+      "source": "ビクトリアピーク",
+      "translation": "Victoria Peak"
+    },
+    {
+      "language": "en",
+      "source": "Oxford（オックスフォード）",
+      "translation": "Oxford"
+    },
+    {
+      "language": "en",
+      "source": "20元",
+      "translation": "20 Yuan"
+    },
+    {
+      "language": "en",
+      "source": "広州長隆動物園",
+      "translation": "Guangzhou Chimelong Safari Park"
+    },
+    {
+      "language": "en",
+      "source": "稲城県亜丁",
+      "translation": "Yading, Inaba County"
+    },
+    {
+      "language": "en",
+      "source": "成都東郊記憶",
+      "translation": "Chengdu East Suburb Memory"
+    },
+    {
+      "language": "en",
+      "source": "ザ・ヴェネチアン・マカオ",
+      "translation": "The Venetian Macao"
+    },
+    {
+      "language": "en",
+      "source": "上传",
+      "translation": "Upload it"
+    },
+    {
+      "language": "en",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "This webpage is powered by Codex, driven by Big Fish."
+    },
+    {
+      "language": "en",
+      "source": "网页版本：V0.5",
+      "translation": "Web Version: V0.5"
+    },
+    {
+      "language": "en",
+      "source": "相册名称",
+      "translation": "New Gallery Name"
+    },
+    {
+      "language": "en",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "After creation, you can continue to upload photos and change the cover photo."
+    },
+    {
+      "language": "en",
+      "source": "属性行",
+      "translation": "Attribute Row"
+    },
+    {
+      "language": "en",
+      "source": "添加一行",
+      "translation": "Add a Line"
+    },
+    {
+      "language": "en",
+      "source": "标签框",
+      "translation": "Label Box"
+    },
+    {
+      "language": "en",
+      "source": "添加标签框",
+      "translation": "Add Label Box"
+    },
+    {
+      "language": "en",
+      "source": "联系标签框",
+      "translation": "Contact Label Box"
+    },
+    {
+      "language": "en",
+      "source": "相册",
+      "translation": "Albums"
+    },
+    {
+      "language": "en",
+      "source": "展示大小",
+      "translation": "Display Size"
+    },
+    {
+      "language": "en",
+      "source": "保存设置",
+      "translation": "Save"
+    },
+    {
+      "language": "en",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "Select Photo / Video / LIVP"
+    },
+    {
+      "language": "en",
+      "source": "上传到相册",
+      "translation": "Upload to Album"
+    },
+    {
+      "language": "en",
+      "source": "设为封面轮换",
+      "translation": "Set as Cover Rotation"
     }
   ]
 }

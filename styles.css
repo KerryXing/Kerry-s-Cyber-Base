@@ -4293,7 +4293,7 @@ body.device-phone .back-to-top {
   position: absolute;
   display: flex;
   margin: 0;
-  padding: 30px;
+  padding: 34px;
   overflow: hidden;
   color: var(--ink);
   border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line-strong));
@@ -4303,37 +4303,42 @@ body.device-phone .back-to-top {
   box-shadow: 0 18px 48px color-mix(in srgb, var(--bg-deep) 28%, transparent);
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   break-inside: auto;
 }
 
 .guestbook-sticker.shape-circle {
   border-radius: 50%;
+  padding: 17% 16%;
   text-align: center;
 }
 
 .guestbook-sticker.shape-oval {
   border-radius: 50%;
+  padding: 16% 15%;
   text-align: center;
 }
 
 .guestbook-sticker.shape-chat {
   border-radius: 32px 32px 32px 8px;
+  padding: 14% 15%;
 }
 
 .guestbook-sticker.shape-square {
   border-radius: 10px;
+  padding: 14%;
 }
 
 .guestbook-sticker.shape-octagon {
   clip-path: polygon(28% 0, 72% 0, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0 72%, 0 28%);
   border-radius: 0;
+  padding: 17% 15%;
 }
 
 .guestbook-sticker.shape-star {
   clip-path: polygon(50% 0, 61% 34%, 98% 35%, 68% 56%, 79% 92%, 50% 71%, 21% 92%, 32% 56%, 2% 35%, 39% 34%);
   border-radius: 0;
-  padding: 54px 42px 42px;
+  padding: 22% 16% 18%;
   text-align: center;
 }
 

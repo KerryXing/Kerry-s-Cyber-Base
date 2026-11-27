@@ -4987,14 +4987,14 @@
   }
 
   function guestbookShapeSize(shape, boardWidth, content = "") {
-    const scale = Math.min(1, boardWidth / 420);
+    const scale = Math.min(1, boardWidth / 460);
     const sizes = {
-      circle: [210, 210],
-      oval: [285, 165],
-      star: [245, 245],
-      chat: [300, 185],
-      octagon: [250, 195],
-      square: [225, 225]
+      circle: [250, 250],
+      oval: [315, 190],
+      star: [285, 285],
+      chat: [330, 210],
+      octagon: [285, 225],
+      square: [255, 255]
     };
     const normalizedShape = normalizeGuestbookShape(shape);
     const [baseWidth, baseHeight] = sizes[normalizedShape];
@@ -5006,12 +5006,20 @@
     const text = String(content || "");
     const length = [...text].length;
     const wideCharacters = /[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af\u0e00-\u0e7f]/u.test(text);
-    const contentWidth = width * (normalizedShape === "star" ? 0.48 : 0.7);
+    const contentWidthFactor = {
+      circle: 0.6,
+      oval: 0.66,
+      star: 0.42,
+      chat: 0.7,
+      octagon: 0.62,
+      square: 0.68
+    }[normalizedShape];
+    const contentWidth = width * contentWidthFactor;
     const averageGlyph = wideCharacters ? 15 : 8.2;
     const charsPerLine = Math.max(7, Math.floor(contentWidth / averageGlyph));
     const lines = Math.max(1, Math.ceil(length / charsPerLine));
-    const reservedHeight = normalizedShape === "star" ? 112 : 88;
-    height = Math.max(height, lines * 25 + reservedHeight);
+    const reservedHeight = normalizedShape === "star" ? 132 : 104;
+    height = Math.max(height, lines * 26 + reservedHeight);
     if (normalizedShape === "circle" || normalizedShape === "square") {
       const side = Math.max(width, height);
       width = Math.min(side, boardWidth - 16);

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T20:03:52.685Z",
+  "updatedAt": "2026-11-27T20:03:57.624Z",
   "entries": [
     {
       "language": "en",
@@ -5001,6 +5001,86 @@
       "language": "el",
       "source": "微信",
       "translation": "WeChat"
+    },
+    {
+      "language": "el",
+      "source": "Email",
+      "translation": "E-mail"
+    },
+    {
+      "language": "el",
+      "source": "百崖大峡谷",
+      "translation": "Φαράγγι Μπαϊγιά"
+    },
+    {
+      "language": "el",
+      "source": "PROFILE EDITOR",
+      "translation": "Επεξεργασία προφίλ"
+    },
+    {
+      "language": "el",
+      "source": "属性行",
+      "translation": "Γραμμή ιδιοτήτων"
+    },
+    {
+      "language": "el",
+      "source": "添加一行",
+      "translation": "Προσθήκη γραμμής"
+    },
+    {
+      "language": "el",
+      "source": "云门山",
+      "translation": "Όρος Γιουνμέν"
+    },
+    {
+      "language": "el",
+      "source": "鼓浪屿",
+      "translation": "Νήσος Γκουλάνγκγιου"
+    },
+    {
+      "language": "el",
+      "source": "潮汕海门湾",
+      "translation": "Κόλπος Χαϊμέν του Τσαοσάν"
+    },
+    {
+      "language": "el",
+      "source": "标签框",
+      "translation": "Πλαίσιο ετικετών"
+    },
+    {
+      "language": "el",
+      "source": "添加标签框",
+      "translation": "Προσθήκη πλαισίου ετικετών"
+    },
+    {
+      "language": "el",
+      "source": "保存并发布",
+      "translation": "Αποθήκευση και δημοσίευση"
+    },
+    {
+      "language": "el",
+      "source": "珠海日月贝",
+      "translation": "Θέατρο Όπερας Ζουχάι"
+    },
+    {
+      "language": "el",
+      "source": "贵州千户苗寨",
+      "translation": "Χωριό των Μιάο των Χιλίων Νοικοκυριών στην επαρχία Γκουιζού"
+    },
+    {
+      "language": "el",
+      "source": "FAST望远镜",
+      "translation": "Τηλεσκόπιο FAST"
+    },
+    {
+      "language": "el",
+      "source": "CONTACT EDITOR",
+      "translation": "Επεξεργαστής επαφών"
+    },
+    {
+      "language": "el",
+      "source": "联系标签框",
+      "translation": "Πλαίσιο ετικετών επαφής"
     }
   ]
 }

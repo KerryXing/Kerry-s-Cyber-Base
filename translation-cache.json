@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:43:38.255Z",
+  "updatedAt": "2026-11-27T17:44:51.268Z",
   "entries": [
     {
       "language": "en",
@@ -2245,7 +2245,7 @@
     {
       "language": "en",
       "source": "明日方舟",
-      "translation": "arknight"
+      "translation": "명일방주"
     },
     {
       "language": "en",
@@ -3646,6 +3646,131 @@
       "language": "ko",
       "source": "Re:从零开始的异世界生活",
       "translation": "Re: 제로부터 시작하는 이세계 생활"
+    },
+    {
+      "language": "ko",
+      "source": "删除当前总结册",
+      "translation": "현재 요약 앨범 삭제"
+    },
+    {
+      "language": "ko",
+      "source": "死亡笔记",
+      "translation": "데스노트"
+    },
+    {
+      "language": "ko",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "PPTX 또는 페이지별 이미지 선택"
+    },
+    {
+      "language": "ko",
+      "source": "上传总结",
+      "translation": "요약 업로드"
+    },
+    {
+      "language": "ko",
+      "source": "< 总结册",
+      "translation": "< 요약집"
+    },
+    {
+      "language": "ko",
+      "source": "Gallery",
+      "translation": "테마포토"
+    },
+    {
+      "language": "ko",
+      "source": "创建第一个相册",
+      "translation": "첫 번째 앨범 만들기"
+    },
+    {
+      "language": "ko",
+      "source": "编辑联系",
+      "translation": "연락처 편집"
+    },
+    {
+      "language": "ko",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "ko",
+      "source": "关于邻家的天使大人",
+      "translation": "옆집의 천사님에 관하여"
+    },
+    {
+      "language": "ko",
+      "source": "刀剑神域",
+      "translation": "소드 아트 온라인"
+    },
+    {
+      "language": "ko",
+      "source": "Steam",
+      "translation": "스팀"
+    },
+    {
+      "language": "ko",
+      "source": "Minecraft",
+      "translation": "마인크래프트"
+    },
+    {
+      "language": "ko",
+      "source": "上传你的第一份总结",
+      "translation": "첫 번째 요약 업로드하기"
+    },
+    {
+      "language": "ko",
+      "source": "紫罗兰永恒花园",
+      "translation": "바이올렛 에버가든"
+    },
+    {
+      "language": "ko",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "PPTX는 넘겨볼 수 있는 웹페이지 슬라이드로 정리됩니다."
+    },
+    {
+      "language": "ko",
+      "source": "Jobless Reincarnation",
+      "translation": "무직 전생"
+    },
+    {
+      "language": "ko",
+      "source": "上传",
+      "translation": "다시 불러오기( D)"
+    },
+    {
+      "language": "ko",
+      "source": "游戏宇宙",
+      "translation": "게임 세계관"
+    },
+    {
+      "language": "ko",
+      "source": "明日方舟：终末地",
+      "translation": "명일방주: 엔드필드"
+    },
+    {
+      "language": "ko",
+      "source": "Terraria",
+      "translation": "테라리아"
+    },
+    {
+      "language": "ko",
+      "source": "崩坏：星穹铁道",
+      "translation": "붕괴: 스타레일"
+    },
+    {
+      "language": "ko",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "커리 싱. 호기심으로 만들어졌습니다."
+    },
+    {
+      "language": "ko",
+      "source": "明日方舟",
+      "translation": "명일방주"
+    },
+    {
+      "language": "ko",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "본 웹페이지는 다페이위(大肥鱼)가 제공하는 코덱스(Codex)의 지원을 받아 제작되었습니다."
     }
   ]
 }

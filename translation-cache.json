@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:06:15.865Z",
+  "updatedAt": "2026-11-27T06:10:15.434Z",
   "entries": [
     {
       "language": "ja",
@@ -2881,6 +2881,306 @@
       "language": "ru",
       "source": "COVER ROTATION",
       "translation": "ВРАЩЕНИЕ КРЫШКИ"
+    },
+    {
+      "language": "el",
+      "source": "Kerry's Cyber Base",
+      "translation": "Η κυβερνοβάση του Κέρι"
+    },
+    {
+      "language": "el",
+      "source": "跳到主要内容",
+      "translation": "Μετάβαση στο κύριο περιεχόμενο"
+    },
+    {
+      "language": "el",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "el",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "el",
+      "source": "KERRY XING",
+      "translation": "ΚΈΡΙ ΣΙΝΓΚ"
+    },
+    {
+      "language": "el",
+      "source": "编辑属性表",
+      "translation": "Επεξεργασία πίνακα ιδιοτήτων"
+    },
+    {
+      "language": "el",
+      "source": "YOUR AVATAR",
+      "translation": "η γραφική σας αναπαράσταση"
+    },
+    {
+      "language": "el",
+      "source": "研究生",
+      "translation": "Μεταπτυχιακός φοιτητής"
+    },
+    {
+      "language": "el",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "el",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP Εμπνευσμένοι Περιπετειώδεις Τύποι"
+    },
+    {
+      "language": "el",
+      "source": "编辑头像",
+      "translation": "Επεξεργασία εικόνας προφίλ"
+    },
+    {
+      "language": "el",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Μεταπτυχιακός φοιτητής / Συλλέκτης έμπνευσης / Λάτρης των κόμικς και των παιχνιδιών"
+    },
+    {
+      "language": "el",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "Κίνα · Γκουανγκντόνγκ · Σενζέν"
+    },
+    {
+      "language": "el",
+      "source": "0 本",
+      "translation": "βεν"
+    },
+    {
+      "language": "el",
+      "source": "删除当前总结册",
+      "translation": "Διαγραφή τρέχοντος λευκώματος"
+    },
+    {
+      "language": "el",
+      "source": "绘画 · 代码",
+      "translation": "Ζωγραφική · Κώδικας"
+    },
+    {
+      "language": "el",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "Επιλέξτε PPTX ή εικόνες ανά σελίδα"
+    },
+    {
+      "language": "el",
+      "source": "上传总结",
+      "translation": "Μεταφόρτωση σύνοψης"
+    },
+    {
+      "language": "el",
+      "source": "上传你的第一份总结",
+      "translation": "Ανεβάστε την πρώτη σας περίληψη"
+    },
+    {
+      "language": "el",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "Το αρχείο PPTX θα αναδιαταχθεί σε διαφάνειες σε μορφή ιστοσελίδας που θα μπορείτε να περιηγηθείτε."
+    },
+    {
+      "language": "el",
+      "source": "< 总结册",
+      "translation": "< Περίληψη"
+    },
+    {
+      "language": "el",
+      "source": "Gallery",
+      "translation": "Γκαλερί"
+    },
+    {
+      "language": "el",
+      "source": "创建第一个相册",
+      "translation": "Δημιουργήστε το πρώτο σας άλμπουμ φωτογραφιών"
+    },
+    {
+      "language": "el",
+      "source": "编辑联系",
+      "translation": "Επεξεργασία επαφής"
+    },
+    {
+      "language": "el",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "el",
+      "source": "上传",
+      "translation": "Αποστολές"
+    },
+    {
+      "language": "el",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing. Φτιαγμένη με περιέργεια."
+    },
+    {
+      "language": "el",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "Αυτή η ιστοσελίδα δημιουργήθηκε με την υποστήριξη του Codex, που λειτουργεί με την τεχνολογία της Big Fish."
+    },
+    {
+      "language": "el",
+      "source": "网页版本：V0.5",
+      "translation": "Έκδοση ιστοσελίδας: V0.5"
+    },
+    {
+      "language": "el",
+      "source": "NEW ALBUM",
+      "translation": "Νέο λεύκωμα"
+    },
+    {
+      "language": "el",
+      "source": "相册名称",
+      "translation": "Όνομα άλμπουμ"
+    },
+    {
+      "language": "el",
+      "source": "创建后可以继续上传照片和更换封面。",
+      "translation": "Αφού δημιουργηθεί, μπορείτε να συνεχίσετε να ανεβάζετε φωτογραφίες και να αλλάζετε το εξώφυλλο."
+    },
+    {
+      "language": "el",
+      "source": "取消",
+      "translation": "Ακύρωση"
+    },
+    {
+      "language": "el",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · Εμπνευσμένοι Περιπετειώδεις"
+    },
+    {
+      "language": "el",
+      "source": "广东 · 深圳",
+      "translation": "Γκουανγκντόνγκ · Σενζέν"
+    },
+    {
+      "language": "el",
+      "source": "爱好",
+      "translation": "Χόμπι"
+    },
+    {
+      "language": "el",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "Βιντεοπαιχνίδια, γυμναστική, επιτραπέζια παιχνίδια, πάρτι"
+    },
+    {
+      "language": "el",
+      "source": "看过的番",
+      "translation": "Άνιμε που έχω δει"
+    },
+    {
+      "language": "el",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Απ: Re:Zero − Starting Life in Another World"
+    },
+    {
+      "language": "el",
+      "source": "死亡笔记",
+      "translation": "Death Note"
+    },
+    {
+      "language": "el",
+      "source": "关于邻家的天使大人",
+      "translation": "Ο Άγγελος της Διπλανής Πόρτας"
+    },
+    {
+      "language": "el",
+      "source": "刀剑神域",
+      "translation": "Sword Art Online"
+    },
+    {
+      "language": "el",
+      "source": "Jobless Reincarnation",
+      "translation": "Μεταθανάτια μετενσάρκωση ενός άνεργου"
+    },
+    {
+      "language": "el",
+      "source": "游戏宇宙",
+      "translation": "Σύμπαν του παιχνιδιού"
+    },
+    {
+      "language": "el",
+      "source": "Steam",
+      "translation": "Ατμός"
+    },
+    {
+      "language": "el",
+      "source": "Minecraft",
+      "translation": "Minecraft"
+    },
+    {
+      "language": "el",
+      "source": "崩坏：星穹铁道",
+      "translation": "Honkai: Star Rail"
+    },
+    {
+      "language": "el",
+      "source": "明日方舟",
+      "translation": "Arknights"
+    },
+    {
+      "language": "el",
+      "source": "明日方舟：终末地",
+      "translation": "Arknights: Endfield"
+    },
+    {
+      "language": "el",
+      "source": "Terraria",
+      "translation": "Terraria"
+    },
+    {
+      "language": "el",
+      "source": "社交平台",
+      "translation": "Πλατφόρμα κοινωνικής δικτύωσης"
+    },
+    {
+      "language": "el",
+      "source": "Bilibili",
+      "translation": "Bilibili"
+    },
+    {
+      "language": "el",
+      "source": "抖音",
+      "translation": "TikTok"
+    },
+    {
+      "language": "el",
+      "source": "联系方式",
+      "translation": "Στοιχεία επικοινωνίας"
+    },
+    {
+      "language": "el",
+      "source": "QQ",
+      "translation": "QQ"
+    },
+    {
+      "language": "el",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "el",
+      "source": "绘画，代码",
+      "translation": "Ζωγραφική, κώδικας"
+    },
+    {
+      "language": "el",
+      "source": "紫罗兰永恒花园",
+      "translation": "Violet Evergarden"
+    },
+    {
+      "language": "el",
+      "source": "创建",
+      "translation": "Δημιουργία"
+    },
+    {
+      "language": "el",
+      "source": "PROFILE EDITOR",
+      "translation": "Επεξεργασία προφίλ"
     }
   ]
 }

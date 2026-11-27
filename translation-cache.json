@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:41:31.146Z",
+  "updatedAt": "2026-11-27T17:41:45.524Z",
   "entries": [
     {
       "language": "en",
@@ -3366,6 +3366,11 @@
       "language": "zh-TW",
       "source": "Ελληνικά",
       "translation": "希臘文"
+    },
+    {
+      "language": "ja",
+      "source": "Nickname",
+      "translation": "ニックネーム"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:18:13.468Z",
+  "updatedAt": "2026-11-27T07:18:16.413Z",
   "entries": [
     {
       "language": "en",
@@ -1186,6 +1186,26 @@
       "language": "ko",
       "source": "大理洱海",
       "translation": "다리 얼하이"
+    },
+    {
+      "language": "zh-TW",
+      "source": "丽江古城",
+      "translation": "리장 고성"
+    },
+    {
+      "language": "zh-TW",
+      "source": "惠州巽寮湾",
+      "translation": "후이저우 쉰랴오만"
+    },
+    {
+      "language": "zh-TW",
+      "source": "大理洱海",
+      "translation": "다리 얼하이"
+    },
+    {
+      "language": "zh-TW",
+      "source": "CONTACT EDITOR",
+      "translation": "편집자에게 연락하기"
     }
   ]
 }

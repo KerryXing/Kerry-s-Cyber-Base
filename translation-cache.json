@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:37:02.754Z",
+  "updatedAt": "2026-11-27T05:37:12.981Z",
   "entries": [
     {
       "language": "ja",
@@ -1566,6 +1566,31 @@
       "language": "zh-CN",
       "source": "20RMB",
       "translation": "20 元人民币"
+    },
+    {
+      "language": "en",
+      "source": "昵称",
+      "translation": "Nickname"
+    },
+    {
+      "language": "en",
+      "source": "身份",
+      "translation": "IDENTITY"
+    },
+    {
+      "language": "en",
+      "source": "坐标",
+      "translation": "Coordinate"
+    },
+    {
+      "language": "en",
+      "source": "技能",
+      "translation": "Skill"
+    },
+    {
+      "language": "en",
+      "source": "牛津",
+      "translation": "Oxford"
     }
   ]
 }

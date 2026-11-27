@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:53:47.923Z",
+  "updatedAt": "2026-11-27T19:54:11.872Z",
   "entries": [
     {
       "language": "en",
@@ -4576,6 +4576,41 @@
       "language": "ar",
       "source": "关于邻家的天使大人",
       "translation": "حول الملاك المجاور"
+    },
+    {
+      "language": "ar",
+      "source": "上传你的第一份总结",
+      "translation": "قم بتحميل ملخصك الأول"
+    },
+    {
+      "language": "ar",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "سيتم تنظيم ملف PPTX في شكل شرائح ويب قابلة للتصفح."
+    },
+    {
+      "language": "ar",
+      "source": "< 总结册",
+      "translation": "< كتيب الملخص"
+    },
+    {
+      "language": "ar",
+      "source": "刀剑神域",
+      "translation": "سورد آرت أونلاين"
+    },
+    {
+      "language": "ar",
+      "source": "紫罗兰永恒花园",
+      "translation": "حديقة البنفسج الأبدية"
+    },
+    {
+      "language": "ar",
+      "source": "Jobless Reincarnation",
+      "translation": "التجسد من جديد عاطلًا عن العمل"
+    },
+    {
+      "language": "ar",
+      "source": "游戏宇宙",
+      "translation": "عالم اللعبة"
     }
   ]
 }

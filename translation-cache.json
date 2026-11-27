@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:38:43.889Z",
+  "updatedAt": "2026-11-27T06:39:37.548Z",
   "entries": [
     {
       "language": "ja",
@@ -1085,17 +1085,17 @@
     {
       "language": "en",
       "source": "死亡笔记",
-      "translation": "Death Note"
+      "translation": "死亡筆記本"
     },
     {
       "language": "en",
       "source": "关于邻家的天使大人",
-      "translation": "The Angel Next Door Spoils Me Rotten"
+      "translation": "關於鄰家的天使大人"
     },
     {
       "language": "en",
       "source": "刀剑神域",
-      "translation": "Sword Art Online"
+      "translation": "刀劍神域"
     },
     {
       "language": "en",
@@ -4341,6 +4341,141 @@
       "language": "pt",
       "source": "联系方式",
       "translation": "Contatos"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Kerry's Cyber Base",
+      "translation": "凱莉的網路基地"
+    },
+    {
+      "language": "zh-TW",
+      "source": "跳到主要内容",
+      "translation": "跳到主要內容"
+    },
+    {
+      "language": "zh-TW",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "zh-TW",
+      "source": "KERRY XING",
+      "translation": "KERRY XING"
+    },
+    {
+      "language": "zh-TW",
+      "source": "编辑属性表",
+      "translation": "編輯屬性表"
+    },
+    {
+      "language": "zh-TW",
+      "source": "YOUR AVATAR",
+      "translation": "頭像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "研究生",
+      "translation": "研究生"
+    },
+    {
+      "language": "zh-TW",
+      "source": "编辑头像",
+      "translation": "編輯頭像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "研究生／靈感收集者／漫畫與遊戲愛好者"
+    },
+    {
+      "language": "zh-TW",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "zh-TW",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "zh-TW",
+      "source": "昵称",
+      "translation": "暱稱"
+    },
+    {
+      "language": "zh-TW",
+      "source": "看过的番",
+      "translation": "看過的番"
+    },
+    {
+      "language": "zh-TW",
+      "source": "身份",
+      "translation": "身份"
+    },
+    {
+      "language": "zh-TW",
+      "source": "坐标",
+      "translation": "坐標"
+    },
+    {
+      "language": "zh-TW",
+      "source": "爱好",
+      "translation": "喜好"
+    },
+    {
+      "language": "zh-TW",
+      "source": "游戏宇宙",
+      "translation": "遊戲宇宙"
+    },
+    {
+      "language": "zh-TW",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "中國 · 廣東 · 深圳"
+    },
+    {
+      "language": "zh-TW",
+      "source": "0 本",
+      "translation": "0 本"
+    },
+    {
+      "language": "zh-TW",
+      "source": "技能",
+      "translation": "技能"
+    },
+    {
+      "language": "zh-TW",
+      "source": "绘画，代码",
+      "translation": "繪畫，程式碼"
+    },
+    {
+      "language": "zh-TW",
+      "source": "删除当前总结册",
+      "translation": "刪除目前總結冊"
+    },
+    {
+      "language": "zh-TW",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "選擇 PPTX 或逐頁圖片"
+    },
+    {
+      "language": "zh-TW",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "電玩、運動、桌遊、聚會"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传总结",
+      "translation": "上傳摘要"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re：從零開始的異世界生活"
     }
   ]
 }

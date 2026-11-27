@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:41:45.524Z",
+  "updatedAt": "2026-11-27T17:42:20.648Z",
   "entries": [
     {
       "language": "en",
@@ -3371,6 +3371,186 @@
       "language": "ja",
       "source": "Nickname",
       "translation": "ニックネーム"
+    },
+    {
+      "language": "ja",
+      "source": "Hobbies",
+      "translation": "趣味"
+    },
+    {
+      "language": "ja",
+      "source": "Anime I've watched",
+      "translation": "視聴したアニメ"
+    },
+    {
+      "language": "ja",
+      "source": "Gaming Universe",
+      "translation": "ゲームの世界"
+    },
+    {
+      "language": "ja",
+      "source": "0 本",
+      "translation": "ス"
+    },
+    {
+      "language": "ja",
+      "source": "删除当前总结册",
+      "translation": "現在のまとめアルバムを削除する"
+    },
+    {
+      "language": "ja",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "PPTXまたはページごとの画像を選択"
+    },
+    {
+      "language": "ja",
+      "source": "上传总结",
+      "translation": "概要をアップロード"
+    },
+    {
+      "language": "ja",
+      "source": "上传你的第一份总结",
+      "translation": "最初の要約をアップロードする"
+    },
+    {
+      "language": "ja",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "PPTXは、閲覧可能なウェブページのスライドに整理されます。"
+    },
+    {
+      "language": "ja",
+      "source": "< 总结册",
+      "translation": "< まとめ冊子"
+    },
+    {
+      "language": "ja",
+      "source": "Gallery",
+      "translation": "ギャラリー"
+    },
+    {
+      "language": "ja",
+      "source": "创建第一个相册",
+      "translation": "最初のアルバムを作成する"
+    },
+    {
+      "language": "ja",
+      "source": "编辑联系",
+      "translation": "連絡先を編集"
+    },
+    {
+      "language": "ja",
+      "source": "Social Platform",
+      "translation": "ソーシャルプラットフォーム"
+    },
+    {
+      "language": "ja",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "ja",
+      "source": "Baiya Grand Canyon",
+      "translation": "白亜グランドキャニオン"
+    },
+    {
+      "language": "ja",
+      "source": "Yunmen Mountain",
+      "translation": "雲門山"
+    },
+    {
+      "language": "ja",
+      "source": "Gulangyu",
+      "translation": "鼓浪嶼"
+    },
+    {
+      "language": "ja",
+      "source": "Chaoshan Haimen Bay",
+      "translation": "潮汕海門湾"
+    },
+    {
+      "language": "ja",
+      "source": "Zhuhai Sun and Moon Shell Theater",
+      "translation": "珠海日月貝大劇場"
+    },
+    {
+      "language": "ja",
+      "source": "Qianhu Miao Village in Guizhou",
+      "translation": "貴州省の千戸苗寨"
+    },
+    {
+      "language": "ja",
+      "source": "FAST Telescope",
+      "translation": "FAST望遠鏡"
+    },
+    {
+      "language": "ja",
+      "source": "Huangguoshu Waterfall",
+      "translation": "黄果樹瀑布"
+    },
+    {
+      "language": "ja",
+      "source": "Liuzhou Ma'anshan Summit",
+      "translation": "柳州・馬鞍山サミット"
+    },
+    {
+      "language": "ja",
+      "source": "Xuliǎo Bay, Huizhou",
+      "translation": "恵州市、旭寮湾"
+    },
+    {
+      "language": "ja",
+      "source": "Old Town of Lijiang",
+      "translation": "麗江古城"
+    },
+    {
+      "language": "ja",
+      "source": "Dali Erhai Lake",
+      "translation": "大理洱海"
+    },
+    {
+      "language": "ja",
+      "source": "Victoria Peak",
+      "translation": "ビクトリア・ピーク"
+    },
+    {
+      "language": "ja",
+      "source": "Changsha Orange Isle",
+      "translation": "長沙橘子洲"
+    },
+    {
+      "language": "ja",
+      "source": "Guangzhou Chimelong Safari Park",
+      "translation": "広州長隆野生動物世界"
+    },
+    {
+      "language": "ja",
+      "source": "Litang",
+      "translation": "理塘（リタン）"
+    },
+    {
+      "language": "ja",
+      "source": "Yading",
+      "translation": "ヤディング"
+    },
+    {
+      "language": "ja",
+      "source": "The Venetian Macao",
+      "translation": "ザ・ヴェネチアン・マカオ"
+    },
+    {
+      "language": "ja",
+      "source": "Zhenbang Food Street",
+      "translation": "振邦美食街"
+    },
+    {
+      "language": "ja",
+      "source": "Chengdu East Suburb Memory",
+      "translation": "成都東郊の記憶"
+    },
+    {
+      "language": "ja",
+      "source": "Great Bell",
+      "translation": "大鐘"
     }
   ]
 }

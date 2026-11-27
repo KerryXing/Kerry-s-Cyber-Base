@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T07:15:45.940Z",
+  "updatedAt": "2026-11-27T07:16:08.734Z",
   "entries": [
     {
       "language": "en",
@@ -710,7 +710,7 @@
     {
       "language": "es",
       "source": "绘画，代码",
-      "translation": "Drawing, Coding"
+      "translation": "Dibujo, código"
     },
     {
       "language": "es",
@@ -720,12 +720,12 @@
     {
       "language": "es",
       "source": "电游，锻炼，桌游，聚会",
-      "translation": "Video games, exercise, board games, parties"
+      "translation": "Videojuegos, ejercicio, juegos de mesa, fiestas"
     },
     {
       "language": "es",
       "source": "Re:从零开始的异世界生活",
-      "translation": "Re: Zero − Starting Life in Another World"
+      "translation": "Re: Vida en un mundo diferente desde cero"
     },
     {
       "language": "es",
@@ -800,7 +800,7 @@
     {
       "language": "es",
       "source": "紫罗兰永恒花园",
-      "translation": "Violet Evergarden"
+      "translation": "El jardín eterno de las violetas"
     },
     {
       "language": "es",
@@ -886,6 +886,111 @@
       "language": "es",
       "source": "ENFP · 灵感型冒险家",
       "translation": "ENFP · Aventurero inspirado"
+    },
+    {
+      "language": "es",
+      "source": "Ubicación",
+      "translation": "Ubicación"
+    },
+    {
+      "language": "es",
+      "source": "Habilidades",
+      "translation": "Habilidades"
+    },
+    {
+      "language": "es",
+      "source": "上传总结",
+      "translation": "Subir resumen"
+    },
+    {
+      "language": "es",
+      "source": "绘画 · 代码",
+      "translation": "Pintura · Código"
+    },
+    {
+      "language": "es",
+      "source": "上传你的第一份总结",
+      "translation": "Sube tu primer resumen"
+    },
+    {
+      "language": "es",
+      "source": "广东 · 深圳",
+      "translation": "Cantón · Shenzhen"
+    },
+    {
+      "language": "es",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "El PPTX se organizará en diapositivas web que se podrán pasar."
+    },
+    {
+      "language": "es",
+      "source": "爱好",
+      "translation": "La afición"
+    },
+    {
+      "language": "es",
+      "source": "Gallery",
+      "translation": "Galería"
+    },
+    {
+      "language": "es",
+      "source": "< 总结册",
+      "translation": "< Folleto resumen"
+    },
+    {
+      "language": "es",
+      "source": "游戏宇宙",
+      "translation": "Universo del juego"
+    },
+    {
+      "language": "es",
+      "source": "Steam",
+      "translation": "Vapor"
+    },
+    {
+      "language": "es",
+      "source": "Minecraft",
+      "translation": "Minecraft"
+    },
+    {
+      "language": "es",
+      "source": "崩坏：星穹铁道",
+      "translation": "Honkai: Star Rail"
+    },
+    {
+      "language": "es",
+      "source": "创建第一个相册",
+      "translation": "Crear el primer álbum de fotos"
+    },
+    {
+      "language": "es",
+      "source": "看过的番",
+      "translation": "Animes vistos"
+    },
+    {
+      "language": "es",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "es",
+      "source": "编辑联系",
+      "translation": "Editar contacto"
+    },
+    {
+      "language": "es",
+      "source": "明日方舟",
+      "translation": "Arknights"
+    },
+    {
+      "language": "es",
+      "source": "Jobless Reincarnation",
+      "translation": "Reencarnación sin empleo"
+    },
+    {
+      "language": "es",
+      "source": "上传",
+      "translation": "Carga"
     }
   ]
 }

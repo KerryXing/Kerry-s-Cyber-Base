@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:51:50.921Z",
+  "updatedAt": "2026-11-27T19:52:00.750Z",
   "entries": [
     {
       "language": "en",
@@ -4141,6 +4141,26 @@
       "language": "ja",
       "source": "绘画 · 代码",
       "translation": "絵画・コード"
+    },
+    {
+      "language": "ja",
+      "source": "今日主题",
+      "translation": "今日のテーマ"
+    },
+    {
+      "language": "ja",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · インスピレーション型冒険家"
+    },
+    {
+      "language": "ja",
+      "source": "广东 · 深圳",
+      "translation": "広東省・深圳"
+    },
+    {
+      "language": "ja",
+      "source": "Jobless Reincarnation",
+      "translation": "無職転生"
     }
   ]
 }

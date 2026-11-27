@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:44:51.268Z",
+  "updatedAt": "2026-11-27T19:51:23.673Z",
   "entries": [
     {
       "language": "en",
@@ -3771,6 +3771,206 @@
       "language": "ko",
       "source": "本网页由大肥鱼驱动的Codex赋能制作",
       "translation": "본 웹페이지는 다페이위(大肥鱼)가 제공하는 코덱스(Codex)의 지원을 받아 제작되었습니다."
+    },
+    {
+      "language": "en",
+      "source": "取消",
+      "translation": "CANCEL"
+    },
+    {
+      "language": "en",
+      "source": "创建",
+      "translation": "Buat"
+    },
+    {
+      "language": "en",
+      "source": "保存并发布",
+      "translation": "Save and Publish"
+    },
+    {
+      "language": "zh-CN",
+      "source": "明日方舟",
+      "translation": "명일방주"
+    },
+    {
+      "language": "zh-CN",
+      "source": "游戏宇宙",
+      "translation": "게임 세계관"
+    },
+    {
+      "language": "zh-CN",
+      "source": "崩坏：星穹铁道",
+      "translation": "붕괴: 스타레일"
+    },
+    {
+      "language": "zh-CN",
+      "source": "社交平台",
+      "translation": "소셜 플랫폼"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Bilibili",
+      "translation": "QQ"
+    },
+    {
+      "language": "zh-CN",
+      "source": "NEW ALBUM",
+      "translation": "新建相册"
+    },
+    {
+      "language": "zh-CN",
+      "source": "COVER ROTATION",
+      "translation": "炉盖旋转"
+    },
+    {
+      "language": "zh-CN",
+      "source": "PHOTO VIEW",
+      "translation": "照片"
+    },
+    {
+      "language": "zh-CN",
+      "source": "PRIVATE MANAGEMENT",
+      "translation": "私钥管理"
+    },
+    {
+      "language": "zh-CN",
+      "source": "GitHub Token",
+      "translation": "GitHub 令牌"
+    },
+    {
+      "language": "zh-CN",
+      "source": "HOMEPAGE BACKGROUND",
+      "translation": "主页背景"
+    },
+    {
+      "language": "zh-CN",
+      "source": "LANGUAGE",
+      "translation": "语言"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Traditional Chinese",
+      "translation": "Traditional Chinese"
+    },
+    {
+      "language": "zh-CN",
+      "source": "English",
+      "translation": "中文"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Japanese",
+      "translation": "日语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Español",
+      "translation": "西班牙语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Spanish",
+      "translation": "西班牙语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "한국어",
+      "translation": "한국어"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Korean",
+      "translation": "朝鲜语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Русский",
+      "translation": "俄语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Russian",
+      "translation": "俄语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Deutsch",
+      "translation": "Deutsch"
+    },
+    {
+      "language": "zh-CN",
+      "source": "German",
+      "translation": "德国"
+    },
+    {
+      "language": "zh-CN",
+      "source": "فارسی",
+      "translation": "波斯语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Persian",
+      "translation": "波斯语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Français",
+      "translation": "BRS"
+    },
+    {
+      "language": "zh-CN",
+      "source": "French",
+      "translation": "嘿，法国人！"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Bahasa Indonesia",
+      "translation": "Bahasa Indonesia"
+    },
+    {
+      "language": "zh-CN",
+      "source": "Indonesian",
+      "translation": "印度尼西亚语"
+    },
+    {
+      "language": "zh-CN",
+      "source": "抖音",
+      "translation": "틱톡"
+    },
+    {
+      "language": "zh-CN",
+      "source": "相册名称",
+      "translation": "앨범 이름"
+    },
+    {
+      "language": "zh-CN",
+      "source": "닉네임",
+      "translation": "Nickname"
+    },
+    {
+      "language": "zh-CN",
+      "source": "신분",
+      "translation": "social position, origin, identity"
+    },
+    {
+      "language": "zh-CN",
+      "source": "취미",
+      "translation": "Hobbies"
+    },
+    {
+      "language": "zh-CN",
+      "source": "위치",
+      "translation": "Position"
+    },
+    {
+      "language": "zh-CN",
+      "source": "본 애니메이션",
+      "translation": "This anime"
+    },
+    {
+      "language": "zh-CN",
+      "source": "3D",
+      "translation": "3D"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:59:34.513Z",
+  "updatedAt": "2026-11-27T07:15:08.172Z",
   "entries": [
     {
       "language": "en",
@@ -621,6 +621,91 @@
       "language": "ru",
       "source": "全站默认主题",
       "translation": "Тема по умолчанию для всего сайта"
+    },
+    {
+      "language": "en",
+      "source": "跳到主要内容",
+      "translation": "Skip to content"
+    },
+    {
+      "language": "en",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Graduate Student / Inspiration Collector / Comics and Gaming Enthusiast"
+    },
+    {
+      "language": "en",
+      "source": "研究生",
+      "translation": "PG"
+    },
+    {
+      "language": "en",
+      "source": "身份",
+      "translation": "IDENTITY"
+    },
+    {
+      "language": "en",
+      "source": "编辑头像",
+      "translation": "Edit Profile Photo"
+    },
+    {
+      "language": "en",
+      "source": "昵称",
+      "translation": "Nickname"
+    },
+    {
+      "language": "en",
+      "source": "爱好",
+      "translation": "Hobbies"
+    },
+    {
+      "language": "en",
+      "source": "这是一则测试帖\n欢迎留言！\nWelcome to leave your comments!",
+      "translation": "This is a test post.\nFeel free to leave your comments!\nWelcome to leave your comments!"
+    },
+    {
+      "language": "en",
+      "source": "坐标",
+      "translation": "Coordinate"
+    },
+    {
+      "language": "en",
+      "source": "看过的番",
+      "translation": "Anime I've watched"
+    },
+    {
+      "language": "en",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "Shenzhen, Guangdong, China"
+    },
+    {
+      "language": "en",
+      "source": "游戏宇宙",
+      "translation": "Gaming Universe"
+    },
+    {
+      "language": "en",
+      "source": "技能",
+      "translation": "Skill"
+    },
+    {
+      "language": "en",
+      "source": "0 本",
+      "translation": "This Hospital"
+    },
+    {
+      "language": "en",
+      "source": "绘画，代码",
+      "translation": "Drawing, Coding"
+    },
+    {
+      "language": "en",
+      "source": "创建第一个相册",
+      "translation": "Create your first photo album"
+    },
+    {
+      "language": "en",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "Video games, exercise, board games, parties"
     }
   ]
 }

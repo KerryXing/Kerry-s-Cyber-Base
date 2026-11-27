@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:37:25.148Z",
+  "updatedAt": "2026-11-27T05:37:28.955Z",
   "entries": [
     {
       "language": "ja",
@@ -1856,6 +1856,101 @@
       "language": "ja",
       "source": "身份",
       "translation": "身分"
+    },
+    {
+      "language": "ja",
+      "source": "坐标",
+      "translation": "XY"
+    },
+    {
+      "language": "ja",
+      "source": "技能",
+      "translation": "スキル"
+    },
+    {
+      "language": "ja",
+      "source": "IDENTITY",
+      "translation": "本人確認情報"
+    },
+    {
+      "language": "ja",
+      "source": "Coordinate",
+      "translation": "座標"
+    },
+    {
+      "language": "ja",
+      "source": "Skill",
+      "translation": "スキル"
+    },
+    {
+      "language": "ja",
+      "source": "Hobbies",
+      "translation": "趣味"
+    },
+    {
+      "language": "ja",
+      "source": "Anime I've watched",
+      "translation": "視聴したアニメ"
+    },
+    {
+      "language": "ja",
+      "source": "Gaming Universe",
+      "translation": "ゲームの世界"
+    },
+    {
+      "language": "ja",
+      "source": "Social Platform",
+      "translation": "ソーシャルプラットフォーム"
+    },
+    {
+      "language": "ja",
+      "source": "Baiya Grand Canyon",
+      "translation": "白亜グランドキャニオン"
+    },
+    {
+      "language": "ja",
+      "source": "Yunmen Mountain",
+      "translation": "雲門山"
+    },
+    {
+      "language": "ja",
+      "source": "Gulangyu",
+      "translation": "鼓浪嶼"
+    },
+    {
+      "language": "ja",
+      "source": "Chaoshan Haimen Bay",
+      "translation": "潮汕海門湾"
+    },
+    {
+      "language": "ja",
+      "source": "Zhuhai Sun and Moon Shell Theater",
+      "translation": "珠海日月貝大劇場"
+    },
+    {
+      "language": "ja",
+      "source": "Qianhu Miao Village in Guizhou",
+      "translation": "貴州省の千戸苗寨"
+    },
+    {
+      "language": "ja",
+      "source": "FAST Telescope",
+      "translation": "FAST望遠鏡"
+    },
+    {
+      "language": "ja",
+      "source": "Huangguoshu Waterfall",
+      "translation": "黄果樹瀑布"
+    },
+    {
+      "language": "ja",
+      "source": "Liuzhou Ma'anshan Summit",
+      "translation": "柳州・馬鞍山サミット"
+    },
+    {
+      "language": "ja",
+      "source": "Xuliǎo Bay, Huizhou",
+      "translation": "恵州市、旭寮湾"
     }
   ]
 }

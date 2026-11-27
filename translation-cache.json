@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:52:06.339Z",
+  "updatedAt": "2026-11-27T19:52:09.531Z",
   "entries": [
     {
       "language": "en",
@@ -4251,6 +4251,156 @@
       "language": "ja",
       "source": "深蓝夜空、满月与桂花金色",
       "translation": "紺碧の夜空、満月、金色の桂花"
+    },
+    {
+      "language": "ja",
+      "source": "中秋",
+      "translation": "仲秋"
+    },
+    {
+      "language": "ja",
+      "source": "重阳",
+      "translation": "重陽"
+    },
+    {
+      "language": "ja",
+      "source": "秋日暖棕、层叠远山与菊花色",
+      "translation": "秋の暖かいブラウン、重なり合う遠山と菊の色"
+    },
+    {
+      "language": "ja",
+      "source": "全站默认主题",
+      "translation": "サイト全体のデフォルトテーマ"
+    },
+    {
+      "language": "ja",
+      "source": "当前默认：深蓝",
+      "translation": "現在のデフォルト：ダークブルー"
+    },
+    {
+      "language": "ja",
+      "source": "设为默认",
+      "translation": "SET DEFAULT"
+    },
+    {
+      "language": "ja",
+      "source": "LANGUAGE",
+      "translation": "言語"
+    },
+    {
+      "language": "ja",
+      "source": "中文",
+      "translation": "中文"
+    },
+    {
+      "language": "ja",
+      "source": "简体中文",
+      "translation": "英語"
+    },
+    {
+      "language": "ja",
+      "source": "繁體中文",
+      "translation": "繁体字"
+    },
+    {
+      "language": "ja",
+      "source": "Traditional Chinese",
+      "translation": "Traditional Chinese"
+    },
+    {
+      "language": "ja",
+      "source": "English",
+      "translation": "Japanese"
+    },
+    {
+      "language": "ja",
+      "source": "日本語",
+      "translation": "日语"
+    },
+    {
+      "language": "ja",
+      "source": "Japanese",
+      "translation": "日本語"
+    },
+    {
+      "language": "ja",
+      "source": "Español",
+      "translation": "スペイン語"
+    },
+    {
+      "language": "ja",
+      "source": "Spanish",
+      "translation": "スペイン語"
+    },
+    {
+      "language": "ja",
+      "source": "한국어",
+      "translation": "韓国語"
+    },
+    {
+      "language": "ja",
+      "source": "Korean",
+      "translation": "韓国語"
+    },
+    {
+      "language": "ja",
+      "source": "Русский",
+      "translation": "ロシア人"
+    },
+    {
+      "language": "ja",
+      "source": "Russian",
+      "translation": "ロシア語"
+    },
+    {
+      "language": "ja",
+      "source": "Deutsch",
+      "translation": "ドイツ語"
+    },
+    {
+      "language": "ja",
+      "source": "German",
+      "translation": "ドイツ語"
+    },
+    {
+      "language": "ja",
+      "source": "فارسی",
+      "translation": "ペルシア語"
+    },
+    {
+      "language": "ja",
+      "source": "Persian",
+      "translation": "ペルシャ語"
+    },
+    {
+      "language": "ja",
+      "source": "Français",
+      "translation": "フランス語"
+    },
+    {
+      "language": "ja",
+      "source": "French",
+      "translation": "フランス語"
+    },
+    {
+      "language": "ja",
+      "source": "Bahasa Indonesia",
+      "translation": "バハサ・インドネシア語"
+    },
+    {
+      "language": "ja",
+      "source": "Indonesian",
+      "translation": "インドネシア語"
+    },
+    {
+      "language": "ja",
+      "source": "中国国庆",
+      "translation": "中国の国慶節"
+    },
+    {
+      "language": "ja",
+      "source": "庄重红色、金色光芒与庆典丝带",
+      "translation": "厳かな赤色、金色の輝き、祝祭のリボン"
     }
   ]
 }

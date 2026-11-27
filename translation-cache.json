@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T06:10:15.434Z",
+  "updatedAt": "2026-11-27T06:13:05.545Z",
   "entries": [
     {
       "language": "ja",
@@ -3181,6 +3181,281 @@
       "language": "el",
       "source": "PROFILE EDITOR",
       "translation": "Επεξεργασία προφίλ"
+    },
+    {
+      "language": "ms",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "ms",
+      "source": "Nama panggilan",
+      "translation": "Nama panggilan"
+    },
+    {
+      "language": "ms",
+      "source": "Kerry's Cyber Base",
+      "translation": "Pangkalan Siber Kerry"
+    },
+    {
+      "language": "ms",
+      "source": "Peranan",
+      "translation": "Tinjaukan"
+    },
+    {
+      "language": "ms",
+      "source": "Kerry Xing",
+      "translation": "Kerry Xing"
+    },
+    {
+      "language": "ms",
+      "source": "跳到主要内容",
+      "translation": "Lompat ke kandungan utama"
+    },
+    {
+      "language": "ms",
+      "source": "KERRY XING",
+      "translation": "KERRY XING"
+    },
+    {
+      "language": "ms",
+      "source": "研究生",
+      "translation": "Pelajar siswazah"
+    },
+    {
+      "language": "ms",
+      "source": "MBTI",
+      "translation": "MBTI"
+    },
+    {
+      "language": "ms",
+      "source": "编辑属性表",
+      "translation": "Edit jadual atribut"
+    },
+    {
+      "language": "ms",
+      "source": "ENFP 灵感型冒险家",
+      "translation": "ENFP Pengembara yang penuh inspirasi"
+    },
+    {
+      "language": "ms",
+      "source": "INFP",
+      "translation": "INFP"
+    },
+    {
+      "language": "ms",
+      "source": "YOUR AVATAR",
+      "translation": "AVATAR ANDA"
+    },
+    {
+      "language": "ms",
+      "source": "ENFP · 灵感型冒险家",
+      "translation": "ENFP · Pengembara yang penuh inspirasi"
+    },
+    {
+      "language": "ms",
+      "source": "编辑头像",
+      "translation": "Edit gambar profil"
+    },
+    {
+      "language": "ms",
+      "source": "中国 · 广东 · 深圳",
+      "translation": "Shenzhen, Guangdong, China"
+    },
+    {
+      "language": "ms",
+      "source": "Lokasi",
+      "translation": "lokasi:"
+    },
+    {
+      "language": "ms",
+      "source": "研究生 / 灵感收集者 / 漫画与游戏爱好者",
+      "translation": "Pelajar siswazah / Pengumpul inspirasi / Peminat komik dan permainan"
+    },
+    {
+      "language": "ms",
+      "source": "Kemahiran",
+      "translation": "Kemahiran"
+    },
+    {
+      "language": "ms",
+      "source": "0 本",
+      "translation": "Ben!"
+    },
+    {
+      "language": "ms",
+      "source": "广东 · 深圳",
+      "translation": "Shenzhen, Guangdong"
+    },
+    {
+      "language": "ms",
+      "source": "绘画 · 代码",
+      "translation": "Lukisan · Kod"
+    },
+    {
+      "language": "ms",
+      "source": "删除当前总结册",
+      "translation": "Hapuskan album ringkasan semasa"
+    },
+    {
+      "language": "ms",
+      "source": "绘画，代码",
+      "translation": "Lukisan, kod"
+    },
+    {
+      "language": "ms",
+      "source": "爱好",
+      "translation": "hobi"
+    },
+    {
+      "language": "ms",
+      "source": "选择 PPTX 或逐页图片",
+      "translation": "Pilih PPTX atau imej halaman demi halaman"
+    },
+    {
+      "language": "ms",
+      "source": "电游，锻炼，桌游，聚会",
+      "translation": "Permainan video, senaman, permainan papan, parti"
+    },
+    {
+      "language": "ms",
+      "source": "上传总结",
+      "translation": "Muat naik ringkasan"
+    },
+    {
+      "language": "ms",
+      "source": "上传你的第一份总结",
+      "translation": "Muat naik ringkasan pertama anda"
+    },
+    {
+      "language": "ms",
+      "source": "看过的番",
+      "translation": "Anime yang pernah ditonton"
+    },
+    {
+      "language": "ms",
+      "source": "Re:从零开始的异世界生活",
+      "translation": "Re: Kehidupan di Dunia Lain Bermula dari Sifar"
+    },
+    {
+      "language": "ms",
+      "source": "PPTX 会被整理成可翻阅的网页幻灯片。",
+      "translation": "PPTX akan disusun menjadi slaid halaman web yang boleh dilayari."
+    },
+    {
+      "language": "ms",
+      "source": "死亡笔记",
+      "translation": "Death Note"
+    },
+    {
+      "language": "ms",
+      "source": "< 总结册",
+      "translation": "< Buku ringkasan"
+    },
+    {
+      "language": "ms",
+      "source": "Gallery",
+      "translation": "Galeri"
+    },
+    {
+      "language": "ms",
+      "source": "关于邻家的天使大人",
+      "translation": "Mengenai Malaikat di Rumah Jiran"
+    },
+    {
+      "language": "ms",
+      "source": "刀剑神域",
+      "translation": "Sword Art Online"
+    },
+    {
+      "language": "ms",
+      "source": "创建第一个相册",
+      "translation": "Cipta album pertama"
+    },
+    {
+      "language": "ms",
+      "source": "紫罗兰永恒花园",
+      "translation": "Violet Evergarden"
+    },
+    {
+      "language": "ms",
+      "source": "游戏宇宙",
+      "translation": "Alam semesta permainan"
+    },
+    {
+      "language": "ms",
+      "source": "编辑联系",
+      "translation": "Edit kenalan"
+    },
+    {
+      "language": "ms",
+      "source": "Jobless Reincarnation",
+      "translation": "Reinkarnasi Penganggur"
+    },
+    {
+      "language": "ms",
+      "source": "3D",
+      "translation": "3D"
+    },
+    {
+      "language": "ms",
+      "source": "Steam",
+      "translation": "Kukus"
+    },
+    {
+      "language": "ms",
+      "source": "Minecraft",
+      "translation": "Minecraft"
+    },
+    {
+      "language": "ms",
+      "source": "上传",
+      "translation": "Ini adalah kerana"
+    },
+    {
+      "language": "ms",
+      "source": "崩坏：星穹铁道",
+      "translation": "Honkai: Star Rail"
+    },
+    {
+      "language": "ms",
+      "source": "Kerry Xing. Built with curiosity.",
+      "translation": "Kerry Xing. Dibina dengan rasa ingin tahu."
+    },
+    {
+      "language": "ms",
+      "source": "本网页由大肥鱼驱动的Codex赋能制作",
+      "translation": "Laman web ini dihasilkan dengan bantuan Codex yang dikuasakan oleh Big Fish"
+    },
+    {
+      "language": "ms",
+      "source": "明日方舟",
+      "translation": "Arknights"
+    },
+    {
+      "language": "ms",
+      "source": "明日方舟：终末地",
+      "translation": "Arknights: Endfield"
+    },
+    {
+      "language": "ms",
+      "source": "网页版本：V0.5",
+      "translation": "Versi laman web: V0.5"
+    },
+    {
+      "language": "ms",
+      "source": "Terraria",
+      "translation": "Terraria"
+    },
+    {
+      "language": "ms",
+      "source": "NEW ALBUM",
+      "translation": "Album Web"
+    },
+    {
+      "language": "ms",
+      "source": "相册名称",
+      "translation": "Nama album"
     }
   ]
 }

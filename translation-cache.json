@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:49:20.492Z",
+  "updatedAt": "2026-11-27T05:50:47.086Z",
   "entries": [
     {
       "language": "ja",
@@ -2566,6 +2566,306 @@
       "language": "ru",
       "source": "紫罗兰永恒花园",
       "translation": "Вечный сад фиалок"
+    },
+    {
+      "language": "ru",
+      "source": "创建",
+      "translation": "Создано"
+    },
+    {
+      "language": "ru",
+      "source": "小作",
+      "translation": "Небольшое произведение"
+    },
+    {
+      "language": "ru",
+      "source": "游戏人生",
+      "translation": "Жизнь как игра"
+    },
+    {
+      "language": "ru",
+      "source": "水硕生活",
+      "translation": "Shuoshuo Life"
+    },
+    {
+      "language": "ru",
+      "source": "Undergraduation",
+      "translation": "Бакалавриат"
+    },
+    {
+      "language": "ru",
+      "source": "Amigos",
+      "translation": "Amigos"
+    },
+    {
+      "language": "ru",
+      "source": "Firefly",
+      "translation": "Firefly"
+    },
+    {
+      "language": "ru",
+      "source": "这是留言测试帖（）\n欢迎留言！",
+      "translation": "Это тестовый пост для комментариев ()\nОставляйте комментарии!"
+    },
+    {
+      "language": "ru",
+      "source": "百崖大峡谷",
+      "translation": "Большой каньон Байя"
+    },
+    {
+      "language": "ru",
+      "source": "PROFILE EDITOR",
+      "translation": "Редактировать свой профиль"
+    },
+    {
+      "language": "ru",
+      "source": "属性行",
+      "translation": "Строка атрибутов"
+    },
+    {
+      "language": "ru",
+      "source": "添加一行",
+      "translation": "Добавить строку"
+    },
+    {
+      "language": "ru",
+      "source": "潮汕海门湾",
+      "translation": "Залив Хаймэнь, Чаошань"
+    },
+    {
+      "language": "ru",
+      "source": "鼓浪屿",
+      "translation": "Остров Гуланъюй"
+    },
+    {
+      "language": "ru",
+      "source": "云门山",
+      "translation": "Гора Юньмэньшань"
+    },
+    {
+      "language": "ru",
+      "source": "标签框",
+      "translation": "Рамка для этикеток"
+    },
+    {
+      "language": "ru",
+      "source": "添加标签框",
+      "translation": "Добавить поле для меток"
+    },
+    {
+      "language": "ru",
+      "source": "珠海日月贝",
+      "translation": "Театр «Солнце и Луна» в Чжухае"
+    },
+    {
+      "language": "ru",
+      "source": "贵州千户苗寨",
+      "translation": "Деревня Цяньхумяоцзай в Гуйчжоу"
+    },
+    {
+      "language": "ru",
+      "source": "保存并发布",
+      "translation": "Сохранить и опубликовать"
+    },
+    {
+      "language": "ru",
+      "source": "FAST望远镜",
+      "translation": "Телескоп FAST"
+    },
+    {
+      "language": "ru",
+      "source": "CONTACT EDITOR",
+      "translation": "ÐÐ´ÑÐµÑÐ°"
+    },
+    {
+      "language": "ru",
+      "source": "联系标签框",
+      "translation": "Поле тегов контактов"
+    },
+    {
+      "language": "ru",
+      "source": "黄果树瀑布",
+      "translation": "Водопад Хуангошу"
+    },
+    {
+      "language": "ru",
+      "source": "柳州马鞍山顶",
+      "translation": "Вершина горы Мааньшань, Лючжоу"
+    },
+    {
+      "language": "ru",
+      "source": "ALBUM VIEWER",
+      "translation": "ПРОСМОТР АЛЬБОМА"
+    },
+    {
+      "language": "ru",
+      "source": "惠州巽寮湾",
+      "translation": "Залив Сюньляо, Хуэйчжоу"
+    },
+    {
+      "language": "ru",
+      "source": "相册",
+      "translation": "Альбомы"
+    },
+    {
+      "language": "ru",
+      "source": "展示大小",
+      "translation": "Размер отображения"
+    },
+    {
+      "language": "ru",
+      "source": "丽江古城",
+      "translation": "Старый город Лицзян"
+    },
+    {
+      "language": "ru",
+      "source": "大理洱海",
+      "translation": "Озеро Эрхай в Дали"
+    },
+    {
+      "language": "ru",
+      "source": "保存设置",
+      "translation": "сохранить настройки"
+    },
+    {
+      "language": "ru",
+      "source": "太平山顶",
+      "translation": "Пик Виктория"
+    },
+    {
+      "language": "ru",
+      "source": "选择照片 / 视频 / LIVP",
+      "translation": "Выбрать фото/видео/LIVP"
+    },
+    {
+      "language": "ru",
+      "source": "上传到相册",
+      "translation": "Загрузить в альбом"
+    },
+    {
+      "language": "ru",
+      "source": "Oxford",
+      "translation": "Оксфорд"
+    },
+    {
+      "language": "ru",
+      "source": "Cambridge",
+      "translation": "Кембриджский"
+    },
+    {
+      "language": "ru",
+      "source": "轮换动画",
+      "translation": "Анимация смены"
+    },
+    {
+      "language": "ru",
+      "source": "长沙橘子洲",
+      "translation": "Остров Цзюйцзычжоу в Чанше"
+    },
+    {
+      "language": "ru",
+      "source": "设为封面轮换",
+      "translation": "Установить в качестве сменяющейся обложки"
+    },
+    {
+      "language": "fa",
+      "source": "长沙橘子洲",
+      "translation": "Остров Цзюйцзычжоу в Чанша"
+    },
+    {
+      "language": "fa",
+      "source": "Cambridge",
+      "translation": "Кембриджский"
+    },
+    {
+      "language": "fa",
+      "source": "Oxford",
+      "translation": "Оксфорд"
+    },
+    {
+      "language": "fa",
+      "source": "删除整个相册",
+      "translation": "Удалить весь альбом"
+    },
+    {
+      "language": "fa",
+      "source": "广州长隆动物园",
+      "translation": "باغ وحش چانگلونگ گوانگژو"
+    },
+    {
+      "language": "fa",
+      "source": "20RMB",
+      "translation": "20 یوان"
+    },
+    {
+      "language": "fa",
+      "source": "返回 Gallery",
+      "translation": "Вернуться в галерею"
+    },
+    {
+      "language": "fa",
+      "source": "理塘",
+      "translation": "لیتانگ"
+    },
+    {
+      "language": "fa",
+      "source": "COVER ROTATION",
+      "translation": "ВРАЩЕНИЕ КРЫШКИ"
+    },
+    {
+      "language": "fa",
+      "source": "KX",
+      "translation": "KX"
+    },
+    {
+      "language": "fa",
+      "source": "Никнейм",
+      "translation": "نام مستعار"
+    },
+    {
+      "language": "fa",
+      "source": "Роль",
+      "translation": "نقش"
+    },
+    {
+      "language": "fa",
+      "source": "Kerry's Cyber Base",
+      "translation": "پایگاه سایبری کری"
+    },
+    {
+      "language": "fa",
+      "source": "跳到主要内容",
+      "translation": "رفتن به محتوای اصلی"
+    },
+    {
+      "language": "fa",
+      "source": "Kerry Xing",
+      "translation": "کری شینگ"
+    },
+    {
+      "language": "fa",
+      "source": "渐显",
+      "translation": "محو شدن"
+    },
+    {
+      "language": "fa",
+      "source": "稻城亚丁",
+      "translation": "داچنگ یادینگ"
+    },
+    {
+      "language": "fa",
+      "source": "澳门威尼斯人",
+      "translation": "ونیزین ماکائو"
+    },
+    {
+      "language": "fa",
+      "source": "下一张照片在原位置柔和淡入",
+      "translation": "عکس بعدی به آرامی در موقعیت اصلی ظاهر می‌شود"
+    },
+    {
+      "language": "fa",
+      "source": "镇邦美食街",
+      "translation": "خیابان غذاهای ژنبانگ"
     }
   ]
 }

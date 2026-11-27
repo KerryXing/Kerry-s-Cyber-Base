@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T17:27:16.078Z",
+  "updatedAt": "2026-11-27T17:27:21.450Z",
   "entries": [
     {
       "language": "en",
@@ -2966,6 +2966,306 @@
       "language": "zh-TW",
       "source": "下一张照片像方块另一面从上往下翻出",
       "translation": "下一張相片像方塊的另一面從上往下翻出"
+    },
+    {
+      "language": "zh-TW",
+      "source": "PHOTO VIEW",
+      "translation": "相片檢視"
+    },
+    {
+      "language": "zh-TW",
+      "source": "需要该仓库的 Contents 读写权限。请勿使用账号密码，也不要授予无关仓库的权限。",
+      "translation": "需要該倉庫的 Contents 讀寫權限。請勿使用帳號密碼，也不要授予無關倉庫的權限。"
+    },
+    {
+      "language": "zh-TW",
+      "source": "创建 Token",
+      "translation": "建立 Token"
+    },
+    {
+      "language": "zh-TW",
+      "source": "验证并登录",
+      "translation": "驗證並登入"
+    },
+    {
+      "language": "zh-TW",
+      "source": "下载内容备份",
+      "translation": "下載內容備份"
+    },
+    {
+      "language": "zh-TW",
+      "source": "导入本机旧内容",
+      "translation": "匯入本機舊內容"
+    },
+    {
+      "language": "zh-TW",
+      "source": "退出管理",
+      "translation": "退出管理"
+    },
+    {
+      "language": "zh-TW",
+      "source": "HOMEPAGE BACKGROUND",
+      "translation": "首頁背景"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传新背景",
+      "translation": "上傳新背景"
+    },
+    {
+      "language": "zh-TW",
+      "source": "更换首页背景",
+      "translation": "更換首頁背景"
+    },
+    {
+      "language": "zh-TW",
+      "source": "支持图片、视频、GIF 和 LIVP",
+      "translation": "支援圖片、影片、GIF 和 LIVP"
+    },
+    {
+      "language": "zh-TW",
+      "source": "上传新头像",
+      "translation": "上傳新頭像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "支持 JPG、PNG、GIF、HEIC 等图片格式",
+      "translation": "支援 JPG、PNG、GIF、HEIC 等圖片格式"
+    },
+    {
+      "language": "zh-TW",
+      "source": "完成",
+      "translation": "完成"
+    },
+    {
+      "language": "zh-TW",
+      "source": "深蓝",
+      "translation": "深藍"
+    },
+    {
+      "language": "zh-TW",
+      "source": "使用头像",
+      "translation": "使用頭像"
+    },
+    {
+      "language": "zh-TW",
+      "source": "沉静、清晰的夜间赛博感",
+      "translation": "沉靜、清晰的夜間賽博感"
+    },
+    {
+      "language": "zh-TW",
+      "source": "浅蓝",
+      "translation": "淺藍"
+    },
+    {
+      "language": "zh-TW",
+      "source": "轻盈、柔和的日间蓝调",
+      "translation": "輕盈、柔和的日間藍調"
+    },
+    {
+      "language": "zh-TW",
+      "source": "黑夜城市",
+      "translation": "黑夜城市"
+    },
+    {
+      "language": "zh-TW",
+      "source": "感恩",
+      "translation": "感恩"
+    },
+    {
+      "language": "zh-TW",
+      "source": "从天际线一路降温到霓虹街道的纵深夜景",
+      "translation": "從天際線一路降溫到霓虹街道的縱深夜景"
+    },
+    {
+      "language": "zh-TW",
+      "source": "暖金、枫叶与柔和暮色",
+      "translation": "暖金、楓葉與柔和暮色"
+    },
+    {
+      "language": "zh-TW",
+      "source": "今日主题",
+      "translation": "今日主題"
+    },
+    {
+      "language": "zh-TW",
+      "source": "圣诞",
+      "translation": "聖誕"
+    },
+    {
+      "language": "zh-TW",
+      "source": "松绿、暖红、星光与细雪",
+      "translation": "松綠、暖紅、星光與細雪"
+    },
+    {
+      "language": "zh-TW",
+      "source": "元旦",
+      "translation": "元旦"
+    },
+    {
+      "language": "zh-TW",
+      "source": "节日主题",
+      "translation": "節日主題"
+    },
+    {
+      "language": "zh-TW",
+      "source": "午夜蓝、金色烟花与新一年的微光",
+      "translation": "午夜藍、金色煙火與新一年的微光"
+    },
+    {
+      "language": "zh-TW",
+      "source": "清明",
+      "translation": "清明"
+    },
+    {
+      "language": "zh-TW",
+      "source": "朱红、鎏金、灯笼与祥云",
+      "translation": "朱紅、鎏金、燈籠與祥雲"
+    },
+    {
+      "language": "zh-TW",
+      "source": "复活节",
+      "translation": "復活節"
+    },
+    {
+      "language": "zh-TW",
+      "source": "青黛远山、薄雾、细雨与垂柳",
+      "translation": "青黛遠山、薄霧、細雨與垂柳"
+    },
+    {
+      "language": "zh-TW",
+      "source": "春节",
+      "translation": "春節"
+    },
+    {
+      "language": "zh-TW",
+      "source": "春日晨光、彩蛋与柔和的花园色彩",
+      "translation": "春日晨光、彩蛋與柔和的花園色彩"
+    },
+    {
+      "language": "zh-TW",
+      "source": "元宵",
+      "translation": "元宵"
+    },
+    {
+      "language": "zh-TW",
+      "source": "劳动",
+      "translation": "勞動"
+    },
+    {
+      "language": "zh-TW",
+      "source": "暖粉灯火、金色月轮与团圆夜色",
+      "translation": "暖粉燈火、金色月輪與團圓夜色"
+    },
+    {
+      "language": "zh-TW",
+      "source": "清亮工业蓝、日光与秩序线条",
+      "translation": "清亮工業藍、日光與秩序線條"
+    },
+    {
+      "language": "zh-TW",
+      "source": "端午",
+      "translation": "端午"
+    },
+    {
+      "language": "zh-TW",
+      "source": "菖蒲青绿、粼粼水光与日光",
+      "translation": "菖蒲青綠、粼粼水光與日光"
+    },
+    {
+      "language": "zh-TW",
+      "source": "中秋",
+      "translation": "中秋"
+    },
+    {
+      "language": "zh-TW",
+      "source": "深蓝夜空、满月与桂花金色",
+      "translation": "深藍夜空、滿月與桂花金色"
+    },
+    {
+      "language": "zh-TW",
+      "source": "中国国庆",
+      "translation": "中國國慶"
+    },
+    {
+      "language": "zh-TW",
+      "source": "重阳",
+      "translation": "重陽"
+    },
+    {
+      "language": "zh-TW",
+      "source": "庄重红色、金色光芒与庆典丝带",
+      "translation": "莊重紅色、金色光芒與慶典絲帶"
+    },
+    {
+      "language": "zh-TW",
+      "source": "秋日暖棕、层叠远山与菊花色",
+      "translation": "秋日暖棕、層疊遠山與菊花色"
+    },
+    {
+      "language": "zh-TW",
+      "source": "当前默认：深蓝",
+      "translation": "目前預設：深藍"
+    },
+    {
+      "language": "zh-TW",
+      "source": "设为默认",
+      "translation": "設為預設"
+    },
+    {
+      "language": "zh-TW",
+      "source": "中文",
+      "translation": "中文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "LANGUAGE",
+      "translation": "語言"
+    },
+    {
+      "language": "zh-TW",
+      "source": "简体中文",
+      "translation": "簡體中文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Traditional Chinese",
+      "translation": "繁體中文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "繁體中文",
+      "translation": "繁體中文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "English",
+      "translation": "English"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Japanese",
+      "translation": "日文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Spanish",
+      "translation": "西班牙文"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Español",
+      "translation": "ESPAÑOL"
+    },
+    {
+      "language": "zh-TW",
+      "source": "한국어",
+      "translation": "朝鮮語"
+    },
+    {
+      "language": "zh-TW",
+      "source": "Korean",
+      "translation": "韓文"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T19:54:16.244Z",
+  "updatedAt": "2026-11-27T19:54:54.987Z",
   "entries": [
     {
       "language": "en",
@@ -4605,12 +4605,42 @@
     {
       "language": "ar",
       "source": "Jobless Reincarnation",
-      "translation": "التجسد من جديد عاطلًا عن العمل"
+      "translation": "التجسد من دون عمل"
     },
     {
       "language": "ar",
       "source": "游戏宇宙",
       "translation": "عالم اللعبة"
+    },
+    {
+      "language": "ar",
+      "source": "Gallery",
+      "translation": "معرض الصور"
+    },
+    {
+      "language": "ar",
+      "source": "创建第一个相册",
+      "translation": "إنشاء أول ألبوم صور"
+    },
+    {
+      "language": "ar",
+      "source": "编辑联系",
+      "translation": "تحرير جهة الاتصال"
+    },
+    {
+      "language": "ar",
+      "source": "Steam",
+      "translation": "البخار"
+    },
+    {
+      "language": "ar",
+      "source": "Minecraft",
+      "translation": "ماينكرافت"
+    },
+    {
+      "language": "ar",
+      "source": "崩坏：星穹铁道",
+      "translation": "هونكاي: ستار ريل"
     }
   ]
 }

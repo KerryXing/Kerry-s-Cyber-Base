@@ -15,7 +15,9 @@ window.KERRY_I18N = {
     { code: "th", native: "ไทย", detail: "Thai" },
     { code: "vi", native: "Tiếng Việt", detail: "Vietnamese" },
     { code: "pt", native: "Português", detail: "Portuguese" },
-    { code: "bo", native: "བོད་སྐད་", detail: "Tibetan" }
+    { code: "bo", native: "བོད་སྐད་", detail: "Tibetan" },
+    { code: "el", native: "Ελληνικά", detail: "Greek" },
+    { code: "ms", native: "Bahasa Melayu", detail: "Malay" }
   ],
   dict: {
     "zh-TW": {
@@ -154,7 +156,7 @@ window.KERRY_I18N = {
       "请再次输入以确认": "Enter it again to confirm",
       "例如 22.5431": "Example 22.5431",
       "例如 114.0579": "Example 114.0579",
-      "你输入的内容只自动翻译其中的中文；其他文字保持原样。首次翻译需要联网，结果会缓存在当前浏览器。": "Only Chinese text in your own content is translated automatically. Other text stays unchanged. The first translation requires internet access, and results are cached in this browser."
+      "你输入的内容会随界面语言自动翻译，并保留原文用于再次切换。结果会缓存在本地并同步到云端。": "Your own content is translated to follow the interface language, while the original text is kept for switching again. Results are cached locally and synced to the cloud."
     },
     ja: {
       "主页": "ホーム", "留言墙": "メッセージ", "足迹": "足あと", "设置": "設定",
@@ -439,6 +441,67 @@ window.KERRY_I18N = {
       "切换主题": "བརྗོད་གཞི་བརྗེ་བ", "全站默认主题": "དྲ་ཚིགས་ཀྱི་སྔོན་འགྲོའི་བརྗོད་གཞི",
       "今日主题": "དེ་རིང་གི་བརྗོད་གཞི", "节日主题": "དུས་ཆེན་གྱི་བརྗོད་གཞི",
       "设为默认": "སྔོན་འགྲོར་བཞག་པ"
+    },
+    el: {
+      "主页": "Αρχική", "留言墙": "Πίνακας μηνυμάτων", "足迹": "Ίχνη",
+      "设置": "Ρυθμίσεις", "主题": "Θέμα", "语言": "Γλώσσα",
+      "管理": "Διαχείριση", "隐藏内容": "Κρυφό περιεχόμενο",
+      "欢迎来到": "Καλώς ήρθατε στη", "Kerry的赛博基地": "Κυβερνοβάση της Kerry",
+      "了解我": "Σχετικά με εμένα", "翻开图集": "Άνοιγμα γκαλερί",
+      "更换": "Αλλαγή", "属性表": "Προφίλ", "日常": "Καθημερινά",
+      "总结册": "Αναφορές", "全屏": "Πλήρης οθόνη", "自动放映": "Αυτόματη αναπαραγωγή",
+      "页码": "Σελίδα", "跳转": "Μετάβαση", "创建相册": "Δημιουργία άλμπουμ",
+      "调整": "Τακτοποίηση", "取消修改": "Ακύρωση αλλαγών",
+      "确认修改": "Αποθήκευση αλλαγών", "还没有相册": "Δεν υπάρχουν άλμπουμ",
+      "先创建一个相册，再上传你想收藏的照片。": "Δημιουργήστε ένα άλμπουμ και προσθέστε τις φωτογραφίες που θέλετε να κρατήσετε.",
+      "多选": "Επιλογή", "删除": "Διαγραφή", "感谢您来到": "Σας ευχαριστώ που επισκεφθήκατε τη",
+      "我的赛博基地。": "κυβερνοβάση μου.", "还没有留言": "Δεν υπάρχουν μηνύματα",
+      "成为第一个在这里留下文字的人。": "Γίνετε ο πρώτος που θα αφήσει ένα μήνυμα εδώ.",
+      "留言": "Μήνυμα", "想说的话": "Το μήνυμά σας", "你的名字": "Το όνομά σας",
+      "匿名": "Ανώνυμος", "留言框形状": "Σχήμα μηνύματος", "纯圆": "Κύκλος",
+      "椭圆": "Έλλειψη", "五角星": "Αστέρι", "聊天框": "Συννεφάκι συνομιλίας",
+      "八边形": "Οκτάγωνο", "正方形": "Τετράγωνο", "张贴留言": "Δημοσίευση μηνύματος",
+      "确认": "Επιβεβαίωση", "还没有足迹": "Δεν υπάρχουν ίχνη",
+      "上传旅行照片，自动读取照片中的地理位置。": "Ανεβάστε ταξιδιωτικές φωτογραφίες για αυτόματη ανάγνωση της τοποθεσίας.",
+      "昵称": "Ψευδώνυμο", "身份": "Ιδιότητα", "坐标": "Τοποθεσία", "技能": "Δεξιότητες",
+      "解锁隐藏内容": "Ξεκλείδωμα κρυφού περιεχομένου",
+      "隐藏内容口令": "Κωδικός κρυφού περιεχομένου", "关闭": "Κλείσιμο",
+      "轮换动画": "Κινούμενη εναλλαγή", "渐显": "Σταδιακή εμφάνιση",
+      "右滑": "Ολίσθηση δεξιά", "放大": "Μεγέθυνση", "竖直滚动": "Κατακόρυφη κύλιση",
+      "页面转场": "Μετάβαση σελίδας", "上下翻转": "Κατακόρυφη αναστροφή",
+      "切换主题": "Αλλαγή θέματος", "全站默认主题": "Προεπιλεγμένο θέμα ιστότοπου",
+      "今日主题": "Σημερινό θέμα", "节日主题": "Εποχιακό θέμα",
+      "设为默认": "Ορισμός ως προεπιλογή"
+    },
+    ms: {
+      "主页": "Utama", "留言墙": "Dinding mesej", "足迹": "Jejak",
+      "设置": "Tetapan", "主题": "Tema", "语言": "Bahasa",
+      "管理": "Pentadbiran", "隐藏内容": "Kandungan tersembunyi",
+      "欢迎来到": "Selamat datang ke", "Kerry的赛博基地": "Pangkalan siber Kerry",
+      "了解我": "Tentang saya", "翻开图集": "Buka galeri",
+      "更换": "Tukar", "属性表": "Profil", "日常": "Harian",
+      "总结册": "Laporan", "全屏": "Skrin penuh", "自动放映": "Main automatik",
+      "页码": "Halaman", "跳转": "Pergi", "创建相册": "Cipta album",
+      "调整": "Susun", "取消修改": "Batal perubahan",
+      "确认修改": "Simpan perubahan", "还没有相册": "Belum ada album",
+      "先创建一个相册，再上传你想收藏的照片。": "Cipta album kemudian muat naik foto yang ingin disimpan.",
+      "多选": "Pilih", "删除": "Padam", "感谢您来到": "Terima kasih kerana mengunjungi",
+      "我的赛博基地。": "pangkalan siber saya.", "还没有留言": "Belum ada mesej",
+      "成为第一个在这里留下文字的人。": "Jadilah orang pertama yang meninggalkan mesej di sini.",
+      "留言": "Mesej", "想说的话": "Mesej anda", "你的名字": "Nama anda",
+      "匿名": "Tanpa nama", "留言框形状": "Bentuk mesej", "纯圆": "Bulatan",
+      "椭圆": "Bujur", "五角星": "Bintang", "聊天框": "Gelembung sembang",
+      "八边形": "Oktagon", "正方形": "Segi empat sama", "张贴留言": "Kirim mesej",
+      "确认": "Sahkan", "还没有足迹": "Belum ada jejak",
+      "上传旅行照片，自动读取照片中的地理位置。": "Muat naik foto perjalanan untuk membaca lokasi secara automatik.",
+      "昵称": "Nama panggilan", "身份": "Peranan", "坐标": "Lokasi", "技能": "Kemahiran",
+      "解锁隐藏内容": "Buka kandungan tersembunyi",
+      "隐藏内容口令": "Kata laluan kandungan tersembunyi", "关闭": "Tutup",
+      "轮换动画": "Animasi putaran", "渐显": "Pudar masuk", "右滑": "Luncur kanan",
+      "放大": "Zum", "竖直滚动": "Tatal menegak", "页面转场": "Peralihan halaman",
+      "上下翻转": "Balik menegak", "切换主题": "Tukar tema",
+      "全站默认主题": "Tema lalai laman", "今日主题": "Tema hari ini",
+      "节日主题": "Tema bermusim", "设为默认": "Jadikan lalai"
     }
   }
 };

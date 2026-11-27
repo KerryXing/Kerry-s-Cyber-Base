@@ -4338,15 +4338,15 @@ body.device-phone .back-to-top {
 }
 
 .guestbook-sticker .guestbook-card-content {
-  display: -webkit-box;
-  overflow: hidden;
+  display: block;
+  overflow: visible;
   margin: 0;
   color: var(--ink);
   font-size: clamp(14px, 1.4vw, 18px);
   line-height: 1.62;
   text-align: inherit;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
+  overflow-wrap: anywhere;
+  -webkit-line-clamp: unset;
 }
 
 .guestbook-sticker .guestbook-card-footer {
@@ -4365,6 +4365,87 @@ body.device-phone .back-to-top {
   outline: 3px dashed color-mix(in srgb, var(--accent) 70%, transparent);
   outline-offset: 3px;
   animation: guestbook-preview-pulse 1.8s ease-in-out infinite alternate;
+}
+
+.guestbook-preview-cancel {
+  position: absolute;
+  z-index: 20;
+  top: 12px;
+  left: 14px;
+  min-height: 32px;
+  padding: 4px 12px;
+  color: #fff8f8;
+  border: 1px solid color-mix(in srgb, var(--danger) 68%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--danger) 82%, #7a1f2b);
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--bg-deep) 30%, transparent);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.guestbook-preview.shape-circle .guestbook-preview-cancel {
+  top: 18px;
+  left: 28px;
+}
+
+.guestbook-preview.shape-octagon .guestbook-preview-cancel {
+  top: 19%;
+  left: 18%;
+}
+
+.guestbook-preview.shape-star .guestbook-preview-cancel {
+  top: 27%;
+  left: 17%;
+}
+
+.guestbook-sticker .guestbook-delete {
+  width: 36px;
+  height: 36px;
+  top: 14px;
+  right: 14px;
+  font-size: 23px;
+}
+
+.guestbook-sticker.shape-star .guestbook-delete {
+  top: 27%;
+  right: 18%;
+}
+
+.guestbook-sticker.shape-octagon .guestbook-delete {
+  top: 18%;
+  right: 18%;
+}
+
+.guestbook-sticker.shape-circle .guestbook-delete {
+  top: 18px;
+  right: 28px;
+}
+
+.button,
+.pill-action,
+.nav-trigger,
+.theme-card,
+.language-option,
+.album-rotation-option,
+.guestbook-shape-option,
+.deck-list-item,
+.contact-group-items > span,
+.album-card-info h3,
+.taste-card,
+.contact-group-card {
+  height: auto;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.button,
+.pill-action,
+.language-option,
+.album-rotation-option,
+.guestbook-shape-option {
+  line-height: 1.35;
 }
 
 .guestbook-preview.is-dragging {

@@ -160,7 +160,7 @@
 
   async function init() {
     setupDeviceProfile();
-    setupLanguage();
+    await setupLanguage();
     setupTheme();
     await populateProfile();
     setupNavigation();
@@ -182,7 +182,15 @@
     window.addEventListener("resize", updateBackToTopPlacement);
     window.addEventListener("scroll", updateBackToTopPlacement, { passive: true });
     let galleryResizeTimer = null;
+    let lastGalleryViewportWidth = Math.round(
+      window.visualViewport?.width || window.innerWidth
+    );
     window.addEventListener("resize", () => {
+      const currentWidth = Math.round(
+        window.visualViewport?.width || window.innerWidth
+      );
+      if (Math.abs(currentWidth - lastGalleryViewportWidth) < 2) return;
+      lastGalleryViewportWidth = currentWidth;
       if (
         !state.galleryLayoutMode &&
         !state.albums.some((album) => album.layout)
@@ -248,7 +256,7 @@
     window.visualViewport?.addEventListener("resize", apply, { passive: true });
   }
 
-  function setupLanguage() {
+  async function setupLanguage() {
     const data = window.KERRY_I18N || { languages: [], dict: {} };
     const supported = new Set(data.languages.map((item) => item.code));
     const detectDeviceLanguage = () => {
@@ -276,6 +284,10 @@
     state.languageUserOverride = supported.has(saved);
     state.language = supported.has(initial) ? initial : "zh-CN";
     state.languageTextSources = new WeakMap();
+    state.userTranslationCache = loadTranslationCache();
+    await loadCloudTranslationCache();
+    state.userTranslationToken = 0;
+    state.userTranslationNodes = new WeakMap();
     state.applyLanguage = applyLanguage;
     state.translateUiText = translateUiText;
     applyLanguage(state.language);
@@ -300,8 +312,6 @@
     });
     syncLanguageOptions();
     let languageRefreshTimer = null;
-    state.userTranslationToken = 0;
-    state.userTranslationNodes = new WeakMap();
     const observer = new MutationObserver(() => {
       window.clearTimeout(languageRefreshTimer);
       languageRefreshTimer = window.setTimeout(() => {
@@ -340,6 +350,7 @@
     applyLanguageToDom();
     translateMissingStaticUi();
     translateUserContentDom();
+    if (state.mapReady) applyBuiltInBilingualLabels();
     syncLanguageOptions();
   }
 
@@ -368,14 +379,152 @@
     }
   }
 
+  async function loadCloudTranslationCache() {
+    try {
+      const url = new URL("translation-cache.json?v=" + Date.now(), document.baseURI);
+      const response = await fetch(url.href, { cache: "no-store" });
+      if (!response.ok) return;
+      const payload = await response.json();
+      for (const entry of payload?.entries || []) {
+        const language = String(entry?.language || "");
+        const source = String(entry?.source || "");
+        const translation = String(entry?.translation || "");
+        if (!language || !source || !translation) continue;
+        state.userTranslationCache[language + "\u0000" + source] = translation;
+      }
+      saveTranslationCache();
+    } catch {
+      // The local cache still provides fast switching when the shared file is unavailable.
+    }
+  }
+
+  function queueCloudTranslation(language, source, translation) {
+    const config = getUploadConfig();
+    if (!config.guestbookEndpoint) return;
+    state.cloudTranslationQueue =
+      state.cloudTranslationQueue || new Map();
+    state.cloudTranslationQueue.set(language + "\u0000" + source, {
+      language,
+      source,
+      translation
+    });
+    window.clearTimeout(state.cloudTranslationTimer);
+    state.cloudTranslationTimer = window.setTimeout(
+      flushCloudTranslationQueue,
+      1400
+    );
+  }
+
+  async function flushCloudTranslationQueue() {
+    const config = getUploadConfig();
+    if (!config.guestbookEndpoint || !state.cloudTranslationQueue?.size) return;
+    const entries = [...state.cloudTranslationQueue.values()].slice(0, 60);
+    entries.forEach((entry) =>
+      state.cloudTranslationQueue.delete(
+        entry.language + "\u0000" + entry.source
+      )
+    );
+    try {
+      const response = await fetch(config.guestbookEndpoint, {
+        method: "POST",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "translation-cache",
+          entries
+        })
+      });
+      if (!response.ok) throw new Error("Translation cache write failed");
+    } catch {
+      // Keep the result locally; it can be translated again on a future visit.
+    }
+  }
+
   function detectTranslationSource(text) {
     if (/[\u0600-\u06ff]/i.test(text)) return "fa";
+    if (/[\u0f00-\u0fff]/u.test(text)) return "bo";
     if (/[\u3040-\u30ff]/i.test(text)) return "ja";
     if (/[\uac00-\ud7af]/i.test(text)) return "ko";
     if (/[\u0e00-\u0e7f]/i.test(text)) return "th";
     if (/[\u0400-\u04ff]/i.test(text)) return "ru";
+    if (/[\u0370-\u03ff]/u.test(text)) return "el";
     if (/[\u4e00-\u9fff]/i.test(text)) return "zh-CN";
+    if (/[ăâđêôơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]/iu.test(text)) {
+      return "vi";
+    }
+    if (/[ãõ]/iu.test(text) || /\b(não|você|uma|para|com|obrigado|olá)\b/iu.test(text)) {
+      return "pt";
+    }
+    if (/[ñ¿¡]/u.test(text) || /\b(el|los|las|una|pero|gracias|hola)\b/iu.test(text)) {
+      return "es";
+    }
+    if (/[äöüß]/iu.test(text) || /\b(der|die|das|und|nicht|danke|hallo)\b/iu.test(text)) {
+      return "de";
+    }
+    if (/[àâçéèêëîïôùûüÿœ]/iu.test(text) || /\b(le|les|une|des|merci|bonjour)\b/iu.test(text)) {
+      return "fr";
+    }
+    if (/\b(yang|dan|dengan|terima|kasih|selamat)\b/iu.test(text)) {
+      return /\b(saya|anda|tidak|ialah|adalah)\b/iu.test(text) ? "ms" : "id";
+    }
     return "en";
+  }
+
+  async function fetchTranslationChunk(chunk, source) {
+    const config = getUploadConfig();
+    if (config.guestbookEndpoint) {
+      try {
+        const response = await fetch(config.guestbookEndpoint, {
+          method: "POST",
+          cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "translate",
+            text: chunk,
+            source,
+            target: state.language
+          })
+        });
+        if (response.ok) {
+          const payload = await response.json();
+          if (payload?.translation) {
+            return cleanTranslatedText(payload.translation);
+          }
+        }
+      } catch {
+        // Fall back to the public endpoint below.
+      }
+    }
+    try {
+      const email =
+        window.UPLOAD_CONFIG?.translationEmail || "keryxin@qq.com";
+      const url =
+        "https://api.mymemory.translated.net/get?q=" +
+        encodeURIComponent(chunk) +
+        "&langpair=" +
+        encodeURIComponent(source + "|" + state.language) +
+        "&de=" +
+        encodeURIComponent(email);
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) return null;
+      const payload = await response.json();
+      if (
+        payload?.responseStatus &&
+        Number(payload.responseStatus) !== 200
+      ) {
+        return null;
+      }
+      return cleanTranslatedText(payload?.responseData?.translatedText) || null;
+    } catch {
+      return null;
+    }
+  }
+
+  function cleanTranslatedText(value) {
+    return String(value || "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/[ \t]+/g, " ")
+      .trim();
   }
 
   async function translateUserText(text, options = {}) {
@@ -394,6 +543,11 @@
     if (source === state.language) return text;
     const cacheKey = state.language + "\u0000" + sourceText;
     if (state.userTranslationCache?.[cacheKey]) {
+      queueCloudTranslation(
+        state.language,
+        sourceText,
+        state.userTranslationCache[cacheKey]
+      );
       return state.userTranslationCache[cacheKey];
     }
     const chunks = [];
@@ -402,38 +556,14 @@
     }
     const translated = [];
     for (const chunk of chunks) {
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 9000);
-      try {
-        const url =
-          "https://api.mymemory.translated.net/get?q=" +
-          encodeURIComponent(chunk) +
-          "&langpair=" +
-          encodeURIComponent(source + "|" + state.language);
-        const response = await fetch(url, {
-          signal: controller.signal,
-          cache: "no-store"
-        });
-        if (!response.ok) throw new Error("Translation service unavailable");
-        const payload = await response.json();
-        if (
-          payload?.responseStatus &&
-          Number(payload.responseStatus) !== 200
-        ) {
-          throw new Error(payload.responseDetails || "Translation failed");
-        }
-        const value = payload?.responseData?.translatedText;
-        if (!value) throw new Error("Translation missing");
-        translated.push(value);
-      } catch {
-        return text;
-      } finally {
-        window.clearTimeout(timeout);
-      }
+      const value = await fetchTranslationChunk(chunk, source);
+      if (!value) return text;
+      translated.push(value);
     }
     const result = translated.join("");
     state.userTranslationCache[cacheKey] = result;
     saveTranslationCache();
+    queueCloudTranslation(state.language, sourceText, result);
     return result;
   }
 
@@ -462,9 +592,7 @@
           state.userTranslationNodes.set(element, element.textContent);
         }
         const original = state.userTranslationNodes.get(element);
-        const translated = await translateUserText(original, {
-          chineseOnly: true
-        });
+        const translated = await translateUserText(original);
         if (
           token !== state.userTranslationToken ||
           !element.isConnected
@@ -473,10 +601,38 @@
         }
         if (element.textContent !== translated) {
           element.textContent = translated;
+          if (element.closest(".guestbook-sticker")) {
+            refreshGuestbookStickerSize(element);
+          }
         }
       }
     };
     await Promise.all(Array.from({ length: 3 }, worker));
+  }
+
+  function refreshGuestbookStickerSize(element) {
+    const card = element.closest(".guestbook-sticker");
+    const board = $("#guestbook-board");
+    if (!card || !board) return;
+    const id = card.dataset.messageId;
+    const message =
+      state.guestbook.find((item) => item.id === id) ||
+      (state.guestbookPlacement?.id === id
+        ? state.guestbookPlacement
+        : null);
+    if (!message) return;
+    const displayedMessage = {
+      ...message,
+      content:
+        card.querySelector(".guestbook-card-content")?.textContent ||
+        message.content
+    };
+    applyGuestbookStickerLayout(
+      card,
+      displayedMessage,
+      Math.max(320, board.clientWidth || 720)
+    );
+    updateGuestbookBoardHeight();
   }
 
   async function translateMissingStaticUi(root = document) {
@@ -4830,7 +4986,7 @@
     applyLanguageToDom(board);
   }
 
-  function guestbookShapeSize(shape, boardWidth) {
+  function guestbookShapeSize(shape, boardWidth, content = "") {
     const scale = Math.min(1, boardWidth / 420);
     const sizes = {
       circle: [210, 210],
@@ -4840,10 +4996,35 @@
       octagon: [250, 195],
       square: [225, 225]
     };
-    const [width, height] = sizes[normalizeGuestbookShape(shape)];
+    const normalizedShape = normalizeGuestbookShape(shape);
+    const [baseWidth, baseHeight] = sizes[normalizedShape];
+    let width = Math.min(
+      Math.max(180, boardWidth - 20),
+      Math.round(baseWidth * scale)
+    );
+    let height = Math.round(baseHeight * scale);
+    const text = String(content || "");
+    const length = [...text].length;
+    const wideCharacters = /[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af\u0e00-\u0e7f]/u.test(text);
+    const contentWidth = width * (normalizedShape === "star" ? 0.48 : 0.7);
+    const averageGlyph = wideCharacters ? 15 : 8.2;
+    const charsPerLine = Math.max(7, Math.floor(contentWidth / averageGlyph));
+    const lines = Math.max(1, Math.ceil(length / charsPerLine));
+    const reservedHeight = normalizedShape === "star" ? 112 : 88;
+    height = Math.max(height, lines * 25 + reservedHeight);
+    if (normalizedShape === "circle" || normalizedShape === "square") {
+      const side = Math.max(width, height);
+      width = Math.min(side, boardWidth - 16);
+      height = side;
+    } else if (normalizedShape === "star") {
+      width = Math.min(
+        Math.max(width, height * 0.92),
+        boardWidth - 16
+      );
+    }
     return {
-      width: Math.round(width * scale),
-      height: Math.round(height * scale)
+      width: Math.round(width),
+      height: Math.round(height)
     };
   }
 
@@ -4852,7 +5033,11 @@
     messages.forEach((message, index) => {
       message.shape = normalizeGuestbookShape(message.shape);
       if (Number.isFinite(message.x) && Number.isFinite(message.y)) return;
-      const size = guestbookShapeSize(message.shape, boardWidth);
+      const size = guestbookShapeSize(
+        message.shape,
+        boardWidth,
+        message.content
+      );
       const column = index % columns;
       const row = Math.floor(index / columns);
       message.x = Math.min(
@@ -4919,6 +5104,27 @@
         });
       }
     } else {
+      const cancel = document.createElement("button");
+      cancel.type = "button";
+      cancel.className = "guestbook-preview-cancel";
+      cancel.textContent = state.translateUiText?.("取消") || "取消";
+      if (
+        state.language &&
+        state.language !== "zh-CN" &&
+        !window.KERRY_I18N?.dict?.[state.language]?.["取消"]
+      ) {
+        translateUserText("取消").then((translated) => {
+          if (cancel.isConnected && translated !== "取消") {
+            cancel.textContent = translated;
+          }
+        });
+      }
+      cancel.addEventListener("pointerdown", (event) => event.stopPropagation());
+      cancel.addEventListener("click", (event) => {
+        event.stopPropagation();
+        cancelGuestbookPlacement();
+      });
+      card.append(cancel);
       card.addEventListener("pointerdown", (event) => {
         if (event.button === 0) startGuestbookDrag(event, message, card);
       });
@@ -4927,7 +5133,11 @@
   }
 
   function applyGuestbookStickerLayout(card, message, boardWidth) {
-    const size = guestbookShapeSize(message.shape, boardWidth);
+    const size = guestbookShapeSize(
+      message.shape,
+      boardWidth,
+      message.content
+    );
     const x = Math.max(0, Math.min(boardWidth - size.width - 8, message.x * boardWidth));
     const y = Math.max(8, message.y || 8);
     card.style.left = x + "px";
@@ -4944,6 +5154,12 @@
     const startX = event.clientX;
     const startY = event.clientY;
     const initial = { x: message.x || 0, y: message.y || 0 };
+    const displayedMessage = {
+      ...message,
+      content:
+        card.querySelector(".guestbook-card-content")?.textContent ||
+        message.content
+    };
     let lastValid = { ...initial };
     event.preventDefault();
     event.stopPropagation();
@@ -4956,7 +5172,9 @@
         Math.min(0.96, initial.x + (moveEvent.clientX - startX) / boardWidth)
       );
       message.y = Math.max(8, initial.y + moveEvent.clientY - startY);
-      applyGuestbookStickerLayout(card, message, boardWidth);
+      displayedMessage.x = message.x;
+      displayedMessage.y = message.y;
+      applyGuestbookStickerLayout(card, displayedMessage, boardWidth);
       const invalid = guestbookStickerOverlaps(card, grid);
       card.classList.toggle("position-invalid", invalid);
       if (!invalid) lastValid = { x: message.x, y: message.y };
@@ -4967,7 +5185,9 @@
       if (invalid) {
         message.x = lastValid.x;
         message.y = lastValid.y;
-        applyGuestbookStickerLayout(card, message, boardWidth);
+        displayedMessage.x = message.x;
+        displayedMessage.y = message.y;
+        applyGuestbookStickerLayout(card, displayedMessage, boardWidth);
       } else {
         lastValid = { x: message.x, y: message.y };
       }
@@ -5032,7 +5252,11 @@
     const name = nameInput.value.trim() || "访客";
     const board = $("#guestbook-board");
     const boardWidth = Math.max(320, board.clientWidth || 720);
-    const size = guestbookShapeSize(state.guestbookShape, boardWidth);
+    const size = guestbookShapeSize(
+      state.guestbookShape,
+      boardWidth,
+      content
+    );
     const placement = {
       id: createId("guestbook-draft"),
       content,
@@ -5055,9 +5279,17 @@
   }
 
   function findAvailableGuestbookPosition(message, boardWidth) {
-    const size = guestbookShapeSize(message.shape, boardWidth);
+    const size = guestbookShapeSize(
+      message.shape,
+      boardWidth,
+      message.content
+    );
     const candidates = state.guestbook.map((item) => {
-      const itemSize = guestbookShapeSize(item.shape, boardWidth);
+      const itemSize = guestbookShapeSize(
+        item.shape,
+        boardWidth,
+        item.content
+      );
       return {
         left: item.x * boardWidth,
         top: item.y,
@@ -5113,19 +5345,31 @@
     }
   }
 
-  function restoreGuestbookCompose(draft, errorMessage) {
+  function cancelGuestbookPlacement() {
+    if (!state.guestbookPlacement) return;
+    const draft = state.guestbookPlacement;
+    restoreGuestbookCompose(draft, "");
+  }
+
+  function restoreGuestbookCompose(draft, errorMessage = "") {
     state.guestbookPlacement = null;
     state.guestbookComposeOpen = true;
     state.guestbookShape = normalizeGuestbookShape(draft.shape);
     $("#guestbook-message").value = draft.content;
     $("#guestbook-name").value = draft.name;
     $("#guestbook-form").hidden = false;
-    $("#guestbook-status").textContent = "张贴失败：" + errorMessage;
+    $("#guestbook-status").textContent = errorMessage
+      ? "张贴失败：" + errorMessage
+      : "";
     $("#guestbook-anonymous").classList.toggle("active", draft.anonymous);
     $("#guestbook-anonymous").setAttribute("aria-pressed", String(draft.anonymous));
     syncGuestbookShapeOptions();
     renderGuestbook();
     syncGuestbookModeUi();
+    if (!errorMessage) {
+      $("#guestbook-form").scrollIntoView({ behavior: "smooth", block: "center" });
+      $("#guestbook-message").focus();
+    }
   }
 
   async function publishGuestbookMessage(message) {
@@ -5947,21 +6191,36 @@
       ["get", "name:latin"],
       ""
     ];
-    const chineseName = [
+    const languageFields = {
+      "zh-CN": ["name:zh", "name:zh-Hans"],
+      "zh-TW": ["name:zh-Hant", "name:zh"],
+      en: ["name:en"],
+      ja: ["name:ja"],
+      es: ["name:es"],
+      ko: ["name:ko"],
+      ru: ["name:ru"],
+      de: ["name:de"],
+      fa: ["name:fa"],
+      fr: ["name:fr"],
+      id: ["name:id"],
+      th: ["name:th"],
+      vi: ["name:vi"],
+      pt: ["name:pt"],
+      bo: ["name:bo"],
+      el: ["name:el"],
+      ms: ["name:ms"]
+    };
+    const selectedName = [
       "coalesce",
-      ["get", "name:zh"],
-      ["get", "name:zh-Hans"],
-      ""
+      ...(languageFields[state.language] || []).map((field) => ["get", field]),
+      ["get", "name:en"],
+      localName
     ];
     const bilingualLabel = [
       "case",
-      [
-        "all",
-        ["has", "name:zh"],
-        ["!=", ["get", "name:zh"], localName]
-      ],
-      ["concat", localName, "\n", chineseName],
-      ["coalesce", chineseName, localName]
+      ["==", selectedName, localName],
+      localName,
+      ["concat", localName, "\n", selectedName]
     ];
     const labelSources = new Set([
       "place",

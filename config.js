@@ -8,5 +8,7 @@ window.UPLOAD_CONFIG = {
   assetRoot: "shared",
   // Fill this with the HTTP access URL of the Tencent Cloud SCF function.
   guestbookEndpoint: "https://1530044146-ce2n1mpai9.ap-guangzhou.tencentscf.com",
-  guestbookPath: "guestbook.json"
+  guestbookPath: "guestbook.json",
+  // Optional contact used by MyMemory to increase its free translation quota.
+  translationEmail: "keryxin@qq.com"
 };

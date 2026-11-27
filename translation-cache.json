@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:50:47.086Z",
+  "updatedAt": "2026-11-27T05:54:14.834Z",
   "entries": [
     {
       "language": "ja",
@@ -2866,6 +2866,21 @@
       "language": "fa",
       "source": "镇邦美食街",
       "translation": "خیابان غذاهای ژنبانگ"
+    },
+    {
+      "language": "ru",
+      "source": "删除整个相册",
+      "translation": "Удалить весь альбом"
+    },
+    {
+      "language": "ru",
+      "source": "返回 Gallery",
+      "translation": "Вернуться в галерею"
+    },
+    {
+      "language": "ru",
+      "source": "COVER ROTATION",
+      "translation": "ВРАЩЕНИЕ КРЫШКИ"
     }
   ]
 }

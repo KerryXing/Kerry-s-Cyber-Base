@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T05:37:28.955Z",
+  "updatedAt": "2026-11-27T05:37:35.067Z",
   "entries": [
     {
       "language": "ja",
@@ -1951,6 +1951,61 @@
       "language": "ja",
       "source": "Xuliǎo Bay, Huizhou",
       "translation": "恵州市、旭寮湾"
+    },
+    {
+      "language": "ja",
+      "source": "Old Town of Lijiang",
+      "translation": "麗江古城"
+    },
+    {
+      "language": "ja",
+      "source": "Dali Erhai Lake",
+      "translation": "大理洱海"
+    },
+    {
+      "language": "ja",
+      "source": "Victoria Peak",
+      "translation": "ビクトリア・ピーク"
+    },
+    {
+      "language": "ja",
+      "source": "Changsha Orange Isle",
+      "translation": "長沙橘子洲"
+    },
+    {
+      "language": "ja",
+      "source": "Guangzhou Chimelong Safari Park",
+      "translation": "広州長隆野生動物世界"
+    },
+    {
+      "language": "ja",
+      "source": "Litang",
+      "translation": "理塘（リタン）"
+    },
+    {
+      "language": "ja",
+      "source": "Yading",
+      "translation": "ヤディング"
+    },
+    {
+      "language": "ja",
+      "source": "The Venetian Macao",
+      "translation": "ザ・ヴェネチアン・マカオ"
+    },
+    {
+      "language": "ja",
+      "source": "Zhenbang Food Street",
+      "translation": "振邦美食街"
+    },
+    {
+      "language": "ja",
+      "source": "Chengdu East Suburb Memory",
+      "translation": "成都東郊の記憶"
+    },
+    {
+      "language": "ja",
+      "source": "Great Bell",
+      "translation": "大鐘"
     }
   ]
 }

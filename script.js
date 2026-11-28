@@ -10,6 +10,35 @@
   const GITHUB_API = "https://api.github.com";
   const COVER_ROTATION_INTERVAL_MS = 5000;
   const COVER_CROSSFADE_MS = 1100;
+  const PROTECTED_USER_TEXT = new Set([
+    "Kerry Xing",
+    "KERRY XING",
+    "KX",
+    "MBTI",
+    "ENFP",
+    "INFP",
+    "Kerry Xing. Built with curiosity."
+  ]);
+  const FOOTER_ATTRIBUTION_SOURCE = "本网页由大肥鱼驱动的Codex赋能制作";
+  const FOOTER_ATTRIBUTION_TRANSLATIONS = {
+    en: "This webpage is powered by DeepSeek AI and developed with Codex.",
+    "zh-TW": "本網頁由 DeepSeek AI 驅動，並透過 Codex 賦能製作。",
+    ja: "このウェブページは、DeepSeek AI が提供する Codex によって制作されています。",
+    es: "Esta página web ha sido creada con Codex, impulsado por DeepSeek AI.",
+    ko: "본 웹페이지는 DeepSeek AI가 제공하는 Codex의 지원을 받아 제작되었습니다.",
+    ru: "Данная веб-страница создана с использованием Codex при поддержке DeepSeek AI.",
+    de: "Diese Webseite wurde mit Codex erstellt, unterstützt von DeepSeek AI.",
+    fa: "این صفحه وب با Codex و با پشتیبانی DeepSeek AI ساخته شده است.",
+    fr: "Cette page web a été créée avec Codex, propulsé par DeepSeek AI.",
+    id: "Halaman web ini dibuat dengan Codex dan didukung oleh DeepSeek AI.",
+    th: "หน้าเว็บนี้สร้างขึ้นด้วย Codex โดยได้รับการสนับสนุนจาก DeepSeek AI",
+    vi: "Trang web này được tạo bằng Codex với sự hỗ trợ của DeepSeek AI.",
+    pt: "Esta página foi criada com Codex, com suporte da DeepSeek AI.",
+    bo: "དྲ་ངོ་འདི་ DeepSeek AI ཀྱིས་རྒྱབ་སྐྱོར་བྱས་པའི་ Codex བརྒྱུད་ནས་བཟོས་པ་རེད།",
+    el: "Αυτή η ιστοσελίδα δημιουργήθηκε με το Codex, με υποστήριξη από το DeepSeek AI.",
+    ms: "Laman web ini dihasilkan dengan Codex dan disokong oleh DeepSeek AI.",
+    ar: "تم إنشاء هذه الصفحة باستخدام Codex بدعم من DeepSeek AI."
+  };
   const ALBUM_COVER_ANIMATIONS = new Set([
     "fade",
     "slide-right",
@@ -381,6 +410,12 @@
 
   function translateUiText(text) {
     if (!text || state.language === "zh-CN") return text;
+    if (text.trim() === FOOTER_ATTRIBUTION_SOURCE) {
+      return (
+        FOOTER_ATTRIBUTION_TRANSLATIONS[state.language] ||
+        FOOTER_ATTRIBUTION_TRANSLATIONS.en
+      );
+    }
     const data = window.KERRY_I18N;
     const selected = data?.dict?.[state.language] || {};
     if (selected[text]) return selected[text];
@@ -659,6 +694,14 @@
     ) {
       return text;
     }
+    if (shouldKeepOriginalText(sourceText)) return text;
+    if (sourceText === FOOTER_ATTRIBUTION_SOURCE) {
+      if (state.language === "zh-CN") return text;
+      return (
+        FOOTER_ATTRIBUTION_TRANSLATIONS[state.language] ||
+        FOOTER_ATTRIBUTION_TRANSLATIONS.en
+      );
+    }
     const hasChinese = /\p{Script=Han}/u.test(sourceText);
     if (options.chineseOnly && !hasChinese) return text;
     const source = options.chineseOnly
@@ -705,6 +748,12 @@
       while (cursor < elements.length) {
         const index = cursor++;
         const element = elements[index];
+        if (
+          element.matches("[data-i18n-skip]") ||
+          element.closest("[data-i18n-skip]")
+        ) {
+          continue;
+        }
         if (!state.userTranslationNodes.has(element)) {
           state.userTranslationNodes.set(element, element.textContent);
         }
@@ -731,6 +780,13 @@
       }
     };
     await Promise.all(Array.from({ length: 3 }, worker));
+  }
+
+  function shouldKeepOriginalText(text) {
+    const normalized = String(text || "").trim().replace(/\s+/g, " ");
+    if (!normalized) return false;
+    if (PROTECTED_USER_TEXT.has(normalized)) return true;
+    return /^(?:[EI][NS][TF][JP])(?=\s*(?:[·•|/—-]|$))/i.test(normalized);
   }
 
   function refreshGuestbookStickerSize(element) {
@@ -1295,9 +1351,15 @@
           const key = document.createElement("span");
           key.setAttribute("role", "rowheader");
           key.textContent = row.key;
+          if (shouldKeepOriginalText(row.key)) {
+            key.setAttribute("data-i18n-skip", "");
+          }
           const value = document.createElement("strong");
           value.setAttribute("role", "cell");
           value.textContent = row.value;
+          if (row.id === "nickname" || shouldKeepOriginalText(row.value)) {
+            value.setAttribute("data-i18n-skip", "");
+          }
           element.append(key, value);
           return element;
         })

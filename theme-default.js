@@ -1,1 +1,1 @@
-window.SHARED_DEFAULT_THEME = "deep-blue";
+window.SHARED_DEFAULT_THEME = "night-city";

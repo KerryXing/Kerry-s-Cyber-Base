@@ -39,6 +39,37 @@
     ms: "Laman web ini dihasilkan dengan Codex dan disokong oleh DeepSeek AI.",
     ar: "تم إنشاء هذه الصفحة باستخدام Codex بدعم من DeepSeek AI."
   };
+  const TRANSLATION_REQUEST_INTERVAL_MS = 1400;
+  const TRANSLATION_RATE_LIMIT_COOLDOWN_MS = 2 * 60 * 60 * 1000;
+  const TRANSLATION_QUOTA_COOLDOWN_MS = 12 * 60 * 60 * 1000;
+  const TRANSLATION_FAILURE_TTL_MS = 30 * 60 * 1000;
+  const TRANSLATION_STATIC_BATCH_SIZE = 40;
+  const TRANSLATION_COOLDOWN_STORAGE_KEY =
+    "kerry-translation-service-cooldown-v1";
+  const TRANSLATION_FAILURE_STORAGE_KEY =
+    "kerry-translation-failures-v1";
+  const LANGUAGE_DETAIL_FALLBACKS = {
+    bo: {
+      "zh-CN": "藏语",
+      "zh-TW": "藏文",
+      en: "Tibetan",
+      ja: "チベット語",
+      es: "Tibetano",
+      ko: "티베트어",
+      ru: "Тибетский",
+      de: "Tibetisch",
+      fa: "تبتی",
+      fr: "Tibétain",
+      id: "Tibet",
+      th: "ทิเบต",
+      vi: "Tiếng Tây Tạng",
+      pt: "Tibetano",
+      bo: "བོད་སྐད་",
+      el: "Θιβετιανά",
+      ms: "Tibet",
+      ar: "التبتية"
+    }
+  };
   const ALBUM_COVER_ANIMATIONS = new Set([
     "fade",
     "slide-right",
@@ -183,6 +214,14 @@
     revealObserver: null,
     language: "zh-CN",
     languageUserOverride: false,
+    translationCooldownUntil: 0,
+    translationFailureCache: {},
+    translationRequestQueue: Promise.resolve(),
+    translationLastRequestAt: 0,
+    translationInFlight: new Map(),
+    translationCooldownNotified: false,
+    translationStaticSweepActive: false,
+    translationStaticSweepPending: false,
     themeUserOverride: false,
     seasonalThemeKey: "",
     defaultTheme: THEME_META[window.SHARED_DEFAULT_THEME]
@@ -366,6 +405,7 @@
     state.language = supported.has(initial) ? initial : "zh-CN";
     state.languageTextSources = new WeakMap();
     state.userTranslationCache = loadTranslationCache();
+    restoreTranslationServiceState();
     await loadCloudTranslationCache();
     state.userTranslationToken = 0;
     state.userTranslationNodes = new WeakMap();
@@ -477,6 +517,109 @@
     } catch {
       // Translation still works for this page when storage is unavailable.
     }
+  }
+
+  function restoreTranslationServiceState() {
+    try {
+      const cooldownUntil = Number(
+        localStorage.getItem(TRANSLATION_COOLDOWN_STORAGE_KEY) || 0
+      );
+      state.translationCooldownUntil =
+        Number.isFinite(cooldownUntil) ? cooldownUntil : 0;
+    } catch {
+      state.translationCooldownUntil = 0;
+    }
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(TRANSLATION_FAILURE_STORAGE_KEY) || "{}"
+      );
+      const now = Date.now();
+      state.translationFailureCache = Object.fromEntries(
+        Object.entries(stored && typeof stored === "object" ? stored : {})
+          .filter(([, until]) => Number(until) > now)
+          .slice(-2000)
+      );
+    } catch {
+      state.translationFailureCache = {};
+    }
+  }
+
+  function isTranslationServiceCoolingDown() {
+    return state.translationCooldownUntil > Date.now();
+  }
+
+  function pauseTranslationService(duration, reason) {
+    const nextUntil = Date.now() + duration;
+    state.translationCooldownUntil = Math.max(
+      state.translationCooldownUntil || 0,
+      nextUntil
+    );
+    try {
+      localStorage.setItem(
+        TRANSLATION_COOLDOWN_STORAGE_KEY,
+        String(state.translationCooldownUntil)
+      );
+    } catch {
+      // Keep the cooldown in memory when persistent storage is unavailable.
+    }
+    if (!state.translationCooldownNotified) {
+      state.translationCooldownNotified = true;
+      console.warn(
+        "Automatic translation paused until the service quota recovers:",
+        reason || "rate limited"
+      );
+    }
+  }
+
+  function translationFailureKey(language, sourceLanguage, sourceText) {
+    return language + "\u0000" + sourceLanguage + "\u0000" + sourceText;
+  }
+
+  function hasRecentTranslationFailure(key) {
+    return Number(state.translationFailureCache?.[key] || 0) > Date.now();
+  }
+
+  function rememberTranslationFailure(key) {
+    state.translationFailureCache =
+      state.translationFailureCache && typeof state.translationFailureCache === "object"
+        ? state.translationFailureCache
+        : {};
+    state.translationFailureCache[key] = Date.now() + TRANSLATION_FAILURE_TTL_MS;
+    try {
+      const entries = Object.entries(state.translationFailureCache);
+      state.translationFailureCache = Object.fromEntries(entries.slice(-2000));
+      localStorage.setItem(
+        TRANSLATION_FAILURE_STORAGE_KEY,
+        JSON.stringify(state.translationFailureCache)
+      );
+    } catch {
+      // Failure throttling still works for the current page.
+    }
+  }
+
+  function waitForTranslationSlot() {
+    const delay = Math.max(
+      0,
+      state.translationLastRequestAt +
+        TRANSLATION_REQUEST_INTERVAL_MS -
+        Date.now()
+    );
+    return delay
+      ? new Promise((resolve) => window.setTimeout(resolve, delay))
+      : Promise.resolve();
+  }
+
+  function enqueueTranslationRequest(task) {
+    const run = async () => {
+      if (isTranslationServiceCoolingDown()) return null;
+      await waitForTranslationSlot();
+      if (isTranslationServiceCoolingDown()) return null;
+      state.translationLastRequestAt = Date.now();
+      return task();
+    };
+    const queued = state.translationRequestQueue.then(run, run);
+    state.translationRequestQueue = queued.catch(() => null);
+    return queued;
   }
 
   async function loadCloudTranslationCache() {
@@ -626,7 +769,8 @@
   }
 
   async function fetchTranslationChunk(chunk, source) {
-    try {
+    if (isTranslationServiceCoolingDown()) return null;
+    return enqueueTranslationRequest(async () => {
       const email =
         window.UPLOAD_CONFIG?.translationEmail || "keryxin@qq.com";
       const url =
@@ -636,47 +780,73 @@
         encodeURIComponent(source + "|" + state.language) +
         "&de=" +
         encodeURIComponent(email);
-      const response = await fetch(url, { cache: "no-store" });
-      if (response.ok) {
-        const payload = await response.json();
-        if (
-          !payload?.responseStatus ||
-          Number(payload.responseStatus) === 200
-        ) {
-          const value = cleanTranslatedText(
-            payload?.responseData?.translatedText
-          );
-          if (value) return value;
-        }
-      }
-    } catch {
-      // Try the configured function endpoint as a fallback.
-    }
-    const config = getUploadConfig();
-    if (config.guestbookEndpoint) {
       try {
-        const response = await fetch(config.guestbookEndpoint, {
-          method: "POST",
-          cache: "no-store",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "translate",
-            text: chunk,
-            source,
-            target: state.language
-          })
-        });
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 15_000);
+        let response;
+        try {
+          response = await fetch(url, {
+            cache: "no-store",
+            signal: controller.signal
+          });
+        } finally {
+          window.clearTimeout(timeout);
+        }
+        if (response.status === 429) {
+          pauseTranslationService(
+            TRANSLATION_RATE_LIMIT_COOLDOWN_MS,
+            "HTTP 429"
+          );
+        }
         if (response.ok) {
           const payload = await response.json();
-          if (payload?.translation) {
-            return cleanTranslatedText(payload.translation);
+          const responseStatus = Number(payload?.responseStatus || 200);
+          const details = String(payload?.responseDetails || "");
+          if (responseStatus === 200) {
+            const value = cleanTranslatedText(
+              payload?.responseData?.translatedText
+            );
+            if (value) return value;
+          }
+          if (
+            responseStatus === 429 ||
+            /quota|free translations|too many|daily limit/i.test(details)
+          ) {
+            pauseTranslationService(
+              TRANSLATION_QUOTA_COOLDOWN_MS,
+              details || "translation quota exhausted"
+            );
           }
         }
       } catch {
-        // No translation provider is currently available.
+        // Try the configured function endpoint as a fallback.
       }
-    }
-    return null;
+      const config = getUploadConfig();
+      if (config.guestbookEndpoint) {
+        try {
+          const response = await fetch(config.guestbookEndpoint, {
+            method: "POST",
+            cache: "no-store",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "translate",
+              text: chunk,
+              source,
+              target: state.language
+            })
+          });
+          if (response.ok) {
+            const payload = await response.json();
+            if (payload?.translation) {
+              return cleanTranslatedText(payload.translation);
+            }
+          }
+        } catch {
+          // No translation provider is currently available.
+        }
+      }
+      return null;
+    });
   }
 
   function cleanTranslatedText(value) {
@@ -712,21 +882,46 @@
     if (state.userTranslationCache?.[cacheKey]) {
       return state.userTranslationCache[cacheKey];
     }
-    const chunks = [];
-    for (let index = 0; index < sourceText.length; index += 100) {
-      chunks.push(sourceText.slice(index, index + 100));
+    const requestKey = translationFailureKey(
+      state.language,
+      source,
+      sourceText
+    );
+    if (
+      isTranslationServiceCoolingDown() ||
+      hasRecentTranslationFailure(requestKey)
+    ) {
+      return text;
     }
-    const translated = [];
-    for (const chunk of chunks) {
-      const value = await fetchTranslationChunk(chunk, source);
-      if (!value) return text;
-      translated.push(value);
-    }
-    const result = translated.join("");
-    state.userTranslationCache[cacheKey] = result;
-    saveTranslationCache();
-    queueCloudTranslation(state.language, sourceText, result);
-    return result;
+    const pending = state.translationInFlight.get(requestKey);
+    if (pending) return pending;
+    const request = (async () => {
+      try {
+        const chunks = [];
+        for (let index = 0; index < sourceText.length; index += 100) {
+          chunks.push(sourceText.slice(index, index + 100));
+        }
+        const translated = [];
+        for (const chunk of chunks) {
+          const value = await fetchTranslationChunk(chunk, source);
+          if (!value) {
+            rememberTranslationFailure(requestKey);
+            return text;
+          }
+          translated.push(value);
+        }
+        const result = translated.join("");
+        delete state.translationFailureCache[requestKey];
+        state.userTranslationCache[cacheKey] = result;
+        saveTranslationCache();
+        queueCloudTranslation(state.language, sourceText, result);
+        return result;
+      } finally {
+        state.translationInFlight.delete(requestKey);
+      }
+    })();
+    state.translationInFlight.set(requestKey, request);
+    return request;
   }
 
   async function translateUserContentDom(root = document) {
@@ -818,73 +1013,107 @@
     if (
       !state.language ||
       state.language === "zh-CN" ||
-      typeof translateUserText !== "function"
+      typeof translateUserText !== "function" ||
+      isTranslationServiceCoolingDown()
     ) {
       return;
     }
-    const token = state.userTranslationToken;
-    const selected =
-      window.KERRY_I18N?.dict?.[state.language] || {};
-    const skipped = [
-      "script",
-      "style",
-      "title",
-      "[data-i18n-skip]",
-      ".album-card",
-      ".guestbook-card",
-      ".deck-list",
-      ".attribute-row strong",
-      ".tag-list",
-      ".contact-group-items",
-      ".lightbox-media"
-    ].join(",");
-    const walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode(node) {
-          const parent = node.parentElement;
-          if (
-            !node.nodeValue.trim() ||
-            !parent ||
-            parent.closest(skipped)
-          ) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      }
-    );
-    const groups = new Map();
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      const original = state.languageTextSources.get(node) || node.nodeValue;
-      const source = original.trim();
-      if (!source || selected[source] || !/[\p{L}]/u.test(source)) continue;
-      if (!groups.has(source)) groups.set(source, []);
-      groups.get(source).push({ node, original });
+    if (state.translationStaticSweepActive) {
+      state.translationStaticSweepPending = true;
+      return;
     }
-    const entries = [...groups.entries()].slice(0, 140);
-    let cursor = 0;
-    const worker = async () => {
-      while (cursor < entries.length) {
-        const [source, nodes] = entries[cursor++];
-        const translated = await translateUserText(source);
+    state.translationStaticSweepActive = true;
+    let translatedCount = 0;
+    try {
+      const token = state.userTranslationToken;
+      const selected =
+        window.KERRY_I18N?.dict?.[state.language] || {};
+      const skipped = [
+        "script",
+        "style",
+        "title",
+        "[data-i18n-skip]",
+        ".album-card",
+        ".guestbook-card",
+        ".deck-list",
+        ".attribute-row strong",
+        ".tag-list",
+        ".contact-group-items",
+        ".lightbox-media"
+      ].join(",");
+      const walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            const parent = node.parentElement;
+            if (
+              !node.nodeValue.trim() ||
+              !parent ||
+              parent.closest(skipped)
+            ) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+      const groups = new Map();
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const original = state.languageTextSources.get(node) || node.nodeValue;
+        const source = original.trim();
+        const cacheKey = state.language + "\u0000" + source;
         if (
-          token !== state.userTranslationToken ||
-          translated === source
+          !source ||
+          selected[source] ||
+          state.userTranslationCache?.[cacheKey] ||
+          shouldKeepOriginalText(source) ||
+          !/[\p{L}]/u.test(source)
         ) {
           continue;
         }
-        nodes.forEach(({ node, original }) => {
-          if (!node.isConnected) return;
-          const match = original.match(/^(\s*)(.*?)(\s*)$/s);
-          const value = match[1] + translated + match[3];
-          if (node.nodeValue !== value) node.nodeValue = value;
-        });
+        if (!groups.has(source)) groups.set(source, []);
+        groups.get(source).push({ node, original });
       }
-    };
-    await Promise.all(Array.from({ length: 3 }, worker));
+      const entries = [...groups.entries()].slice(
+        0,
+        TRANSLATION_STATIC_BATCH_SIZE
+      );
+      let cursor = 0;
+      const worker = async () => {
+        while (cursor < entries.length) {
+          if (isTranslationServiceCoolingDown()) return;
+          const [source, nodes] = entries[cursor++];
+          const translated = await translateUserText(source);
+          if (
+            token !== state.userTranslationToken ||
+            translated === source
+          ) {
+            continue;
+          }
+          translatedCount += 1;
+          nodes.forEach(({ node, original }) => {
+            if (!node.isConnected) return;
+            const match = original.match(/^(\s*)(.*?)(\s*)$/s);
+            const value = match[1] + translated + match[3];
+            if (node.nodeValue !== value) node.nodeValue = value;
+          });
+        }
+      };
+      await worker();
+    } finally {
+      state.translationStaticSweepActive = false;
+    }
+    if (
+      (translatedCount > 0 || state.translationStaticSweepPending) &&
+      !isTranslationServiceCoolingDown()
+    ) {
+      state.translationStaticSweepPending = false;
+      window.setTimeout(() => {
+        void translateMissingStaticUi();
+      }, 120);
+    }
   }
 
   function applyLanguageToDom(root = document) {
@@ -967,15 +1196,24 @@
             ? "zh-Hant"
             : state.language;
       let localized = "";
+      const languageCode = detail.dataset.languageName;
       try {
         localized =
           new Intl.DisplayNames([locale], { type: "language" }).of(
-            detail.dataset.languageName
+            languageCode
           ) || "";
       } catch {
         localized = "";
       }
-      detail.textContent = localized || cached || source;
+      if (localized.trim().toLowerCase() === languageCode.toLowerCase()) {
+        localized = "";
+      }
+      const manualFallback =
+        LANGUAGE_DETAIL_FALLBACKS[languageCode]?.[state.language] || "";
+      const cachedLabel =
+        String(cached || "").trim() === languageCode ? "" : cached;
+      detail.textContent =
+        cachedLabel || manualFallback || localized || source;
     });
   }
 

@@ -359,8 +359,7 @@
       } catch {
         // Language still applies for this session when storage is unavailable.
       }
-      applyLanguage(language);
-      closeDialogAnimated($("#language-dialog"));
+      window.location.reload();
     });
     syncLanguageOptions();
     let languageRefreshTimer = null;

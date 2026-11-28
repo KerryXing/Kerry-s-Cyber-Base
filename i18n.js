@@ -259,7 +259,7 @@ window.KERRY_I18N = {
       "多选": "Auswählen", "删除": "Löschen", "感谢您来到": "Danke für deinen Besuch",
       "我的赛博基地。": "meiner Cyberbasis.", "还没有留言": "Noch keine Nachrichten",
       "成为第一个在这里留下文字的人。": "Hinterlasse hier die erste Nachricht.",
-      "留言": "Nachricht", "想说的话": "Deine Nachricht", "你的名字": "Dein Name",
+      "留言": "Nachricht hinterlassen", "想说的话": "Deine Nachricht", "你的名字": "Dein Name",
       "匿名": "Anonym", "留言框形状": "Nachrichtenform", "纯圆": "Kreis",
       "椭圆": "Oval", "五叶花": "Fünfblättrige Blume", "聊天框": "Sprechblase",
       "八边形": "Achteck", "正方形": "Quadrat", "张贴留言": "Nachricht posten",

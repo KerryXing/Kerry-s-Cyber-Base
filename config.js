@@ -10,9 +10,9 @@ window.UPLOAD_CONFIG = {
   guestbookEndpoint: "",
   guestbookPath: "guestbook.json",
   // Database REST backend. Fill these to use Supabase directly without cloud functions.
-  guestbookProvider: "auto",
-  supabaseUrl: "",
-  supabaseAnonKey: "",
+  guestbookProvider: "supabase",
+  supabaseUrl: "https://zqwuakfehkbhnfcdefwl.supabase.co",
+  supabaseAnonKey: "sb_publishable_rBBtHQatBVxoC5B2JTTbPg_3QLNESP7",
   supabaseGuestbookTable: "guestbook_messages",
   supabaseTranslationTable: "translation_cache",
   // Optional contact used by MyMemory to increase its free translation quota.

@@ -165,6 +165,7 @@
 
   async function init() {
     setupDeviceProfile();
+    setupFirstScreenHero();
     await setupLanguage();
     setupTheme();
     await populateProfile();
@@ -260,6 +261,47 @@
       window.setTimeout(apply, 80);
     });
     window.visualViewport?.addEventListener("resize", apply, { passive: true });
+  }
+
+  function setupFirstScreenHero() {
+    const topbar = $(".topbar");
+    if (!topbar) return;
+    const update = () => {
+      const width = Math.round(window.visualViewport?.width || window.innerWidth);
+      const viewportHeight = Math.round(
+        window.visualViewport?.height || window.innerHeight
+      );
+      const gap = width <= 720
+        ? Math.max(12, Math.min(18, width * 0.035))
+        : Math.max(18, Math.min(26, width * 0.018));
+      const headerHeight = Math.ceil(topbar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty(
+        "--site-floating-header-height",
+        headerHeight + "px"
+      );
+      document.documentElement.style.setProperty(
+        "--hero-first-screen-gap",
+        gap + "px"
+      );
+      document.documentElement.style.setProperty(
+        "--hero-first-screen-height",
+        Math.max(420, viewportHeight - headerHeight - gap * 2) + "px"
+      );
+    };
+    update();
+    window.addEventListener("resize", update, { passive: true });
+    window.addEventListener("orientationchange", () => {
+      window.setTimeout(update, 80);
+    });
+    window.visualViewport?.addEventListener("resize", update, {
+      passive: true
+    });
+    if ("ResizeObserver" in window) {
+      state.topbarResizeObserver = new ResizeObserver(update);
+      state.topbarResizeObserver.observe(topbar);
+    }
+    document.fonts?.ready.then(update).catch(() => {});
+    window.addEventListener("load", update, { once: true });
   }
 
   async function setupLanguage() {
@@ -485,6 +527,32 @@
   }
 
   async function fetchTranslationChunk(chunk, source) {
+    try {
+      const email =
+        window.UPLOAD_CONFIG?.translationEmail || "keryxin@qq.com";
+      const url =
+        "https://api.mymemory.translated.net/get?q=" +
+        encodeURIComponent(chunk) +
+        "&langpair=" +
+        encodeURIComponent(source + "|" + state.language) +
+        "&de=" +
+        encodeURIComponent(email);
+      const response = await fetch(url, { cache: "no-store" });
+      if (response.ok) {
+        const payload = await response.json();
+        if (
+          !payload?.responseStatus ||
+          Number(payload.responseStatus) === 200
+        ) {
+          const value = cleanTranslatedText(
+            payload?.responseData?.translatedText
+          );
+          if (value) return value;
+        }
+      }
+    } catch {
+      // Try the configured function endpoint as a fallback.
+    }
     const config = getUploadConfig();
     if (config.guestbookEndpoint) {
       try {
@@ -506,32 +574,10 @@
           }
         }
       } catch {
-        // Fall back to the public endpoint below.
+        // No translation provider is currently available.
       }
     }
-    try {
-      const email =
-        window.UPLOAD_CONFIG?.translationEmail || "keryxin@qq.com";
-      const url =
-        "https://api.mymemory.translated.net/get?q=" +
-        encodeURIComponent(chunk) +
-        "&langpair=" +
-        encodeURIComponent(source + "|" + state.language) +
-        "&de=" +
-        encodeURIComponent(email);
-      const response = await fetch(url, { cache: "no-store" });
-      if (!response.ok) return null;
-      const payload = await response.json();
-      if (
-        payload?.responseStatus &&
-        Number(payload.responseStatus) !== 200
-      ) {
-        return null;
-      }
-      return cleanTranslatedText(payload?.responseData?.translatedText) || null;
-    } catch {
-      return null;
-    }
+    return null;
   }
 
   function cleanTranslatedText(value) {
@@ -645,7 +691,7 @@
         card.querySelector(".guestbook-card-content")?.textContent ||
         message.content
     };
-    applyGuestbookStickerLayout(
+    fitGuestbookStickerCard(
       card,
       displayedMessage,
       Math.max(320, board.clientWidth || 720)
@@ -4987,7 +5033,8 @@
   }
 
   function normalizeGuestbookShape(value) {
-    return ["circle", "oval", "star", "chat", "octagon", "square"].includes(value)
+    if (value === "star") return "flower";
+    return ["circle", "oval", "flower", "chat", "octagon", "square"].includes(value)
       ? value
       : "circle";
   }
@@ -5047,32 +5094,64 @@
     activateAnimatedMedia(grid);
     updateGuestbookBoardHeight();
     applyLanguageToDom(board);
+    window.requestAnimationFrame(fitAllGuestbookStickers);
+  }
+
+  function fitAllGuestbookStickers() {
+    const board = $("#guestbook-board");
+    if (!board) return;
+    const boardWidth = Math.max(320, board.clientWidth || 720);
+    $$(".guestbook-sticker", $("#guestbook-grid")).forEach((card) => {
+      const id = card.dataset.messageId;
+      const message =
+        state.guestbook.find((item) => item.id === id) ||
+        (state.guestbookPlacement?.id === id
+          ? state.guestbookPlacement
+          : null);
+      if (!message) return;
+      fitGuestbookStickerCard(
+        card,
+        {
+          ...message,
+          content:
+            card.querySelector(".guestbook-card-content")?.textContent ||
+            message.content
+        },
+        boardWidth
+      );
+    });
+    updateGuestbookBoardHeight();
   }
 
   function guestbookShapeSize(shape, boardWidth, content = "") {
-    const scale = Math.min(1, boardWidth / 460);
-    const sizes = {
-      circle: [250, 250],
-      oval: [315, 190],
-      star: [285, 285],
-      chat: [330, 210],
-      octagon: [285, 225],
-      square: [255, 255]
-    };
+    const maxWidth = Math.max(190, boardWidth - 16);
     const normalizedShape = normalizeGuestbookShape(shape);
-    const [baseWidth, baseHeight] = sizes[normalizedShape];
-    let width = Math.min(
-      Math.max(180, boardWidth - 20),
-      Math.round(baseWidth * scale)
-    );
-    let height = Math.round(baseHeight * scale);
+    const ratios = {
+      circle: 1,
+      oval: 1.78,
+      flower: 1,
+      chat: 1.55,
+      octagon: 1.24,
+      square: 1
+    };
+    const bases = {
+      circle: 250,
+      oval: 315,
+      flower: 290,
+      chat: 330,
+      octagon: 285,
+      square: 255
+    };
+    const ratio = ratios[normalizedShape];
+    let width = Math.min(maxWidth, bases[normalizedShape]);
+    let height = width / ratio;
     const text = String(content || "");
     const length = [...text].length;
     const wideCharacters = /[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af\u0e00-\u0e7f]/u.test(text);
     const contentWidthFactor = {
       circle: 0.6,
-      oval: 0.66,
-      star: 0.42,
+      oval: 0.7,
+      flower: 0.42,
       chat: 0.7,
       octagon: 0.62,
       square: 0.68
@@ -5081,22 +5160,63 @@
     const averageGlyph = wideCharacters ? 15 : 8.2;
     const charsPerLine = Math.max(7, Math.floor(contentWidth / averageGlyph));
     const lines = Math.max(1, Math.ceil(length / charsPerLine));
-    const reservedHeight = normalizedShape === "star" ? 132 : 104;
+    const reservedHeight = normalizedShape === "flower" ? 170 : 132;
     height = Math.max(height, lines * 26 + reservedHeight);
-    if (normalizedShape === "circle" || normalizedShape === "square") {
-      const side = Math.max(width, height);
-      width = Math.min(side, boardWidth - 16);
-      height = side;
-    } else if (normalizedShape === "star") {
-      width = Math.min(
-        Math.max(width, height * 0.92),
-        boardWidth - 16
-      );
-    }
+    width = Math.min(maxWidth, Math.max(width, height * ratio));
+    height = width / ratio;
     return {
       width: Math.round(width),
       height: Math.round(height)
     };
+  }
+
+  function guestbookShapeRatio(shape) {
+    return {
+      circle: 1,
+      oval: 1.78,
+      flower: 1,
+      chat: 1.55,
+      octagon: 1.24,
+      square: 1
+    }[normalizeGuestbookShape(shape)] || 1;
+  }
+
+  function fitGuestbookStickerCard(card, message, boardWidth) {
+    const shape = normalizeGuestbookShape(message.shape);
+    const ratio = guestbookShapeRatio(shape);
+    const maxWidth = Math.max(190, boardWidth - 16);
+    const content = card.querySelector(".guestbook-card-content");
+    const footer = card.querySelector(".guestbook-card-footer");
+    if (!content) return;
+    const estimate = guestbookShapeSize(shape, boardWidth, message.content);
+    let width = Math.min(maxWidth, estimate.width);
+    let height = width / ratio;
+    let fontSize = 18;
+    for (let attempt = 0; attempt < 9; attempt += 1) {
+      content.style.fontSize = fontSize + "px";
+      card.style.width = Math.round(width) + "px";
+      card.style.height = Math.round(height) + "px";
+      const style = getComputedStyle(card);
+      const required =
+        parseFloat(style.paddingTop) +
+        parseFloat(style.paddingBottom) +
+        content.scrollHeight +
+        (footer?.offsetHeight || 0) +
+        16;
+      if (required <= height + 2 || width >= maxWidth - 1) {
+        if (required <= height + 2 || fontSize <= 10) break;
+        fontSize -= 1;
+        continue;
+      }
+      const nextHeight = Math.max(height + 12, required);
+      let nextWidth = nextHeight * ratio;
+      if (nextWidth > maxWidth) {
+        nextWidth = maxWidth;
+      }
+      width = nextWidth;
+      height = width / ratio;
+    }
+    updateGuestbookBoardHeight();
   }
 
   function ensureGuestbookLayouts(messages, boardWidth) {
@@ -5249,6 +5369,15 @@
         if (event.button === 0) startGuestbookDrag(event, message, card);
       });
     }
+    window.requestAnimationFrame(() => {
+      if (card.isConnected) {
+        fitGuestbookStickerCard(
+          card,
+          { ...message, content: content.textContent },
+          boardWidth
+        );
+      }
+    });
     return card;
   }
 
@@ -5360,6 +5489,20 @@
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", finish);
       window.removeEventListener("pointercancel", finish);
+      window.requestAnimationFrame(() => {
+        if (card.isConnected) {
+          fitGuestbookStickerCard(
+            card,
+            {
+              ...message,
+              content:
+                card.querySelector(".guestbook-card-content")?.textContent ||
+                message.content
+            },
+            boardWidth
+          );
+        }
+      });
     };
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", finish, { once: true });
@@ -6109,8 +6252,10 @@
     state.footprintMap.touchZoomRotate.disableRotation();
     setupFootprintMapTiltInteraction();
     state.footprintMap.on("load", () => {
-      state.mapReady = true;
+      addSouthChinaSeaBoundary();
       applyBuiltInBilingualLabels();
+      state.mapReady = true;
+      $("#footprints-map").classList.add("map-labels-ready");
       updateFootprintMapMarkers();
     });
   }
@@ -6346,9 +6491,100 @@
     button.setAttribute("aria-label", enabled ? "关闭 3D 建筑" : "开启 3D 建筑");
   }
 
+  function addSouthChinaSeaBoundary() {
+    const map = state.footprintMap;
+    if (!map || map.getSource("south-china-sea-nine-dash")) return;
+    const segments = [
+      [[108.2, 20.8], [108.5, 19.4]],
+      [[108.0, 18.4], [108.4, 16.7]],
+      [[108.9, 14.8], [109.6, 12.8]],
+      [[110.5, 10.3], [111.3, 8.2]],
+      [[112.8, 5.0], [114.5, 4.2]],
+      [[116.6, 5.0], [118.1, 7.1]],
+      [[119.0, 9.5], [119.8, 12.2]],
+      [[120.2, 14.5], [120.7, 17.2]],
+      [[121.2, 19.5], [121.8, 21.4]]
+    ];
+    map.addSource("south-china-sea-nine-dash", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: segments.map((coordinates) => ({
+          type: "Feature",
+          properties: {},
+          geometry: { type: "LineString", coordinates }
+        }))
+      }
+    });
+    map.addLayer({
+      id: "south-china-sea-nine-dash-line",
+      type: "line",
+      source: "south-china-sea-nine-dash",
+      paint: {
+        "line-color": "#c94949",
+        "line-width": 2.2,
+        "line-dasharray": [3, 2],
+        "line-opacity": 0.92
+      }
+    });
+    map.addSource("south-china-sea-islands", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [
+          ["西沙群岛", "西沙群島", "Xisha Islands", 112.33, 16.83],
+          ["中沙群岛", "中沙群島", "Zhongsha Islands", 114.4, 15.5],
+          ["东沙群岛", "東沙群島", "Dongsha Islands", 116.72, 20.7],
+          ["南沙群岛", "南沙群島", "Nansha Islands", 114.1, 10.1],
+          ["黄岩岛", "黃岩島", "Huangyan Island", 117.75, 15.15]
+        ].map(([zh, zhHant, en, lng, lat]) => ({
+          type: "Feature",
+          properties: { zh, zhHant, en },
+          geometry: { type: "Point", coordinates: [lng, lat] }
+        }))
+      }
+    });
+    map.addLayer({
+      id: "south-china-sea-island-labels",
+      type: "symbol",
+      source: "south-china-sea-islands",
+      minzoom: 3,
+      layout: {
+        "text-font": ["Noto Sans Regular"],
+        "text-size": 12,
+        "text-field": ["get", "zh"],
+        "text-allow-overlap": false,
+        "text-offset": [0, 0.5]
+      },
+      paint: {
+        "text-color": "#a72f3d",
+        "text-halo-color": "rgba(255,255,255,0.92)",
+        "text-halo-width": 1.4
+      }
+    });
+    updateSouthChinaSeaLabels();
+  }
+
+  function updateSouthChinaSeaLabels() {
+    const map = state.footprintMap;
+    if (!map?.getLayer("south-china-sea-island-labels")) return;
+    const field =
+      state.language === "zh-CN"
+        ? ["get", "zh"]
+        : state.language === "zh-TW"
+          ? ["get", "zhHant"]
+          : ["concat", ["get", "zh"], "\n", ["get", "en"]];
+    try {
+      map.setLayoutProperty("south-china-sea-island-labels", "text-field", field);
+    } catch {
+      // Keep the Chinese fallback if the style does not support the expression.
+    }
+  }
+
   function applyBuiltInBilingualLabels() {
     if (!state.footprintMap || !state.mapReady) return;
     const style = state.footprintMap.getStyle();
+    updateSouthChinaSeaLabels();
     const localName = [
       "coalesce",
       ["get", "name"],
@@ -6357,7 +6593,7 @@
       ""
     ];
     const languageFields = {
-      "zh-CN": ["name:zh", "name:zh-Hans"],
+      "zh-CN": ["name:zh-Hans", "name:zh"],
       "zh-TW": ["name:zh-Hant", "name:zh"],
       en: ["name:en"],
       ja: ["name:ja"],
@@ -6411,22 +6647,19 @@
           bilingualLabel
         );
         const existingFilter = state.footprintMap.getFilter(layer.id);
+        const labelName = [
+          "coalesce",
+          ["get", "name:zh"],
+          ["get", "name:zh-Hant"],
+          ["get", "name"],
+          ["get", "name:en"],
+          ""
+        ];
         const hideTaiwanLabel = [
-          "!",
-          [
-            "match",
-            [
-              "coalesce",
-              ["get", "name:zh"],
-              ["get", "name:zh-Hant"],
-              ["get", "name"],
-              ["get", "name:en"],
-              ""
-            ],
-            ["台湾", "臺灣", "Taiwan"],
-            true,
-            false
-          ]
+          "all",
+          ["==", ["index-of", "台湾", labelName], -1],
+          ["==", ["index-of", "臺灣", labelName], -1],
+          ["==", ["index-of", "Taiwan", labelName], -1]
         ];
         state.footprintMap.setFilter(
           layer.id,

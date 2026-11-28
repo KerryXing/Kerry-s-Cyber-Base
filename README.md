@@ -164,7 +164,7 @@ Report 页面图片使用 AES-GCM 在浏览器中加密后再提交到 GitHub。
 
 ## 页面版本
 
-当前静态页面版本为 V0.5。
+当前静态页面版本为 V0.6。
 
 ## 留言墙
 
@@ -173,18 +173,18 @@ Report 页面图片使用 AES-GCM 在浏览器中加密后再提交到 GitHub。
 仓库根目录的 `guestbook.json`。管理员登录后，每条留言右上角会显示删除按钮。
 留言正文不做额外加密；“匿名”只是把访客名字写成“匿名”。
 
-留言输入窗口默认收起，通过标题下方的“留言”按钮打开。访客可选择圆形、椭圆、星形、
+留言输入窗口默认收起，通过标题下方的“留言”按钮打开。访客可选择圆形、椭圆、五叶花、
 聊天框、八边形或方形贴纸，拖动贴纸选择位置后再点击“确认”发布。服务器会保存形状与位置；
 页面会随最下方贴纸自动拉长，重叠位置不会被接受。管理员可在留言墙点击“调整”发布新布局。
 留言内容不会自动切换语言；若当前界面语言与留言原文语言不同，贴纸底部会显示圆形翻译按钮。
 点击后显示译文，按钮带斜线；再次点击恢复原文。个人留言的翻译结果也会加入云端缓存。
 
-GitHub Pages 本身不能安全保存可公开调用的写入 Token，因此访客留言使用随附的
-腾讯云函数 SCF 和 API 网关写入 GitHub。部署步骤见
-[Tencent Guestbook.md](Tutorial/Tencent%20Guestbook.md)。GitHub Token 仅保存在
-云函数环境变量中。管理员模式不依赖该接口，可以直接使用自己的 GitHub Token 发布留言。
-更新本地 `guestbook-tencent/index.js` 后，必须重新部署
-`Tutorial/guestbook-tencent-event-function.zip`，否则云端不会保存贴纸形状和位置。
+GitHub Pages 本身不能安全保存可公开调用的写入 Token，因此访客留言默认使用
+华为云 FunctionGraph 和 API 网关写入 GitHub，部署步骤见
+[Huawei FunctionGraph Tutorial.docx](Tutorial/Huawei%20FunctionGraph%20Tutorial.docx)。
+GitHub Token 仅保存在函数环境变量中。管理员模式不依赖该接口，可以直接使用自己的
+GitHub Token 发布留言。腾讯云 SCF 目录保留为兼容回退，但 `config.js` 默认已清空
+旧腾讯云地址，避免继续产生调用费用。
 
 ## 足迹
 

@@ -6,8 +6,8 @@ window.UPLOAD_CONFIG = {
   branch: "",
   contentPath: "content.json",
   assetRoot: "shared",
-  // Fill this with the HTTP access URL of the Tencent Cloud SCF function.
-  guestbookEndpoint: "https://1530044146-ce2n1mpai9.ap-guangzhou.tencentscf.com",
+  // Paste the HTTPS invoke URL created by the Huawei FunctionGraph APIG trigger.
+  guestbookEndpoint: "",
   guestbookPath: "guestbook.json",
   // Optional contact used by MyMemory to increase its free translation quota.
   translationEmail: "keryxin@qq.com"

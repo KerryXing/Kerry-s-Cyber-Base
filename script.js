@@ -418,11 +418,11 @@
     }
     const data = window.KERRY_I18N;
     const selected = data?.dict?.[state.language] || {};
-    if (selected[text]) return selected[text];
     const cacheKey = state.language + "\u0000" + text;
     if (state.userTranslationCache?.[cacheKey]) {
       return state.userTranslationCache[cacheKey];
     }
+    if (selected[text]) return selected[text];
     return data?.dict?.en?.[text] || text;
   }
 
@@ -457,7 +457,7 @@
   function loadTranslationCache() {
     try {
       const parsed = JSON.parse(
-        localStorage.getItem("kerry-user-translation-cache-v1") || "{}"
+        localStorage.getItem("kerry-user-translation-cache-v2") || "{}"
       );
       return parsed && typeof parsed === "object" ? parsed : {};
     } catch {
@@ -471,7 +471,7 @@
       const trimmed = Object.fromEntries(entries.slice(-5000));
       state.userTranslationCache = trimmed;
       localStorage.setItem(
-        "kerry-user-translation-cache-v1",
+        "kerry-user-translation-cache-v2",
         JSON.stringify(trimmed)
       );
     } catch {

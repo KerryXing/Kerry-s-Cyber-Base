@@ -435,6 +435,26 @@
 
   async function loadCloudTranslationCache() {
     try {
+      if (isSupabaseGuestbookEnabled()) {
+        const config = getUploadConfig();
+        const response = await fetch(
+          supabaseRestUrl(
+            config.supabaseTranslationTable,
+            "?select=language,source,translation&limit=5000"
+          ),
+          { headers: supabaseHeaders(), cache: "no-store" }
+        );
+        if (!response.ok) return;
+        const entries = await response.json();
+        for (const entry of Array.isArray(entries) ? entries : []) {
+          if (!entry.language || !entry.source || !entry.translation) continue;
+          state.userTranslationCache[
+            entry.language + "\u0000" + entry.source
+          ] = entry.translation;
+        }
+        saveTranslationCache();
+        return;
+      }
       const url = new URL("translation-cache.json?v=" + Date.now(), document.baseURI);
       const response = await fetch(url.href, { cache: "no-store" });
       if (!response.ok) return;
@@ -454,7 +474,7 @@
 
   function queueCloudTranslation(language, source, translation) {
     const config = getUploadConfig();
-    if (!config.guestbookEndpoint) return;
+    if (!isSupabaseGuestbookEnabled() && !config.guestbookEndpoint) return;
     state.cloudTranslationQueue =
       state.cloudTranslationQueue || new Map();
     state.cloudTranslationQueue.set(language + "\u0000" + source, {
@@ -471,7 +491,12 @@
 
   async function flushCloudTranslationQueue() {
     const config = getUploadConfig();
-    if (!config.guestbookEndpoint || !state.cloudTranslationQueue?.size) return;
+    if (
+      (!isSupabaseGuestbookEnabled() && !config.guestbookEndpoint) ||
+      !state.cloudTranslationQueue?.size
+    ) {
+      return;
+    }
     const entries = [...state.cloudTranslationQueue.values()].slice(0, 60);
     entries.forEach((entry) =>
       state.cloudTranslationQueue.delete(
@@ -479,6 +504,25 @@
       )
     );
     try {
+      if (isSupabaseGuestbookEnabled()) {
+        const response = await fetch(
+          supabaseRestUrl(
+            config.supabaseTranslationTable,
+            "?on_conflict=language,source"
+          ),
+          {
+            method: "POST",
+            cache: "no-store",
+            headers: supabaseHeaders({
+              "Content-Type": "application/json",
+              Prefer: "resolution=ignore-duplicates,return=minimal"
+            }),
+            body: JSON.stringify(entries)
+          }
+        );
+        if (!response.ok) throw new Error("Translation cache write failed");
+        return;
+      }
       const response = await fetch(config.guestbookEndpoint, {
         method: "POST",
         cache: "no-store",
@@ -2136,13 +2180,45 @@
       contentPath: configured.contentPath || "content.json",
       assetRoot: (configured.assetRoot || "shared").replace(/\/+$/, ""),
       guestbookEndpoint: String(configured.guestbookEndpoint || "").trim(),
-      guestbookPath: configured.guestbookPath || "guestbook.json"
+      guestbookPath: configured.guestbookPath || "guestbook.json",
+      guestbookProvider: configured.guestbookProvider || "auto",
+      supabaseUrl: String(configured.supabaseUrl || "").replace(/\/+$/, ""),
+      supabaseAnonKey: String(configured.supabaseAnonKey || "").trim(),
+      supabaseGuestbookTable:
+        configured.supabaseGuestbookTable || "guestbook_messages",
+      supabaseTranslationTable:
+        configured.supabaseTranslationTable || "translation_cache"
     };
   }
 
   function getContentUrl() {
     const config = getUploadConfig();
     return new URL(config.contentPath, document.baseURI).href;
+  }
+
+  function isSupabaseGuestbookEnabled() {
+    const config = getUploadConfig();
+    return Boolean(
+      config.guestbookProvider === "supabase" ||
+      (config.guestbookProvider === "auto" &&
+        config.supabaseUrl &&
+        config.supabaseAnonKey)
+    ) && Boolean(config.supabaseUrl && config.supabaseAnonKey);
+  }
+
+  function supabaseRestUrl(table, query = "") {
+    const config = getUploadConfig();
+    const safeTable = encodeURIComponent(table);
+    return config.supabaseUrl + "/rest/v1/" + safeTable + query;
+  }
+
+  function supabaseHeaders(extra = {}) {
+    const config = getUploadConfig();
+    return {
+      apikey: config.supabaseAnonKey,
+      Authorization: "Bearer " + config.supabaseAnonKey,
+      ...extra
+    };
   }
 
   async function loadSharedContent() {
@@ -4940,6 +5016,26 @@
 
   async function loadGuestbook() {
     const config = getUploadConfig();
+    if (isSupabaseGuestbookEnabled()) {
+      try {
+        const response = await fetch(
+          supabaseRestUrl(
+            config.supabaseGuestbookTable,
+            "?select=*&order=created_at.desc&limit=500"
+          ),
+          { headers: supabaseHeaders(), cache: "no-store" }
+        );
+        if (!response.ok) throw new Error("Supabase guestbook read failed");
+        const rows = await response.json();
+        state.guestbook = (Array.isArray(rows) ? rows : []).map(
+          supabaseGuestbookRowToMessage
+        );
+      } catch (error) {
+        console.warn("Supabase guestbook could not be loaded:", error);
+        state.guestbook = [];
+      }
+      return;
+    }
     const endpoint = new URL(config.guestbookPath, document.baseURI);
     try {
       const response = await fetch(endpoint.href + "?v=" + Date.now(), {
@@ -4972,6 +5068,19 @@
       console.warn("Guestbook could not be loaded:", error);
       state.guestbook = [];
     }
+  }
+
+  function supabaseGuestbookRowToMessage(row) {
+    return {
+      id: String(row.id),
+      content: String(row.content || ""),
+      name: String(row.name || "访客"),
+      anonymous: Boolean(row.anonymous),
+      createdAt: String(row.created_at || row.createdAt || ""),
+      shape: normalizeGuestbookShape(row.shape),
+      x: Number.isFinite(Number(row.x)) ? Number(row.x) : null,
+      y: Number.isFinite(Number(row.y)) ? Number(row.y) : null
+    };
   }
 
   function setupGuestbook() {
@@ -5683,6 +5792,36 @@
   async function publishGuestbookMessage(message) {
     const config = getUploadConfig();
     let savedMessage;
+    if (isSupabaseGuestbookEnabled()) {
+      const response = await fetch(
+        supabaseRestUrl(config.supabaseGuestbookTable, "?select=*"),
+        {
+          method: "POST",
+          cache: "no-store",
+          headers: supabaseHeaders({
+            "Content-Type": "application/json",
+            Prefer: "return=representation"
+          }),
+          body: JSON.stringify({
+            content: message.content,
+            name: message.name,
+            anonymous: Boolean(message.anonymous),
+            shape: normalizeGuestbookShape(message.shape),
+            x: Number(message.x || 0),
+            y: Number(message.y || 0)
+          })
+        }
+      );
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) {
+        throw new Error(
+          payload?.message || payload?.details || "Supabase 留言写入失败"
+        );
+      }
+      const row = Array.isArray(payload) ? payload[0] : payload;
+      if (!row) throw new Error("Supabase 没有返回留言记录");
+      return supabaseGuestbookRowToMessage(row);
+    }
     if (state.isAdmin) {
       const remoteMessage = {
         id: createId("message"),
@@ -5819,6 +5958,31 @@
     const button = $("#confirm-delete-guestbook");
     button.disabled = true;
     try {
+      if (isSupabaseGuestbookEnabled()) {
+        const config = getUploadConfig();
+        const response = await fetch(
+          supabaseRestUrl(
+            config.supabaseGuestbookTable,
+            "?id=eq." + encodeURIComponent(id)
+          ),
+          {
+            method: "DELETE",
+            cache: "no-store",
+            headers: supabaseHeaders({ Prefer: "return=minimal" })
+          }
+        );
+        if (!response.ok) {
+          throw new Error(
+            "Supabase 匿名密钥没有删除权限。请在 Supabase 控制台的 Table Editor 中删除，或后续配置 Supabase 管理员登录。"
+          );
+        }
+        state.guestbook = state.guestbook.filter((item) => item.id !== id);
+        state.pendingGuestbookDeleteId = "";
+        closeDialogAnimated($("#guestbook-delete-dialog"));
+        renderGuestbook();
+        showToast("留言已删除。");
+        return;
+      }
       const next = await mutateRemoteGuestbook(
         (data) => ({
           version: 1,
@@ -6255,8 +6419,15 @@
       addSouthChinaSeaBoundary();
       applyBuiltInBilingualLabels();
       state.mapReady = true;
-      $("#footprints-map").classList.add("map-labels-ready");
       updateFootprintMapMarkers();
+      state.footprintMap.once("idle", () => {
+        applyBuiltInBilingualLabels();
+        $("#footprints-map").classList.add("map-labels-ready");
+      });
+      window.setTimeout(() => {
+        applyBuiltInBilingualLabels();
+        $("#footprints-map").classList.add("map-labels-ready");
+      }, 2600);
     });
   }
 
@@ -6493,40 +6664,7 @@
 
   function addSouthChinaSeaBoundary() {
     const map = state.footprintMap;
-    if (!map || map.getSource("south-china-sea-nine-dash")) return;
-    const segments = [
-      [[108.2, 20.8], [108.5, 19.4]],
-      [[108.0, 18.4], [108.4, 16.7]],
-      [[108.9, 14.8], [109.6, 12.8]],
-      [[110.5, 10.3], [111.3, 8.2]],
-      [[112.8, 5.0], [114.5, 4.2]],
-      [[116.6, 5.0], [118.1, 7.1]],
-      [[119.0, 9.5], [119.8, 12.2]],
-      [[120.2, 14.5], [120.7, 17.2]],
-      [[121.2, 19.5], [121.8, 21.4]]
-    ];
-    map.addSource("south-china-sea-nine-dash", {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: segments.map((coordinates) => ({
-          type: "Feature",
-          properties: {},
-          geometry: { type: "LineString", coordinates }
-        }))
-      }
-    });
-    map.addLayer({
-      id: "south-china-sea-nine-dash-line",
-      type: "line",
-      source: "south-china-sea-nine-dash",
-      paint: {
-        "line-color": "#c94949",
-        "line-width": 2.2,
-        "line-dasharray": [3, 2],
-        "line-opacity": 0.92
-      }
-    });
+    if (!map || map.getSource("south-china-sea-islands")) return;
     map.addSource("south-china-sea-islands", {
       type: "geojson",
       data: {
@@ -6656,10 +6794,13 @@
           ""
         ];
         const hideTaiwanLabel = [
-          "all",
-          ["==", ["index-of", "台湾", labelName], -1],
-          ["==", ["index-of", "臺灣", labelName], -1],
-          ["==", ["index-of", "Taiwan", labelName], -1]
+          "!",
+          [
+            "any",
+            ["==", labelName, "台湾"],
+            ["==", labelName, "臺灣"],
+            ["==", labelName, "Taiwan"]
+          ]
         ];
         state.footprintMap.setFilter(
           layer.id,

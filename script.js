@@ -368,13 +368,14 @@
       window.clearTimeout(languageRefreshTimer);
       languageRefreshTimer = window.setTimeout(() => {
         applyLanguageToDom();
+        void translateMissingStaticUi();
         translateUserContentDom();
       }, 20);
     });
     observer.observe(document.body, {
       childList: true,
       subtree: true,
-      characterData: true
+      characterData: false
     });
     state.languageObserver = observer;
   }
@@ -383,7 +384,12 @@
     if (!text || state.language === "zh-CN") return text;
     const data = window.KERRY_I18N;
     const selected = data?.dict?.[state.language] || {};
-    return selected[text] || data?.dict?.en?.[text] || text;
+    if (selected[text]) return selected[text];
+    const cacheKey = state.language + "\u0000" + text;
+    if (state.userTranslationCache?.[cacheKey]) {
+      return state.userTranslationCache[cacheKey];
+    }
+    return data?.dict?.en?.[text] || text;
   }
 
   function applyLanguage(language) {
@@ -410,6 +416,8 @@
       renderGuestbook();
     }
     syncLanguageOptions();
+    state.syncDefaultThemeControls?.();
+    state.updateSeasonalBadges?.(getSeasonalTheme(new Date()));
   }
 
   function loadTranslationCache() {
@@ -426,7 +434,7 @@
   function saveTranslationCache() {
     try {
       const entries = Object.entries(state.userTranslationCache || {});
-      const trimmed = Object.fromEntries(entries.slice(-1200));
+      const trimmed = Object.fromEntries(entries.slice(-5000));
       state.userTranslationCache = trimmed;
       localStorage.setItem(
         "kerry-user-translation-cache-v1",
@@ -441,20 +449,29 @@
     try {
       if (isSupabaseGuestbookEnabled()) {
         const config = getUploadConfig();
-        const response = await fetch(
-          supabaseRestUrl(
-            config.supabaseTranslationTable,
-            "?select=language,source,translation&limit=5000"
-          ),
-          { headers: supabaseHeaders(), cache: "no-store" }
-        );
-        if (!response.ok) return;
-        const entries = await response.json();
-        for (const entry of Array.isArray(entries) ? entries : []) {
-          if (!entry.language || !entry.source || !entry.translation) continue;
-          state.userTranslationCache[
-            entry.language + "\u0000" + entry.source
-          ] = entry.translation;
+        const pageSize = 1000;
+        for (let page = 0; page < 20; page += 1) {
+          const offset = page * pageSize;
+          const response = await fetch(
+            supabaseRestUrl(
+              config.supabaseTranslationTable,
+              "?select=language,source,translation" +
+                "&order=language.asc,source.asc" +
+                "&limit=" + pageSize +
+                "&offset=" + offset
+            ),
+            { headers: supabaseHeaders(), cache: "no-store" }
+          );
+          if (!response.ok) break;
+          const entries = await response.json();
+          if (!Array.isArray(entries) || !entries.length) break;
+          for (const entry of entries) {
+            if (!entry.language || !entry.source || !entry.translation) continue;
+            state.userTranslationCache[
+              entry.language + "\u0000" + entry.source
+            ] = entry.translation;
+          }
+          if (entries.length < pageSize) break;
         }
         saveTranslationCache();
         return;
@@ -651,11 +668,6 @@
     if (source === state.language) return text;
     const cacheKey = state.language + "\u0000" + sourceText;
     if (state.userTranslationCache?.[cacheKey]) {
-      queueCloudTranslation(
-        state.language,
-        sourceText,
-        state.userTranslationCache[cacheKey]
-      );
       return state.userTranslationCache[cacheKey];
     }
     const chunks = [];
@@ -883,6 +895,30 @@
       const active = button.dataset.language === state.language;
       button.classList.toggle("selected", active);
       button.setAttribute("aria-pressed", String(active));
+      const detail = button.querySelector("small[data-language-name]");
+      if (!detail) return;
+      if (!detail.dataset.i18nSource) {
+        detail.dataset.i18nSource = detail.textContent.trim();
+      }
+      const source = detail.dataset.i18nSource;
+      const cacheKey = state.language + "\u0000" + source;
+      const cached = state.userTranslationCache?.[cacheKey];
+      const locale =
+        state.language === "zh-CN"
+          ? "zh-Hans"
+          : state.language === "zh-TW"
+            ? "zh-Hant"
+            : state.language;
+      let localized = "";
+      try {
+        localized =
+          new Intl.DisplayNames([locale], { type: "language" }).of(
+            detail.dataset.languageName
+          ) || "";
+      } catch {
+        localized = "";
+      }
+      detail.textContent = localized || cached || source;
     });
   }
 
@@ -894,8 +930,11 @@
       const status = $("#default-theme-status");
       if (!button || !status) return;
       button.disabled = currentTheme === state.defaultTheme;
-      status.textContent =
+      const source =
         "当前默认：" + THEME_META[state.defaultTheme].name;
+      status.dataset.i18nSource = source;
+      status.setAttribute("data-i18n-skip", "");
+      status.textContent = translateUiText(source);
     };
     const applyTheme = (theme) => {
       const normalized = THEME_META[theme] ? theme : "deep-blue";
@@ -913,7 +952,13 @@
       $$("[data-seasonal-badge]").forEach((badge) => {
         const active = badge.dataset.seasonalBadge === seasonal?.theme;
         badge.hidden = !active;
-        if (active) badge.textContent = seasonal.label;
+        if (active) {
+          const source =
+            seasonal.theme === "gratitude" ? "今日主题" : "节日主题";
+          badge.dataset.i18nSource = source;
+          badge.setAttribute("data-i18n-skip", "");
+          badge.textContent = translateUiText(source);
+        }
       });
     };
     const seasonal = getSeasonalTheme(new Date());

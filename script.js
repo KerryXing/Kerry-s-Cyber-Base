@@ -828,6 +828,7 @@
     const skipped = [
       "script",
       "style",
+      "title",
       "[data-i18n-skip]",
       ".album-card",
       ".guestbook-card",
@@ -890,6 +891,7 @@
     const skipped = [
       "script",
       "style",
+      "title",
       "[data-i18n-skip]",
       ".album-card",
       ".guestbook-card",

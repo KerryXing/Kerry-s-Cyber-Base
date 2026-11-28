@@ -127,6 +127,9 @@
     pageSwitchToken: 0,
     guestbook: [],
     pendingGuestbookDeleteId: "",
+    pendingSupabaseDeleteId: "",
+    supabaseAdminToken: "",
+    supabaseAdminExpiresAt: 0,
     guestbookComposeOpen: false,
     guestbookShape: "circle",
     guestbookPlacement: null,
@@ -167,6 +170,7 @@
     setupDeviceProfile();
     setupFirstScreenHero();
     await setupLanguage();
+    loadSupabaseAdminSession();
     setupTheme();
     await populateProfile();
     setupNavigation();
@@ -2217,6 +2221,42 @@
     return {
       apikey: config.supabaseAnonKey,
       Authorization: "Bearer " + config.supabaseAnonKey,
+      ...extra
+    };
+  }
+
+  function supabaseAuthUrl() {
+    return getUploadConfig().supabaseUrl + "/auth/v1/token?grant_type=password";
+  }
+
+  function loadSupabaseAdminSession() {
+    if (!isSupabaseGuestbookEnabled()) return;
+    try {
+      const token = sessionStorage.getItem("kerry-supabase-admin-token") || "";
+      const expiresAt = Number(
+        sessionStorage.getItem("kerry-supabase-admin-expires-at") || 0
+      );
+      if (token && expiresAt > Date.now() + 30_000) {
+        state.supabaseAdminToken = token;
+        state.supabaseAdminExpiresAt = expiresAt;
+      }
+    } catch {
+      // Keep the session in memory only.
+    }
+  }
+
+  function hasValidSupabaseAdminSession() {
+    return Boolean(
+      state.supabaseAdminToken &&
+      state.supabaseAdminExpiresAt > Date.now() + 30_000
+    );
+  }
+
+  function supabaseAdminHeaders(extra = {}) {
+    const config = getUploadConfig();
+    return {
+      apikey: config.supabaseAnonKey,
+      Authorization: "Bearer " + state.supabaseAdminToken,
       ...extra
     };
   }
@@ -5134,11 +5174,87 @@
       "click",
       deletePendingGuestbookMessage
     );
+    $("#supabase-admin-login").addEventListener(
+      "click",
+      loginSupabaseAdmin
+    );
+    $("#supabase-admin-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      loginSupabaseAdmin();
+    });
     syncGuestbookShapeOptions();
     syncGuestbookModeUi();
-    status.textContent = getUploadConfig().guestbookEndpoint
-      ? ""
-      : "留言写入服务尚未配置；管理员登录后仍可通过 GitHub 保存留言。";
+    status.textContent =
+      isSupabaseGuestbookEnabled() || getUploadConfig().guestbookEndpoint
+        ? ""
+        : "留言写入服务尚未配置；管理员登录后仍可通过 GitHub 保存留言。";
+  }
+
+  async function loginSupabaseAdmin() {
+    if (!isSupabaseGuestbookEnabled()) {
+      showToast("Supabase REST 尚未配置。");
+      return;
+    }
+    const email = $("#supabase-admin-email").value.trim();
+    const password = $("#supabase-admin-password").value;
+    const status = $("#supabase-admin-status");
+    const button = $("#supabase-admin-login");
+    if (!email || !password) {
+      status.textContent = "请输入管理员邮箱和密码。";
+      return;
+    }
+    button.disabled = true;
+    status.textContent = "正在登录 Supabase...";
+    try {
+      const response = await fetch(supabaseAuthUrl(), {
+        method: "POST",
+        cache: "no-store",
+        headers: {
+          apikey: getUploadConfig().supabaseAnonKey,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.access_token) {
+        throw new Error(
+          payload?.error_description ||
+          payload?.msg ||
+          "Supabase 管理员登录失败"
+        );
+      }
+      if (payload.user?.app_metadata?.role !== "admin") {
+        throw new Error(
+          "该账号不是留言管理员：请在 Supabase 用户 App Metadata 中设置 role=admin。"
+        );
+      }
+      state.supabaseAdminToken = payload.access_token;
+      state.supabaseAdminExpiresAt =
+        Date.now() + Number(payload.expires_in || 3600) * 1000;
+      sessionStorage.setItem(
+        "kerry-supabase-admin-token",
+        state.supabaseAdminToken
+      );
+      sessionStorage.setItem(
+        "kerry-supabase-admin-expires-at",
+        String(state.supabaseAdminExpiresAt)
+      );
+      $("#supabase-admin-password").value = "";
+      status.textContent = "";
+      closeDialogAnimated($("#supabase-admin-dialog"));
+      if (state.pendingGuestbookDeleteId) {
+        window.setTimeout(
+          () => openDialog($("#guestbook-delete-dialog")),
+          190
+        );
+      }
+    } catch (error) {
+      state.supabaseAdminToken = "";
+      state.supabaseAdminExpiresAt = 0;
+      status.textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
   }
 
   function normalizeGuestbookShape(value) {
@@ -5439,9 +5555,15 @@
       remove.addEventListener("click", (event) => {
         event.stopPropagation();
         state.pendingGuestbookDeleteId = message.id;
+        if (isSupabaseGuestbookEnabled() && !hasValidSupabaseAdminSession()) {
+          state.pendingSupabaseDeleteId = message.id;
+          $("#supabase-admin-status").textContent = "";
+          openDialog($("#supabase-admin-dialog"));
+          return;
+        }
         $("#guestbook-delete-copy").textContent =
           "确定删除“" + (message.name || "匿名") +
-          "”的这条留言吗？删除后会同步更新 GitHub。";
+          "”的这条留言吗？删除后不可恢复。";
         openDialog($("#guestbook-delete-dialog"));
       });
       card.append(remove);
@@ -5959,6 +6081,17 @@
     button.disabled = true;
     try {
       if (isSupabaseGuestbookEnabled()) {
+        if (!hasValidSupabaseAdminSession()) {
+          state.pendingSupabaseDeleteId = id;
+          closeDialogAnimated($("#guestbook-delete-dialog"));
+          $("#supabase-admin-status").textContent =
+            "登录已过期，请重新登录 Supabase。";
+          window.setTimeout(
+            () => openDialog($("#supabase-admin-dialog")),
+            190
+          );
+          return;
+        }
         const config = getUploadConfig();
         const response = await fetch(
           supabaseRestUrl(
@@ -5968,16 +6101,17 @@
           {
             method: "DELETE",
             cache: "no-store",
-            headers: supabaseHeaders({ Prefer: "return=minimal" })
+            headers: supabaseAdminHeaders({ Prefer: "return=minimal" })
           }
         );
         if (!response.ok) {
           throw new Error(
-            "Supabase 匿名密钥没有删除权限。请在 Supabase 控制台的 Table Editor 中删除，或后续配置 Supabase 管理员登录。"
+            "Supabase 删除失败。请确认 SQL 已应用 authenticated DELETE 策略，并关闭公开注册。"
           );
         }
         state.guestbook = state.guestbook.filter((item) => item.id !== id);
         state.pendingGuestbookDeleteId = "";
+        state.pendingSupabaseDeleteId = "";
         closeDialogAnimated($("#guestbook-delete-dialog"));
         renderGuestbook();
         showToast("留言已删除。");
